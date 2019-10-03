@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "12752516281",
+    "firebase_url": "https://flypp-e3335.firebaseio.com",
+    "project_id": "flypp-e3335",
+    "storage_bucket": "flypp-e3335.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12752516281:android:a0b355f530293702b6d768",
+        "android_client_info": {
+          "package_name": "com.flyppcorp.flypp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12752516281-bda0fe0u6u0p8rjd1cepd9bos4v222ah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flyppcorp.flypp",
+            "certificate_hash": "f21fa048afe56ea626bfbd900627c9a84ee017d2"
+          }
+        },
+        {
+          "client_id": "12752516281-k0vrp34qodgoo1ir6nu49as7rb1aj5hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIy8EFbCNCMkH66W0eyCPAihw_p0ZACd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12752516281-k0vrp34qodgoo1ir6nu49as7rb1aj5hf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

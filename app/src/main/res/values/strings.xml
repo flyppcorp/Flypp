@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Flypp</string>
+    <string name="e_mail">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="esqueci_a_senha">Esqueci a senha</string>
+    <string name="n_o_tem_conta">Não tem conta?</string>
+    <string name="clique_aqui">Clique aqui</string>
+    <string name="entrar_com_google">Entrar com Google</string>
+    <string name="entrar_com_facebook">Entrar com Facebook</string>
+    <string name="confirmar_senha">Confirmar senha</string>
+    <string name="criar_conta">Criar conta</string>
+    <string name="email_require">E-mail precisa ser preenchido</string>
+    <string name="senha_require">Senha precisa ser preenchido</string>
+    <string name="aguardando_dados">Aguarde um momento, estamos verificando seus dados.</string>
+    <string name="nome_e_sobrenome">Nome e sobrenome</string>
+    <string name="cep">CEP</string>
+    <string name="cidade">Cidade</string>
+    <string name="bairro">Bairro</string>
+    <string name="rua">Rua</string>
+    <string name="n_mero">Número</string>
+    <string name="ddd">DDD</string>
+    <string name="telefone">Telefone</string>
+    <string name="error">Algo deu errado. Tente novamente!</string>
+    <string name="servi_o">Serviço</string>
+    <string name="descri_o_curta">Descrição curta</string>
+    <string name="descri_o_detalhada">Descrição detalhada</string>
+    <string name="r">R$</string>
+    <string name="qualidades_diferenciais">Qualidades diferenciais</string>
+
+    <string-array name="estados">
+        <item>Acre</item>
+        <item>Alagoas</item>
+        <item>Amapá</item>
+        <item>Amazonas</item>
+        <item>Bahia</item>
+        <item>Ceará</item>
+        <item>Espírito Santo</item>
+        <item>Goiás</item>
+        <item>Maranhão</item>
+        <item>Mato Grosso</item>
+        <item>Mato Grosso do Sul</item>
+        <item>Minas Gerais</item>
+        <item>Pará</item>
+        <item>Paraíba</item>
+        <item>Paraná</item>
+        <item>Pernambuco</item>
+        <item>Piauí</item>
+        <item>Rio de Janeiro</item>
+        <item>Rio Grande do Norte</item>
+        <item>Rio Grande do Sul</item>
+        <item>Rondônia</item>
+        <item>Roraima</item>
+        <item>Santa Catarina</item>
+        <item>São Paulo</item>
+        <item>Sergipe</item>
+        <item>Tocantins</item>
+        <item>Distrito Federal</item>
+    </string-array>
+
+    <string-array name="opcao_preco">
+        <item>Hora</item>
+        <item>Dia</item>
+        <item>Fixo</item>
+        <item>A combinar</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="solicitado_por">Solicitado por:</string>
+    <string name="oferecido_por">Oferecido por:</string>
+</resources>

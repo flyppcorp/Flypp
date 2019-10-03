@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/homeFrag"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+
+    <item android:id="@+id/searchFrag"
+        android:title="Pesquisar"
+        android:icon="@drawable/ic_search"/>
+
+    <item android:id="@+id/addFrag"
+        android:title="Adicionar"
+        android:icon="@drawable/ic_add"/>
+
+    <item android:id="@+id/favFrag"
+        android:title="Favoritos"
+        android:icon="@drawable/ic_favorite"/>
+
+    <item android:id="@+id/contaFrag"
+        android:title="Conta"
+        android:icon="@drawable/ic_person"/>
+
+
+</menu>
