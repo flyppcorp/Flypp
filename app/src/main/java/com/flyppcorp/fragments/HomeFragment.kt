@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var mFirestoreService: FirebaseFirestore
     private lateinit var uid: String
     private lateinit var servicos: ArrayList<Servicos>
-    private lateinit var mAdapter : DetailRecyclerView
+    private lateinit var mAdapter: DetailRecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +71,6 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -148,8 +147,11 @@ class HomeFragment : Fragment() {
             viewholder.txtNomeUser.text = servicos[position].nome
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = servicos[position].shortDesc
-            val avaliacao: Double = servicos[position].avalicao.toDouble()/servicos[position].totalavalicao
-            viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+            val avaliacao: Double =
+                servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
+            if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
+                "${servicos[position].avalicao}/5"
+            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
             viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
             viewholder.btnFavorite.setOnClickListener {

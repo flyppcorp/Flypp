@@ -32,7 +32,6 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var mFirestoreMessage: FirestoreMessage
     private lateinit var mAuth: FirebaseAuth
     private var mMe: User? = null
-    private var mLast: LastMessage? = null
     private lateinit var mFirestore : FirebaseFirestore
     private lateinit var mLastMessage: LastMessage
     private lateinit var mAdapter : GroupAdapter<ViewHolder>
@@ -42,17 +41,15 @@ class MessageActivity : AppCompatActivity() {
         mAdapter = GroupAdapter()
         rv_message.adapter = mAdapter
         mUser = intent.extras?.getParcelable(Constants.KEY.MESSAGE_KEY)
-        mLast = intent.extras?.getParcelable(Constants.KEY.LAST_MESSAGE_KEY)
+        //mLast = intent.extras?.getParcelable(Constants.KEY.LAST_MESSAGE_KEY)
         mMensagens = Message()
         mLastMessage = LastMessage()
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
         mFirestoreMessage = FirestoreMessage(this)
-        if (mUser != null){
+
             supportActionBar?.title = mUser?.nome
-        }else if (mLast != null){
-            supportActionBar?.title = mLast?.name
-        }
+
 
         btnSend.setOnClickListener {
             handleSend()
@@ -87,19 +84,12 @@ class MessageActivity : AppCompatActivity() {
         override fun bind(viewHolder: ViewHolder, position: Int) {
             if (mMessage.fromId == mAuth.currentUser?.uid){
                 viewHolder.itemView.txt_msg_from.text = mMessage.text
-                if (mUser != null){
-                    Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_from)
-                }else if (mLast != null){
-                    Picasso.get().load(mLast?.url).into(viewHolder.itemView.img_profile_from)
-                }
+                Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_from)
 
             }else{
                 viewHolder.itemView.txt_message_to.text = mMessage.text
-                if (mUser != null){
-                    Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_to)
-                }else if (mLast != null){
-                    Picasso.get().load(mLast?.url).into(viewHolder.itemView.img_profile_to)
-                }
+                Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_to)
+
 
             }
         }
@@ -110,13 +100,8 @@ class MessageActivity : AppCompatActivity() {
     private fun fetchMessages() {
         mMe?.let {
             val fromId = it.uid.toString()
+            val toId = mUser!!.uid.toString()
 
-            var toId: String? = null
-            if (mUser != null){
-                toId = mUser!!.uid.toString()
-            }else if (mLast != null){
-                toId = mLast!!.uid.toString()
-            }
 
 
             mFirestore.collection(Constants.KEY.CONVERSATION_KEY)
@@ -124,7 +109,7 @@ class MessageActivity : AppCompatActivity() {
                 .collection(toId!!)
                 .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot, exception ->
-                    mAdapter.clear()
+                    //mAdapter.clear()
                     snapshot?.documentChanges?.let {
                         for (doc in it){
                             when(doc.type){
@@ -134,7 +119,7 @@ class MessageActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                        mAdapter.notifyDataSetChanged()
+
                     }
                 }
         }
@@ -144,40 +129,21 @@ class MessageActivity : AppCompatActivity() {
         val text = editMessage.text.toString()
         if (validate()){
             mMensagens.text = text
-            if (mUser != null){
-                mMensagens.toId = mUser!!.uid
-            }else if (mLast != null){
-                mMensagens.toId = mLast!!.uid
-            }
+            mMensagens.toId = mUser!!.uid
 
             mMensagens.fromId = mAuth.currentUser!!.uid
             mMensagens.timestamp = System.currentTimeMillis()
 
-            if (mUser != null){
-                mLastMessage.name = mUser?.nome
-            }else if (mLast != null){
-                mLastMessage.name = mLast?.name
-            }
 
+            mLastMessage.name = mUser?.nome
             mLastMessage.lastMessage = text
-            if (mUser != null){
-                mLastMessage.uid = mUser?.uid
-            }else if (mLast != null){
-                mLastMessage.uid = mLast?.uid
-            }
+            mLastMessage.uid = mUser?.uid
+            mLastMessage.url = mUser?.urlProfile
 
-            if (mUser != null){
-                mLastMessage.url = mUser?.urlProfile
-            }else if (mLast != null){
-                mLastMessage.url = mLast?.url
-            }
 
             mLastMessage.timestamp = System.currentTimeMillis()
-            if (mUser != null){
-                mFirestoreMessage.sendMessage(mMensagens, mUser!!.uid.toString(), mLastMessage)
-            }else if (mLast != null){
-                mFirestoreMessage.sendMessage(mMensagens, mLast!!.uid.toString(), mLastMessage)
-            }
+            mFirestoreMessage.sendMessage(mMensagens, mUser!!.uid.toString(), mLastMessage)
+
 
            editMessage.setText("")
 

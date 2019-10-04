@@ -26,19 +26,24 @@ class LastMessagesActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mUser: FirebaseFirestore
     private lateinit var mAdapter : GroupAdapter<ViewHolder>
+    private lateinit var mServicos: Servicos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_last_messages)
         mFirestore = FirebaseFirestore.getInstance()
         mUser = FirebaseFirestore.getInstance()
+        mServicos = Servicos()
 
         mAdapter = GroupAdapter()
         rv_last_message.adapter = mAdapter
         mAdapter.setOnItemClickListener { item, view ->
             val intent = Intent(this, MessageActivity::class.java)
             val userItem : ContactItem = item as ContactItem
-            intent.putExtra(Constants.KEY.LAST_MESSAGE_KEY, userItem.mLastMessage)
+            mServicos.nome = userItem.mLastMessage.name
+            mServicos.urlProfile = userItem.mLastMessage.url
+            mServicos.uid = userItem.mLastMessage.uid
+            intent.putExtra(Constants.KEY.MESSAGE_KEY, mServicos)
             startActivity(intent)
 
         }
@@ -64,7 +69,7 @@ class LastMessagesActivity : AppCompatActivity() {
                             DocumentChange.Type.ADDED ->{
                                 val contact = doc.document.toObject(LastMessage::class.java)
                                 mAdapter.add(ContactItem((contact)))
-                                val service = doc.document.toObject(Servicos::class.java)
+
 
 
                             }
@@ -88,6 +93,7 @@ class LastMessagesActivity : AppCompatActivity() {
             }else{
                 Picasso.get().load(mLastMessage.url).into(viewHolder.itemView.imgLastProfile)
             }
+
 
         }
 
