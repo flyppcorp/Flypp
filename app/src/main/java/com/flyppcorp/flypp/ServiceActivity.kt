@@ -130,7 +130,7 @@ class ServiceActivity : AppCompatActivity() {
         if (mService?.uid == mAuth.currentUser?.uid) {
             val mAlert = AlertDialog.Builder(this)
             mAlert.setMessage(
-                "Hey, nós sabemos que as vezes bate aquela vontade de conversar a gente mesmo" +
+                "Hey, nós sabemos que as vezes bate aquela vontade de conversar com a gente mesmo" +
                         " mas infelizmente você não pode fazer isso"
             )
             mAlert.setPositiveButton("OK", { dialogInterface: DialogInterface, i: Int -> })

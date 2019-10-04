@@ -60,6 +60,7 @@ class AndamentoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        finish()
 
     }
 

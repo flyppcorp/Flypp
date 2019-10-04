@@ -63,6 +63,7 @@ class FragmentTodos : Fragment() {
 
         init {
             mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser!!.uid)
                 .addSnapshotListener { snapshot, exception ->
                     contentService.clear()
                     for (doc in snapshot!!.documents){
@@ -101,7 +102,9 @@ class FragmentTodos : Fragment() {
             vh.txtNomeUser.text = contentService[position].nome
             vh.txtShortDesc.text = contentService[position].shortDesc
             val avaliacao : Double = contentService[position].avalicao.toDouble()/contentService[position].totalavalicao
-            vh.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+            if (contentService[position].avalicao == 0) vh.txtAvaliacao.text = "0/5"
+            else vh.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+
             vh.txtPreco.text = "R$ ${contentService[position].preco}"
             vh.txtduracao.text = "por ${contentService[position].tipoCobranca}"
 

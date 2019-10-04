@@ -22,147 +22,105 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_confirm_service.*
 import kotlinx.android.synthetic.main.activity_message.*
+import kotlinx.android.synthetic.main.from_id.*
 import kotlinx.android.synthetic.main.from_id.view.*
+import kotlinx.android.synthetic.main.to_id.*
 import kotlinx.android.synthetic.main.to_id.view.*
 
 class MessageActivity : AppCompatActivity() {
 
-    var mUser: Servicos? = null
-    private lateinit var mMensagens: Message
-    private lateinit var mFirestoreMessage: FirestoreMessage
+    private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
+    private var mUser: Servicos? = null
     private var mMe: User? = null
-    private lateinit var mFirestore : FirebaseFirestore
-    private lateinit var mLastMessage: LastMessage
-    private lateinit var mAdapter : GroupAdapter<ViewHolder>
+    private lateinit var mMessage: Message
+    private lateinit var mAdapter: GroupAdapter<ViewHolder>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
-        mAdapter = GroupAdapter()
-        rv_message.adapter = mAdapter
-        mUser = intent.extras?.getParcelable(Constants.KEY.MESSAGE_KEY)
-        //mLast = intent.extras?.getParcelable(Constants.KEY.LAST_MESSAGE_KEY)
-        mMensagens = Message()
-        mLastMessage = LastMessage()
-        mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
-        mFirestoreMessage = FirestoreMessage(this)
-
-            supportActionBar?.title = mUser?.nome
-
-
+        mAuth = FirebaseAuth.getInstance()
+        mMessage = Message()
+        mAdapter = GroupAdapter()
+        mUser = intent.extras?.getParcelable(Constants.KEY.MESSAGE_KEY)
         btnSend.setOnClickListener {
             handleSend()
-            if (!validateConection()){
-                return@setOnClickListener
-            }
-
-
         }
+        rv_message.adapter = mAdapter
+        getDados()
+    }
+
+
+    private fun getDados() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser!!.uid)
             .get()
             .addOnSuccessListener {
                 mMe = it.toObject(User::class.java)
-                fetchMessages()
+                fetchMessage()
             }
-
-
-
-
     }
 
-    private inner class MessageItem(private val mMessage: Message) : Item<ViewHolder>(){
-
+    private inner class MensagemItem(val message: Message): Item<ViewHolder>(){
         override fun getLayout(): Int {
-            return if (mMessage.fromId == mAuth.currentUser!!.uid)
-                R.layout.from_id
-            else
-                R.layout.to_id
+            return if (message.fromId == mAuth.currentUser!!.uid) R.layout.from_id
+            else R.layout.to_id
         }
 
         override fun bind(viewHolder: ViewHolder, position: Int) {
-            if (mMessage.fromId == mAuth.currentUser?.uid){
-                viewHolder.itemView.txt_msg_from.text = mMessage.text
-                Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_from)
-
+            if (message.fromId == mAuth.currentUser!!.uid){
+                viewHolder.itemView.txt_msg_from.text = message.text
+                Picasso.get().load(mMe?.url).into(viewHolder.itemView.img_profile_from)
             }else{
-                viewHolder.itemView.txt_message_to.text = mMessage.text
+                viewHolder.itemView.txt_message_to.text = message.text
                 Picasso.get().load(mUser?.urlProfile).into(viewHolder.itemView.img_profile_to)
-
-
             }
         }
 
 
     }
 
-    private fun fetchMessages() {
+    private fun fetchMessage() {
         mMe?.let {
-            val fromId = it.uid.toString()
-            val toId = mUser!!.uid.toString()
+            val fromId = it.uid
+            val toId = mUser!!.uid
 
-
-
-            mFirestore.collection(Constants.KEY.CONVERSATION_KEY)
-                .document(fromId)
+            mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+                .document(fromId!!)
                 .collection(toId!!)
                 .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot, exception ->
-                    //mAdapter.clear()
                     snapshot?.documentChanges?.let {
                         for (doc in it){
                             when(doc.type){
-                                DocumentChange.Type.ADDED -> {
-                                    val messagem = doc.document.toObject(Message::class.java)
-                                    mAdapter.add(MessageItem(messagem))
+                                DocumentChange.Type.ADDED ->{
+                                    val  mensagem = doc.document.toObject(Message::class.java)
+                                    mAdapter.add(MensagemItem(mensagem))
                                 }
                             }
-                        }
 
+                        }
                     }
                 }
         }
     }
 
     private fun handleSend() {
-        val text = editMessage.text.toString()
-        if (validate()){
-            mMensagens.text = text
-            mMensagens.toId = mUser!!.uid
+        mMessage.toId = mUser!!.uid
+        mMessage.fromId = mAuth.currentUser!!.uid
+        mMessage.timestamp = System.currentTimeMillis()
+        mMessage.text = editMessage.text.toString()
+        editMessage.setText("")
 
-            mMensagens.fromId = mAuth.currentUser!!.uid
-            mMensagens.timestamp = System.currentTimeMillis()
+        mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+            .document(mUser!!.uid!!)
+            .collection(mAuth.currentUser!!.uid)
+            .add(mMessage)
 
-
-            mLastMessage.name = mUser?.nome
-            mLastMessage.lastMessage = text
-            mLastMessage.uid = mUser?.uid
-            mLastMessage.url = mUser?.urlProfile
-
-
-            mLastMessage.timestamp = System.currentTimeMillis()
-            mFirestoreMessage.sendMessage(mMensagens, mUser!!.uid.toString(), mLastMessage)
-
-
-           editMessage.setText("")
-
-        }
-    }
-
-    private fun validate(): Boolean{
-        return  editMessage.text.toString() != ""
-    }
-    private fun validateConection(): Boolean{
-        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = cm.activeNetworkInfo
-        if (networkInfo != null && networkInfo.isConnected){
-            return true
-        }else{
-            progressBar.visibility = View.GONE
-            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
+        mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+            .document(mAuth.currentUser!!.uid)
+            .collection(mUser!!.uid!!)
+            .add(mMessage)
     }
 }

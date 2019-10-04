@@ -13,7 +13,7 @@ class FirestoreMessage (context: Context) {
 
     fun sendMessage(message : Message, toId: String, lastMessage: LastMessage ){
 
-        mMessage.collection(Constants.KEY.CONVERSATION_KEY)
+        mMessage.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
             .document(mAuth.currentUser!!.uid)
             .collection(toId)
             .add(message)
@@ -25,7 +25,7 @@ class FirestoreMessage (context: Context) {
                     .set(lastMessage)
             }
 
-        mMessage.collection(Constants.KEY.CONVERSATION_KEY)
+        mMessage.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
             .document(toId)
             .collection(mAuth.currentUser!!.uid)
             .add(message)

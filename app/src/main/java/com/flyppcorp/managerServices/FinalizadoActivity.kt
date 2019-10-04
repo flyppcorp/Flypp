@@ -64,8 +64,8 @@ class FinalizadoActivity : AppCompatActivity() {
         mAdress?.let {
             if(mMyservice?.urlService !=  null) Picasso.get().load(mMyservice?.urlService).into(imgServiceFinalizadoAcct)
             else imgServiceFinalizadoAcct.setImageResource(R.drawable.ic_working)
-            txtContratadoFinalizadoAcct.text = mMyservice!!.nomeContratado
-            txtContratanteFinalizadoAcct.text = mMyservice!!.nomeContratante
+            txtContratadoFinalizadoAcct.text = mMyservice!!.nomeContratante
+            txtContratanteFinalizadoAcct.text = mMyservice!!.nomeContratado
             txtServicoFinalizadoAcct.text = mMyservice!!.serviceNome
             txtPrecoFinalizadoAcct.text = "R$ ${mMyservice?.preco} por ${mMyservice?.tipoCobranca}"
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

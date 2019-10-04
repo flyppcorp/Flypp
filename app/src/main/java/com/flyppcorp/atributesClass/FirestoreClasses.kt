@@ -53,7 +53,8 @@ data class Message(var text : String? = null,
 data class LastMessage (var name: String? = null,
                         var url: String? = null,
                         var lastMessage: String? = null,
-                        var uid: String? = null,
+                        var toId: String? = null,
+                        var fromId: String? = null,
                         var timestamp: Long = 0) : Parcelable
 
 @Parcelize

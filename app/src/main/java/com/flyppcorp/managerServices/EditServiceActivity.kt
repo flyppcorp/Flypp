@@ -15,6 +15,7 @@ import com.flyppcorp.flypp.R
 import com.flyppcorp.fragments.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_service.*
@@ -48,6 +49,7 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mServiceAtributes: Servicos
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirestoreService: FirestoreService
+    private var mGetService: Servicos? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_service)
@@ -61,13 +63,23 @@ class EditServiceActivity : AppCompatActivity() {
             handleSelectPhoto()
         }
         btnUpdateService.setOnClickListener {
-            handleSaveService()
+            fetchUp()
         }
         btnVoltarService.setOnClickListener {
             finish()
         }
         fetch()
 
+    }
+
+    private fun fetchUp() {
+        mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+            .document(mService!!.serviceId!!)
+            .get()
+            .addOnSuccessListener {
+                mGetService = it.toObject(Servicos::class.java)
+                handleSaveService()
+            }
     }
 
     private fun handleSelectPhoto() {
@@ -125,82 +137,89 @@ class EditServiceActivity : AppCompatActivity() {
     //------------------------------------------------------------------------------------------------------------------------
     private fun handleSaveService() {
         //definindo valores para a classe servico
-        val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
-        val ref = mStorage.getReference("/ServicesImages/${timestamp}")
-        mServiceAtributes.nome = mService?.nome
-        mServiceAtributes.uid = mService?.uid
-        mServiceAtributes.urlProfile = mService?.urlProfile
-        mServiceAtributes.telefone = mService?.telefone
-        mServiceAtributes.nomeService = editService.text.toString()
-        mServiceAtributes.shortDesc = editDescCurta.text.toString()
-        mServiceAtributes.longDesc = editDescDetalhada.text.toString()
-        mServiceAtributes.preco = editPreco.text.toString()
-        mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
-        mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
-        mServiceAtributes.cep = editCep.text.toString()
-        mServiceAtributes.estado = editEstadoEdit.text.toString()
-        mServiceAtributes.cidade = editCidadeService.text.toString()
-        mServiceAtributes.bairro = EditBairroService.text.toString()
-        mServiceAtributes.rua = editRuaService.text.toString()
-        mServiceAtributes.numero = editNumService.text.toString()
-        mServiceAtributes.email = mAuth.currentUser!!.email
-        mServiceAtributes.serviceId = mService!!.serviceId
-        val tagInput = editTags.text.toString().toLowerCase()
-        mServiceAtributes.tagsStr = tagInput
-        val tagArray: Array<String> = tagInput.split(",").toTypedArray()
-        val tags: MutableMap<String, Boolean> = HashMap()
-        for (tag in tagArray) {
-            tags[tag] = true
-        }
-        if (tags.isEmpty()) tags[""] = false
-        mServiceAtributes.tags = tags
-        //fim
+        mGetService?.let {
+            val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
+            val ref = mStorage.getReference("/ServicesImages/${timestamp}")
+            mServiceAtributes.totalavalicao = mGetService!!.totalavalicao
+            mServiceAtributes.totalServicos = mGetService!!.totalServicos
+            mServiceAtributes.avalicao = mGetService!!.avalicao
+            mServiceAtributes.favoritos = mGetService!!.favoritos
+            mServiceAtributes.nome = mService?.nome
+            mServiceAtributes.uid = mService?.uid
+            mServiceAtributes.urlProfile = mService?.urlProfile
+            mServiceAtributes.telefone = mService?.telefone
+            mServiceAtributes.nomeService = editService.text.toString()
+            mServiceAtributes.shortDesc = editDescCurta.text.toString()
+            mServiceAtributes.longDesc = editDescDetalhada.text.toString()
+            mServiceAtributes.preco = editPreco.text.toString()
+            mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
+            mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
+            mServiceAtributes.cep = editCep.text.toString()
+            mServiceAtributes.estado = editEstadoEdit.text.toString()
+            mServiceAtributes.cidade = editCidadeService.text.toString()
+            mServiceAtributes.bairro = EditBairroService.text.toString()
+            mServiceAtributes.rua = editRuaService.text.toString()
+            mServiceAtributes.numero = editNumService.text.toString()
+            mServiceAtributes.email = mAuth.currentUser!!.email
+            mServiceAtributes.serviceId = mService!!.serviceId
+            val tagInput = editTags.text.toString().toLowerCase()
+            mServiceAtributes.tagsStr = tagInput
+            val tagArray: Array<String> = tagInput.split(",").toTypedArray()
+            val tags: MutableMap<String, Boolean> = HashMap()
+            for (tag in tagArray) {
+                tags[tag] = true
+            }
+            if (tags.isEmpty()) tags[""] = false
+            mServiceAtributes.tags = tags
+            //fim
 
-        //obtendo url da imagem no firestorage
-        mUri?.let {
-            ref.putFile(it)
-                .addOnSuccessListener {
-                    ref.downloadUrl
-                        .addOnSuccessListener {
-                            mServiceAtributes.urlService = it.toString()
+            //obtendo url da imagem no firestorage
+            mUri?.let {
+                ref.putFile(it)
+                    .addOnSuccessListener {
+                        ref.downloadUrl
+                            .addOnSuccessListener {
+                                mServiceAtributes.urlService = it.toString()
 
-                            //salvando no db caso haja uma url
-                            if (validate()) {
-                                mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                    .document(mService!!.serviceId!!)
-                                    .set(mServiceAtributes)
-                                finish()
+                                //salvando no db caso haja uma url
+                                if (validate()) {
+                                    mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                        .document(mService!!.serviceId!!)
+                                        .set(mServiceAtributes)
+                                    finish()
 
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    "Por favor, preencha o nome do serviço e/ou as TAGS",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                } else {
+                                    Toast.makeText(
+                                        this,
+                                        "Por favor, preencha o nome do serviço e/ou as TAGS",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                        }
+                    }
+
+            }
+            //savando no db caso não haja uma url
+            if (mUri == null) {
+                if (validate() && validateConection()) {
+                    val extras = intent.extras
+                    if (extras != null) mServiceAtributes.urlService = extras.getString("url")
+
+                    mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                        .document(mService!!.serviceId!!)
+                        .set(mServiceAtributes)
+                    finish()
+
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Por favor, preencha o nome do serviço e/ou as TAGS",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
-        }
-        //savando no db caso não haja uma url
-        if (mUri == null) {
-            if (validate() && validateConection()) {
-                val extras = intent.extras
-                if (extras != null) mServiceAtributes.urlService = extras.getString("url")
-
-                mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                    .document(mService!!.serviceId!!)
-                    .set(mServiceAtributes)
-                finish()
-
-            } else {
-                Toast.makeText(
-                    this,
-                    "Por favor, preencha o nome do serviço e/ou as TAGS",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
+
 
 
     }

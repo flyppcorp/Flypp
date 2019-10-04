@@ -26,10 +26,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/bg_to_message"
         android:maxWidth="250dp"
         android:padding="8dp"
         android:textColor="@color/primaryText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_profile_to"
         app:layout_constraintTop_toTopOf="@+id/img_profile_to" />
 </androidx.constraintlayout.widget.ConstraintLayout>
