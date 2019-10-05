@@ -138,6 +138,7 @@ class ProfileActivity : AppCompatActivity() {
             if (!validate()) {
                 return
             } else {
+                if (mUser?.url != null) mUserInfo.url = mUser?.url
                 mFirestoreUser.saveUser(mUserInfo)
             }
 
