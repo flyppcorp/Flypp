@@ -141,8 +141,7 @@ class HomeFragment : Fragment() {
             if (servicos[position].urlService == null) {
                 viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(servicos[position].urlService).resize(100, 100)
-                    .into(viewholder.imgServiceMain)
+                Picasso.get().load(servicos[position].urlService).into(viewholder.imgServiceMain)
             }
             viewholder.txtNomeUser.text = servicos[position].nome
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)

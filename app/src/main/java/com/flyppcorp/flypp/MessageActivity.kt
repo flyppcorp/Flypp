@@ -49,6 +49,7 @@ class MessageActivity : AppCompatActivity() {
         }
         rv_message.adapter = mAdapter
         getDados()
+
     }
 
 
@@ -107,20 +108,49 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun handleSend() {
+        val message = editMessage.text.toString()
         mMessage.toId = mUser!!.uid
         mMessage.fromId = mAuth.currentUser!!.uid
         mMessage.timestamp = System.currentTimeMillis()
-        mMessage.text = editMessage.text.toString()
+        mMessage.text = message
         editMessage.setText("")
 
         mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
             .document(mUser!!.uid!!)
             .collection(mAuth.currentUser!!.uid)
             .add(mMessage)
+            .addOnSuccessListener {
+                val mLastMessage : LastMessage = LastMessage()
+                mLastMessage.lastMessage = message
+                mLastMessage.name = mUser?.nome
+                mLastMessage.url = mUser?.urlProfile
+                mLastMessage.toId = mUser?.uid
+                mLastMessage.timestamp = System.currentTimeMillis()
+
+                mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                    .document(mAuth.currentUser!!.uid)
+                    .collection(Constants.COLLECTIONS.CONTACTS)
+                    .document(mUser!!.uid!!)
+                    .set(mLastMessage)
+            }
 
         mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
             .document(mAuth.currentUser!!.uid)
             .collection(mUser!!.uid!!)
             .add(mMessage)
+            .addOnSuccessListener {
+                val mLastMessage : LastMessage = LastMessage()
+                mLastMessage.lastMessage = message
+                mLastMessage.name = mMe?.nome
+                mLastMessage.url = mMe?.url
+                mLastMessage.toId = mMe?.uid
+                mLastMessage.timestamp = System.currentTimeMillis()
+
+                mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                    .document(mUser!!.uid!!)
+                    .collection(Constants.COLLECTIONS.CONTACTS)
+                    .document(mAuth.currentUser!!.uid)
+                    .set(mLastMessage)
+            }
     }
 }

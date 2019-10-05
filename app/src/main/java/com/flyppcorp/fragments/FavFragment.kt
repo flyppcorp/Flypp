@@ -95,8 +95,7 @@ class FavFragment : Fragment() {
             if (contentServicos[position].urlService == null) {
                 viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicos[position].urlService).resize(100, 100)
-                    .into(viewholder.imgServiceMain)
+                Picasso.get().load(contentServicos[position].urlService).into(viewholder.imgServiceMain)
             }
             viewholder.txtNomeUser.text = contentServicos[position].nome
             Picasso.get().load(contentServicos[position].urlProfile)
