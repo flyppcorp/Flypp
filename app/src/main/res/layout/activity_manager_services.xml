@@ -19,6 +19,7 @@
         app:layout_constraintTop_toBottomOf="@+id/include4"
         app:tabGravity="fill"
         app:tabMode="fixed"
+        style="@style/MyTabLayout"
         app:tabTextColor="@color/textIcons"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/textIcons"/>

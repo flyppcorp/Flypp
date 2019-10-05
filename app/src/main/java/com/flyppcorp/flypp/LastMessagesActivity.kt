@@ -46,7 +46,7 @@ class LastMessagesActivity : AppCompatActivity() {
             mServices.nome = userItem.mLastMessage.name
             intent.putExtra(Constants.KEY.MESSAGE_KEY, mServices)
             startActivity(intent)
-            Toast.makeText(this, mServices.uid, Toast.LENGTH_SHORT).show()
+
 
 
         }

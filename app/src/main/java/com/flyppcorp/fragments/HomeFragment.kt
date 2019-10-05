@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LastMessagesActivity
 import com.flyppcorp.flypp.MessageActivity
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var uid: String
     private lateinit var servicos: ArrayList<Servicos>
     private lateinit var mAdapter: DetailRecyclerView
+    private var mUser: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,8 +63,18 @@ class HomeFragment : Fragment() {
             intent.putExtra(Constants.KEY.SERVICE_KEY, servicos[it])
             startActivity(intent)
         }
+        getUser()
 
         return view
+    }
+
+    private fun getUser() {
+        mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .get()
+            .addOnSuccessListener {
+                mUser = it.toObject(User::class.java)
+            }
     }
 
 
@@ -131,28 +143,31 @@ class HomeFragment : Fragment() {
         }
 
         var onItemClicked: ((Int) -> Unit)? = null
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder.itemView.setOnClickListener {
                 onItemClicked?.invoke(position)
             }
             var viewholder = (holder as CustomViewHolder).itemView
 
-            viewholder.txtNomeServico.text = servicos[position].nomeService
-            if (servicos[position].urlService == null) {
-                viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
-            } else {
-                Picasso.get().load(servicos[position].urlService).into(viewholder.imgServiceMain)
-            }
-            viewholder.txtNomeUser.text = servicos[position].nome
-            Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
-            viewholder.txtShortDesc.text = servicos[position].shortDesc
-            val avaliacao: Double =
-                servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
-            if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
-                "${servicos[position].avalicao}/5"
-            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
-            viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
+                viewholder.txtNomeServico.text = servicos[position].nomeService
+                if (servicos[position].urlService == null) {
+                    viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
+                } else {
+                    Picasso.get().load(servicos[position].urlService)
+                        .into(viewholder.imgServiceMain)
+                }
+                viewholder.txtNomeUser.text = servicos[position].nome
+                Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
+                viewholder.txtShortDesc.text = servicos[position].shortDesc
+                val avaliacao: Double =
+                    servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
+                if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
+                    "${servicos[position].avalicao}/5"
+                else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
+                viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
+                viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
+
             viewholder.btnFavorite.setOnClickListener {
                 eventFavorite(position)
 

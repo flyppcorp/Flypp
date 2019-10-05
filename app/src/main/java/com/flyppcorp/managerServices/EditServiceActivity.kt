@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreService
 import com.flyppcorp.flypp.R
@@ -42,7 +43,7 @@ import kotlin.collections.HashMap
 
 class EditServiceActivity : AppCompatActivity() {
 
-    private  var mService: Servicos? = null
+    private var mService: Servicos? = null
     private var mUri: Uri? = null
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mFirestore: FirebaseFirestore
@@ -50,6 +51,7 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirestoreService: FirestoreService
     private var mGetService: Servicos? = null
+    private var mProfile: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_service)
@@ -69,7 +71,18 @@ class EditServiceActivity : AppCompatActivity() {
             finish()
         }
         fetch()
+        fetchProfile()
 
+    }
+
+    private fun fetchProfile() {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mAuth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener {
+                mProfile = it.toObject(User::class.java)
+                handleSaveService()
+            }
     }
 
     private fun fetchUp() {
@@ -90,7 +103,7 @@ class EditServiceActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.KEY.REQUEST_CODE){
+        if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
             imgService.setImageURI(mUri)
@@ -103,13 +116,13 @@ class EditServiceActivity : AppCompatActivity() {
             .whereEqualTo("serviceId", mService!!.serviceId)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
-                    for (doc in snapshot){
+                    for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
-                        if (serviceItem.urlService != null){
+                        if (serviceItem.urlService != null) {
                             Picasso.get().load(serviceItem.urlService).into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
-                        if (mUri != null){
+                        if (mUri != null) {
                             imgService.setImageURI(mUri)
                             btnSelectPhotoService.alpha = 0f
                         }
@@ -144,9 +157,11 @@ class EditServiceActivity : AppCompatActivity() {
             mServiceAtributes.totalServicos = mGetService!!.totalServicos
             mServiceAtributes.avalicao = mGetService!!.avalicao
             mServiceAtributes.favoritos = mGetService!!.favoritos
-            mServiceAtributes.nome = mService?.nome
             mServiceAtributes.uid = mService?.uid
-            mServiceAtributes.urlProfile = mService?.urlProfile
+            mProfile?.let {
+                mServiceAtributes.urlProfile = it.url
+                mServiceAtributes.nome = it.nome
+            }
             mServiceAtributes.telefone = mService?.telefone
             mServiceAtributes.nomeService = editService.text.toString()
             mServiceAtributes.shortDesc = editDescCurta.text.toString()
@@ -221,7 +236,6 @@ class EditServiceActivity : AppCompatActivity() {
         }
 
 
-
     }
 
     //função de validacao
@@ -230,14 +244,16 @@ class EditServiceActivity : AppCompatActivity() {
                 editService.text.toString() != ""
 
     }
-    fun validateConection(): Boolean{
+
+    fun validateConection(): Boolean {
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo
-        if (networkInfo != null && networkInfo.isConnected){
+        if (networkInfo != null && networkInfo.isConnected) {
             return true
-        }else{
+        } else {
             progressBar5.visibility = View.GONE
-            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
 

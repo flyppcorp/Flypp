@@ -142,7 +142,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/cidade"
@@ -160,13 +160,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout9"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="62dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:hint="@string/bairro"
         app:layout_constraintEnd_toEndOf="@+id/spinnerEstado"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout6"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout6">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -180,7 +177,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout8"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="280dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/rua"

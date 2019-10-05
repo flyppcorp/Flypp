@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreUser
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ProfileActivity : AppCompatActivity() {
     private var mUser: User? = null
@@ -26,6 +28,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mFirestoreUser: FirestoreUser
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -35,6 +38,7 @@ class ProfileActivity : AppCompatActivity() {
         mUserInfo = User()
         mFirestoreUser = FirestoreUser(this)
         mStorage = FirebaseStorage.getInstance()
+
         selectPhotoProfile.setOnClickListener {
             handleSelectPhoto()
         }
@@ -68,38 +72,39 @@ class ProfileActivity : AppCompatActivity() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .whereEqualTo("uid", mUser!!.uid)
             .addSnapshotListener { snapshot, firestoreException ->
-                snapshot?.let {
-                    for (doc in snapshot) {
-                        val userItem = doc.toObject(User::class.java)
-                        if (userItem.url != null) {
-                            Picasso.get().load(userItem.url).into(photoSelectedProfile)
-                            selectPhotoProfile.alpha = 0f
-                        } else if (mUser!!.url == null) {
-                            photoSelectedProfile.setImageResource(R.drawable.btn_select_photo_profile)
-                        } else if (mUri != null) {
-                            photoSelectedProfile.setImageURI(mUri)
-                        }
-                        editNomeUserProfile.setText(userItem.nome)
-                        val ddd = userItem.telefone?.substring(0, 2)
-                        editDDDProfile.setText(ddd)
-                        val numTel = userItem.telefone?.substring(2, 11)
-                        editPhoneProfile.setText(numTel)
-                        editCepProfile.setText(userItem.cep)
-                        editEstado.setText(userItem.estado)
-                        editCidadeProfile.setText(userItem.cidade)
-                        editBairroProfile.setText(userItem.bairro)
-                        editRuaProfile.setText(userItem.rua)
-                        editNumeroProfile.setText(userItem.numero)
-
+                for (doc in snapshot!!.documents) {
+                    val userItem = doc.toObject(User::class.java)
+                    if (userItem?.url != null) {
+                        Picasso.get().load(userItem.url).into(photoSelectedProfile)
+                        selectPhotoProfile.alpha = 0f
+                    } else if (mUser!!.url == null) {
+                        photoSelectedProfile.setImageResource(R.drawable.btn_select_photo_profile)
+                    } else if (mUri != null) {
+                        photoSelectedProfile.setImageURI(mUri)
                     }
+                    editNomeUserProfile.setText(userItem!!.nome)
+                    val ddd = userItem.telefone?.substring(0, 2)
+                    editDDDProfile.setText(ddd)
+                    val numTel = userItem.telefone?.substring(2, 11)
+                    editPhoneProfile.setText(numTel)
+                    editCepProfile.setText(userItem.cep)
+                    editEstado.setText(userItem.estado)
+                    editCidadeProfile.setText(userItem.cidade)
+                    editBairroProfile.setText(userItem.bairro)
+                    editRuaProfile.setText(userItem.rua)
+                    editNumeroProfile.setText(userItem.numero)
+
+
+
                 }
+
             }
     }
 
     private fun handleUpdate() {
-        if (!validate()){
+        if (!validate()) {
             return
-        }else{
+        } else {
             val nome = editNomeUserProfile.text.toString()
             val ddd = editDDDProfile.text.toString()
             val phoneNumber = editPhoneProfile.text.toString()
@@ -124,14 +129,15 @@ class ProfileActivity : AppCompatActivity() {
                             .addOnSuccessListener {
                                 mUserInfo.url = it.toString()
                                 mFirestoreUser.saveUser(mUserInfo)
+
                             }
                     }
             }
         }
-        if (mUri == null){
-            if (!validate()){
+        if (mUri == null) {
+            if (!validate()) {
                 return
-            }else{
+            } else {
                 mFirestoreUser.saveUser(mUserInfo)
             }
 
@@ -149,5 +155,7 @@ class ProfileActivity : AppCompatActivity() {
             return true
         }
     }
+
+
 
 }
