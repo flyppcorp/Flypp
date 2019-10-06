@@ -38,7 +38,7 @@ class ConfirmationCount(private val context: Context) {
                         val alert = AlertDialog.Builder(context)
                         alert.setMessage(
                             "Seu e-mail ainda não foi verificado." +
-                                    "\nAguarde uns segundos e clique novamente no botão."
+                                    "\n Verifique e tente novamente!"
                         )
                         alert.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
                         alert.show()
