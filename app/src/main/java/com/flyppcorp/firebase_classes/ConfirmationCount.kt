@@ -23,26 +23,31 @@ class ConfirmationCount(private val context: Context) {
         //mostra uma progressDialog enquanto carrega
         mProgressDialog.show()
         //Obtem o usuario atual e verifica a autenticação
-        val user = mAuth.currentUser
-        user!!.reload()
-        if (user.isEmailVerified) {
-            val intent = Intent(context, CreateProfileActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(context, intent, null)
-            mProgressDialog.hide()
-            mProgressDialog.dismiss()
-        //se não tiver verificado, mostra uma mensagem de alerta
-        } else {
-            val alert = AlertDialog.Builder(context)
-            alert.setMessage(
-                "Seu e-mail ainda não foi verificado." +
-                        "\nAguarde uns segundos e clique novamente no botão."
-            )
-            alert.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
-            alert.show()
-            mProgressDialog.hide()
-            mProgressDialog.dismiss()
-        }
+        val user = mAuth.currentUser!!
+        user.reload()
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    if (user.isEmailVerified) {
+                        val intent = Intent(context, CreateProfileActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(context, intent, null)
+                        mProgressDialog.hide()
+                        mProgressDialog.dismiss()
+                        //se não tiver verificado, mostra uma mensagem de alerta
+                    } else {
+                        val alert = AlertDialog.Builder(context)
+                        alert.setMessage(
+                            "Seu e-mail ainda não foi verificado." +
+                                    "\nAguarde uns segundos e clique novamente no botão."
+                        )
+                        alert.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
+                        alert.show()
+                        mProgressDialog.hide()
+                        mProgressDialog.dismiss()
+                    }
+                }
+            }
+
     }
 
 }
