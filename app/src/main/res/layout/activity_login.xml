@@ -154,7 +154,8 @@
             android:textColor="@color/textIcons"
             android:textSize="10sp"
             android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_facebook" />
+            android:drawableLeft="@drawable/ic_facebook"
+            android:visibility="invisible"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -167,7 +168,8 @@
             android:textColor="#3b5998"
             android:textSize="10sp"
             android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_google" />
+            android:drawableLeft="@drawable/ic_google"
+            android:visibility="invisible"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
