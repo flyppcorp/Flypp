@@ -126,6 +126,7 @@ class AddFragment : Fragment() {
         mServiceAtributes.nome = mUser.nome
         mServiceAtributes.uid = mUser.uid
         mServiceAtributes.urlProfile = mUser.url
+        mServiceAtributes.ddd = mUser.ddd
         mServiceAtributes.telefone = mUser.telefone
         mServiceAtributes.nomeService = editService.text.toString()
         mServiceAtributes.shortDesc = editDescCurta.text.toString()

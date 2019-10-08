@@ -169,9 +169,7 @@ class ServiceActivity : AppCompatActivity() {
                         txtEndereco.text =
                             "${service.rua},  ${service.bairro}, ${service.numero} \n" +
                                     "CEP:${service.cep}, ${service.cidade}, ${service.estado}"
-                        val ddd = service.telefone?.substring(0, 2)
-                        val numTelefone = service.telefone?.substring(2, 11)
-                        txtTelefone.text = "(${ddd}) ${numTelefone}"
+                        txtTelefone.text = "(${service.ddd}) ${service.telefone}"
                         txtEmail.text = service.email
 
 

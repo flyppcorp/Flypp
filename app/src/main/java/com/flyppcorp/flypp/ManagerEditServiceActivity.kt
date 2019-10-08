@@ -62,10 +62,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         txtEnderecoView.text =
                             "${serviceItem.rua}, ${serviceItem.bairro}, ${serviceItem.numero} \n" +
                                     "${serviceItem.cidade}, ${serviceItem.estado}, ${serviceItem.cep}"
-                        txtTelefoneView.text = "${serviceItem.telefone?.substring(
-                            0,
-                            3
-                        )} ${serviceItem.telefone?.substring(3, 11)}"
+                        txtTelefoneView.text = "(${serviceItem.ddd}) ${serviceItem.telefone}"
                         txtEmailView.text = serviceItem.email
                     }
                 }

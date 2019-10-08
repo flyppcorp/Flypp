@@ -1,10 +1,12 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.flyppcorp.atributesClass.User
@@ -26,6 +28,8 @@ class CreateProfileActivity : AppCompatActivity() {
     private var mUri: Uri? = null
     private lateinit var mFirestoreUser: FirestoreUser
     private lateinit var mUser: User
+    private lateinit var mProgress: ProgressDialog
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +41,9 @@ class CreateProfileActivity : AppCompatActivity() {
         mStorage = FirebaseStorage.getInstance()
         mFirestoreUser = FirestoreUser(this)
         mUser = User()
+        mProgress = ProgressDialog(this)
+
+
 
         //setlistener é uma funcao que tem os botoes de acao da activity
         setListener()
@@ -90,14 +97,15 @@ class CreateProfileActivity : AppCompatActivity() {
         if (!validate()) {
             return
         } else {
+            mProgress.show()
             val nome = editNomeUser.text.toString()
-            val phoneCod = editDDD.text.toString()
             val email = mAuth.currentUser!!.email
-            val phoneNumber = phoneCod + editPhone.text.toString()
+            val ddd = editDDD.text.toString()
             val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
             val ref = mStorage.getReference("image/${filename}")
             mUser.nome = nome
-            mUser.telefone = phoneNumber
+            mUser.ddd = ddd
+            mUser.telefone = editPhone.text.toString()
             mUser.cep = editCep.text.toString()
             mUser.estado = spinnerEstado.selectedItem.toString()
             mUser.cidade = editCidade.text.toString()

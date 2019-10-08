@@ -1,17 +1,12 @@
 package com.flyppcorp.flypp
 
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.firebase_classes.FirestoreMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,11 +15,8 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.activity_confirm_service.*
 import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.android.synthetic.main.from_id.*
 import kotlinx.android.synthetic.main.from_id.view.*
-import kotlinx.android.synthetic.main.to_id.*
 import kotlinx.android.synthetic.main.to_id.view.*
 
 class MessageActivity : AppCompatActivity() {

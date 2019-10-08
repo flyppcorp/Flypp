@@ -17,6 +17,7 @@ data class User(
     var nome: String? = null,
     var uid: String? = null,
     var url: String? = null,
+    var ddd: String? = null,
     var telefone: String? = null,
     var email: String? = null
 ): Endereco(), Parcelable
@@ -26,6 +27,7 @@ data class Servicos(var nome: String? = null,
                     var uid: String? = null,
                     var urlProfile: String? = null,
                     var urlService: String? = null,
+                    var ddd: String? = null,
                     var telefone: String? = null,
                     var email: String? = null,
                     var serviceId: String? = null,

@@ -112,6 +112,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
         }
     }
+
     private fun validateConection(): Boolean{
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo

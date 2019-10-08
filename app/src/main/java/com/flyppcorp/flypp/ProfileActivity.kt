@@ -1,5 +1,6 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mFirestoreUser: FirestoreUser
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mProgress: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class ProfileActivity : AppCompatActivity() {
         mUserInfo = User()
         mFirestoreUser = FirestoreUser(this)
         mStorage = FirebaseStorage.getInstance()
+        mProgress = ProgressDialog(this)
 
         selectPhotoProfile.setOnClickListener {
             handleSelectPhoto()
@@ -65,6 +68,8 @@ class ProfileActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
             photoSelectedProfile.setImageURI(mUri)
+            selectPhotoProfile.alpha = 0f
+
         }
     }
 
@@ -81,12 +86,11 @@ class ProfileActivity : AppCompatActivity() {
                         photoSelectedProfile.setImageResource(R.drawable.btn_select_photo_profile)
                     } else if (mUri != null) {
                         photoSelectedProfile.setImageURI(mUri)
+                        selectPhotoProfile.alpha = 0f
                     }
                     editNomeUserProfile.setText(userItem!!.nome)
-                    val ddd = userItem.telefone?.substring(0, 2)
-                    editDDDProfile.setText(ddd)
-                    val numTel = userItem.telefone?.substring(2, 11)
-                    editPhoneProfile.setText(numTel)
+                    editDDDProfile.setText(userItem.ddd)
+                    editPhoneProfile.setText(userItem.telefone)
                     editCepProfile.setText(userItem.cep)
                     editEstado.setText(userItem.estado)
                     editCidadeProfile.setText(userItem.cidade)
@@ -105,14 +109,15 @@ class ProfileActivity : AppCompatActivity() {
         if (!validate()) {
             return
         } else {
+            mProgress.show()
             val nome = editNomeUserProfile.text.toString()
             val ddd = editDDDProfile.text.toString()
             val phoneNumber = editPhoneProfile.text.toString()
-            val telefone = ddd + phoneNumber
             val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
             val ref = mStorage.getReference("image/${filename}")
             mUserInfo.nome = nome
-            mUserInfo.telefone = telefone
+            mUserInfo.ddd = ddd
+            mUserInfo.telefone = phoneNumber
             mUserInfo.cep = editCepProfile.text.toString()
             mUserInfo.estado = editEstado.text.toString()
             mUserInfo.cidade = editCidadeProfile.text.toString()
