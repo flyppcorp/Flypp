@@ -159,10 +159,10 @@ class ServiceActivity : AppCompatActivity() {
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
                         val avaliacao: Double = service.avalicao.toDouble() / service.totalavalicao
-                        txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(
-                            0,
-                            1
-                        )}/5 segundo os usuários "
+                        if (service.avalicao == 0) txtAvaliacao.text = "Avaliado em ${service.avalicao}/5 segundo os usuários "
+                        else txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(0, 1)}/5 segundo os usuários "
+
+
                         txtPreco.text = "R$ ${service.preco} por ${service.tipoCobranca}"
                         txtDetailDesc.text = service.longDesc
                         txtQuality.text = service.qualidadesDiferenciais

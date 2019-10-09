@@ -54,8 +54,11 @@ class SearchFragment : Fragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_search, container, false)
         view.recyclerSearch.adapter = mAdapter
         view.btnSearch.setOnClickListener {
-            get(editSearch.text.toString().toLowerCase())
-            editSearch.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            if (!editSearch.text.toString().isEmpty()){
+                get(editSearch.text.toString().toLowerCase())
+                editSearch.onEditorAction(EditorInfo.IME_ACTION_DONE)
+            }
+
         }
         view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
         view.recyclerSearch.addItemDecoration(
@@ -128,7 +131,9 @@ class SearchFragment : Fragment() {
                 .into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = contentServicesearch[position].shortDesc
             val avaliacao : Double = contentServicesearch[position].avalicao.toDouble()/contentServicesearch[position].totalavalicao
-            viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+            if (contentServicesearch[position].avalicao == 0) viewholder.txtAvaliacao.text =
+                "${contentServicesearch[position].avalicao}/5"
+            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${contentServicesearch[position].preco}"
             viewholder.txtduracao.text = "Por ${contentServicesearch[position].tipoCobranca}"
             viewholder.btnFavorite.setOnClickListener {

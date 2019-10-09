@@ -102,7 +102,9 @@ class FavFragment : Fragment() {
                 .into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = contentServicos[position].shortDesc
             val avaliacao : Double = contentServicos[position].avalicao.toDouble()/contentServicos[position].totalavalicao
-            viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+            if (contentServicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
+                "${contentServicos[position].avalicao}/5"
+            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${contentServicos[position].preco}"
             viewholder.txtduracao.text = "Por ${contentServicos[position].tipoCobranca}"
 
