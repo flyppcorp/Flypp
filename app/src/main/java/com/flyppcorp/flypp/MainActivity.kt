@@ -7,19 +7,21 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ToolbarWidgetWrapper
+import androidx.fragment.app.Fragment
 import com.flyppcorp.fragments.*
+import com.flyppcorp.managerServices.FilterActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.service_items.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-
+    var test : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //acao do bottomNav
+
         bottom_nav.setOnNavigationItemSelectedListener(this)
         //item que ja esta selecionado
         bottom_nav.selectedItemId = R.id.homeFrag
@@ -27,8 +29,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val toolbar = findViewById<Toolbar>(R.id.toolbarMain)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+        val extras = intent.extras
+        if (extras != null){
+            test = extras.getString("teste")
+        }
+
+
 
     }
+
 
     //metodo que trata as opcoes da bottom navigation
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -66,11 +75,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return false
     }
-    
-
-
-
-
 
 
 }

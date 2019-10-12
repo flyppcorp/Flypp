@@ -9,6 +9,7 @@ class Constants {
         const val LAST_MESSAGE_KEY = "lastMessageKey"
         const val PROFILE_KEY = "profile"
         const val SERVICE_STATUS = "pendentes"
+        const val FILTER_KEY = "filter"
     }
 
     object COLLECTIONS {
@@ -18,6 +19,15 @@ class Constants {
         const val CONTACTS = "contacts"
         const val MY_SERVICE = "my services"
         const val CONVERSATION_COLLETION = "conversation"
+    }
+
+    object FILTERS_VALUES{
+        const val MENOR_PRECO = "menor_preco"
+        const val MAIOR_PRECO = "maior_preco"
+        const val MENOR_RELEVANCIA = "menor_relevancia"
+        const val MAIOR_RELEVANCIA = "maior_preco"
+        const val MENOS_AVALIADO = "menos_avaliado"
+        const val MAIS_AVALIADO = "mais_avaliado"
     }
 
 }

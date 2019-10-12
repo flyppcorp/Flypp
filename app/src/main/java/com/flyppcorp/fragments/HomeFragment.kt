@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
 import com.flyppcorp.atributesClass.Servicos
@@ -20,12 +21,14 @@ import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LastMessagesActivity
 import com.flyppcorp.flypp.MessageActivity
 import com.flyppcorp.flypp.ServiceActivity
+import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import kotlin.random.Random
 
 class HomeFragment : Fragment() {
 
@@ -33,8 +36,10 @@ class HomeFragment : Fragment() {
     private lateinit var mFirestoreService: FirebaseFirestore
     private lateinit var uid: String
     private lateinit var servicos: ArrayList<Servicos>
+    private lateinit var contentUidList: ArrayList<String>
     private lateinit var mAdapter: DetailRecyclerView
     private var mUser: User? = null
+    private lateinit var mSharedFilter: SharedFilter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +51,10 @@ class HomeFragment : Fragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_home, container, false)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         servicos = arrayListOf()
+        contentUidList = arrayListOf()
         mAdapter = DetailRecyclerView()
+        mSharedFilter = SharedFilter(context!!)
         view.recyclerview_main.adapter = mAdapter
-
         //decoração de borda nas celulas
         view.recyclerview_main.addItemDecoration(
             DividerItemDecoration(
@@ -64,8 +70,110 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         getUser()
-
+        fetchServices()
         return view
+    }
+
+    //funcao que obtem servicos com e sem filtro
+    private fun fetchServices() {
+        val filter = mSharedFilter.getFilter(Constants.KEY.FILTER_KEY)
+        if (filter != ""){
+            if (filter.equals(Constants.FILTERS_VALUES.MENOR_PRECO)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("preco", Query.Direction.ASCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("preco", Query.Direction.DESCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("totalServicos", Query.Direction.ASCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("totalServicos", Query.Direction.DESCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("avalicao", Query.Direction.ASCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)){
+                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .orderBy("avalicao", Query.Direction.DESCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        servicos.clear()
+                        contentUidList.clear()
+                        for (doc in snapshot!!.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
+                            contentUidList.add(doc.id)
+                        }
+                        mAdapter.notifyDataSetChanged()
+                    }
+            }
+
+        }else{
+            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                .orderBy("totalServicos", Query.Direction.ASCENDING)
+                .addSnapshotListener { snapshot, exception ->
+                    servicos.clear()
+                    contentUidList.clear()
+                    for (doc in snapshot!!.documents) {
+                        val item = doc.toObject(Servicos::class.java)
+                        servicos.add(item!!)
+                        contentUidList.add(doc.id)
+                    }
+                    mAdapter.notifyDataSetChanged()
+                }
+        }
+
+
     }
 
     private fun getUser() {
@@ -92,7 +200,7 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.filter -> Toast.makeText(context, "G", Toast.LENGTH_SHORT).show()
+            R.id.filter -> startActivity(Intent(context, FilterActivity::class.java))
 
             R.id.mensagem -> {
                 val intent = Intent(context, LastMessagesActivity::class.java)
@@ -109,24 +217,6 @@ class HomeFragment : Fragment() {
     //inicio das funcoes de recyclerview
     inner class DetailRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         // var servicos: ArrayList<Servicos> = arrayListOf()
-        var contentUidList: ArrayList<String> = arrayListOf()
-
-
-        init {
-            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .orderBy("avalicao", Query.Direction.DESCENDING)
-                .addSnapshotListener { snapshot, exception ->
-                    servicos.clear()
-                    contentUidList.clear()
-                    for (doc in snapshot!!.documents) {
-                        val item = doc.toObject(Servicos::class.java)
-                        servicos.add(item!!)
-                        contentUidList.add(doc.id)
-                    }
-                    notifyDataSetChanged()
-                }
-
-        }
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -150,23 +240,23 @@ class HomeFragment : Fragment() {
             }
             var viewholder = (holder as CustomViewHolder).itemView
 
-                viewholder.txtNomeServico.text = servicos[position].nomeService
-                if (servicos[position].urlService == null) {
-                    viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
-                } else {
-                    Picasso.get().load(servicos[position].urlService)
-                        .into(viewholder.imgServiceMain)
-                }
-                viewholder.txtNomeUser.text = servicos[position].nome
-                Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
-                viewholder.txtShortDesc.text = servicos[position].shortDesc
-                val avaliacao: Double =
-                    servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
-                if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
-                    "${servicos[position].avalicao}/5"
-                else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-                viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
-                viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
+            viewholder.txtNomeServico.text = servicos[position].nomeService
+            if (servicos[position].urlService == null) {
+                viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
+            } else {
+                Picasso.get().load(servicos[position].urlService)
+                    .into(viewholder.imgServiceMain)
+            }
+            viewholder.txtNomeUser.text = servicos[position].nome
+            Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
+            viewholder.txtShortDesc.text = servicos[position].shortDesc
+            val avaliacao: Double =
+                servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
+            if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
+                "${servicos[position].avalicao}/5"
+            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
+            viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
+            viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
 
             viewholder.btnFavorite.setOnClickListener {
                 eventFavorite(position)
