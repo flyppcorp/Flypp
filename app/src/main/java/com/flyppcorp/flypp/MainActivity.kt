@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ToolbarWidgetWrapper
 import androidx.fragment.app.Fragment
+import com.flyppcorp.Helper.SharedFilter
+import com.flyppcorp.constants.Constants
 import com.flyppcorp.fragments.*
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,10 +18,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.service_items.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-    var test : String? = null
+    private lateinit var mSharedFilter: SharedFilter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mSharedFilter = SharedFilter(this)
         //acao do bottomNav
 
         bottom_nav.setOnNavigationItemSelectedListener(this)
@@ -29,11 +32,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val toolbar = findViewById<Toolbar>(R.id.toolbarMain)
         toolbar.title = ""
         setSupportActionBar(toolbar)
-        val extras = intent.extras
-        if (extras != null){
-            test = extras.getString("teste")
-        }
-
 
 
     }

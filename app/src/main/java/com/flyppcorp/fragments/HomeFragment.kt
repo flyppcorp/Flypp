@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
     private lateinit var servicos: ArrayList<Servicos>
     private lateinit var contentUidList: ArrayList<String>
     private lateinit var mAdapter: DetailRecyclerView
-    private var mUser: User? = null
     private lateinit var mSharedFilter: SharedFilter
 
     override fun onCreateView(
@@ -69,10 +68,12 @@ class HomeFragment : Fragment() {
             intent.putExtra(Constants.KEY.SERVICE_KEY, servicos[it])
             startActivity(intent)
         }
-        getUser()
+
         fetchServices()
         return view
     }
+
+
 
     //funcao que obtem servicos com e sem filtro
     private fun fetchServices() {
@@ -174,15 +175,6 @@ class HomeFragment : Fragment() {
         }
 
 
-    }
-
-    private fun getUser() {
-        mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(FirebaseAuth.getInstance().currentUser!!.uid)
-            .get()
-            .addOnSuccessListener {
-                mUser = it.toObject(User::class.java)
-            }
     }
 
 
