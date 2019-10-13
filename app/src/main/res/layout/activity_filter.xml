@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.flyppcorp.managerServices.FilterActivity"
+    android:background="@drawable/bg_gradient">
+
+    <Button
+        android:id="@+id/btnMenorPreco"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="8dp"/>
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Menor Preço"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMenorPreco"
+        app:layout_constraintEnd_toEndOf="@+id/btnMenorPreco"
+        app:layout_constraintStart_toStartOf="@+id/btnMenorPreco" />
+
+    <Button
+        android:id="@+id/btnMaiorPreco"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rounded_bg"
+        android:elevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Maior Preço"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMaiorPreco"
+        app:layout_constraintEnd_toEndOf="@+id/btnMaiorPreco"
+        app:layout_constraintStart_toStartOf="@+id/btnMaiorPreco" />
+
+    <Button
+        android:id="@+id/btnMenorRelevancia"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_relevant"
+        android:elevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMenorPreco" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Menor Relevancia"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMenorRelevancia"
+        app:layout_constraintEnd_toEndOf="@+id/btnMenorRelevancia"
+        app:layout_constraintStart_toStartOf="@+id/btnMenorRelevancia" />
+
+    <Button
+        android:id="@+id/btnMaiorRelevancia"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rounded_relevant"
+        android:elevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMaiorPreco" />
+
+    <TextView
+        android:id="@+id/textView90"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Maior Relevância"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMaiorRelevancia"
+        app:layout_constraintEnd_toEndOf="@+id/btnMaiorRelevancia"
+        app:layout_constraintStart_toStartOf="@+id/btnMaiorRelevancia" />
+
+    <Button
+        android:id="@+id/btnMenorAvaliacao"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_low"
+        android:elevation="8dp"
+        app:layout_constraintStart_toStartOf="@+id/btnMenorRelevancia"
+        app:layout_constraintTop_toBottomOf="@+id/btnMenorRelevancia" />
+
+    <TextView
+        android:id="@+id/textView99"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Menos avaliado"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMenorAvaliacao"
+        app:layout_constraintEnd_toEndOf="@+id/btnMenorAvaliacao"
+        app:layout_constraintStart_toStartOf="@+id/btnMenorAvaliacao" />
+
+    <Button
+        android:id="@+id/btnMaisAvaliado"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_high"
+        android:elevation="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/btnMaiorRelevancia"
+        app:layout_constraintTop_toBottomOf="@+id/btnMaiorRelevancia" />
+
+    <TextView
+        android:id="@+id/textViewuysuag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Maior avaliado"
+        android:textColor="@color/textIcons"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMaisAvaliado"
+        app:layout_constraintEnd_toEndOf="@+id/btnMaisAvaliado"
+        app:layout_constraintStart_toStartOf="@+id/btnMaisAvaliado" />
+</androidx.constraintlayout.widget.ConstraintLayout>
