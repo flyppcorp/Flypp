@@ -100,6 +100,7 @@ class PendenteActivity : AppCompatActivity() {
             txtContratanteAcct.text = mMyService!!.nomeContratante
             txtContratadoAcct.text = mMyService!!.nomeContratado
             txtServicoAcct.text = mMyService!!.serviceNome
+            txtObservacao.text = mMyService?.observacao
             txtPrecoAcct.text = "R$ ${mMyService?.preco} por ${mMyService?.tipoCobranca}"
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"

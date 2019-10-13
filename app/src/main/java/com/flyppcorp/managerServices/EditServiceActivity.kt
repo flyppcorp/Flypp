@@ -13,10 +13,8 @@ import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreService
 import com.flyppcorp.flypp.R
-import com.flyppcorp.fragments.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_service.*
@@ -34,9 +32,6 @@ import kotlinx.android.synthetic.main.activity_edit_service.editService
 import kotlinx.android.synthetic.main.activity_edit_service.editTags
 import kotlinx.android.synthetic.main.activity_edit_service.imgService
 import kotlinx.android.synthetic.main.activity_edit_service.progressBar5
-import kotlinx.android.synthetic.main.activity_edit_service.spinnerDuracaoService
-import kotlinx.android.synthetic.main.activity_edit_service.spinnerEstadoService
-import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -153,9 +148,9 @@ class EditServiceActivity : AppCompatActivity() {
         mGetService?.let {
             val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
             val ref = mStorage.getReference("/ServicesImages/${timestamp}")
-            mServiceAtributes.totalavalicao = mGetService!!.totalavalicao
+            mServiceAtributes.totalAvaliacao = mGetService!!.totalAvaliacao
             mServiceAtributes.totalServicos = mGetService!!.totalServicos
-            mServiceAtributes.avalicao = mGetService!!.avalicao
+            mServiceAtributes.avaliacao = mGetService!!.avaliacao
             mServiceAtributes.favoritos = mGetService!!.favoritos
             mServiceAtributes.uid = mService?.uid
             mProfile?.let {

@@ -2,6 +2,7 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.ConfirmationCount
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +26,16 @@ class ConfirmationActivity : AppCompatActivity() {
         //botao que inicia funcao de validar email
         btnConfirm.setOnClickListener {
             mConfirmationCount.validarEmail()
+        }
+        txtSendNewEmail.setOnClickListener {
+            mAuth.currentUser!!.sendEmailVerification()
+                .addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Toast.makeText(this, "E-mail reenviado ", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "Falha ao reenviar e-mail, tente novamente ", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
     }
 

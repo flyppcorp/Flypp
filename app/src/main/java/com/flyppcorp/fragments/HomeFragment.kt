@@ -2,24 +2,17 @@ package com.flyppcorp.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.flyppcorp.flypp.R
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.SharedFilter
-import com.flyppcorp.atributesClass.LastMessage
-import com.flyppcorp.atributesClass.Message
 import com.flyppcorp.atributesClass.Servicos
-import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LastMessagesActivity
-import com.flyppcorp.flypp.MessageActivity
 import com.flyppcorp.flypp.ServiceActivity
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +21,6 @@ import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
-import kotlin.random.Random
 
 class HomeFragment : Fragment() {
 
@@ -133,7 +125,7 @@ class HomeFragment : Fragment() {
                     }
             }else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)){
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                    .orderBy("avalicao", Query.Direction.ASCENDING)
+                    .orderBy("avaliacao", Query.Direction.ASCENDING)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
@@ -146,7 +138,7 @@ class HomeFragment : Fragment() {
                     }
             }else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)){
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                    .orderBy("avalicao", Query.Direction.DESCENDING)
+                    .orderBy("avaliacao", Query.Direction.DESCENDING)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
@@ -243,9 +235,9 @@ class HomeFragment : Fragment() {
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = servicos[position].shortDesc
             val avaliacao: Double =
-                servicos[position].avalicao.toDouble() / servicos[position].totalavalicao
-            if (servicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
-                "${servicos[position].avalicao}/5"
+                servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
+            if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+                "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
             viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"

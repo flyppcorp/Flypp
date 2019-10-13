@@ -2,7 +2,6 @@ package com.flyppcorp.managerServices
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
@@ -36,8 +35,8 @@ class AvaliationActivity : AppCompatActivity() {
             val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(mMyservice!!.serviceId!!)
             mfirestore.runTransaction {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
-                content!!.avalicao = content.avalicao + editNota.text.toString().toInt()
-                content.totalavalicao = content.totalavalicao + 1
+                content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
+                content.totalAvaliacao = content.totalAvaliacao + 1
                 it.set(tsDoc, content)
             }
             val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice!!.documentId!!)

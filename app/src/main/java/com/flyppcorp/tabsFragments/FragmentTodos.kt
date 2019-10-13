@@ -18,11 +18,7 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_fragment_todos.view.*
-import kotlinx.android.synthetic.main.service_items.*
 import kotlinx.android.synthetic.main.service_items.view.*
 
 
@@ -101,8 +97,8 @@ class FragmentTodos : Fragment() {
             else vh.imgProfileImgMain.setCircleBackgroundColorResource(R.color.colorAccent)
             vh.txtNomeUser.text = contentService[position].nome
             vh.txtShortDesc.text = contentService[position].shortDesc
-            val avaliacao : Double = contentService[position].avalicao.toDouble()/contentService[position].totalavalicao
-            if (contentService[position].avalicao == 0) vh.txtAvaliacao.text = "0/5"
+            val avaliacao : Double = contentService[position].avaliacao.toDouble()/contentService[position].totalAvaliacao
+            if (contentService[position].avaliacao == 0) vh.txtAvaliacao.text = "0/5"
             else vh.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
 
             vh.txtPreco.text = "R$ ${contentService[position].preco}"

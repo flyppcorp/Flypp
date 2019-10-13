@@ -38,7 +38,8 @@ class AndamentoActivity : AppCompatActivity() {
     }
 
     private fun handleFinalizar() {
-        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice!!.documentId!!)
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+            .document(mMyservice!!.documentId!!)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(Myservice::class.java)
             content?.andamento = false
@@ -47,14 +48,15 @@ class AndamentoActivity : AppCompatActivity() {
             it.set(tsDoc, content!!)
 
         }
-        val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(mMyservice!!.serviceId!!)
+        val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+            .document(mMyservice!!.serviceId!!)
         mFirestore.runTransaction {
             val contentService = it.get(tsServiceDoc).toObject(Servicos::class.java)
 
-            contentService?.totalServicos  = contentService?.totalServicos!!.toInt() + 1
+            contentService?.totalServicos = contentService?.totalServicos!!.toInt() + 1
             it.set(tsServiceDoc, contentService)
         }
-        if (mMyservice!!.idContratante == mAuth.currentUser!!.uid){
+        if (mMyservice!!.idContratante == mAuth.currentUser!!.uid) {
             val intent = Intent(this, AvaliationActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
             startActivity(intent)
@@ -68,7 +70,7 @@ class AndamentoActivity : AppCompatActivity() {
         val mAlert = AlertDialog.Builder(this)
         mAlert.setTitle("Você tem certeza disso?")
         if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
-            mAlert.setPositiveButton("Sim"){dialog: DialogInterface?, which: Int ->
+            mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
                 mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                     .document(mMyservice!!.documentId!!)
                     .delete()
@@ -82,9 +84,9 @@ class AndamentoActivity : AppCompatActivity() {
                         ).show()
                     }
             }
-            mAlert.setNegativeButton("Não"){dialog: DialogInterface?, which: Int ->  }
+            mAlert.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
             mAlert.show()
-        }else{
+        } else {
             finish()
         }
 
@@ -114,6 +116,7 @@ class AndamentoActivity : AppCompatActivity() {
             txtContratadoAndamentoAcct.text = mMyservice!!.nomeContratado
             txtContratanteAndamentoAcct.text = mMyservice!!.nomeContratante
             txtServiceAndamentoAcct.text = mMyservice!!.serviceNome
+            txtObservacaoAndamento.text = mMyservice?.observacao
             txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco} por ${mMyservice?.tipoCobranca}"
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"

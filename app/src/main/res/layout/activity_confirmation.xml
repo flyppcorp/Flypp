@@ -52,5 +52,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Não recebeu o e-mail ? Clique abaixo para reenviar"
+        android:textColor="@color/colorAccent"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@+id/txtMessageConfirm"
+        app:layout_constraintStart_toStartOf="@+id/txtMessageConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessageConfirm" />
+
+    <TextView
+        android:id="@+id/txtSendNewEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Reenviar e-mail"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView36"
+        app:layout_constraintStart_toStartOf="@+id/textView36"
+        app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

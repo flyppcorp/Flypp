@@ -128,13 +128,15 @@
         android:id="@+id/textView35"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Endereço:"
         android:textColor="@color/primaryText"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/txtPrecoFinalizadoAcct"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtPrecoFinalizadoAcct"
-        app:layout_constraintTop_toBottomOf="@+id/txtPrecoFinalizadoAcct" />
+        app:layout_constraintTop_toBottomOf="@+id/txtObservacaoFinalizado" />
 
     <TextView
         android:id="@+id/txtEnderecoFinalizadoAcct"
@@ -143,4 +145,25 @@
         app:layout_constraintEnd_toEndOf="@+id/textView35"
         app:layout_constraintStart_toStartOf="@+id/textView35"
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/observa_o"
+        android:textColor="@color/primaryText"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txtPrecoFinalizadoAcct"
+        app:layout_constraintStart_toStartOf="@+id/txtPrecoFinalizadoAcct"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrecoFinalizadoAcct" />
+
+    <TextView
+        android:id="@+id/txtObservacaoFinalizado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/textView39"
+        app:layout_constraintStart_toStartOf="@+id/textView39"
+        app:layout_constraintTop_toBottomOf="@+id/textView39" />
 </androidx.constraintlayout.widget.ConstraintLayout>

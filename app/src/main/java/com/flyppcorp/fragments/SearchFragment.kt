@@ -1,24 +1,15 @@
 package com.flyppcorp.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.MainActivity
 import com.flyppcorp.flypp.R
 import com.flyppcorp.flypp.ServiceActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +18,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
-import java.lang.Exception
 
 class SearchFragment : Fragment() {
 
@@ -130,9 +120,9 @@ class SearchFragment : Fragment() {
             Picasso.get().load(contentServicesearch[position].urlProfile)
                 .into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = contentServicesearch[position].shortDesc
-            val avaliacao : Double = contentServicesearch[position].avalicao.toDouble()/contentServicesearch[position].totalavalicao
-            if (contentServicesearch[position].avalicao == 0) viewholder.txtAvaliacao.text =
-                "${contentServicesearch[position].avalicao}/5"
+            val avaliacao : Double = contentServicesearch[position].avaliacao.toDouble()/contentServicesearch[position].totalAvaliacao
+            if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+                "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${contentServicesearch[position].preco}"
             viewholder.txtduracao.text = "Por ${contentServicesearch[position].tipoCobranca}"

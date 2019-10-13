@@ -156,7 +156,32 @@
                 android:id="@+id/textView22"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Endereço solicitado:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoAcct"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txtPrecoAcct"
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacao" />
+
+            <TextView
+                android:id="@+id/txtEnderecoAcct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView22"
+                app:layout_constraintStart_toStartOf="@+id/textView22"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/observa_o"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -165,12 +190,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtPrecoAcct" />
 
             <TextView
-                android:id="@+id/txtEnderecoAcct"
+                android:id="@+id/txtObservacao"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView22"
-                app:layout_constraintStart_toStartOf="@+id/textView22"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintEnd_toEndOf="@+id/textView38"
+                app:layout_constraintStart_toStartOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

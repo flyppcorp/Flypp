@@ -101,9 +101,9 @@ class FavFragment : Fragment() {
             Picasso.get().load(contentServicos[position].urlProfile)
                 .into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = contentServicos[position].shortDesc
-            val avaliacao : Double = contentServicos[position].avalicao.toDouble()/contentServicos[position].totalavalicao
-            if (contentServicos[position].avalicao == 0) viewholder.txtAvaliacao.text =
-                "${contentServicos[position].avalicao}/5"
+            val avaliacao : Double = contentServicos[position].avaliacao.toDouble()/contentServicos[position].totalAvaliacao
+            if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+                "${contentServicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text = "R$ ${contentServicos[position].preco}"
             viewholder.txtduracao.text = "Por ${contentServicos[position].tipoCobranca}"

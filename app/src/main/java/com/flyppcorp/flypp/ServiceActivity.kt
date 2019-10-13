@@ -4,12 +4,9 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
@@ -158,8 +155,8 @@ class ServiceActivity : AppCompatActivity() {
                         txtQtdServices.text = "${service.totalServicos} serviços finalizados"
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
-                        val avaliacao: Double = service.avalicao.toDouble() / service.totalavalicao
-                        if (service.avalicao == 0) txtAvaliacao.text = "Avaliado em ${service.avalicao}/5 segundo os usuários "
+                        val avaliacao: Double = service.avaliacao.toDouble() / service.totalAvaliacao
+                        if (service.avaliacao == 0) txtAvaliacao.text = "Avaliado em ${service.avaliacao}/5 segundo os usuários "
                         else txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(0, 1)}/5 segundo os usuários "
 
 

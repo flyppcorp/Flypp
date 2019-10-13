@@ -50,11 +50,11 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         txtTituloServicesView.text = serviceItem.nomeService
                         txtDescShortView.text = serviceItem.shortDesc
                         val avaliacao: Double =
-                            serviceItem.avalicao.toDouble() / serviceItem.totalavalicao
+                            serviceItem.avaliacao.toDouble() / serviceItem.totalAvaliacao
                         txtAvaliacaoView.text = "Avaliado em ${avaliacao.toString().substring(
                             0,
                             3
-                        )}/5 segundo ${serviceItem.totalavalicao} usuários"
+                        )}/5 segundo ${serviceItem.totalAvaliacao} usuários"
                         txtPrecoView.text =
                             "R$ ${serviceItem.preco} por ${serviceItem.tipoCobranca}"
                         txtDetailDescView.text = serviceItem.longDesc

@@ -92,6 +92,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.pendente = true
             mMyservice.finalizado = false
             mMyservice.andamento = false
+            mMyservice.observacao = editObservacao.text.toString()
 
             val documentId = UUID.randomUUID().toString() + it.uid
             mMyservice.documentId = documentId
