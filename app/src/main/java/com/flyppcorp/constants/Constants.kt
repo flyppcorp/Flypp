@@ -6,7 +6,6 @@ class Constants {
         const val REQUEST_CODE = 1
         const val SERVICE_KEY = "serviceKey"
         const val MESSAGE_KEY = "messageKey"
-        const val LAST_MESSAGE_KEY = "lastMessageKey"
         const val PROFILE_KEY = "profile"
         const val SERVICE_STATUS = "pendentes"
         const val FILTER_KEY = "filter"
@@ -19,6 +18,7 @@ class Constants {
         const val CONTACTS = "contacts"
         const val MY_SERVICE = "my services"
         const val CONVERSATION_COLLETION = "conversation"
+        const val NOTIFICATION = "notifications"
     }
 
     object FILTERS_VALUES{

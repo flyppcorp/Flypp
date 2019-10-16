@@ -2,10 +2,7 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.flyppcorp.atributesClass.LastMessage
-import com.flyppcorp.atributesClass.Message
-import com.flyppcorp.atributesClass.Servicos
-import com.flyppcorp.atributesClass.User
+import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
@@ -26,6 +23,7 @@ class MessageActivity : AppCompatActivity() {
     private var mUser: Servicos? = null
     private var mMe: User? = null
     private lateinit var mMessage: Message
+    private var mUserMessage: User? = null
     private lateinit var mAdapter: GroupAdapter<ViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,49 +98,73 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun handleSend() {
-        val message = editMessage.text.toString()
-        mMessage.toId = mUser!!.uid
-        mMessage.fromId = mAuth.currentUser!!.uid
-        mMessage.timestamp = System.currentTimeMillis()
-        mMessage.text = message
-        editMessage.setText("")
-
-        mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mUser!!.uid!!)
-            .collection(mAuth.currentUser!!.uid)
-            .add(mMessage)
+            .get()
             .addOnSuccessListener {
-                val mLastMessage : LastMessage = LastMessage()
-                mLastMessage.lastMessage = message
-                mLastMessage.name = mUser?.nome
-                mLastMessage.url = mUser?.urlProfile
-                mLastMessage.toId = mUser?.uid
-                mLastMessage.timestamp = System.currentTimeMillis()
+                mUserMessage = it.toObject(User::class.java)
 
-                mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                    .document(mAuth.currentUser!!.uid)
-                    .collection(Constants.COLLECTIONS.CONTACTS)
+                val message = editMessage.text.toString()
+                mMessage.toId = mUser!!.uid
+                mMessage.fromId = mAuth.currentUser!!.uid
+                mMessage.timestamp = System.currentTimeMillis()
+                mMessage.text = message
+                editMessage.setText("")
+
+                mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                     .document(mUser!!.uid!!)
-                    .set(mLastMessage)
+                    .collection(mAuth.currentUser!!.uid)
+                    .add(mMessage)
+                    .addOnSuccessListener {
+                        val mLastMessage = LastMessage()
+                        mLastMessage.lastMessage = message
+                        mLastMessage.name = mUser?.nome
+                        mLastMessage.url = mUser?.urlProfile
+                        mLastMessage.toId = mUser?.uid
+                        mLastMessage.timestamp = System.currentTimeMillis()
+
+                        mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                            .document(mAuth.currentUser!!.uid)
+                            .collection(Constants.COLLECTIONS.CONTACTS)
+                            .document(mUser!!.uid!!)
+                            .set(mLastMessage)
+                    }
+
+                mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+                    .document(mAuth.currentUser!!.uid)
+                    .collection(mUser!!.uid!!)
+                    .add(mMessage)
+                    .addOnSuccessListener {
+                        val mLastMessage = LastMessage()
+                        mLastMessage.lastMessage = message
+                        mLastMessage.name = mMe?.nome
+                        mLastMessage.url = mMe?.url
+                        mLastMessage.toId = mMe?.uid
+                        mLastMessage.timestamp = System.currentTimeMillis()
+
+                        mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                            .document(mUser!!.uid!!)
+                            .collection(Constants.COLLECTIONS.CONTACTS)
+                            .document(mAuth.currentUser!!.uid)
+                            .set(mLastMessage)
+
+                        if (!mUserMessage!!.online){
+                            val notificationMessage = NotificationMessage()
+                            notificationMessage.fromId = mAuth.currentUser!!.uid
+                            notificationMessage.fromName = mMe?.nome
+                            notificationMessage.timestamp = System.currentTimeMillis()
+                            notificationMessage.text = message
+                            notificationMessage.toId = mUserMessage!!.uid
+
+                            mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION)
+                                .document(mUserMessage!!.token!!)
+                                .set(notificationMessage)
+
+                        }
+
+
+                    }
             }
 
-        mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-            .document(mAuth.currentUser!!.uid)
-            .collection(mUser!!.uid!!)
-            .add(mMessage)
-            .addOnSuccessListener {
-                val mLastMessage : LastMessage = LastMessage()
-                mLastMessage.lastMessage = message
-                mLastMessage.name = mMe?.nome
-                mLastMessage.url = mMe?.url
-                mLastMessage.toId = mMe?.uid
-                mLastMessage.timestamp = System.currentTimeMillis()
-
-                mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                    .document(mUser!!.uid!!)
-                    .collection(Constants.COLLECTIONS.CONTACTS)
-                    .document(mAuth.currentUser!!.uid)
-                    .set(mLastMessage)
-            }
     }
 }

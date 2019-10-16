@@ -19,63 +19,82 @@ data class User(
     var url: String? = null,
     var ddd: String? = null,
     var telefone: String? = null,
-    var email: String? = null
-): Endereco(), Parcelable
+    var email: String? = null,
+    var online: Boolean = false,
+    var token: String? = null
+) : Endereco(), Parcelable
 
 @Parcelize
-data class Servicos(var nome: String? = null,
-                    var uid: String? = null,
-                    var urlProfile: String? = null,
-                    var urlService: String? = null,
-                    var ddd: String? = null,
-                    var telefone: String? = null,
-                    var email: String? = null,
-                    var serviceId: String? = null,
-                    var nomeService: String? = null,
-                    var shortDesc: String? = null,
-                    var longDesc: String? = null,
-                    var preco: String? = null,
-                    var tipoCobranca: String? = null,
-                    var qualidadesDiferenciais: String? = null,
-                    var avaliacao : Int = 0,
-                    var totalAvaliacao : Int = 0,
-                    var totalServicos: Int = 0,
-                    var favoritos: MutableMap<String, Boolean> = HashMap(),
-                    var tags: MutableMap<String, Boolean> = HashMap(),
-                    var tagsStr: String? = null
-                    ): Endereco (), Parcelable
+data class Servicos(
+    var nome: String? = null,
+    var uid: String? = null,
+    var urlProfile: String? = null,
+    var urlService: String? = null,
+    var ddd: String? = null,
+    var telefone: String? = null,
+    var email: String? = null,
+    var serviceId: String? = null,
+    var nomeService: String? = null,
+    var shortDesc: String? = null,
+    var longDesc: String? = null,
+    var preco: String? = null,
+    var tipoCobranca: String? = null,
+    var qualidadesDiferenciais: String? = null,
+    var avaliacao: Int = 0,
+    var totalAvaliacao: Int = 0,
+    var totalServicos: Int = 0,
+    var favoritos: MutableMap<String, Boolean> = HashMap(),
+    var tags: MutableMap<String, Boolean> = HashMap(),
+    var tagsStr: String? = null
+) : Endereco(), Parcelable
 
 @Parcelize
-data class Message(var text : String? = null,
-                   var toId: String? = null,
-                   var fromId : String? = null,
-                   var timestamp: Long=0) : Parcelable
+data class Message(
+    var text: String? = null,
+    var toId: String? = null,
+    var fromId: String? = null,
+    var timestamp: Long = 0
+) : Parcelable
+
 
 @Parcelize
-data class LastMessage (var name: String? = null,
-                        var url: String? = null,
-                        var lastMessage: String? = null,
-                        var toId: String? = null,
-                        var timestamp: Long = 0) : Parcelable
+data class LastMessage(
+    var name: String? = null,
+    var url: String? = null,
+    var lastMessage: String? = null,
+    var toId: String? = null,
+    var timestamp: Long = 0
+) : Parcelable
 
 @Parcelize
-data class Myservice(var idContratante: String? = null,
-                     var idContratado: String? = null,
-                     var id : MutableMap<String, Boolean> = HashMap(),
-                     var timestamp: Long = 0,
-                     var serviceId: String? = null,
-                     var serviceNome: String? = null,
-                     var urlService: String? = null,
-                     var urlContratante: String? = null,
-                     var urlContratado: String? = null,
-                     var preco: String? = null,
-                     var tipoCobranca: String? = null,
-                     var nomeContratado: String? = null,
-                     var nomeContratante: String? = null,
-                     var documentId : String? = null,
-                     var shortDesc: String? = null,
-                     var observacao : String? = null,
-                     var idAvaliador: MutableMap<String, Boolean> = HashMap(),
-                     var pendente: Boolean = false,
-                     var andamento: Boolean = false,
-                     var finalizado: Boolean = false) : Endereco(), Parcelable
+data class NotificationMessage(
+    var text: String? = null,
+    var toId: String? = null,
+    var fromId: String? = null,
+    var timestamp: Long = 0,
+    var fromName: String? = null
+) : Parcelable
+
+@Parcelize
+data class Myservice(
+    var idContratante: String? = null,
+    var idContratado: String? = null,
+    var id: MutableMap<String, Boolean> = HashMap(),
+    var timestamp: Long = 0,
+    var serviceId: String? = null,
+    var serviceNome: String? = null,
+    var urlService: String? = null,
+    var urlContratante: String? = null,
+    var urlContratado: String? = null,
+    var preco: String? = null,
+    var tipoCobranca: String? = null,
+    var nomeContratado: String? = null,
+    var nomeContratante: String? = null,
+    var documentId: String? = null,
+    var shortDesc: String? = null,
+    var observacao: String? = null,
+    var idAvaliador: MutableMap<String, Boolean> = HashMap(),
+    var pendente: Boolean = false,
+    var andamento: Boolean = false,
+    var finalizado: Boolean = false
+) : Endereco(), Parcelable

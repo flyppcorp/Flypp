@@ -87,6 +87,7 @@ class ContaFragment : Fragment() {
         mFs.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .whereEqualTo("uid", mAuth.currentUser!!.uid)
             .addSnapshotListener { snapshot, exception ->
+                mAdapter.clear()
                 snapshot?.let {
                     for (doc in snapshot){
                         val user = doc.toObject(User::class.java)
