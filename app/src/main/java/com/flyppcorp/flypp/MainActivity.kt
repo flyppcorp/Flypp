@@ -2,6 +2,7 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -47,11 +48,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun getToken() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        val token = FirebaseInstanceId.getInstance().token
         if (uid != null){
-            FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .update("token", token)
+           FirebaseInstanceId.getInstance().instanceId
+               .addOnCompleteListener {
+                   if (!it.isSuccessful){
+                       Log.i("TOKEN", it.exception.toString())
+                   }
+
+                   val token = it.result?.token
+                   FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
+                       .document(uid)
+                       .update("token", token)
+
+                   Log.i("TOKEN", token)
+
+               }
         }
     }
 
