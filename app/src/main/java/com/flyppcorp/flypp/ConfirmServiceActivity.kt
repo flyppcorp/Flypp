@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.flyppcorp.atributesClass.Myservice
-import com.flyppcorp.atributesClass.NotificationService
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -28,7 +27,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var mUser: User? = null
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mMyservice: Myservice
-    private var user : User? = null
+    private var user: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_service)
@@ -42,7 +41,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //handleConfirm()
             progressBar.visibility = View.VISIBLE
             getToSave()
-            if (!validateConection()){
+            if (!validateConection()) {
                 return@setOnClickListener
             }
         }
@@ -58,7 +57,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             }
 
     }
-    fun getToSave(){
+
+    fun getToSave() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser!!.uid)
             .get()
@@ -90,32 +90,16 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.cidade = it.cidade
             mMyservice.bairro = it.bairro
             mMyservice.rua = it.rua
-            mMyservice.numero= it.numero
+            mMyservice.numero = it.numero
             mMyservice.pendente = true
             mMyservice.finalizado = false
             mMyservice.andamento = false
             mMyservice.observacao = editObservacao.text.toString()
 
             val documentId = UUID.randomUUID().toString() + it.uid
-            mMyservice.documentId = documentId
-            mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(mServices!!.uid!!)
-                .get()
-                .addOnSuccessListener { data ->
-                    user = data.toObject(User::class.java)
-                    val mNotificationsServices = NotificationService()
-                    val token = user!!.token
-                    mNotificationsServices.fromName = it.nome
-                    mNotificationsServices.serviceId = mServices!!.serviceId
-                    mNotificationsServices.text = "${it.nome} Solicitou um novo serviço"
 
-
-
-                    mFirestoreContract.confirmServiceContract(mMyservice, documentId,token!!, mNotificationsServices )
-                    if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
-                }
-
-
+            mFirestoreContract.confirmServiceContract(mMyservice, documentId)
+            if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
 
 
         }
@@ -126,19 +110,21 @@ class ConfirmServiceActivity : AppCompatActivity() {
             nomeContratante.text = it.nome
             txtServicoContratar.text = mServices?.nomeService
             txtPrecoContratante.text = "R$ ${mServices?.preco} por  ${mServices?.tipoCobranca}"
-            txtEnderecoContratante.text = "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
+            txtEnderecoContratante.text =
+                "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
 
         }
     }
 
-    private fun validateConection(): Boolean{
+    private fun validateConection(): Boolean {
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo
-        if (networkInfo != null && networkInfo.isConnected){
+        if (networkInfo != null && networkInfo.isConnected) {
             return true
-        }else{
+        } else {
             progressBar.visibility = View.GONE
-            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
 

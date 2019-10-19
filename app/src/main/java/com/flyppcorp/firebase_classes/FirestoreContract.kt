@@ -5,7 +5,6 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.Myservice
-import com.flyppcorp.atributesClass.NotificationService
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,15 +16,11 @@ class FirestoreContract (var context: Context) {
 
 
 
-    fun confirmServiceContract(myservice: Myservice, documentId: String, token: String, notificationService: NotificationService){
+    fun confirmServiceContract(myservice: Myservice, documentId: String){
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
             .document(documentId)
             .set(myservice)
             .addOnSuccessListener {
-
-                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-                    .document(token)
-                    .set(notificationService)
                 mProgress
                 val intent = Intent(context, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

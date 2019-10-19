@@ -22,7 +22,7 @@ import com.google.firebase.messaging.RemoteMessage
 class FCMServiceMessage : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-     val data : Map<String, String> = remoteMessage.data
+        val data : Map<String, String> = remoteMessage.data
         if (data == null || data.get("sender") == null) return
 
         val intent  = Intent(this, MessageActivity::class.java)

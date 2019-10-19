@@ -156,7 +156,6 @@ class EditServiceActivity : AppCompatActivity() {
             mProfile?.let {
                 mServiceAtributes.urlProfile = it.url
                 mServiceAtributes.nome = it.nome
-                mServiceAtributes.token = it.token
                 mServiceAtributes.ddd = it.ddd
                 mServiceAtributes.telefone = it.telefone
             }
