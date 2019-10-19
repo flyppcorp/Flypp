@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.flyppcorp.atributesClass.Myservice
+import com.flyppcorp.atributesClass.NotificationService
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -27,6 +28,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var mUser: User? = null
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mMyservice: Myservice
+    private var user : User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_service)
@@ -96,8 +98,23 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
             val documentId = UUID.randomUUID().toString() + it.uid
             mMyservice.documentId = documentId
-            mFirestoreContract.confirmServiceContract(mMyservice, documentId)
-            if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
+            mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(mServices!!.uid!!)
+                .get()
+                .addOnSuccessListener { data ->
+                    user = data.toObject(User::class.java)
+                    val mNotificationsServices = NotificationService()
+                    val token = user!!.token
+                    mNotificationsServices.fromName = it.nome
+                    mNotificationsServices.serviceId = mServices!!.serviceId
+                    mNotificationsServices.text = "${it.nome} Solicitou um novo serviço"
+
+
+
+                    mFirestoreContract.confirmServiceContract(mMyservice, documentId,token!!, mNotificationsServices )
+                    if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
+                }
+
 
 
 

@@ -156,8 +156,11 @@ class EditServiceActivity : AppCompatActivity() {
             mProfile?.let {
                 mServiceAtributes.urlProfile = it.url
                 mServiceAtributes.nome = it.nome
+                mServiceAtributes.token = it.token
+                mServiceAtributes.ddd = it.ddd
+                mServiceAtributes.telefone = it.telefone
             }
-            mServiceAtributes.telefone = mService?.telefone
+
             mServiceAtributes.nomeService = editService.text.toString()
             mServiceAtributes.shortDesc = editDescCurta.text.toString()
             mServiceAtributes.longDesc = editDescDetalhada.text.toString()

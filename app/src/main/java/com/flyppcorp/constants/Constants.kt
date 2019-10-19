@@ -19,6 +19,7 @@ class Constants {
         const val MY_SERVICE = "my services"
         const val CONVERSATION_COLLETION = "conversation"
         const val NOTIFICATION = "notifications"
+        const val NOTIFICATION_SERVICE = "notificationsServices"
     }
 
     object FILTERS_VALUES{

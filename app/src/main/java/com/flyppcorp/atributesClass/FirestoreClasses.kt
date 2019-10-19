@@ -29,6 +29,7 @@ data class Servicos(
     var nome: String? = null,
     var uid: String? = null,
     var urlProfile: String? = null,
+    var token: String? = null,
     var urlService: String? = null,
     var ddd: String? = null,
     var telefone: String? = null,
@@ -76,6 +77,12 @@ data class NotificationMessage(
 ) : Parcelable
 
 @Parcelize
+data class NotificationService(var text: String? = null,
+                               var serviceId: String? = null,
+                               var fromName: String? = null
+                              ):Parcelable
+
+@Parcelize
 data class Myservice(
     var idContratante: String? = null,
     var idContratado: String? = null,
@@ -98,3 +105,6 @@ data class Myservice(
     var andamento: Boolean = false,
     var finalizado: Boolean = false
 ) : Endereco(), Parcelable
+
+
+data class Payload(var service: String)
