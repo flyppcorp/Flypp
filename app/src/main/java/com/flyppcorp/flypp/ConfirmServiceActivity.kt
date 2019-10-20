@@ -95,8 +95,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.finalizado = false
             mMyservice.andamento = false
             mMyservice.observacao = editObservacao.text.toString()
-
             val documentId = UUID.randomUUID().toString() + it.uid
+            mMyservice.documentId = documentId
 
             mFirestoreContract.confirmServiceContract(mMyservice, documentId)
             if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
