@@ -29,15 +29,6 @@
         <activity android:name=".ManagerServicesActivity" />
         <activity android:name=".ConfirmServiceActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".LastMessagesActivity" />
-        <activity
-            android:name=".MessageActivity"
-            android:theme="@style/AppThemeToolbar"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
         <activity android:name=".ServiceActivity" />
         <activity android:name=".CreateProfileActivity" />
         <activity android:name=".ResetPasswordActivity" />
@@ -54,12 +45,6 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
-
-        <service android:name="com.flyppcorp.cloudMessage.FCMServiceMessage">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
     </application>
 

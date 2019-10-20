@@ -80,9 +80,7 @@ class ServiceActivity : AppCompatActivity() {
                         }
                     }
             }
-            R.id.id_send_message -> {
-                handleMessage()
-            }
+
 
         }
 
@@ -123,22 +121,7 @@ class ServiceActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleMessage() {
-        if (mService?.uid == mAuth.currentUser?.uid) {
-            val mAlert = AlertDialog.Builder(this)
-            mAlert.setMessage(
-                "Hey, nós sabemos que as vezes bate aquela vontade de conversar com a gente mesmo" +
-                        " mas infelizmente você não pode fazer isso"
-            )
-            mAlert.setPositiveButton("OK", { dialogInterface: DialogInterface, i: Int -> })
-            mAlert.show()
-        } else {
-            val intent = Intent(this, MessageActivity::class.java)
-            intent.putExtra(Constants.KEY.MESSAGE_KEY, mService)
-            startActivity(intent)
-        }
 
-    }
 
     fun getService() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)

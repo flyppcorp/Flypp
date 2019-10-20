@@ -9,18 +9,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class LifeCyclerApplication : Application(), Application.ActivityLifecycleCallbacks {
 
-    private fun setOnline(enabled: Boolean) {
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        if (uid != null) {
-            FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .update("online", enabled)
-        }
 
-    }
 
     override fun onActivityPaused(activity: Activity) {
-        setOnline(false)
+
     }
 
     override fun onActivityStarted(activity: Activity) {
@@ -44,6 +36,6 @@ class LifeCyclerApplication : Application(), Application.ActivityLifecycleCallba
     }
 
     override fun onActivityResumed(activity: Activity) {
-        setOnline(true)
+
     }
 }

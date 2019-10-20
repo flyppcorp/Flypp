@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.LastMessagesActivity
 import com.flyppcorp.flypp.ServiceActivity
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -185,14 +184,6 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter -> startActivity(Intent(context, FilterActivity::class.java))
-
-            R.id.mensagem -> {
-                val intent = Intent(context, LastMessagesActivity::class.java)
-                startActivity(intent)
-
-
-            }
-
         }
         return super.onOptionsItemSelected(item)
     }
