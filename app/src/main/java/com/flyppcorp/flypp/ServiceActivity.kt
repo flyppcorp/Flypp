@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,17 +18,22 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_service.*
 
 class ServiceActivity : AppCompatActivity() {
+    //mServices pega p parcelable da outra activity
+    //mFavorito recupera do banco
 
     private lateinit var mFirestore: FirebaseFirestore
     private var mService: Servicos? = null
     private var mFavorito: Servicos? = null
+    private var getMessageAtributes: Servicos? = null
+    private lateinit var mUser: User
     private lateinit var mAuth: FirebaseAuth
-    var menuFAv : MenuItem? = null
+    var menuFAv: MenuItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
+        mUser = User()
         mService = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
         getService()
 
@@ -52,8 +59,8 @@ class ServiceActivity : AppCompatActivity() {
 
     private fun getIconResult() {
         mFavorito?.let {
-            if (it.favoritos.containsKey(mAuth.currentUser!!.uid)){
-                menuFAv?.setIcon( R.drawable.ic_favorite_white)
+            if (it.favoritos.containsKey(mAuth.currentUser!!.uid)) {
+                menuFAv?.setIcon(R.drawable.ic_favorite_white)
             }
         }
     }
@@ -75,16 +82,48 @@ class ServiceActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         mFavorito = it.toObject(Servicos::class.java)
                         mFavorito?.let {
-                            if (!it.favoritos.containsKey(mAuth.currentUser!!.uid)) menuFAv?.setIcon(R.drawable.ic_favorite_white)
+                            if (!it.favoritos.containsKey(mAuth.currentUser!!.uid)) menuFAv?.setIcon(
+                                R.drawable.ic_favorite_white
+                            )
                             else menuFAv?.setIcon(R.drawable.ic_favorite_border_white)
                         }
                     }
             }
 
+            R.id.id_send_message -> {
+                val uid = mAuth.currentUser!!.uid
+                if (uid != mService!!.uid){
+                    handleMessage()
+                }else{
+                    val mAlert = AlertDialog.Builder(this)
+                    mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
+                    mAlert.setPositiveButton("Ok", {dialog, which ->  })
+                    mAlert.show()
+                }
+
+            }
 
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun handleMessage() {
+          mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+              .document(mService!!.serviceId!!)
+              .get()
+              .addOnSuccessListener {
+                  getMessageAtributes = it.toObject(Servicos::class.java)
+                  mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                      .document(getMessageAtributes!!.uid!!)
+                      .get()
+                      .addOnSuccessListener {
+                          mUser = it.toObject(User::class.java)!!
+                          val intent = Intent(this, MessageActivity::class.java)
+                          intent.putExtra(Constants.KEY.MESSAGE_KEY, mUser)
+                          startActivity(intent)
+                      }
+              }
     }
 
     private fun handleFavorite() {
@@ -122,7 +161,6 @@ class ServiceActivity : AppCompatActivity() {
     }
 
 
-
     fun getService() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .whereEqualTo("serviceId", mService?.serviceId)
@@ -138,9 +176,14 @@ class ServiceActivity : AppCompatActivity() {
                         txtQtdServices.text = "${service.totalServicos} serviços finalizados"
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
-                        val avaliacao: Double = service.avaliacao.toDouble() / service.totalAvaliacao
-                        if (service.avaliacao == 0) txtAvaliacao.text = "Avaliado em ${service.avaliacao}/5 segundo os usuários "
-                        else txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(0, 1)}/5 segundo os usuários "
+                        val avaliacao: Double =
+                            service.avaliacao.toDouble() / service.totalAvaliacao
+                        if (service.avaliacao == 0) txtAvaliacao.text =
+                            "Avaliado em ${service.avaliacao}/5 segundo os usuários "
+                        else txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(
+                            0,
+                            1
+                        )}/5 segundo os usuários "
 
 
                         txtPreco.text = "R$ ${service.preco} por ${service.tipoCobranca}"
