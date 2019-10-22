@@ -6,12 +6,15 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.flyppcorp.flypp.R
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.SharedFilter
+import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.LastMessages
 import com.flyppcorp.flypp.ServiceActivity
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -184,6 +187,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter -> startActivity(Intent(context, FilterActivity::class.java))
+            R.id.mensagem -> startActivity(Intent(context, LastMessages::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
