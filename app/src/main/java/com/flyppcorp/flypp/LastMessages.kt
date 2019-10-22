@@ -3,7 +3,7 @@ package com.flyppcorp.flypp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.User
