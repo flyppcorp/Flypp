@@ -68,11 +68,11 @@ data class LastMessage(
 
 @Parcelize
 data class NotificationMessage(
-    var text: String? = null,
+    var fromName: String? = null,
     var toId: String? = null,
+    var text: String? = null,
     var fromId: String? = null,
-    var timestamp: Long = 0,
-    var fromName: String? = null
+    var timestamp: Long = 0
 ) : Parcelable
 
 @Parcelize

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
+import com.flyppcorp.atributesClass.NotificationMessage
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -146,6 +147,20 @@ class MessageActivity : AppCompatActivity() {
                         .collection(Constants.COLLECTIONS.CONTACTS)
                         .document(toId)
                         .set(mLastMessage)
+
+                            if (!mUser!!.online){
+                                val notificationMessage = NotificationMessage()
+                                notificationMessage.text = txtMessage
+                                notificationMessage.timestamp = timestamp
+                                notificationMessage.fromName = mMeUser?.nome
+                                notificationMessage.fromId = mMeUser!!.uid
+                                notificationMessage.toId = mUser!!.uid
+
+                                mFirestoreMessage.collection(Constants.COLLECTIONS.NOTIFICATION)
+                                    .document(mUser!!.token!!)
+                                    .set(notificationMessage)
+
+                        }
                 }
 
             mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)

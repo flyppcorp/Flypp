@@ -48,11 +48,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun getToken() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        val token = FirebaseInstanceId.getInstance().token
+        //val token = FirebaseInstanceId.getInstance().token
         if (uid != null){
-            FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .update("token", token)
+           FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+               if (!it.isSuccessful) return@addOnCompleteListener
+               val token = it.result?.token
+               FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
+                   .document(uid)
+                   .update("token", token)
+           }
         }
     }
 
