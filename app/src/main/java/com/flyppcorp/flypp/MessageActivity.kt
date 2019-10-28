@@ -148,19 +148,6 @@ class MessageActivity : AppCompatActivity() {
                         .document(toId)
                         .set(mLastMessage)
 
-                            if (!mUser!!.online){
-                                val notificationMessage = NotificationMessage()
-                                notificationMessage.text = txtMessage
-                                notificationMessage.timestamp = timestamp
-                                notificationMessage.fromName = mMeUser?.nome
-                                notificationMessage.fromId = mMeUser!!.uid
-                                notificationMessage.toId = mUser!!.uid
-
-                                mFirestoreMessage.collection(Constants.COLLECTIONS.NOTIFICATION)
-                                    .document(mUser!!.token!!)
-                                    .set(notificationMessage)
-
-                        }
                 }
 
             mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
