@@ -49,12 +49,12 @@ class HomeFragment : Fragment() {
         mSharedFilter = SharedFilter(context!!)
         view.recyclerview_main.adapter = mAdapter
         //decoração de borda nas celulas
-        view.recyclerview_main.addItemDecoration(
+        /*view.recyclerview_main.addItemDecoration(
             DividerItemDecoration(
                 context,
                 DividerItemDecoration.VERTICAL
             )
-        )
+        )*/
         //configurações e inicio da recyclerview, evento de clique
         view.recyclerview_main.layoutManager = LinearLayoutManager(activity)
         mAdapter.onItemClicked = {
@@ -221,9 +221,11 @@ class HomeFragment : Fragment() {
 
             viewholder.txtNomeServico.text = servicos[position].nomeService
             if (servicos[position].urlService == null) {
-                viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
+                viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
             } else {
                 Picasso.get().load(servicos[position].urlService)
+                    .fit()
+                    .centerCrop()
                     .into(viewholder.imgServiceMain)
             }
             viewholder.txtNomeUser.text = servicos[position].nome
@@ -234,8 +236,8 @@ class HomeFragment : Fragment() {
             if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text = "R$ ${servicos[position].preco}"
-            viewholder.txtduracao.text = "Por ${servicos[position].tipoCobranca}"
+            viewholder.txtPreco.text = "R$ ${servicos[position].preco} por ${servicos[position].tipoCobranca}"
+
 
             viewholder.btnFavorite.setOnClickListener {
                 eventFavorite(position)

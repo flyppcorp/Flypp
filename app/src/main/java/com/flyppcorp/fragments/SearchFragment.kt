@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import kotlinx.android.synthetic.main.service_items_all.view.*
 
 class SearchFragment : Fragment() {
 
@@ -91,7 +92,7 @@ class SearchFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.service_items, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.service_items_all, parent, false)
             return CustomViewholder(view)
         }
 
@@ -109,30 +110,30 @@ class SearchFragment : Fragment() {
                 onItemClick?.invoke(position)
             }
             val viewholder = (holder as CustomViewholder).itemView
-            viewholder.txtNomeServico.text = contentServicesearch[position].nomeService
+            viewholder.txtNomeServicoList.text = contentServicesearch[position].nomeService
             if (contentServicesearch[position].urlService == null) {
-                viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
+                viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService).resize(100, 100)
-                    .into(viewholder.imgServiceMain)
+                Picasso.get().load(contentServicesearch[position].urlService)
+                    .into(viewholder.imgServiceMainList)
             }
-            viewholder.txtNomeUser.text = contentServicesearch[position].nome
+            viewholder.txtNomeUserList.text = contentServicesearch[position].nome
             Picasso.get().load(contentServicesearch[position].urlProfile)
-                .into(viewholder.imgProfileImgMain)
-            viewholder.txtShortDesc.text = contentServicesearch[position].shortDesc
+                .into(viewholder.imgProfileImgMainList)
+            viewholder.txtShortDescList.text = contentServicesearch[position].shortDesc
             val avaliacao : Double = contentServicesearch[position].avaliacao.toDouble()/contentServicesearch[position].totalAvaliacao
-            if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+            if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicesearch[position].avaliacao}/5"
-            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text = "R$ ${contentServicesearch[position].preco}"
-            viewholder.txtduracao.text = "Por ${contentServicesearch[position].tipoCobranca}"
-            viewholder.btnFavorite.setOnClickListener {
+            else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            viewholder.txtPrecoList.text = "R$ ${contentServicesearch[position].preco} Por ${contentServicesearch[position].tipoCobranca}"
+
+            viewholder.btnFavoriteList.setOnClickListener {
                 favoriteEvent(position)
             }
             if (contentServicesearch[position].favoritos.containsKey(uid)) {
-                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite)
             } else {
-                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+                viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite_border)
             }
         }
 

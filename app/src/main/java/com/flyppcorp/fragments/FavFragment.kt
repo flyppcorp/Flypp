@@ -18,6 +18,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fav.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import kotlinx.android.synthetic.main.service_items.view.btnFavorite
+import kotlinx.android.synthetic.main.service_items.view.imgProfileImgMain
+import kotlinx.android.synthetic.main.service_items.view.imgServiceMain
+import kotlinx.android.synthetic.main.service_items.view.txtAvaliacao
+import kotlinx.android.synthetic.main.service_items.view.txtNomeServico
+import kotlinx.android.synthetic.main.service_items.view.txtNomeUser
+import kotlinx.android.synthetic.main.service_items.view.txtPreco
+import kotlinx.android.synthetic.main.service_items.view.txtShortDesc
+import kotlinx.android.synthetic.main.service_items_all.view.*
 
 class FavFragment : Fragment() {
     //objetos com inicio tardio
@@ -73,7 +82,7 @@ class FavFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.service_items, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.service_items_all, parent, false)
             return CustomView(view)
         }
 
@@ -91,30 +100,30 @@ class FavFragment : Fragment() {
                 onItemClick?.invoke(position)
             }
             val viewholder = (holder as CustomView).itemView
-            viewholder.txtNomeServico.text = contentServicos[position].nomeService
+            viewholder.txtNomeServicoList.text = contentServicos[position].nomeService
             if (contentServicos[position].urlService == null) {
-                viewholder.imgServiceMain.setImageResource(R.drawable.photo_work)
+                viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicos[position].urlService).into(viewholder.imgServiceMain)
+                Picasso.get().load(contentServicos[position].urlService).into(viewholder.imgServiceMainList)
             }
-            viewholder.txtNomeUser.text = contentServicos[position].nome
+            viewholder.txtNomeUserList.text = contentServicos[position].nome
             Picasso.get().load(contentServicos[position].urlProfile)
-                .into(viewholder.imgProfileImgMain)
-            viewholder.txtShortDesc.text = contentServicos[position].shortDesc
+                .into(viewholder.imgProfileImgMainList)
+            viewholder.txtShortDescList.text = contentServicos[position].shortDesc
             val avaliacao : Double = contentServicos[position].avaliacao.toDouble()/contentServicos[position].totalAvaliacao
-            if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+            if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicos[position].avaliacao}/5"
-            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text = "R$ ${contentServicos[position].preco}"
-            viewholder.txtduracao.text = "Por ${contentServicos[position].tipoCobranca}"
+            else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            viewholder.txtPrecoList.text = "R$ ${contentServicos[position].preco} Por ${contentServicos[position].tipoCobranca}"
 
-            viewholder.btnFavorite.setOnClickListener {
+
+            viewholder.btnFavoriteList.setOnClickListener {
                 eventFavorite(position)
             }
             if (contentServicos[position].favoritos.containsKey(uid)) {
-                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite)
+                viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite)
             } else {
-                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+                viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite_border)
 
             }
 
