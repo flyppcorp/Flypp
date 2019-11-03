@@ -4,7 +4,6 @@
     <solid android:color="@color/divider"/>
     <corners android:bottomRightRadius="10dp"
         android:topRightRadius="10dp"
-        android:topLeftRadius="10dp"
         android:bottomLeftRadius="10dp"/>
 
 

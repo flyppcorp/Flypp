@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_andamento.*
 import kotlinx.android.synthetic.main.activity_message2.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.from_id.view.*
@@ -120,7 +121,7 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(){
-        val timestamp = SimpleDateFormat("yMdHMs").format(Date()).toLong()
+        val timestamp = SimpleDateFormat("yMdHMs", Locale.getDefault()).format(Date()).toLong()
         var txtMessage = editTextMessage.text.toString()
 
             mMessage.fromId = mAuth.currentUser!!.uid

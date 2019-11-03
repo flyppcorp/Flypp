@@ -48,13 +48,7 @@ class HomeFragment : Fragment() {
         mAdapter = DetailRecyclerView()
         mSharedFilter = SharedFilter(context!!)
         view.recyclerview_main.adapter = mAdapter
-        //decoração de borda nas celulas
-        /*view.recyclerview_main.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )*/
+
         //configurações e inicio da recyclerview, evento de clique
         view.recyclerview_main.layoutManager = LinearLayoutManager(activity)
         mAdapter.onItemClicked = {

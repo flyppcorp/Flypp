@@ -22,7 +22,8 @@
         <activity
             android:name=".MessageActivity"
             android:label="User"
-            android:theme="@style/AppThemeToolbar">
+            android:theme="@style/AppThemeToolbar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -31,9 +32,25 @@
         <activity android:name="com.flyppcorp.managerServices.EditServiceActivity" />
         <activity android:name=".ManagerEditServiceActivity" />
         <activity android:name="com.flyppcorp.managerServices.AvaliationActivity" />
-        <activity android:name="com.flyppcorp.managerServices.FinalizadoActivity" />
-        <activity android:name="com.flyppcorp.managerServices.AndamentoActivity" />
-        <activity android:name="com.flyppcorp.managerServices.PendenteActivity" />
+        <activity android:name="com.flyppcorp.managerServices.FinalizadoActivity"
+            android:theme="@style/AppThemeToolbar"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ManagerServicesActivity" />
+        </activity>
+        <activity android:name="com.flyppcorp.managerServices.AndamentoActivity"
+            android:theme="@style/AppThemeToolbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ManagerServicesActivity" />
+        </activity>
+        <activity android:name="com.flyppcorp.managerServices.PendenteActivity"
+            android:theme="@style/AppThemeToolbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ManagerServicesActivity" />
+        </activity>
         <activity android:name=".ManagerServicesActivity" />
         <activity android:name=".ConfirmServiceActivity" />
         <activity android:name=".ProfileActivity" />
