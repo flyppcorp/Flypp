@@ -65,7 +65,7 @@ class FragmentAndamento : Fragment() {
             if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).into(
                 viewHolder.itemView.imgServiceManager
             )
-            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).into(
+            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).fit().centerCrop().into(
                 viewHolder.itemView.imgProfileImgManager
             )
             viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado

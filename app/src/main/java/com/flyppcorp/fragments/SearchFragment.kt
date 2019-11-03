@@ -114,7 +114,7 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService)
+                Picasso.get().load(contentServicesearch[position].urlService).fit().centerCrop()
                     .into(viewholder.imgServiceMainList)
             }
             viewholder.txtNomeUserList.text = contentServicesearch[position].nome

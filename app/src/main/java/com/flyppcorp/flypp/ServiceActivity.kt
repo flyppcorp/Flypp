@@ -171,7 +171,7 @@ class ServiceActivity : AppCompatActivity() {
                         if (service.urlService == null) {
                             imgServiceView.setImageResource(R.drawable.ic_working)
                         } else {
-                            Picasso.get().load(service.urlService).into(imgServiceView)
+                            Picasso.get().load(service.urlService).fit().centerCrop().into(imgServiceView)
                         }
                         txtQtdServices.text = "${service.totalServicos} serviços finalizados"
                         txtTituloServices.text = service.nomeService

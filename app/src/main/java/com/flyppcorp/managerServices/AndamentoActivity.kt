@@ -109,7 +109,7 @@ class AndamentoActivity : AppCompatActivity() {
 
     private fun fetchService() {
         mAdress?.let {
-            if (mMyservice?.urlService != null) Picasso.get().load(mMyservice?.urlService).into(
+            if (mMyservice?.urlService != null) Picasso.get().load(mMyservice?.urlService).fit().centerCrop().into(
                 imgAndamentoAcct
             )
             else imgAndamentoAcct.setImageResource(R.drawable.ic_working)

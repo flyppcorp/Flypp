@@ -62,7 +62,7 @@ class FinalizadoActivity : AppCompatActivity() {
 
     private fun fetchService() {
         mAdress?.let {
-            if(mMyservice?.urlService !=  null) Picasso.get().load(mMyservice?.urlService).into(imgServiceFinalizadoAcct)
+            if(mMyservice?.urlService !=  null) Picasso.get().load(mMyservice?.urlService).fit().centerCrop().into(imgServiceFinalizadoAcct)
             else imgServiceFinalizadoAcct.setImageResource(R.drawable.ic_working)
             txtContratadoFinalizadoAcct.text = mMyservice!!.nomeContratante
             txtContratanteFinalizadoAcct.text = mMyservice!!.nomeContratado

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fragment_todos.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import kotlinx.android.synthetic.main.service_items_all.view.*
 
 
 /**
@@ -72,7 +73,7 @@ class FragmentTodos : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.service_items, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.service_items_all, parent, false)
             return ViewholderCustom(view)
         }
 
@@ -89,19 +90,19 @@ class FragmentTodos : Fragment() {
                 onItemClick?.invoke(position)
             }
             var vh = (holder as ViewholderCustom).itemView
-            vh.txtNomeServico.text = contentService[position].nomeService
-            vh.btnFavorite.visibility = View.GONE
-            if (contentService[position].urlService != null) Picasso.get().load(contentService[position].urlService).into(vh.imgServiceMain)
-            else vh.imgServiceMain.setImageResource(R.drawable.photo_work)
-            if (contentService[position].urlProfile != null) Picasso.get().load(contentService[position].urlProfile).into(vh.imgProfileImgMain)
-            else vh.imgProfileImgMain.setCircleBackgroundColorResource(R.color.colorAccent)
-            vh.txtNomeUser.text = contentService[position].nome
-            vh.txtShortDesc.text = contentService[position].shortDesc
+            vh.txtNomeServicoList.text = contentService[position].nomeService
+            vh.btnFavoriteList.visibility = View.GONE
+            if (contentService[position].urlService != null) Picasso.get().load(contentService[position].urlService).fit().centerCrop().into(vh.imgServiceMainList)
+            else vh.imgServiceMainList.setImageResource(R.drawable.photo_work)
+            if (contentService[position].urlProfile != null) Picasso.get().load(contentService[position].urlProfile).into(vh.imgProfileImgMainList)
+            else vh.imgProfileImgMainList.setCircleBackgroundColorResource(R.color.colorAccent)
+            vh.txtNomeUserList.text = contentService[position].nome
+            vh.txtShortDescList.text = contentService[position].shortDesc
             val avaliacao : Double = contentService[position].avaliacao.toDouble()/contentService[position].totalAvaliacao
-            if (contentService[position].avaliacao == 0) vh.txtAvaliacao.text = "0/5"
-            else vh.txtAvaliacao.text = "${avaliacao.toString().substring(0,3)}/5"
+            if (contentService[position].avaliacao == 0) vh.txtAvaliacaoList.text = "0/5"
+            else vh.txtAvaliacaoList.text = "${avaliacao.toString().substring(0,3)}/5"
 
-            vh.txtPreco.text = "R$ ${contentService[position].preco} por ${contentService[position].tipoCobranca}"
+            vh.txtPrecoList.text = "R$ ${contentService[position].preco} por ${contentService[position].tipoCobranca}"
 
 
 
