@@ -16,13 +16,13 @@ class FirestoreService (private val context: Context) {
 
     //declaração e inicialização de objeetos
     private val mServices: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val mDialog =  ProgressDialog(context)
+    val mDialog =  ProgressDialog(context)
     private val mAlertDialog = AlertDialog.Builder(context)
 
     //função que salva serviços
     fun servicos(mService: Servicos, serviceId :String){
         //progress dialog exibido
-        mDialog.show()
+        //mDialog.show()
 
         mServices.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .document(serviceId)
@@ -35,6 +35,8 @@ class FirestoreService (private val context: Context) {
                 mAlertDialog.setMessage("Algo deu errado, tente novamente")
                 mAlertDialog.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
                 mAlertDialog.show()
+                mDialog.hide()
+
 
             }
     }

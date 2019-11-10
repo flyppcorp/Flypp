@@ -1,5 +1,6 @@
 package com.flyppcorp.fragments
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -78,7 +79,6 @@ class SearchFragment : Fragment() {
                     contentUidList.add(doc.id)
                 }
                 mAdapter.notifyDataSetChanged()
-
 
             }
 

@@ -1,5 +1,6 @@
 package com.flyppcorp.fragments
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -63,7 +64,8 @@ class AddFragment : Fragment() {
         view.btnSaveService.setOnClickListener {
             handleSaveService()
         if(validate()){
-            progressBar5.visibility = View.VISIBLE
+            //progressBar5.visibility = View.VISIBLE
+            mFirestoreService.mDialog.show()
         }
             if (!validateConection()){
                 return@setOnClickListener

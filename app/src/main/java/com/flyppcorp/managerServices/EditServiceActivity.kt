@@ -1,5 +1,6 @@
 package com.flyppcorp.managerServices
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -47,6 +48,7 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mFirestoreService: FirestoreService
     private var mGetService: Servicos? = null
     private var mProfile: User? = null
+    private lateinit var mProgress : ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_service)
@@ -55,6 +57,7 @@ class EditServiceActivity : AppCompatActivity() {
         mStorage = FirebaseStorage.getInstance()
         mServiceAtributes = Servicos()
         mAuth = FirebaseAuth.getInstance()
+        mProgress = ProgressDialog(this)
         mFirestoreService = FirestoreService(this)
         btnSelectPhotoService.setOnClickListener {
             handleSelectPhoto()
@@ -144,6 +147,7 @@ class EditServiceActivity : AppCompatActivity() {
 
     //------------------------------------------------------------------------------------------------------------------------
     private fun handleSaveService() {
+
         //definindo valores para a classe servico
         mGetService?.let {
             val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
@@ -195,9 +199,13 @@ class EditServiceActivity : AppCompatActivity() {
 
                                 //salvando no db caso haja uma url
                                 if (validate()) {
+                                    mProgress.show()
                                     mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                                         .document(mService!!.serviceId!!)
                                         .set(mServiceAtributes)
+                                        .addOnFailureListener {
+                                            mProgress.hide()
+                                        }
                                     finish()
 
                                 } else {
@@ -214,12 +222,16 @@ class EditServiceActivity : AppCompatActivity() {
             //savando no db caso não haja uma url
             if (mUri == null) {
                 if (validate() && validateConection()) {
+                    mProgress.show()
                     val extras = intent.extras
                     if (extras != null) mServiceAtributes.urlService = extras.getString("url")
 
                     mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                         .document(mService!!.serviceId!!)
                         .set(mServiceAtributes)
+                        .addOnFailureListener {
+                            mProgress.hide()
+                        }
                     finish()
 
                 } else {
