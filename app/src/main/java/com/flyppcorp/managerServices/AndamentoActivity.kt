@@ -32,7 +32,7 @@ class AndamentoActivity : AppCompatActivity() {
         btnFinalizarAndamento.setOnClickListener {
             handleFinalizar()
         }
-        supportActionBar!!.title = "${mMyservice!!.serviceNome} - Em andamento"
+        supportActionBar!!.title = "Em andamento"
         getEndereco()
         btnText()
     }

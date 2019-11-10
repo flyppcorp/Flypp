@@ -32,7 +32,7 @@ class FinalizadoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        supportActionBar!!.title = "${mMyservice!!.serviceNome} - Finalizado"
+        supportActionBar!!.title = "Finalizado"
         getadress()
         getAvaliationStatus()
     }

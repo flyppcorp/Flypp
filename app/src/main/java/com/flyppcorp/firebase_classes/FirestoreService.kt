@@ -29,7 +29,7 @@ class FirestoreService (private val context: Context) {
             .set(mService)
             .addOnSuccessListener {
                 mDialog.hide()
-                mDialog.dismiss()
+                //mDialog.dismiss()
 
             }.addOnFailureListener {
                 mAlertDialog.setMessage("Algo deu errado, tente novamente")

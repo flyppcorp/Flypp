@@ -38,7 +38,7 @@ class FirestoreUser(private val context: Context) {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(context, intent, null)
                     mProgressDialog.hide()
-                    mProgressDialog.dismiss()
+                    //mProgressDialog.dismiss()
 
                 }.addOnFailureListener {
                    mAlertDialog.setMessage("Algo saiu errado." +

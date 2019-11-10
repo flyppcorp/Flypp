@@ -41,9 +41,9 @@ class ServiceActivity : AppCompatActivity() {
             handleContract()
         }
 
-        val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
-        tb.title = ""
-        setSupportActionBar(tb)
+        //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
+        //tb.title = ""
+        supportActionBar!!.title = "Serviço"
         getIcon()
     }
 

@@ -54,7 +54,12 @@
         <activity android:name=".ManagerServicesActivity" />
         <activity android:name=".ConfirmServiceActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ServiceActivity" />
+        <activity android:name=".ServiceActivity"
+            android:theme="@style/AppThemeToolbar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        </activity>
         <activity android:name=".CreateProfileActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".ConfirmationActivity" />

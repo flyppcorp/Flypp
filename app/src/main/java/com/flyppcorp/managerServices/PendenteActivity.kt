@@ -32,7 +32,7 @@ class PendenteActivity : AppCompatActivity() {
             handleAceitarVoltar()
         }
 
-        supportActionBar!!.title = " ${mMyService!!.serviceNome} - Pendente "
+        supportActionBar!!.title = "Pendente "
                 getEndereco()
         handleTextButton()
 

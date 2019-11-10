@@ -60,7 +60,7 @@ class LoginFirebaseAuth(private val context: Context) {
                 }
 
                 mProgressDialog.hide()
-                mProgressDialog.dismiss()
+                //mProgressDialog.dismiss()
 
 
 

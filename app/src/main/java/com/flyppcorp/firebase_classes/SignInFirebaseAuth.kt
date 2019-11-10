@@ -71,7 +71,7 @@ class SignInFirebaseAuth(private val context: Context) {
                         }
                 }
                 mProgressDialog.hide()
-                mProgressDialog.dismiss()
+                //mProgressDialog.dismiss()
             }
     }
 }

@@ -32,7 +32,7 @@ class ConfirmationCount(private val context: Context) {
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(context, intent, null)
                         mProgressDialog.hide()
-                        mProgressDialog.dismiss()
+                        //mProgressDialog.dismiss()
                         //se não tiver verificado, mostra uma mensagem de alerta
                     } else {
                         val alert = AlertDialog.Builder(context)
