@@ -16,8 +16,12 @@ import androidx.fragment.app.Fragment
 import com.flyppcorp.Helper.LifeCyclerApplication
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.firebase_classes.FirestoreContract
 import com.flyppcorp.fragments.*
 import com.flyppcorp.managerServices.FilterActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -28,11 +32,18 @@ import kotlinx.android.synthetic.main.service_items.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var mSharedFilter: SharedFilter
+    private lateinit var mFirestoreContract: FirestoreContract
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mSharedFilter = SharedFilter(this)
         //acao do bottomNav
+
+        mFirestoreContract = FirestoreContract(this)
+        mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
+        MobileAds.initialize(this)
+        mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
+        mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
 
         bottom_nav.setOnNavigationItemSelectedListener(this)
         //item que ja esta selecionado

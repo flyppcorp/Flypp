@@ -6,18 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreContract
+import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_confirm_service.*
-import kotlinx.android.synthetic.main.activity_service.*
-import kotlinx.android.synthetic.main.fragment_add.*
 import java.util.*
+import com.google.android.gms.ads.*
 
 class ConfirmServiceActivity : AppCompatActivity() {
     //private var mService: Servicos? = null
@@ -35,11 +34,17 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirestoreContract = FirestoreContract(this)
+        mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
+        MobileAds.initialize(this)
+        mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
+        mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
+
+
         mMyservice = Myservice()
         getDataService()
         btnConfirmContract.setOnClickListener {
             //handleConfirm()
-            progressBar.visibility = View.VISIBLE
+            //progressBar.visibility = View.VISIBLE
             getToSave()
             if (!validateConection()) {
                 return@setOnClickListener
@@ -99,7 +104,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.documentId = documentId
 
             mFirestoreContract.confirmServiceContract(mMyservice, documentId)
-            if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
+            //if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
 
 
         }
