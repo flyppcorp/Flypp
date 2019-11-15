@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LastMessages
 import com.flyppcorp.flypp.ServiceActivity
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     private lateinit var contentUidList: ArrayList<String>
     private lateinit var mAdapter: DetailRecyclerView
     private lateinit var mSharedFilter: SharedFilter
+    private var mUser: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,12 +64,11 @@ class HomeFragment : Fragment() {
     }
 
 
-
     //funcao que obtem servicos com e sem filtro
     private fun fetchServices() {
         val filter = mSharedFilter.getFilter(Constants.KEY.FILTER_KEY)
-        if (filter != ""){
-            if (filter.equals(Constants.FILTERS_VALUES.MENOR_PRECO)){
+        if (filter != "") {
+            if (filter.equals(Constants.FILTERS_VALUES.MENOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.ASCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -80,7 +81,7 @@ class HomeFragment : Fragment() {
                         }
                         mAdapter.notifyDataSetChanged()
                     }
-            }else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)){
+            } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.DESCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -93,7 +94,7 @@ class HomeFragment : Fragment() {
                         }
                         mAdapter.notifyDataSetChanged()
                     }
-            }else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)){
+            } else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.ASCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -106,7 +107,7 @@ class HomeFragment : Fragment() {
                         }
                         mAdapter.notifyDataSetChanged()
                     }
-            }else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)){
+            } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.DESCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -119,7 +120,7 @@ class HomeFragment : Fragment() {
                         }
                         mAdapter.notifyDataSetChanged()
                     }
-            }else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)){
+            } else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.ASCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -132,7 +133,7 @@ class HomeFragment : Fragment() {
                         }
                         mAdapter.notifyDataSetChanged()
                     }
-            }else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)){
+            } else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.DESCENDING)
                     .addSnapshotListener { snapshot, exception ->
@@ -147,7 +148,7 @@ class HomeFragment : Fragment() {
                     }
             }
 
-        }else{
+        } else {
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .orderBy("totalServicos", Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot, exception ->
@@ -230,7 +231,8 @@ class HomeFragment : Fragment() {
             if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text = "R$ ${servicos[position].preco} por ${servicos[position].tipoCobranca}"
+            viewholder.txtPreco.text =
+                "R$ ${servicos[position].preco} por ${servicos[position].tipoCobranca}"
 
 
             viewholder.btnFavorite.setOnClickListener {
@@ -244,8 +246,35 @@ class HomeFragment : Fragment() {
             } else {
                 viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
+            if (servicos[position].uidProfile.containsKey(uid)) {
+                updateInfo(servicos[position].nome!!, servicos[position].urlProfile.toString(), position)
+            }
 
 
+        }
+
+        private fun updateInfo(nome: String, url: String, position: Int) {
+            val user = FirebaseFirestore.getInstance()
+            user.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(uid)
+                .get()
+                .addOnSuccessListener {
+                    mUser = it.toObject(User::class.java)
+                    val tsDoc = mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(contentUidList[position])
+                    mFirestoreService.runTransaction {
+                        val userUp = it.get(tsDoc).toObject(Servicos::class.java)
+                        if (userUp!!.uidProfile.containsKey(uid)){
+                            if (nome != mUser!!.nome){
+                                userUp.nome = mUser!!.nome
+                            }
+                            if (url != mUser?.url){
+                                userUp.urlProfile = mUser?.url
+                            }
+                        }
+
+                        it.set(tsDoc, userUp)
+                    }
+                }
         }
 
         fun eventFavorite(position: Int) {
