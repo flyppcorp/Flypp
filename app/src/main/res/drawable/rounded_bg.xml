@@ -15,7 +15,7 @@
     </item>
 
     <item
-        android:top="20dp"
+        android:top="37.5dp"
         android:height="75dp"
         android:width="75dp"
         android:drawable="@drawable/ic_attach_money_black_24dp"

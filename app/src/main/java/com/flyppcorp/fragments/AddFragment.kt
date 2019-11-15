@@ -127,6 +127,8 @@ class AddFragment : Fragment() {
         val ref = mStorage.getReference("/ServicesImages/${timestamp}")
         mServiceAtributes.nome = mUser.nome
         mServiceAtributes.uid = mUser.uid
+        mServiceAtributes.uidProfile[mUser.uid.toString()] = true
+
         mServiceAtributes.urlProfile = mUser.url
         mServiceAtributes.ddd = mUser.ddd
         mServiceAtributes.telefone = mUser.telefone

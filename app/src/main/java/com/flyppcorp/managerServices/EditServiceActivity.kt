@@ -157,6 +157,7 @@ class EditServiceActivity : AppCompatActivity() {
             mServiceAtributes.avaliacao = mGetService!!.avaliacao
             mServiceAtributes.favoritos = mGetService!!.favoritos
             mServiceAtributes.uid = mService?.uid
+            mServiceAtributes.uidProfile[mService?.uid.toString()] = true
             mProfile?.let {
                 mServiceAtributes.urlProfile = it.url
                 mServiceAtributes.nome = it.nome

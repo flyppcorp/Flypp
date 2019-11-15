@@ -28,6 +28,7 @@ data class User(
 data class Servicos(
     var nome: String? = null,
     var uid: String? = null,
+    var uidProfile: MutableMap<String, Boolean> = HashMap(),
     var urlProfile: String? = null,
     var urlService: String? = null,
     var ddd: String? = null,

@@ -79,7 +79,7 @@ class ProfileActivity : AppCompatActivity() {
             .addSnapshotListener { snapshot, firestoreException ->
                 for (doc in snapshot!!.documents) {
                     val userItem = doc.toObject(User::class.java)
-                    if (userItem?.url != null) {
+                    if (userItem?.url != null && mUri == null) {
                         Picasso.get().load(userItem.url).into(photoSelectedProfile)
                         selectPhotoProfile.alpha = 0f
                     } else if (mUser!!.url == null) {
@@ -97,7 +97,6 @@ class ProfileActivity : AppCompatActivity() {
                     editBairroProfile.setText(userItem.bairro)
                     editRuaProfile.setText(userItem.rua)
                     editNumeroProfile.setText(userItem.numero)
-
 
 
                 }
@@ -143,13 +142,16 @@ class ProfileActivity : AppCompatActivity() {
             if (!validate()) {
                 return
             } else {
+                val nome = editNomeUserProfile.text.toString()
                 if (mUser?.url != null) mUserInfo.url = mUser?.url
                 mFirestoreUser.saveUser(mUserInfo)
+
             }
 
         }
 
     }
+
 
     private fun validate(): Boolean {
         val nome = editNomeUserProfile.text.toString()
@@ -161,7 +163,6 @@ class ProfileActivity : AppCompatActivity() {
             return true
         }
     }
-
 
 
 }
