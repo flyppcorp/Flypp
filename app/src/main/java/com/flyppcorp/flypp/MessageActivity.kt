@@ -18,8 +18,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
+
 import kotlinx.android.synthetic.main.activity_andamento.*
 import kotlinx.android.synthetic.main.activity_message2.*
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -38,7 +39,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var mMessage: Message
     private lateinit var mLastMessage: LastMessage
     var mMeUser: User? = null
-    private lateinit var mAdapter: GroupAdapter<ViewHolder>
+    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message2)
@@ -55,7 +56,7 @@ class MessageActivity : AppCompatActivity() {
         getUser()
     }
 
-    private inner class MessageItem(val message: Message ) : Item<ViewHolder>(){
+    private inner class MessageItem(val message: Message ) : Item<GroupieViewHolder>(){
         override fun getLayout(): Int {
             return if (message.fromId == mAuth.currentUser!!.uid)
                 R.layout.from_id
@@ -63,7 +64,7 @@ class MessageActivity : AppCompatActivity() {
                 R.layout.to_id
         }
 
-        override fun bind(viewHolder: ViewHolder, position: Int) {
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             if (message.fromId == mAuth.currentUser!!.uid ){
                 viewHolder.itemView.txt_msg_from.text = message.text
                 Picasso.get().load(mMeUser?.url).into(viewHolder.itemView.img_profile_from)

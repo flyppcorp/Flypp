@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -13,15 +14,15 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_last_message.*
 import kotlinx.android.synthetic.main.last_messages_layout.view.*
 
 class LastMessages : AppCompatActivity() {
 
     private lateinit var mLastMessage: LastMessage
-    private lateinit var mAdapter: GroupAdapter<ViewHolder>
+    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mfirestore: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +53,12 @@ class LastMessages : AppCompatActivity() {
 
     }
 
-    inner class ContactItem(val contact: LastMessage) : Item<ViewHolder>() {
+    inner class ContactItem(val contact: LastMessage) : Item<GroupieViewHolder>() {
         override fun getLayout(): Int {
             return R.layout.last_messages_layout
         }
 
-        override fun bind(viewHolder: ViewHolder, position: Int) {
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             val myItem = viewHolder.itemView
             myItem.txtNomeProfile.text = contact.name
             myItem.txtLastMessage.text = contact.lastMessage

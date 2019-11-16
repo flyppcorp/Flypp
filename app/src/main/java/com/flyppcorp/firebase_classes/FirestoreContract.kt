@@ -13,6 +13,7 @@ import com.flyppcorp.flypp.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.gms.ads.*
 import androidx.appcompat.app.AppCompatActivity
+import com.muddzdev.styleabletoast.StyleableToast
 
 
 class FirestoreContract(var context: Context) {
@@ -34,6 +35,7 @@ class FirestoreContract(var context: Context) {
                 toast()
 
 
+
             }.addOnFailureListener {
                 Toast.makeText(context, "Algo saiu errado, tente outra vez.", Toast.LENGTH_SHORT)
                     .show()
@@ -42,7 +44,7 @@ class FirestoreContract(var context: Context) {
     }
 
     private fun toast() {
-        val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
         var view = toast.view
         view.setBackgroundColor(Color.rgb(103,58,183))
         view.setPadding(20,20,20,20)

@@ -20,15 +20,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
+
 import kotlinx.android.synthetic.main.fragment_conta.view.*
 import kotlinx.android.synthetic.main.perfil_items.view.*
 
 class ContaFragment : Fragment() {
 
     //objetos com inicio tardio
-    private lateinit var mAdapter: GroupAdapter<ViewHolder>
+    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var mFB: LoginFirebaseAuth
     private lateinit var mFs : FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
@@ -69,12 +70,12 @@ class ContaFragment : Fragment() {
 
 
     //recyclerview local
-    private inner class UserItem( val mUser: User): Item<ViewHolder>(){
+    private inner class UserItem( val mUser: User): Item<GroupieViewHolder>(){
         override fun getLayout(): Int {
             return R.layout.perfil_items
         }
 
-        override fun bind(viewHolder: ViewHolder, position: Int) {
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
            viewHolder.itemView.txtMyName.text = mUser.nome
             Picasso.get().load(mUser.url).into(viewHolder.itemView.photoPerfil)
         }

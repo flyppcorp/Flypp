@@ -18,8 +18,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
+
 import kotlinx.android.synthetic.main.fragment_fragment_pendentes.view.*
 import kotlinx.android.synthetic.main.manager_service_items.view.*
 
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.manager_service_items.view.*
  */
 class FragmentPendentes : Fragment() {
     private lateinit var mFirestore: FirebaseFirestore
-    private lateinit var mAdapter: GroupAdapter<ViewHolder>
+    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var mAuth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +56,12 @@ class FragmentPendentes : Fragment() {
 
     }
 
-    private inner class ItemPendente(val mMyservice: Myservice) : Item<ViewHolder>() {
+    private inner class ItemPendente(val mMyservice: Myservice) : Item<GroupieViewHolder>() {
         override fun getLayout(): Int {
             return R.layout.manager_service_items
         }
 
-        override fun bind(viewHolder: ViewHolder, position: Int) {
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.txtNomeServiceManager.text = mMyservice.serviceNome
             if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).fit().centerCrop().into(
                 viewHolder.itemView.imgServiceManager
