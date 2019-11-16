@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
@@ -31,7 +32,6 @@ class CreateProfileActivity : AppCompatActivity() {
     private lateinit var mProgress: ProgressDialog
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_profile)
@@ -44,13 +44,15 @@ class CreateProfileActivity : AppCompatActivity() {
         mProgress = ProgressDialog(this)
 
 
-
         //setlistener é uma funcao que tem os botoes de acao da activity
         setListener()
 
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_COARSE_LOCATION),
+            arrayOf(
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
             1
         )
     }
@@ -73,7 +75,11 @@ class CreateProfileActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, Constants.KEY.REQUEST_CODE)
-        } else {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
