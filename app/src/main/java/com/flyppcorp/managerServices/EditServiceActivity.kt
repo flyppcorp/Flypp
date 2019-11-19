@@ -48,7 +48,7 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mFirestoreService: FirestoreService
     private var mGetService: Servicos? = null
     private var mProfile: User? = null
-    private lateinit var mProgress : ProgressDialog
+    private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_service)
@@ -69,19 +69,10 @@ class EditServiceActivity : AppCompatActivity() {
             finish()
         }
         fetch()
-        fetchProfile()
+
 
     }
 
-    private fun fetchProfile() {
-        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mAuth.currentUser!!.uid)
-            .get()
-            .addOnSuccessListener {
-                mProfile = it.toObject(User::class.java)
-                handleSaveService()
-            }
-    }
 
     private fun fetchUp() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -158,12 +149,13 @@ class EditServiceActivity : AppCompatActivity() {
             mServiceAtributes.favoritos = mGetService!!.favoritos
             mServiceAtributes.uid = mService?.uid
             mServiceAtributes.uidProfile[mService?.uid.toString()] = true
-            mProfile?.let {
-                mServiceAtributes.urlProfile = it.url
-                mServiceAtributes.nome = it.nome
-                mServiceAtributes.ddd = it.ddd
-                mServiceAtributes.telefone = it.telefone
-            }
+
+            ////////////////////////////////////////////////////////////
+            mServiceAtributes.urlProfile = mGetService?.urlProfile
+            mServiceAtributes.nome = mGetService!!.nome
+            mServiceAtributes.ddd = mGetService?.ddd
+            mServiceAtributes.telefone = mGetService?.telefone
+            ///////////////////////////////////////////////////////////
 
             mServiceAtributes.nomeService = editService.text.toString()
             mServiceAtributes.shortDesc = editDescCurta.text.toString()
