@@ -51,7 +51,7 @@ class FirestoreContract(var context: Context) {
         toast.show()
     }
 
-    fun moveAndShowAd(){
+    private fun moveAndShowAd(){
         if (mIntertial.isLoaded){
             mIntertial.show()
             mIntertial.adListener = object : AdListener(){
@@ -62,6 +62,10 @@ class FirestoreContract(var context: Context) {
                     startActivity(context, intent, null)
                 }
             }
+        }else {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(context, intent, null)
         }
     }
 
