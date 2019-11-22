@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LastMessages"></activity>
+        <activity android:name="com.flyppcorp.profile.ProfileInformations" android:theme="@style/appThemeProfile"></activity>
+        <activity android:name=".LastMessages" />
         <activity
             android:name=".MessageActivity"
             android:label="User"
@@ -32,20 +33,22 @@
         <activity android:name="com.flyppcorp.managerServices.EditServiceActivity" />
         <activity android:name=".ManagerEditServiceActivity" />
         <activity android:name="com.flyppcorp.managerServices.AvaliationActivity" />
-        <activity android:name="com.flyppcorp.managerServices.FinalizadoActivity"
-            android:theme="@style/AppThemeToolbar"
-            >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ManagerServicesActivity" />
-        </activity>
-        <activity android:name="com.flyppcorp.managerServices.AndamentoActivity"
+        <activity
+            android:name="com.flyppcorp.managerServices.FinalizadoActivity"
             android:theme="@style/AppThemeToolbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerServicesActivity" />
         </activity>
-        <activity android:name="com.flyppcorp.managerServices.PendenteActivity"
+        <activity
+            android:name="com.flyppcorp.managerServices.AndamentoActivity"
+            android:theme="@style/AppThemeToolbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ManagerServicesActivity" />
+        </activity>
+        <activity
+            android:name="com.flyppcorp.managerServices.PendenteActivity"
             android:theme="@style/AppThemeToolbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -54,11 +57,12 @@
         <activity android:name=".ManagerServicesActivity" />
         <activity android:name=".ConfirmServiceActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ServiceActivity"
+        <activity
+            android:name=".ServiceActivity"
             android:theme="@style/AppThemeToolbar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".CreateProfileActivity" />
         <activity android:name=".ResetPasswordActivity" />
@@ -78,8 +82,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2365101539319201~7418774497"/>
-
+            android:value="ca-app-pub-2365101539319201~7418774497" />
     </application>
 
 </manifest>

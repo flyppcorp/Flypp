@@ -14,6 +14,7 @@ import com.flyppcorp.firebase_classes.LoginFirebaseAuth
 import com.flyppcorp.flypp.ManagerServicesActivity
 import com.flyppcorp.flypp.ProfileActivity
 import com.flyppcorp.flypp.R
+import com.flyppcorp.profile.ProfileInformations
 import com.flyppcorp.profile_settings.ProfileAdapter
 import com.flyppcorp.profile_settings.menuOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -50,9 +51,9 @@ class ContaFragment : Fragment() {
         view.rv_profile.layoutManager = LinearLayoutManager(activity)
         view.recyclerView.adapter = mAdapter
         mAdapter.setOnItemClickListener { item, view ->
-            val intent = Intent(context, ProfileActivity::class.java)
-            val userItem : UserItem = item as UserItem
-            intent.putExtra(Constants.KEY.PROFILE_KEY, userItem.mUser)
+            val intent = Intent(context, ProfileInformations::class.java)
+            //val userItem : UserItem = item as UserItem
+            //intent.putExtra(Constants.KEY.PROFILE_KEY, userItem.mUser)
             startActivity(intent)
         }
         adapter.onItemClick = {
