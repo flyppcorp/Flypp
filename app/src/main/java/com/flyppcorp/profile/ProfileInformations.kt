@@ -24,10 +24,10 @@ import kotlinx.android.synthetic.main.activity_profile_informations.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    lateinit var header: View
-    lateinit var profileName: TextView
-    lateinit var imageProfile: ImageView
-    lateinit var drawer: DrawerLayout
+    private lateinit var header: View
+    private lateinit var profileName: TextView
+    private lateinit var imageProfile: ImageView
+    private lateinit var drawer: DrawerLayout
     private var mUser: User? = null
 
 
