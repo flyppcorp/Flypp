@@ -169,6 +169,7 @@ class AddFragment : Fragment() {
                             //salvando no db caso haja uma url
                             if (validate()) {
                                 mFirestoreService.servicos(mServiceAtributes, serviceId)
+                                totalServicosAtivos()
                                 val frag = HomeFragment()
                                 val ft = fragmentManager!!.beginTransaction()
                                 ft.replace(R.id.main_view, frag, "HomeFragment")
@@ -189,6 +190,7 @@ class AddFragment : Fragment() {
         if (mUri == null) {
             if (validate() && validateConection()) {
                 mFirestoreService.servicos(mServiceAtributes, serviceId)
+                totalServicosAtivos()
                 val frag = HomeFragment()
                 val ft = fragmentManager!!.beginTransaction()
                 ft.replace(R.id.main_view, frag, "HomeFragment")
@@ -205,6 +207,14 @@ class AddFragment : Fragment() {
         }
 
 
+    }
+    private fun totalServicosAtivos(){
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mAuth.currentUser!!.uid)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.totalServicosAtivos = content.totalServicosAtivos + 1
+            it.set(tsDoc, content)
+        }
     }
 
     //função de validacao

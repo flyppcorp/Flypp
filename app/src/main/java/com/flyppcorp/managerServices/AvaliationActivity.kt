@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +38,7 @@ class AvaliationActivity : AppCompatActivity() {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
                 content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
                 content.totalAvaliacao = content.totalAvaliacao + 1
+                avaliacaoUser(editNota.text.toString().toInt())
                 it.set(tsDoc, content)
             }
             val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice!!.documentId!!)
@@ -46,6 +48,17 @@ class AvaliationActivity : AppCompatActivity() {
                 it.set(tsDocId, content)
             }
             finish()
+        }
+    }
+    private fun avaliacaoUser(avaliacao: Int){
+        val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mMyservice!!.idContratado!!)
+        mfirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.avaliacao = content.avaliacao + avaliacao
+            content.totalAvaliacao = content.totalAvaliacao + 1
+
+            it.set(tsDoc, content)
+
         }
     }
 }

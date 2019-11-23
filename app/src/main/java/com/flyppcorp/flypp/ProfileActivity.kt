@@ -30,6 +30,10 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mProgress: ProgressDialog
+    private var totalServicosAtivos: Int? = null
+    private var totalServicosFinalizados: Int? = null
+    private var avaliacao: Int? = null
+    private var totalAvaliacao: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,7 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
         fetchData()
+
 
 
     }
@@ -97,6 +102,10 @@ class ProfileActivity : AppCompatActivity() {
                     editBairroProfile.setText(userItem.bairro)
                     editRuaProfile.setText(userItem.rua)
                     editNumeroProfile.setText(userItem.numero)
+                    totalAvaliacao = userItem.totalAvaliacao
+                    totalServicosAtivos = userItem.totalServicosAtivos
+                    totalServicosFinalizados = userItem.totalServicosFinalizados
+                    avaliacao = userItem.avaliacao
 
 
                 }
@@ -125,6 +134,10 @@ class ProfileActivity : AppCompatActivity() {
             mUserInfo.numero = editNumeroProfile.text.toString()
             mUserInfo.email = mAuth.currentUser!!.email
             mUserInfo.uid = mAuth.currentUser!!.uid
+            mUserInfo.avaliacao = mUser!!.avaliacao
+            mUserInfo.totalServicosAtivos = mUser!!.totalServicosAtivos
+            mUserInfo.totalServicosFinalizados = mUser!!.totalServicosFinalizados
+            mUserInfo.totalAvaliacao = mUser!!.totalAvaliacao
 
             mUri?.let {
                 ref.putFile(it)
@@ -151,6 +164,9 @@ class ProfileActivity : AppCompatActivity() {
         }
 
     }
+
+
+
 
 
     private fun validate(): Boolean {

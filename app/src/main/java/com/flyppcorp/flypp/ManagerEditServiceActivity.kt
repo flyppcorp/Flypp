@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.managerServices.EditServiceActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_manager_edit_service.*
@@ -99,9 +101,20 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             .document(mServicos!!.serviceId!!)
             .delete()
             .addOnSuccessListener {
+                totalServicosAtivos()
                 finish()
+
             }.addOnFailureListener {
                 Toast.makeText(this, "Ocorreu um erro, tente novamente", Toast.LENGTH_SHORT).show()
             }
+    }
+    private fun totalServicosAtivos(){
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.totalServicosAtivos = content.totalServicosAtivos - 1
+            it.set(tsDoc, content)
+        }
     }
 }
