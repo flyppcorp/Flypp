@@ -118,10 +118,7 @@ class CreateProfileActivity : AppCompatActivity() {
             mUser.bairro = editBairro.text.toString()
             mUser.rua = editRua.text.toString()
             mUser.numero = editNumero.text.toString()
-            mUser.avaliacao = 0
-            mUser.totalAvaliacao = 0
-            mUser.totalServicosAtivos = 0
-            mUser.totalServicosFinalizados = 0
+
 
             mUser.uid = mAuth.currentUser!!.uid
             mUser.email = email

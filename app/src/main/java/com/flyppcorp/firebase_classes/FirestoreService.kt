@@ -8,8 +8,10 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirestoreService (private val context: Context) {
@@ -18,6 +20,7 @@ class FirestoreService (private val context: Context) {
     private val mServices: FirebaseFirestore = FirebaseFirestore.getInstance()
     val mDialog =  ProgressDialog(context)
     private val mAlertDialog = AlertDialog.Builder(context)
+    private val mAuth = FirebaseAuth.getInstance().currentUser!!.uid
 
     //função que salva serviços
     fun servicos(mService: Servicos, serviceId :String){
@@ -31,6 +34,7 @@ class FirestoreService (private val context: Context) {
                 mDialog.hide()
                 //mDialog.dismiss()
 
+
             }.addOnFailureListener {
                 mAlertDialog.setMessage("Algo deu errado, tente novamente")
                 mAlertDialog.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
@@ -40,5 +44,6 @@ class FirestoreService (private val context: Context) {
 
             }
     }
+
 
 }

@@ -28,20 +28,22 @@ class AvaliationActivity : AppCompatActivity() {
     }
 
     private fun handleAvalatiation() {
-        if (editNota.text.toString().isEmpty()){
+        if (editNota.text.toString().isEmpty()) {
             editNotaLayout.error = "Este campo não pode ser vazio"
-        }else if (editNota.text.toString().toInt() > 5){
+        } else if (editNota.text.toString().toInt() > 5) {
             editNotaLayout.error = "Sua nota não pode ser maior que 5"
-        }else{
-            val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(mMyservice!!.serviceId!!)
+        } else {
+            val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                .document(mMyservice!!.serviceId!!)
             mfirestore.runTransaction {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
                 content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
                 content.totalAvaliacao = content.totalAvaliacao + 1
-                avaliacaoUser(editNota.text.toString().toInt())
+
                 it.set(tsDoc, content)
             }
-            val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice!!.documentId!!)
+            val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                .document(mMyservice!!.documentId!!)
             mfirestore.runTransaction {
                 val content = it.get(tsDocId).toObject(Myservice::class.java)
                 content!!.idAvaliador[mMyservice!!.idContratante.toString()] = true
@@ -50,15 +52,6 @@ class AvaliationActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun avaliacaoUser(avaliacao: Int){
-        val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mMyservice!!.idContratado!!)
-        mfirestore.runTransaction {
-            val content = it.get(tsDoc).toObject(User::class.java)
-            content!!.avaliacao = content.avaliacao + avaliacao
-            content.totalAvaliacao = content.totalAvaliacao + 1
 
-            it.set(tsDoc, content)
 
-        }
-    }
 }

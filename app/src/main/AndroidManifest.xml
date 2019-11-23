@@ -18,7 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.flyppcorp.profile.ProfileInformations" android:theme="@style/appThemeProfile"></activity>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.flyppcorp.profile.ProfileInformations"
+            android:theme="@style/appThemeProfile" />
         <activity android:name=".LastMessages" />
         <activity
             android:name=".MessageActivity"
@@ -68,14 +77,9 @@
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".ConfirmationActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+        <activity android:name=".LoginActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />

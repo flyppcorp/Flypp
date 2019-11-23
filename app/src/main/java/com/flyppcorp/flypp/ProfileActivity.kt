@@ -102,10 +102,7 @@ class ProfileActivity : AppCompatActivity() {
                     editBairroProfile.setText(userItem.bairro)
                     editRuaProfile.setText(userItem.rua)
                     editNumeroProfile.setText(userItem.numero)
-                    totalAvaliacao = userItem.totalAvaliacao
-                    totalServicosAtivos = userItem.totalServicosAtivos
-                    totalServicosFinalizados = userItem.totalServicosFinalizados
-                    avaliacao = userItem.avaliacao
+
 
 
                 }
@@ -134,10 +131,7 @@ class ProfileActivity : AppCompatActivity() {
             mUserInfo.numero = editNumeroProfile.text.toString()
             mUserInfo.email = mAuth.currentUser!!.email
             mUserInfo.uid = mAuth.currentUser!!.uid
-            mUserInfo.avaliacao = mUser!!.avaliacao
-            mUserInfo.totalServicosAtivos = mUser!!.totalServicosAtivos
-            mUserInfo.totalServicosFinalizados = mUser!!.totalServicosFinalizados
-            mUserInfo.totalAvaliacao = mUser!!.totalAvaliacao
+
 
             mUri?.let {
                 ref.putFile(it)

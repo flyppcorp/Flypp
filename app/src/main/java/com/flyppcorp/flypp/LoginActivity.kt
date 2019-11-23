@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         //setListeners possui os Onclick
         setListeners()
         //moveMain leva para a main caso user esteja conectado
-        moveMainPage()
+        //moveMainPage()
     }
 
     private fun setListeners() {
