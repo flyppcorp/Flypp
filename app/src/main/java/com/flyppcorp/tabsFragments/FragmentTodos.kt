@@ -44,7 +44,6 @@ class FragmentTodos : Fragment() {
         val view = inflater.inflate(R.layout.fragment_fragment_todos, container, false)
         view.rv_todos.adapter = mAdapter
         view.rv_todos.layoutManager = LinearLayoutManager(activity)
-        view.rv_todos.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         mAdapter.onItemClick = {
             val intent = Intent(context, ManagerEditServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, contentService[it])

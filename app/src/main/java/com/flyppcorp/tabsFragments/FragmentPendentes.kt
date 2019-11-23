@@ -41,9 +41,6 @@ class FragmentPendentes : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_fragment_pendentes, container, false)
         view.recyclerPendente.adapter = mAdapter
-        view.recyclerPendente.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
         mAdapter.setOnItemClickListener { item, view ->
             val intent = Intent(context, PendenteActivity::class.java)
             val itemPendente: ItemPendente = item as ItemPendente

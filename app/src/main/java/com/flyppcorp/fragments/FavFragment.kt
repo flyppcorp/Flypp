@@ -49,9 +49,6 @@ class FavFragment : Fragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_fav, container, false)
         view.recycler_favorite.adapter = mAdapter
         view.recycler_favorite.layoutManager = LinearLayoutManager(activity)
-        view.recycler_favorite.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
         mAdapter.onItemClick = {
             val intent = Intent(context, ServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, contentServicos[it])

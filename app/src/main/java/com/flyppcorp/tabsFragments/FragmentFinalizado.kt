@@ -42,9 +42,6 @@ class FragmentFinalizado : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_fragment_finalizado, container, false)
         view.recyclerFinalizado.adapter = mAdapter
-        view.recyclerFinalizado.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
         mAdapter.setOnItemClickListener { item, view ->
             val intent = Intent(context, FinalizadoActivity::class.java)
             val userItem : ItemFinalizado = item as ItemFinalizado

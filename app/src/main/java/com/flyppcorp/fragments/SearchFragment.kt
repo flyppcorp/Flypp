@@ -53,9 +53,6 @@ class SearchFragment : Fragment() {
 
         }
         view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
-        view.recyclerSearch.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
         mAdapter.onItemClick = {
             val intent = Intent(context, ServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, contentServicesearch[it])

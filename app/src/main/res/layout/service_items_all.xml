@@ -6,37 +6,56 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bf_cardview"
     android:id="@+id/service_items"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="8dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgServiceMainList"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgServiceMainList"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgServiceMainList"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/photo_work"
+            app:civ_border_color="@color/colorPrimaryDark"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/photo_work" />
+            app:layout_constraintTop_toTopOf="@+id/view2" />
 
         <TextView
             android:id="@+id/txtNomeServicoList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:textColor="@color/primaryText"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgServiceMainList"
-            app:layout_constraintTop_toTopOf="@+id/imgServiceMainList" />
+            app:layout_constraintStart_toEndOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileImgMainList"
@@ -62,18 +81,19 @@
             app:layout_constraintBottom_toBottomOf="@+id/imgProfileImgMainList"
             app:layout_constraintEnd_toEndOf="@+id/txtNomeServico"
             app:layout_constraintStart_toEndOf="@+id/imgProfileImgMainList"
-            app:layout_constraintTop_toTopOf="@+id/imgProfileImgMainList"
-            />
+            app:layout_constraintTop_toTopOf="@+id/imgProfileImgMainList" />
 
         <TextView
             android:id="@+id/txtShortDescList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtNomeUserList"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/imgProfileImgMainList"
             app:layout_constraintTop_toBottomOf="@+id/imgProfileImgMainList" />
 
@@ -85,7 +105,7 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textColor="#FFE600"
-            android:textStyle="normal"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/txtShortDescList"
             app:layout_constraintTop_toBottomOf="@+id/txtShortDescList" />
 

@@ -41,9 +41,6 @@ class FragmentAndamento : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_fragment_andamento, container, false)
         view.recyclerAndamento.adapter = mAdapter
-        view.recyclerAndamento.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
         mAdapter.setOnItemClickListener { item, view ->
             val intent = Intent(context, AndamentoActivity::class.java)
             val userItem: ItemAndamento = item as ItemAndamento
