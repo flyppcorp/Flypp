@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile_informations.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -42,12 +43,21 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
         imageProfile = header.findViewById(R.id.img_nav_profile)
         drawer = findViewById(R.id.drawerLayout)
         navigationView.setNavigationItemSelectedListener(this)
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbarprofile, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbarprofile,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
+            val profileFragment = ProfileFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.main_conteiner, profileFragment)
+                .commit()
             navigationView.setCheckedItem(R.id.perfil)
         }
 
@@ -59,11 +69,16 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.perfil -> Toast.makeText(this, "PERFIL", Toast.LENGTH_SHORT).show()
+            R.id.perfil -> {
+                val profileFragment = ProfileFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_conteiner, profileFragment).commit()
+                return true
+            }
             R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
         }
 
-        return true
+        return false
     }
 
     override fun onBackPressed() {
@@ -83,6 +98,8 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
                 mUser = it.toObject(User::class.java)
                 profileName.text = mUser!!.nome
                 Picasso.get().load(mUser?.url).into(imageProfile)
+
+
                 profileGo()
             }
     }
