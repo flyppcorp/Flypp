@@ -30,10 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mProgress: ProgressDialog
-    private var totalServicosAtivos: Int? = null
-    private var totalServicosFinalizados: Int? = null
-    private var avaliacao: Int? = null
-    private var totalAvaliacao: Int? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

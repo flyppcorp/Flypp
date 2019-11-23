@@ -15,6 +15,7 @@
             android:id="@+id/toolbarprofile"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:elevation="4dp"
             android:background="@color/colorPrimary"/>
 
         <FrameLayout
