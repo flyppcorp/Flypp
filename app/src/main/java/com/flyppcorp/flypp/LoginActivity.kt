@@ -79,14 +79,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun moveMainPage() {
-        val user = mAuth.currentUser
-        if (user != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-    }
-
 
 }
 

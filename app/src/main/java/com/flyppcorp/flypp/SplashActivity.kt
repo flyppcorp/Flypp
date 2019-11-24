@@ -18,29 +18,22 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         mAuth = FirebaseAuth.getInstance()
-        val uid = mAuth.currentUser!!.uid
-        //progressLoad()
-        Handler().postDelayed(
-            {
-                kotlin.run {
-                    if (uid != null && mAuth.currentUser!!.isEmailVerified){
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }else {
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
+
+        Handler().postDelayed({
+            Handler().postDelayed({
+                if (mAuth.currentUser?.uid != null && mAuth.currentUser!!.isEmailVerified ){
+                    val intent = Intent(baseContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(baseContext, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
-
-        }, 2000)
-
-
-
+            }, 500)
+        }, 2500)
 
     }
-
 
 
 }
