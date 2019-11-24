@@ -10,6 +10,10 @@
             android:title="Dados bancários"
             android:icon="@drawable/ic_attach_money"/>
 
+        <item android:id="@+id/sair"
+            android:title="Sair"
+            android:icon="@drawable/ic_exit"/>
+
 
     </group>
 </menu>

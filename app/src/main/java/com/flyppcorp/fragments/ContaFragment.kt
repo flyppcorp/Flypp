@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
-import com.flyppcorp.flypp.ManagerServicesActivity
-import com.flyppcorp.flypp.ProfileActivity
-import com.flyppcorp.flypp.R
+import com.flyppcorp.flypp.*
 import com.flyppcorp.profile.ProfileInformations
 import com.flyppcorp.profile_settings.ProfileAdapter
 import com.flyppcorp.profile_settings.menuOptions
@@ -36,6 +35,7 @@ class ContaFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var adapter: ProfileAdapter
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //iniciando objetos
         mFB = LoginFirebaseAuth(context!!)
@@ -46,7 +46,8 @@ class ContaFragment : Fragment() {
 
         //configurações das duas recyclerview
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_conta, container, false)
-        view.btnLogOut.setOnClickListener { mFB.logOut() }
+
+
         view.rv_profile.adapter = adapter
         view.rv_profile.layoutManager = LinearLayoutManager(activity)
         view.recyclerView.adapter = mAdapter
@@ -67,6 +68,8 @@ class ContaFragment : Fragment() {
 
         return view
     }
+
+
 
 
 

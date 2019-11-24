@@ -10,10 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.LoginActivity
 import com.flyppcorp.flypp.ProfileActivity
 import com.flyppcorp.flypp.R
 import com.google.android.material.navigation.NavigationView
@@ -74,6 +76,21 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_conteiner, profileFragment).commit()
                 return true
+            }
+
+            R.id.sair -> {
+                val user = FirebaseAuth.getInstance().currentUser
+                val alert = AlertDialog.Builder(this)
+                alert.setMessage("Você tem certeza que deseja sair?")
+                alert.setNegativeButton("Não", {dialog, which ->  })
+                alert.setPositiveButton("Sim", {dialog, which ->
+                    if (user != null){
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
+                })
+                alert.show()
+
             }
             R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
         }

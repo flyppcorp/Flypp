@@ -69,11 +69,4 @@ class LoginFirebaseAuth(private val context: Context) {
 
     }
 
-    //função para logout
-    fun logOut(){
-        mAuth.signOut()
-        val intent =  Intent(context, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(context,intent, null)
-    }
 }
