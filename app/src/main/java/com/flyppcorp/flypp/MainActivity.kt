@@ -1,6 +1,7 @@
 package com.flyppcorp.flypp
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -110,9 +111,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.addFrag -> {
-                val addFragment = AddFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_view, addFragment)
-                    .commit()
+                val intent = Intent(this, AddActivity::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.favFrag -> {

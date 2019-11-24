@@ -1,41 +1,28 @@
 package com.flyppcorp.fragments
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreService
-import com.flyppcorp.flypp.MainActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_create_profile.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add.*
-import kotlinx.android.synthetic.main.fragment_add.editCep
-import kotlinx.android.synthetic.main.fragment_add.view.*
-import java.lang.Exception
+import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_add.editCep
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class AddFragment : Fragment() {
+class AddActivity : AppCompatActivity() {
     //declaração das variaveis e objetos
     private var mUri: Uri? = null
     private lateinit var mFirestoreService: FirestoreService
@@ -45,40 +32,33 @@ class AddFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: User
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        //instancia de objetos
-        mFirestoreService = FirestoreService(context!!)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add)
+
+        mFirestoreService = FirestoreService(this)
         mStorage = FirebaseStorage.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mServiceAtributes = Servicos()
         mUser = User()
+        supportActionBar!!.title = "Adicionar serviço"
 
-        //inflando a fragment
-        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_add, container, false)
-        //usar a view para colocar acoes nos botoes
-        view.btnSelectPhotoService.setOnClickListener { handleSelect() }
-        view.btnSaveService.setOnClickListener {
+        btnSelectPhotoService.setOnClickListener { handleSelect() }
+        btnSaveService.setOnClickListener {
             handleSaveService()
-        if(validate()){
-            //progressBar5.visibility = View.VISIBLE
-            mFirestoreService.mDialog.show()
-        }
+            if(validate()){
+                //progressBar5.visibility = View.VISIBLE
+                mFirestoreService.mDialog.show()
+            }
             if (!validateConection()){
                 return@setOnClickListener
             }
         }
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
-        return view
-
     }
 
-    //funcao que preenche dadas existentes da colecao user na service
     fun getInfo() {
         val uid = mAuth.currentUser?.uid
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -93,6 +73,7 @@ class AddFragment : Fragment() {
                         editCidadeService.setText(mUser.cidade)
                         editRuaService.setText(mUser.rua)
                         EditBairroService.setText(mUser.bairro)
+                        editEstadosAdd.setText(mUser.estado)
 
 
                     }
@@ -140,7 +121,7 @@ class AddFragment : Fragment() {
         mServiceAtributes.tipoCobranca = spinnerDuracaoService.selectedItem.toString()
         mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
         mServiceAtributes.cep = editCep.text.toString()
-        mServiceAtributes.estado = spinnerEstadoService.selectedItem.toString()
+        mServiceAtributes.estado = editEstadosAdd.text.toString()
         mServiceAtributes.cidade = editCidadeService.text.toString()
         mServiceAtributes.bairro = EditBairroService.text.toString()
         mServiceAtributes.rua = editRuaService.text.toString()
@@ -170,14 +151,10 @@ class AddFragment : Fragment() {
                             //salvando no db caso haja uma url
                             if (validate()) {
                                 mFirestoreService.servicos(mServiceAtributes, serviceId)
-                                val frag = HomeFragment()
-                                val ft = fragmentManager!!.beginTransaction()
-                                ft.replace(R.id.main_view, frag, "HomeFragment")
-                                ft.addToBackStack(null)
-                                ft.commit()
+
                             } else {
                                 Toast.makeText(
-                                    context,
+                                    this,
                                     "Por favor, preencha o nome do serviço e/ou as TAGS",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -191,18 +168,9 @@ class AddFragment : Fragment() {
             if (validate() && validateConection()) {
                 mFirestoreService.servicos(mServiceAtributes, serviceId)
 
-
-
-
-                val frag = HomeFragment()
-                val ft = fragmentManager!!.beginTransaction()
-                ft.replace(R.id.main_view, frag, "HomeFragment")
-                ft.addToBackStack(null)
-                ft.commit()
-
             } else {
                 Toast.makeText(
-                    context,
+                    this,
                     "Por favor, preencha o nome do serviço e/ou as TAGS",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -220,22 +188,15 @@ class AddFragment : Fragment() {
 
     }
     fun validateConection(): Boolean{
-        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected){
             return true
         }else{
-            progressBar5.visibility = View.GONE
-            Toast.makeText(context, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
             return false
         }
 
     }
-
 }
-
-
-
-
-
-

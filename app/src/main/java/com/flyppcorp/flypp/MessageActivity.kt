@@ -153,7 +153,7 @@ class MessageActivity : AppCompatActivity() {
                 }
 
             mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                .document(toId!!)
+                .document(toId)
                 .collection(fromId)
                 .add(mMessage)
                 .addOnSuccessListener {
