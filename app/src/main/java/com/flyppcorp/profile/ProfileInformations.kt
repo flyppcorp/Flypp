@@ -32,11 +32,13 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
     private lateinit var imageProfile: ImageView
     private lateinit var drawer: DrawerLayout
     private var mUser: User? = null
+    private lateinit var mAuth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_informations)
+        mAuth = FirebaseAuth.getInstance()
         setSupportActionBar(toolbarprofile)
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         toolbarprofile.setTitleTextColor(Color.WHITE)
@@ -63,6 +65,11 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             navigationView.setCheckedItem(R.id.perfil)
         }
 
+        mAuth.addAuthStateListener {
+            if (mAuth.currentUser == null){
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
 
         fetch()
 
@@ -79,17 +86,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             }
 
             R.id.sair -> {
-                val user = FirebaseAuth.getInstance().currentUser
-                val alert = AlertDialog.Builder(this)
-                alert.setMessage("Você tem certeza que deseja sair?")
-                alert.setNegativeButton("Não", {dialog, which ->  })
-                alert.setPositiveButton("Sim", {dialog, which ->
-                    if (user != null){
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
-                })
-                alert.show()
+                signOut()
 
             }
             R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
@@ -104,6 +101,27 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
         } else {
             super.onBackPressed()
         }
+
+    }
+
+    private fun signOut() {
+        val correntUser = mAuth.currentUser
+        FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(correntUser!!.uid)
+            .update("online", false)
+        val alert = AlertDialog.Builder(this)
+        alert.setMessage("Você tem certeza que deseja sair?")
+        alert.setNegativeButton("Não", {dialog, which ->  })
+        alert.setPositiveButton("Sim", {dialog, which ->
+            if (correntUser != null) {
+                mAuth.signOut()
+                val intent: Intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+        })
+        alert.show()
+
 
     }
 
