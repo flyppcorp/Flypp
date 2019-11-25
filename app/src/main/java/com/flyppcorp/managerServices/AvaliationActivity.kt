@@ -33,6 +33,7 @@ class AvaliationActivity : AppCompatActivity() {
         } else if (editNota.text.toString().toInt() > 5) {
             editNotaLayout.error = "Sua nota não pode ser maior que 5"
         } else {
+            avaliationUser()
             val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice!!.serviceId!!)
             mfirestore.runTransaction {
@@ -51,6 +52,17 @@ class AvaliationActivity : AppCompatActivity() {
             }
             finish()
         }
+    }
+    private fun avaliationUser(){
+        val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mMyservice!!.idContratado!!)
+        mfirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.totalAvaliacao = content.totalAvaliacao + 1
+            content.avaliacao = content.avaliacao + editNota.text.toString().toInt()
+            it.set(tsDoc, content)
+        }
+
+
     }
 
 

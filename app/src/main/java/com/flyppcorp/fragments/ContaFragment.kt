@@ -36,6 +36,7 @@ class ContaFragment : Fragment() {
     private lateinit var adapter: ProfileAdapter
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //iniciando objetos
         mFB = LoginFirebaseAuth(context!!)
@@ -51,12 +52,12 @@ class ContaFragment : Fragment() {
         view.rv_profile.adapter = adapter
         view.rv_profile.layoutManager = LinearLayoutManager(activity)
         view.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { item, view ->
+        /*mAdapter.setOnItemClickListener { item, view ->
             val intent = Intent(context, ProfileInformations::class.java)
             //val userItem : UserItem = item as UserItem
             //intent.putExtra(Constants.KEY.PROFILE_KEY, userItem.mUser)
             startActivity(intent)
-        }
+        }*/
         adapter.onItemClick = {
             adapter.getItemId(it)
            when{
@@ -75,6 +76,7 @@ class ContaFragment : Fragment() {
 
     //recyclerview local
     private inner class UserItem( val mUser: User): Item<GroupieViewHolder>(){
+        private var mUserInfo: User? = null
         override fun getLayout(): Int {
             return R.layout.perfil_items
         }
@@ -82,6 +84,17 @@ class ContaFragment : Fragment() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
            viewHolder.itemView.txtMyName.text = mUser.nome
             Picasso.get().load(mUser.url).into(viewHolder.itemView.photoPerfil)
+            viewHolder.itemView.photoPerfil.setOnClickListener {
+                 FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
+                     .document(mAuth.currentUser!!.uid)
+                     .get()
+                     .addOnSuccessListener {
+                         mUserInfo = it.toObject(User::class.java)
+                         val intent = Intent(context, ProfileInformations::class.java)
+                         intent.putExtra(Constants.KEY.PROFILE_KEY, mUser)
+                         startActivity(intent)
+                     }
+            }
         }
 
 

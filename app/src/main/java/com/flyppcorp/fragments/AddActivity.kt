@@ -181,6 +181,7 @@ class AddActivity : AppCompatActivity() {
     }
 
 
+
     //função de validacao
     fun validate(): Boolean {
         return editTags.text.toString() != "" &&

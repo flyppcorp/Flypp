@@ -18,21 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <View
-                android:id="@+id/view5"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/bg"
-                app:layout_constraintBottom_toBottomOf="@+id/view4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgManagerProfile"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/btn_select_photo_profile"
                 android:src="@drawable/ic_person"
                 app:civ_border_color="@color/colorPrimaryDark"
@@ -105,15 +96,93 @@
                 app:layout_constraintStart_toStartOf="@+id/textView44"
                 app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="80dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Serviços"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtContatosManagerProfile"
+                app:layout_constraintStart_toStartOf="@+id/txtContatosManagerProfile"
+                app:layout_constraintTop_toBottomOf="@+id/txtContatosManagerProfile" />
+
+            <TextView
+                android:id="@+id/txtAtivoProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_service_info"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/textIcons"
+                android:textSize="24sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imgManagerProfile" />
+                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+            <TextView
+                android:id="@+id/txtAvaliacaoProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_service_info"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/textIcons"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+            <TextView
+                android:id="@+id/txtFinalizadoProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_service_info"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/textIcons"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView41"
+                app:layout_constraintStart_toStartOf="@+id/textView41"
+                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Ativos"
+                app:layout_constraintEnd_toEndOf="@+id/txtAtivoProfile"
+                app:layout_constraintStart_toStartOf="@+id/txtAtivoProfile"
+                app:layout_constraintTop_toBottomOf="@+id/txtAtivoProfile" />
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Finalizados"
+                app:layout_constraintEnd_toEndOf="@+id/txtFinalizadoProfile"
+                app:layout_constraintStart_toStartOf="@+id/txtFinalizadoProfile"
+                app:layout_constraintTop_toBottomOf="@+id/txtFinalizadoProfile" />
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Avaliação"
+                app:layout_constraintEnd_toEndOf="@+id/txtAvaliacaoProfile"
+                app:layout_constraintStart_toStartOf="@+id/txtAvaliacaoProfile"
+                app:layout_constraintTop_toBottomOf="@+id/txtAvaliacaoProfile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

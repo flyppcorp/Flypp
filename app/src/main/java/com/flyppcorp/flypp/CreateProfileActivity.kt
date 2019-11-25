@@ -118,6 +118,8 @@ class CreateProfileActivity : AppCompatActivity() {
             mUser.bairro = editBairro.text.toString()
             mUser.rua = editRua.text.toString()
             mUser.numero = editNumero.text.toString()
+            mUser.servicosAtivos = 0
+            mUser.totalServicosFinalizados = 0
 
 
             mUser.uid = mAuth.currentUser!!.uid

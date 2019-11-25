@@ -59,6 +59,15 @@ class ProfileFragment : Fragment() {
 
                 txtContatosManagerProfile.text = "E-mail: ${mUser!!.email} \n" +
                         "Telefone: (${mUser?.ddd}) ${mUser?.telefone}"
+                txtAtivoProfile.text = mUser!!.servicosAtivos.toString()
+                txtFinalizadoProfile.text = mUser!!.totalServicosFinalizados.toString()
+                if (mUser!!.avaliacao == 0) {
+                    txtAvaliacaoProfile.text = mUser!!.avaliacao.toString()
+                } else {
+                    val media : Double = mUser!!.avaliacao.toDouble() / mUser!!.totalAvaliacao
+                    txtAvaliacaoProfile.text = "${media.toString().substring(0,3)}"
+
+                }
 
             }
     }

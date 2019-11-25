@@ -101,11 +101,22 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             .document(mServicos!!.serviceId!!)
             .delete()
             .addOnSuccessListener {
+                servicosAtivos()
                 finish()
 
             }.addOnFailureListener {
                 Toast.makeText(this, "Ocorreu um erro, tente novamente", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun servicosAtivos(){
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.servicosAtivos = content.servicosAtivos - 1
+            it.set(tsDoc, content)
+        }
     }
 
 }

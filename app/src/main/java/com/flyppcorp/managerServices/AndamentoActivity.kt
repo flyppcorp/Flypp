@@ -47,6 +47,7 @@ class AndamentoActivity : AppCompatActivity() {
             content?.finalizado = true
             //Aqui será a chamada para a tela de avaliacao caso seja finalizado pelo contratante
             it.set(tsDoc, content!!)
+            servicosFinalizado(mMyservice!!.idContratado!!)
 
         }
         val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -57,6 +58,7 @@ class AndamentoActivity : AppCompatActivity() {
             contentService?.totalServicos = contentService?.totalServicos!!.toInt() + 1
             it.set(tsServiceDoc, contentService)
         }
+
         if (mMyservice!!.idContratante == mAuth.currentUser!!.uid) {
             val intent = Intent(this, AvaliationActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
@@ -65,6 +67,14 @@ class AndamentoActivity : AppCompatActivity() {
         }
         finish()
 
+    }
+    private fun servicosFinalizado(uid : String){
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.totalServicosFinalizados = content.totalServicosFinalizados + 1
+            it.set(tsDoc, content)
+        }
     }
 
     private fun handleCancel() {

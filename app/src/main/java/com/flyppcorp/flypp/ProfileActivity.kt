@@ -29,6 +29,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mProgress: ProgressDialog
+    private var servicosAtivos : Int? = null
+    private var servicosFinalizados : Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +100,9 @@ class ProfileActivity : AppCompatActivity() {
                     editBairroProfile.setText(userItem.bairro)
                     editRuaProfile.setText(userItem.rua)
                     editNumeroProfile.setText(userItem.numero)
+                    servicosAtivos = userItem.servicosAtivos
+                    servicosFinalizados = userItem.totalServicosFinalizados
+
 
 
 
@@ -127,6 +132,9 @@ class ProfileActivity : AppCompatActivity() {
             mUserInfo.numero = editNumeroProfile.text.toString()
             mUserInfo.email = mAuth.currentUser!!.email
             mUserInfo.uid = mAuth.currentUser!!.uid
+            mUserInfo.servicosAtivos = servicosAtivos!!
+            mUserInfo.totalServicosFinalizados = servicosFinalizados!!
+
 
 
             mUri?.let {

@@ -32,6 +32,7 @@ class FirestoreService (private val context: Context) {
             .set(mService)
             .addOnSuccessListener {
                 mDialog.hide()
+                servicosAtivos()
                 val intent = Intent(context, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(context, intent, null)
@@ -46,6 +47,14 @@ class FirestoreService (private val context: Context) {
 
 
             }
+    }
+    private fun servicosAtivos(){
+       val tsDoc = mServices.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mAuth)
+        mServices.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content!!.servicosAtivos = content.servicosAtivos + 1
+            it.set(tsDoc, content)
+        }
     }
 
 

@@ -21,7 +21,12 @@ data class User(
     var telefone: String? = null,
     var email: String? = null,
     var online: Boolean = false,
-    var token: String? = null
+    var token: String? = null,
+    //Sobre servuços
+    var servicosAtivos: Int = 0,
+    var totalServicosFinalizados : Int = 0,
+    var avaliacao: Int = 0,
+    var totalAvaliacao: Int = 0
 ) : Endereco(), Parcelable
 
 @Parcelize
