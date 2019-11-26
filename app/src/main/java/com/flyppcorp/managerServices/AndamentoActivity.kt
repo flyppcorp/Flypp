@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -48,6 +49,7 @@ class AndamentoActivity : AppCompatActivity() {
             //Aqui será a chamada para a tela de avaliacao caso seja finalizado pelo contratante
             it.set(tsDoc, content!!)
             servicosFinalizado(mMyservice!!.idContratado!!)
+            dashBoard()
 
         }
         val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -132,6 +134,15 @@ class AndamentoActivity : AppCompatActivity() {
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
 
+        }
+    }
+
+    private fun dashBoard(){
+        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(DashBoard::class.java)
+            content!!.finishService = content.finishService + 1
+            it.set(tsDoc, content)
         }
     }
 

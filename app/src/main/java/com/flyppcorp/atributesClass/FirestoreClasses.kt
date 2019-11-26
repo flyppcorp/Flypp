@@ -24,7 +24,7 @@ data class User(
     var token: String? = null,
     //Sobre servuços
     var servicosAtivos: Int = 0,
-    var totalServicosFinalizados : Int = 0,
+    var totalServicosFinalizados: Int = 0,
     var avaliacao: Int = 0,
     var totalAvaliacao: Int = 0
 ) : Endereco(), Parcelable
@@ -105,3 +105,9 @@ data class Myservice(
     var andamento: Boolean = false,
     var finalizado: Boolean = false
 ) : Endereco(), Parcelable
+
+data class DashBoard(
+    var newUser: Long = 0,
+    var contractService: Long = 0,
+    var finishService: Long = 0
+)

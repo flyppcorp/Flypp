@@ -31,4 +31,9 @@ class Constants {
         const val MAIS_AVALIADO = "mais_avaliado"
     }
 
+    object DASHBOARD_SERVICE{
+        const val DASHBOARD_COLLECTION = "dashboard"
+        const val DASHBOARD_DOCUMENT = "manager dashboard"
+    }
+
 }

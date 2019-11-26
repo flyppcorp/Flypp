@@ -13,6 +13,7 @@ import com.flyppcorp.flypp.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.gms.ads.*
 import androidx.appcompat.app.AppCompatActivity
+import com.flyppcorp.atributesClass.DashBoard
 import com.muddzdev.styleabletoast.StyleableToast
 
 
@@ -20,7 +21,7 @@ class FirestoreContract(var context: Context) {
     private val mFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var mProgress: Boolean = true
     val progress = ProgressDialog(context)
-    lateinit var mIntertial : InterstitialAd
+    lateinit var mIntertial: InterstitialAd
 
     @SuppressLint("ResourceAsColor")
     fun confirmServiceContract(myservice: Myservice, documentId: String) {
@@ -32,8 +33,8 @@ class FirestoreContract(var context: Context) {
 
                 progress.dismiss()
                 moveAndShowAd()
+                dashBoard()
                 toast()
-
 
 
             }.addOnFailureListener {
@@ -46,15 +47,15 @@ class FirestoreContract(var context: Context) {
     private fun toast() {
         val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
         var view = toast.view
-        view.setBackgroundColor(Color.rgb(103,58,183))
-        view.setPadding(20,20,20,20)
+        view.setBackgroundColor(Color.rgb(103, 58, 183))
+        view.setPadding(20, 20, 20, 20)
         toast.show()
     }
 
-    private fun moveAndShowAd(){
-        if (mIntertial.isLoaded){
+    private fun moveAndShowAd() {
+        if (mIntertial.isLoaded) {
             mIntertial.show()
-            mIntertial.adListener = object : AdListener(){
+            mIntertial.adListener = object : AdListener() {
                 override fun onAdClosed() {
                     mIntertial.loadAd(AdRequest.Builder().build())
                     val intent = Intent(context, MainActivity::class.java)
@@ -62,12 +63,22 @@ class FirestoreContract(var context: Context) {
                     startActivity(context, intent, null)
                 }
             }
-        }else {
+        } else {
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(context, intent, null)
         }
     }
 
-
+    private fun dashBoard() {
+        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION)
+            .document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(DashBoard::class.java)
+            content!!.contractService = content.contractService + 1
+            it.set(tsDoc, content)
+        }
     }
+
+
+}
