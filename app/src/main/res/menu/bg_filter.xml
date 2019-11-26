@@ -7,10 +7,10 @@
         android:icon="@drawable/ic_filter"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/mensagem"
+    <!--<item android:id="@+id/mensagem"
         app:showAsAction="always"
         android:icon="@drawable/ic_telegram"
-        android:title="Mensagem"/>
+        android:title="Mensagem"/> -->
 
 
 </menu>

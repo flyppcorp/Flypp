@@ -182,7 +182,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.filter -> startActivity(Intent(context, FilterActivity::class.java))
-            R.id.mensagem -> startActivity(Intent(context, LastMessages::class.java))
+            //R.id.mensagem -> startActivity(Intent(context, LastMessages::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

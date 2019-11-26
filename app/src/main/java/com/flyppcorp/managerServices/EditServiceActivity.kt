@@ -7,7 +7,6 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -32,7 +31,6 @@ import kotlinx.android.synthetic.main.activity_edit_service.editRuaService
 import kotlinx.android.synthetic.main.activity_edit_service.editService
 import kotlinx.android.synthetic.main.activity_edit_service.editTags
 import kotlinx.android.synthetic.main.activity_edit_service.imgService
-import kotlinx.android.synthetic.main.activity_edit_service.progressBar5
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -253,7 +251,7 @@ class EditServiceActivity : AppCompatActivity() {
         if (networkInfo != null && networkInfo.isConnected) {
             return true
         } else {
-            progressBar5.visibility = View.GONE
+
             Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT)
                 .show()
             return false

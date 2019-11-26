@@ -59,8 +59,18 @@ class ProfileFragment : Fragment() {
 
                 txtContatosManagerProfile.text = "E-mail: ${mUser!!.email} \n" +
                         "Telefone: (${mUser?.ddd}) ${mUser?.telefone}"
-                txtAtivoProfile.text = mUser!!.servicosAtivos.toString()
-                txtFinalizadoProfile.text = mUser!!.totalServicosFinalizados.toString()
+                if (mUser!!.servicosAtivos < 1000){
+                    txtAtivoProfile.text = mUser!!.servicosAtivos.toString()
+                }else if (mUser!!.servicosAtivos > 1000){
+                    txtAtivoProfile.text = "${mUser!!.servicosAtivos.toString().substring(0,1)}K"
+                }
+
+                if (mUser!!.totalServicosFinalizados < 1000){
+                    txtFinalizadoProfile.text = mUser!!.totalServicosFinalizados.toString()
+                }else if (mUser!!.totalServicosFinalizados > 1000){
+                    txtAtivoProfile.text = "${mUser!!.totalServicosFinalizados.toString().substring(0,1)}K"
+                }
+
                 if (mUser!!.avaliacao == 0) {
                     txtAvaliacaoProfile.text = mUser!!.avaliacao.toString()
                 } else {
