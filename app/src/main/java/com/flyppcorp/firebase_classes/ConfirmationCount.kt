@@ -62,7 +62,7 @@ class ConfirmationCount(private val context: Context) {
             Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
-            content!!.finishService = content.finishService + 1
+            content!!.newUser = content.newUser + 1
             it.set(tsDoc, content)
         }
     }
