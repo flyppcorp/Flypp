@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Myservice
+import com.flyppcorp.atributesClass.Notification
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -48,11 +50,31 @@ class PendenteActivity : AppCompatActivity() {
                 val content = it.get(tsDoc).toObject(Myservice::class.java)
                 content?.pendente = false
                 content?.andamento = true
+                notification()
                 it.set(tsDoc, content!!)
             }
             finish()
         }
     }
+    private fun notification(){
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyService!!.idContratante!!)
+            .get()
+            .addOnSuccessListener { info ->
+
+                val user: User? = info.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyService!!.serviceId
+                notification.text = "${mMyService!!.nomeContratante} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                notification.title = "Nova atualização de serviço"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user!!.token!!)
+                    .set(notification)
+
+            }
+    }
+
 
     private fun handleDesistirRecusar() {
        val mDialog = AlertDialog.Builder(this)
@@ -62,6 +84,11 @@ class PendenteActivity : AppCompatActivity() {
                 .document(mMyService!!.documentId!!)
                 .delete()
                 .addOnSuccessListener {
+                    if (mMyService!!.idContratante == mAuth.currentUser!!.uid){
+                        notificationDesistence(mMyService!!.idContratado!!, "desistiu")
+                    }else{
+                        notificationDesistence(mMyService!!.idContratante!!, "rejeitou")
+                    }
                     finish()
                 }.addOnFailureListener {
                     Toast.makeText(this, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT).show()
@@ -69,6 +96,25 @@ class PendenteActivity : AppCompatActivity() {
         }
         mDialog.setNegativeButton("Não"){dialog: DialogInterface?, which: Int ->  }
         mDialog.show()
+    }
+
+    private fun notificationDesistence(uid: String, status: String){
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener { info ->
+
+                val user: User? = info.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyService!!.serviceId
+                notification.text = "${mMyService!!.nomeContratante} $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                notification.title = "Nova atualização de serviço"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user!!.token!!)
+                    .set(notification)
+
+            }
     }
 
 

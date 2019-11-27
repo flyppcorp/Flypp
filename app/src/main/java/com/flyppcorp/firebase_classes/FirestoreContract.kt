@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.gms.ads.*
 import androidx.appcompat.app.AppCompatActivity
 import com.flyppcorp.atributesClass.DashBoard
+import com.flyppcorp.atributesClass.Notification
 import com.muddzdev.styleabletoast.StyleableToast
 
 
@@ -24,7 +25,8 @@ class FirestoreContract(var context: Context) {
     lateinit var mIntertial: InterstitialAd
 
     @SuppressLint("ResourceAsColor")
-    fun confirmServiceContract(myservice: Myservice, documentId: String) {
+
+    fun confirmServiceContract(myservice: Myservice, documentId: String, token: String, notification: Notification ) {
         progress.show()
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
             .document(documentId)
@@ -34,6 +36,7 @@ class FirestoreContract(var context: Context) {
                 progress.dismiss()
                 moveAndShowAd()
                 dashBoard()
+                sendNotification(token, notification)
                 toast()
 
 
@@ -43,6 +46,13 @@ class FirestoreContract(var context: Context) {
             }
 
     }
+    private fun sendNotification(token : String, notification: Notification){
+        mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+            .document(token)
+            .set(notification)
+    }
+
+
 
     private fun toast() {
         val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)

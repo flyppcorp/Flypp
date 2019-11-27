@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
-import com.flyppcorp.atributesClass.NotificationMessage
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.flyppcorp.atributesClass.Myservice
+import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -103,8 +104,20 @@ class ConfirmServiceActivity : AppCompatActivity() {
             val documentId = UUID.randomUUID().toString() + it.uid
             mMyservice.documentId = documentId
 
-            mFirestoreContract.confirmServiceContract(mMyservice, documentId)
-            //if (mFirestoreContract.mProgress) progressBar.visibility = View.GONE
+            mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(mMyservice.idContratado!!)
+                .get()
+                .addOnSuccessListener { info ->
+
+                    val user: User? = info.toObject(User::class.java)
+                    val notification = Notification()
+                    notification.serviceId = documentId
+                    notification.text = "${mMyservice.nomeContratante} está solicitando um serviço (${mMyservice!!.serviceNome})"
+                    notification.title = "Novo serviço solicitado"
+
+                    mFirestoreContract.confirmServiceContract(mMyservice, documentId, user!!.token!!, notification
+                    )
+                }
 
 
         }

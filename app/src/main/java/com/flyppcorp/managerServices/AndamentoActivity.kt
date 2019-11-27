@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.flyppcorp.atributesClass.DashBoard
-import com.flyppcorp.atributesClass.Myservice
-import com.flyppcorp.atributesClass.Servicos
-import com.flyppcorp.atributesClass.User
+import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -75,8 +72,32 @@ class AndamentoActivity : AppCompatActivity() {
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalServicosFinalizados = content.totalServicosFinalizados + 1
+            if (mMyservice!!.idContratante == mAuth.currentUser!!.uid){
+                notification(mMyservice!!.idContratado!!)
+            }else{
+                notification(mMyservice!!.idContratante!!)
+            }
             it.set(tsDoc, content)
+
         }
+    }
+
+    private fun notification (uid: String){
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener {
+                val user: User? = it.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyservice!!.documentId
+                notification.text = "${mMyservice!!.nomeContratante} finalizou um serviço (${mMyservice!!.serviceNome})"
+                notification.title = "Nova atualização de serviço"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user!!.token!!)
+                    .set(notification)
+            }
+
     }
 
     private fun handleCancel() {
