@@ -68,7 +68,7 @@ data class Message(
 data class LastMessage(
     var name: String? = null,
     var url: String? = null,
-    var lastMessage: String? = null,
+    var text: String? = null,
     var toId: String? = null,
     var timestamp: Long = 0
 ) : Parcelable

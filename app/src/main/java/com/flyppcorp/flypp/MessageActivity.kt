@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Message
+import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -48,14 +49,14 @@ class MessageActivity : AppCompatActivity() {
         mFirestoreMessage = FirebaseFirestore.getInstance()
         mLastMessage = LastMessage()
         mMessage = Message()
-        mAdapter =GroupAdapter()
+        mAdapter = GroupAdapter()
         recyclerMessages.adapter = mAdapter
         supportActionBar?.title = mUser?.nome
         setListeners()
         getUser()
     }
 
-    private inner class MessageItem(val message: Message ) : Item<GroupieViewHolder>(){
+    private inner class MessageItem(val message: Message) : Item<GroupieViewHolder>() {
         override fun getLayout(): Int {
             return if (message.fromId == mAuth.currentUser!!.uid)
                 R.layout.from_id
@@ -64,17 +65,15 @@ class MessageActivity : AppCompatActivity() {
         }
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            if (message.fromId == mAuth.currentUser!!.uid ){
+            if (message.fromId == mAuth.currentUser!!.uid) {
                 viewHolder.itemView.txt_msg_from.text = message.text
                 Picasso.get().load(mMeUser?.url).into(viewHolder.itemView.img_profile_from)
-            }else {
+            } else {
                 viewHolder.itemView.txt_message_to.text = message.text
                 Picasso.get().load(mUser?.url).into(viewHolder.itemView.img_profile_to)
             }
         }
     }
-
-
 
 
     private fun getUser() {
@@ -91,86 +90,96 @@ class MessageActivity : AppCompatActivity() {
         mMeUser?.let {
             val fromId = it.uid.toString()
             val toId = mUser!!.uid
-
-            mFirestoreMessage.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+            mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                 .document(fromId)
                 .collection(toId!!)
                 .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot, exception ->
-                    snapshot?.documentChanges?.let {
-                        for (doc in it){
-                            when (doc.type){
-                                DocumentChange.Type.ADDED -> {
-                                    val messagem = doc.document.toObject(Message::class.java)
-                                    mAdapter.add(MessageItem(messagem))
-                                }
-                            }
+                    snapshot?.let {
+
+                        mAdapter.clear()
+                        for (doc in snapshot) {
+
+                            val messeges = doc.toObject(Message::class.java)
+                            mAdapter.add(MessageItem(messeges))
+
                         }
                     }
                 }
+
+
         }
     }
 
     private fun setListeners() {
 
         btnSendMessage.setOnClickListener {
-              if (editTextMessage.text.toString() != ""){
-                  sendMessage()
-              }
+            if (editTextMessage.text.toString() != "") {
+                sendMessage()
+            }
         }
     }
 
-    private fun sendMessage(){
-        val timestamp = SimpleDateFormat("yMdHMs", Locale.getDefault()).format(Date()).toLong()
-        var txtMessage = editTextMessage.text.toString()
-
-            mMessage.fromId = mAuth.currentUser!!.uid
-            mMessage.toId = mUser!!.uid
-            mMessage.timestamp = timestamp
-            mMessage.text = txtMessage
-
-            val fromId = mAuth.currentUser!!.uid
+    private fun sendMessage() {
+        mMeUser?.let {task ->
             val toId = mUser!!.uid
+            val fromId = mAuth.currentUser!!.uid
+            val timestamp = SimpleDateFormat("yMdHmss", Locale.getDefault()).format(Date())
+            var text = editTextMessage.text.toString()
 
-            mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+            val message = Message()
+            message.text = text
+            message.timestamp = timestamp.toLong()
+            message.fromId = fromId
+            message.toId = toId
+
+            val messageFirestore = FirebaseFirestore.getInstance()
+
+            messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                 .document(fromId)
                 .collection(toId!!)
-                .add(mMessage)
+                .add(message)
                 .addOnSuccessListener {
-                    mLastMessage.timestamp = timestamp
-                    mLastMessage.url = mUser?.url
-                    mLastMessage.name = mUser!!.nome
-                    mLastMessage.toId = mUser!!.uid
-                    mLastMessage.lastMessage = txtMessage
-
-                    mFirestoreMessage.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                        .document(fromId)
-                        .collection(Constants.COLLECTIONS.CONTACTS)
+                    messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                         .document(toId)
-                        .set(mLastMessage)
+                        .collection(fromId)
+                        .add(message)
+                        .addOnSuccessListener {
+                            val lastMessages = LastMessage()
+                            lastMessages.name = mUser!!.nome
+                            lastMessages.toId = toId
+                            lastMessages.url = mUser?.url
+                            lastMessages.timestamp = timestamp.toLong()
+                            lastMessages.text = text
+                            messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                                .document(fromId)
+                                .collection(Constants.COLLECTIONS.CONTACTS)
+                                .document(toId)
+                                .set(lastMessages)
+                                .addOnSuccessListener {
+                                    val lastMessage = LastMessage()
+                                    lastMessage.text = text
+                                    lastMessage.timestamp = timestamp.toLong()
+                                    lastMessage.url = task.url
+                                    lastMessage.toId = fromId
+                                    lastMessage.name = task.nome
 
+                                    messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                                        .document(toId)
+                                        .collection(Constants.COLLECTIONS.CONTACTS)
+                                        .document(fromId)
+                                        .set(lastMessage)
+                                }
+
+
+                        }
                 }
 
-            mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                .document(toId)
-                .collection(fromId)
-                .add(mMessage)
-                .addOnSuccessListener {
-                    mLastMessage.timestamp = timestamp
-                    mLastMessage.url = mMeUser?.url
-                    mLastMessage.name = mMeUser!!.nome
-                    mLastMessage.toId = mMeUser!!.uid
-                    mLastMessage.lastMessage = txtMessage
 
-                    mFirestoreMessage.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                        .document(toId)
-                        .collection(Constants.COLLECTIONS.CONTACTS)
-                        .document(fromId)
-                        .set(mLastMessage)
-                }
-
-            editTextMessage.setText("")
         }
+        editTextMessage.setText("")
+
+    }
 
 
 }

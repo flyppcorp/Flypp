@@ -90,7 +90,7 @@ class ServiceActivity : AppCompatActivity() {
                     }
             }
 
-            R.id.id_send_message -> {
+           R.id.id_send_message -> {
                 val uid = mAuth.currentUser!!.uid
                 if (uid != mService!!.uid){
                     handleMessage()
@@ -108,7 +108,7 @@ class ServiceActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun handleMessage() {
+   private fun handleMessage() {
           mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
               .document(mService!!.serviceId!!)
               .get()

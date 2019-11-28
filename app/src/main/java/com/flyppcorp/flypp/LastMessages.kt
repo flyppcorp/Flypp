@@ -3,6 +3,7 @@ package com.flyppcorp.flypp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -28,65 +29,60 @@ class LastMessages : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_last_message)
-        mLastMessage = LastMessage()
-        mAdapter = GroupAdapter()
-        mAuth = FirebaseAuth.getInstance()
         mfirestore = FirebaseFirestore.getInstance()
+        mAuth = FirebaseAuth.getInstance()
+        mAdapter = GroupAdapter()
+        mLastMessage = LastMessage()
         rv_last_messages.adapter = mAdapter
-        rv_last_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
         mAdapter.setOnItemClickListener { item, view ->
-            val intent = Intent(this, MessageActivity::class.java)
-            val userItem : ContactItem = item as ContactItem
+            val item : LastMessageItem = item as LastMessageItem
             mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(userItem.contact.toId!!)
+                .document(item.mLast.toId!!)
                 .get()
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)
+                    val intent = Intent(this, MessageActivity::class.java)
                     intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                     startActivity(intent)
                 }
+
         }
 
-
-
         fetchLastMessage()
-
     }
 
-    inner class ContactItem(val contact: LastMessage) : Item<GroupieViewHolder>() {
+    private inner class LastMessageItem(val mLast: LastMessage) : Item<GroupieViewHolder>(){
         override fun getLayout(): Int {
-            return R.layout.last_messages_layout
+            return  R.layout.last_messages_layout
         }
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            val myItem = viewHolder.itemView
-            myItem.txtNomeProfile.text = contact.name
-            myItem.txtLastMessage.text = contact.lastMessage
-            Picasso.get().load(contact.url).into(myItem.imgLastProfile)
+            viewHolder.itemView.txtNomeProfile.text = mLast.name
+            Picasso.get().load(mLast.url).into(viewHolder.itemView.imgLastProfile)
+            viewHolder.itemView.txtLastMessage.text = mLast.text
         }
 
+
+
     }
-
-
     private fun fetchLastMessage() {
         val uid = mAuth.currentUser!!.uid
         mfirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
             .document(uid)
             .collection(Constants.COLLECTIONS.CONTACTS)
             .addSnapshotListener { snapshot, exception ->
-                val changes = snapshot?.documentChanges
-                changes?.let {
-                    for (doc in it) {
-                        when (doc.type) {
-                            DocumentChange.Type.ADDED -> {
-                                val last = doc.document.toObject(LastMessage::class.java)
-                                mAdapter.add(ContactItem(last))
-                            }
-                        }
+                snapshot?.let {
+                    mAdapter.clear()
+                    for (doc in snapshot) {
+                        val lm = doc.toObject(LastMessage::class.java)
+                        mAdapter.add(LastMessageItem(lm))
                     }
                 }
-
-
             }
     }
+
+
+
+
 }
