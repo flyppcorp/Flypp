@@ -24,6 +24,7 @@ class FCMServiceNotification : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val data: MutableMap<String, String> = remoteMessage.data
         val firestore = FirebaseFirestore.getInstance()
+
         if (data == null || data.get("sender") == null) return
 
         var intent: Intent = Intent(this, ManagerServicesActivity::class.java)
@@ -32,7 +33,6 @@ class FCMServiceNotification : FirebaseMessagingService() {
             .document(data.get("sender")!!)
             .get()
             .addOnSuccessListener {
-
 
 
                 val mMyService: Myservice? = it.toObject(Myservice::class.java)
@@ -58,7 +58,8 @@ class FCMServiceNotification : FirebaseMessagingService() {
 
                 }
 
-                val builder : NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, notificationChannelId)
+                val builder: NotificationCompat.Builder =
+                    NotificationCompat.Builder(applicationContext, notificationChannelId)
 
                 builder.setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_notification_logo)
@@ -71,6 +72,7 @@ class FCMServiceNotification : FirebaseMessagingService() {
                 notificationManager.notify(random, builder.build())
 
             }
-
     }
+
+
 }

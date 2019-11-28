@@ -81,6 +81,13 @@ data class Notification(
 ) : Parcelable
 
 @Parcelize
+data class NotificationMessage(
+    var title: String? = null,
+    var text: String? = null,
+    var token: String? = null
+) : Parcelable
+
+@Parcelize
 data class Myservice(
     var idContratante: String? = null,
     var idContratado: String? = null,

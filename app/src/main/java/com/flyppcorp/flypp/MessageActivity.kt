@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.flyppcorp.atributesClass.LastMessage
-import com.flyppcorp.atributesClass.Message
-import com.flyppcorp.atributesClass.Notification
-import com.flyppcorp.atributesClass.User
+import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
@@ -103,7 +100,9 @@ class MessageActivity : AppCompatActivity() {
                             val messeges = doc.toObject(Message::class.java)
                             mAdapter.add(MessageItem(messeges))
 
+
                         }
+                        recyclerMessages.scrollToPosition(mAdapter.itemCount - 1)
                     }
                 }
 
@@ -121,10 +120,10 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun sendMessage() {
-        mMeUser?.let {task ->
+        mMeUser?.let { task ->
             val toId = mUser!!.uid
             val fromId = mAuth.currentUser!!.uid
-            val timestamp = SimpleDateFormat("yMdHmss", Locale.getDefault()).format(Date())
+            val timestamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
             var text = editTextMessage.text.toString()
 
             val message = Message()
@@ -145,6 +144,9 @@ class MessageActivity : AppCompatActivity() {
                         .collection(fromId)
                         .add(message)
                         .addOnSuccessListener {
+
+                            notificationMessage(text, task.nome!!)
+
                             val lastMessages = LastMessage()
                             lastMessages.name = mUser!!.nome
                             lastMessages.toId = toId
@@ -178,6 +180,18 @@ class MessageActivity : AppCompatActivity() {
 
         }
         editTextMessage.setText("")
+
+    }
+
+    private fun notificationMessage(text: String, nome: String){
+        val notificationMessage = NotificationMessage()
+        notificationMessage.text = text
+        notificationMessage.token = mUser?.token
+        notificationMessage.title = "Nova mensagem - ${nome}"
+        val firestoreMessage = FirebaseFirestore.getInstance()
+        firestoreMessage.collection(Constants.COLLECTIONS.NOTIFICATION)
+            .document(mUser!!.token!!)
+            .set(notificationMessage)
 
     }
 
