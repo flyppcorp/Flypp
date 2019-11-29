@@ -2,6 +2,7 @@ package com.flyppcorp.managerServices
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -16,14 +17,19 @@ class AvaliationActivity : AppCompatActivity() {
     private var mMyservice: Myservice? = null
     private lateinit var mfirestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mConnection: Connection
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avaliation)
         mMyservice = intent.extras?.getParcelable(Constants.KEY.SERVICE_STATUS)
         mfirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
+        mConnection = Connection(this)
         btnNota.setOnClickListener {
-            handleAvalatiation()
+            if (mConnection.validateConection()){
+                handleAvalatiation()
+            }
+
         }
     }
 

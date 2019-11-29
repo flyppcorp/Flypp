@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +36,7 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var mFirestoreMessage: FirebaseFirestore
     private lateinit var mMessage: Message
     private lateinit var mLastMessage: LastMessage
+    private lateinit var mConnection: Connection
     var mMeUser: User? = null
     private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,7 @@ class MessageActivity : AppCompatActivity() {
         mLastMessage = LastMessage()
         mMessage = Message()
         mAdapter = GroupAdapter()
+        mConnection = Connection(this)
         recyclerMessages.adapter = mAdapter
         supportActionBar?.title = mUser?.nome
         setListeners()
@@ -133,64 +136,80 @@ class MessageActivity : AppCompatActivity() {
             message.toId = toId
 
             val messageFirestore = FirebaseFirestore.getInstance()
+            if (mConnection.validateConection()) {
 
-            messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                .document(fromId)
-                .collection(toId!!)
-                .add(message)
-                .addOnSuccessListener {
+                if (validate()) {
                     messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                        .document(toId)
-                        .collection(fromId)
+                        .document(fromId)
+                        .collection(toId!!)
                         .add(message)
                         .addOnSuccessListener {
-                            notificationMessage(mMeUser!!.nome!!, task.token!!, text)
-                            val lastMessages = LastMessage()
-                            lastMessages.name = mUser!!.nome
-                            lastMessages.toId = toId
-                            lastMessages.url = mUser?.url
-                            lastMessages.timestamp = timestamp.toLong()
-                            lastMessages.text = text
-                            messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                                .document(fromId)
-                                .collection(Constants.COLLECTIONS.CONTACTS)
+                            messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                                 .document(toId)
-                                .set(lastMessages)
+                                .collection(fromId)
+                                .add(message)
                                 .addOnSuccessListener {
-                                    val lastMessage = LastMessage()
-                                    lastMessage.text = text
-                                    lastMessage.timestamp = timestamp.toLong()
-                                    lastMessage.url = task.url
-                                    lastMessage.toId = fromId
-                                    lastMessage.name = task.nome
-
+                                    notificationMessage(mMeUser!!.nome!!, text)
+                                    val lastMessages = LastMessage()
+                                    lastMessages.name = mUser!!.nome
+                                    lastMessages.toId = toId
+                                    lastMessages.url = mUser?.url
+                                    lastMessages.timestamp = timestamp.toLong()
+                                    lastMessages.text = text
                                     messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                                        .document(toId)
-                                        .collection(Constants.COLLECTIONS.CONTACTS)
                                         .document(fromId)
-                                        .set(lastMessage)
+                                        .collection(Constants.COLLECTIONS.CONTACTS)
+                                        .document(toId)
+                                        .set(lastMessages)
+                                        .addOnSuccessListener {
+                                            val lastMessage = LastMessage()
+                                            lastMessage.text = text
+                                            lastMessage.timestamp = timestamp.toLong()
+                                            lastMessage.url = task.url
+                                            lastMessage.toId = fromId
+                                            lastMessage.name = task.nome
+
+                                            messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                                                .document(toId)
+                                                .collection(Constants.COLLECTIONS.CONTACTS)
+                                                .document(fromId)
+                                                .set(lastMessage)
+                                        }
+
+
                                 }
-
-
                         }
                 }
 
 
+            }
+            editTextMessage.setText("")
+
         }
-        editTextMessage.setText("")
 
     }
 
-    private fun notificationMessage(nome: String, token: String, text: String){
-        val mNotification = NotificationMessage()
-        mNotification.title = "Nova mensagem de $nome"
-        mNotification.token = token
-        mNotification.text = text
+    private fun validate(): Boolean {
+        return editTextMessage.text.toString() != ""
+    }
 
-        val mFireNotification = FirebaseFirestore.getInstance()
-        mFireNotification.collection(Constants.COLLECTIONS.NOTIFICATION)
-            .document(token)
-            .set(mNotification)
+    private fun notificationMessage(nome: String, text: String) {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mUser!!.uid!!)
+            .get()
+            .addOnSuccessListener {
+                val itemUser = it.toObject(User::class.java)
+                val mNotification = NotificationMessage()
+                mNotification.title = "Nova mensagem de $nome"
+                mNotification.token = itemUser!!.token
+                mNotification.text = text
+
+                val mFireNotification = FirebaseFirestore.getInstance()
+                mFireNotification.collection(Constants.COLLECTIONS.NOTIFICATION)
+                    .document(itemUser.token!!)
+                    .set(mNotification)
+            }
+
     }
 
 

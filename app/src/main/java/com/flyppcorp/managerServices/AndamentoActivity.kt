@@ -4,8 +4,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
@@ -19,17 +21,23 @@ class AndamentoActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private var mMyservice: Myservice? = null
     private var mAdress: Myservice? = null
+    private lateinit var mConnection: Connection
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_andamento)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
+        mConnection = Connection(this)
         mMyservice = intent.extras?.getParcelable(Constants.KEY.SERVICE_STATUS)
         btnVoltarAndamento.setOnClickListener {
             handleCancel()
         }
         btnFinalizarAndamento.setOnClickListener {
-            handleFinalizar()
+            if (mConnection.validateConection()){
+                handleFinalizar()
+            }
+
         }
         supportActionBar!!.title = "Em andamento"
         getEndereco()
@@ -67,14 +75,15 @@ class AndamentoActivity : AppCompatActivity() {
         finish()
 
     }
-    private fun servicosFinalizado(uid : String){
+
+    private fun servicosFinalizado(uid: String) {
         val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalServicosFinalizados = content.totalServicosFinalizados + 1
-            if (mMyservice!!.idContratante == mAuth.currentUser!!.uid){
+            if (mMyservice!!.idContratante == mAuth.currentUser!!.uid) {
                 notification(mMyservice!!.idContratado!!)
-            }else{
+            } else {
                 notification(mMyservice!!.idContratante!!)
             }
             it.set(tsDoc, content)
@@ -82,7 +91,7 @@ class AndamentoActivity : AppCompatActivity() {
         }
     }
 
-    private fun notification (uid: String){
+    private fun notification(uid: String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -90,7 +99,8 @@ class AndamentoActivity : AppCompatActivity() {
                 val user: User? = it.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyservice!!.documentId
-                notification.text = "${mMyservice!!.nomeContratante} finalizou um serviço (${mMyservice!!.serviceNome})"
+                notification.text =
+                    "${mMyservice!!.nomeContratante} finalizou um serviço (${mMyservice!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -104,22 +114,25 @@ class AndamentoActivity : AppCompatActivity() {
         val mAlert = AlertDialog.Builder(this)
         mAlert.setTitle("Você tem certeza disso?")
         if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
-            mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
-                mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-                    .document(mMyservice!!.documentId!!)
-                    .delete()
-                    .addOnSuccessListener {
-                        finish()
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            "Ocorreu um erro. Tente novamente!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            if (mConnection.validateConection()) {
+                mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
+                    mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                        .document(mMyservice!!.documentId!!)
+                        .delete()
+                        .addOnSuccessListener {
+                            finish()
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                this,
+                                "Ocorreu um erro. Tente novamente!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                }
+                mAlert.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
+                mAlert.show()
             }
-            mAlert.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
-            mAlert.show()
+
         } else {
             finish()
         }
@@ -127,8 +140,10 @@ class AndamentoActivity : AppCompatActivity() {
     }
 
     private fun btnText() {
-        if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) btnVoltarAndamento.text =
-            "Cancelar"
+        if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
+            btnVoltarAndamento.text = "Cancelar"
+            btnFinalizarAndamento.visibility = View.GONE
+        }
     }
 
     private fun getEndereco() {
@@ -158,8 +173,9 @@ class AndamentoActivity : AppCompatActivity() {
         }
     }
 
-    private fun dashBoard(){
-        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+    private fun dashBoard() {
+        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION)
+            .document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
             content!!.finishService = content.finishService + 1

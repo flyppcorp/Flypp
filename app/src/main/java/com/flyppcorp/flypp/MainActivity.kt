@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.Helper.LifeCyclerApplication
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.constants.Constants
@@ -29,11 +30,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var mSharedFilter: SharedFilter
     private lateinit var mFirestoreContract: FirestoreContract
+    private lateinit var mConnection: Connection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mSharedFilter = SharedFilter(this)
+        mConnection = Connection(this)
         //acao do bottomNav
 
         mFirestoreContract = FirestoreContract(this)
@@ -56,7 +59,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         getToken()
         getPermissions()
+        connectionStatus()
 
+    }
+
+    private fun connectionStatus(){
+        if (mConnection.validateConection()){
+            return
+        }
     }
 
     private fun getPermissions() {

@@ -137,101 +137,98 @@ class EditServiceActivity : AppCompatActivity() {
     //------------------------------------------------------------------------------------------------------------------------
     private fun handleSaveService() {
 
-        //definindo valores para a classe servico
-        mGetService?.let {
-            val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
-            val ref = mStorage.getReference("/ServicesImages/${timestamp}")
-            mServiceAtributes.totalAvaliacao = mGetService!!.totalAvaliacao
-            mServiceAtributes.totalServicos = mGetService!!.totalServicos
-            mServiceAtributes.avaliacao = mGetService!!.avaliacao
-            mServiceAtributes.favoritos = mGetService!!.favoritos
-            mServiceAtributes.uid = mService?.uid
-            mServiceAtributes.uidProfile[mService?.uid.toString()] = true
+        if (validateConection()) {
+            if (validate()) {
 
-            ////////////////////////////////////////////////////////////
-            mServiceAtributes.urlProfile = mGetService?.urlProfile
-            mServiceAtributes.nome = mGetService!!.nome
-            mServiceAtributes.ddd = mGetService?.ddd
-            mServiceAtributes.telefone = mGetService?.telefone
-            ///////////////////////////////////////////////////////////
+                //definindo valores para a classe servico
+                mGetService?.let {
+                    val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
+                    val ref = mStorage.getReference("/ServicesImages/${timestamp}")
+                    mServiceAtributes.totalAvaliacao = mGetService!!.totalAvaliacao
+                    mServiceAtributes.totalServicos = mGetService!!.totalServicos
+                    mServiceAtributes.avaliacao = mGetService!!.avaliacao
+                    mServiceAtributes.favoritos = mGetService!!.favoritos
+                    mServiceAtributes.uid = mService?.uid
+                    mServiceAtributes.uidProfile[mService?.uid.toString()] = true
 
-            mServiceAtributes.nomeService = editService.text.toString()
-            mServiceAtributes.shortDesc = editDescCurta.text.toString()
-            mServiceAtributes.longDesc = editDescDetalhada.text.toString()
-            mServiceAtributes.preco = editPreco.text.toString()
-            mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
-            mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
-            mServiceAtributes.cep = editCep.text.toString()
-            mServiceAtributes.estado = editEstadoEdit.text.toString()
-            mServiceAtributes.cidade = editCidadeService.text.toString()
-            mServiceAtributes.bairro = EditBairroService.text.toString()
-            mServiceAtributes.rua = editRuaService.text.toString()
-            mServiceAtributes.numero = editNumService.text.toString()
-            mServiceAtributes.email = mAuth.currentUser!!.email
-            mServiceAtributes.serviceId = mService!!.serviceId
-            val tagInput = editTags.text.toString().toLowerCase()
-            mServiceAtributes.tagsStr = tagInput
-            val tagArray: Array<String> = tagInput.split(",").toTypedArray()
-            val tags: MutableMap<String, Boolean> = HashMap()
-            for (tag in tagArray) {
-                tags[tag] = true
-            }
-            if (tags.isEmpty()) tags[""] = false
-            mServiceAtributes.tags = tags
-            //fim
+                    ////////////////////////////////////////////////////////////
+                    mServiceAtributes.urlProfile = mGetService?.urlProfile
+                    mServiceAtributes.nome = mGetService!!.nome
+                    mServiceAtributes.ddd = mGetService?.ddd
+                    mServiceAtributes.telefone = mGetService?.telefone
+                    ///////////////////////////////////////////////////////////
 
-            //obtendo url da imagem no firestorage
-            mUri?.let {
-                ref.putFile(it)
-                    .addOnSuccessListener {
-                        ref.downloadUrl
-                            .addOnSuccessListener {
-                                mServiceAtributes.urlService = it.toString()
-
-                                //salvando no db caso haja uma url
-                                if (validate()) {
-                                    mProgress.show()
-                                    mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                        .document(mService!!.serviceId!!)
-                                        .set(mServiceAtributes)
-                                        .addOnFailureListener {
-                                            mProgress.hide()
-                                        }
-                                    finish()
-
-                                } else {
-                                    Toast.makeText(
-                                        this,
-                                        "Por favor, preencha o nome do serviço e/ou as TAGS",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
+                    mServiceAtributes.nomeService = editService.text.toString()
+                    mServiceAtributes.shortDesc = editDescCurta.text.toString()
+                    mServiceAtributes.longDesc = editDescDetalhada.text.toString()
+                    mServiceAtributes.preco = editPreco.text.toString()
+                    mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
+                    mServiceAtributes.qualidadesDiferenciais =
+                        editQualidadesDiferenciais.text.toString()
+                    mServiceAtributes.cep = editCep.text.toString()
+                    mServiceAtributes.estado = editEstadoEdit.text.toString()
+                    mServiceAtributes.cidade = editCidadeService.text.toString()
+                    mServiceAtributes.bairro = EditBairroService.text.toString()
+                    mServiceAtributes.rua = editRuaService.text.toString()
+                    mServiceAtributes.numero = editNumService.text.toString()
+                    mServiceAtributes.email = mAuth.currentUser!!.email
+                    mServiceAtributes.serviceId = mService!!.serviceId
+                    val tagInput = editTags.text.toString().toLowerCase()
+                    mServiceAtributes.tagsStr = tagInput
+                    val tagArray: Array<String> = tagInput.split(",").toTypedArray()
+                    val tags: MutableMap<String, Boolean> = HashMap()
+                    for (tag in tagArray) {
+                        tags[tag] = true
                     }
+                    if (tags.isEmpty()) tags[""] = false
+                    mServiceAtributes.tags = tags
+                    //fim
 
-            }
-            //savando no db caso não haja uma url
-            if (mUri == null) {
-                if (validate() && validateConection()) {
-                    mProgress.show()
-                    val extras = intent.extras
-                    if (extras != null) mServiceAtributes.urlService = extras.getString("url")
+                    //obtendo url da imagem no firestorage
+                    mUri?.let {
+                        ref.putFile(it)
+                            .addOnSuccessListener {
+                                ref.downloadUrl
+                                    .addOnSuccessListener {
+                                        mServiceAtributes.urlService = it.toString()
 
-                    mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                        .document(mService!!.serviceId!!)
-                        .set(mServiceAtributes)
-                        .addOnFailureListener {
-                            mProgress.hide()
-                        }
-                    finish()
+                                        //salvando no db caso haja uma url
 
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Por favor, preencha o nome do serviço e/ou as TAGS",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                                        mProgress.show()
+                                        mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                            .document(mService!!.serviceId!!)
+                                            .set(mServiceAtributes)
+                                            .addOnFailureListener {
+                                                mProgress.hide()
+                                            }
+                                        finish()
+                                    }
+                            }
+
+                    }
+                    //savando no db caso não haja uma url
+                    if (mUri == null) {
+                        mProgress.show()
+                        val extras = intent.extras
+                        if (extras != null) mServiceAtributes.urlService = extras.getString("url")
+
+                        mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                            .document(mService!!.serviceId!!)
+                            .set(mServiceAtributes)
+                            .addOnFailureListener {
+                                mProgress.hide()
+                            }
+                        finish()
+
+                    }
                 }
+
+            } else {
+                Toast.makeText(
+                    this,
+                    "Verifique se os campos nome serviço, preço e tags estão preenchidos",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -241,7 +238,8 @@ class EditServiceActivity : AppCompatActivity() {
     //função de validacao
     fun validate(): Boolean {
         return editTags.text.toString() != "" &&
-                editService.text.toString() != ""
+                editService.text.toString() != "" &&
+                editPreco.text.toString() != ""
 
     }
 

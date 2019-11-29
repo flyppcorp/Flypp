@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.User
@@ -21,42 +22,51 @@ class PendenteActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirestore: FirebaseFirestore
     private var mAdress: Myservice? = null
+    private lateinit var mConnection: Connection
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pendente)
         mMyService = intent.extras?.getParcelable(Constants.KEY.SERVICE_STATUS)
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
+        mConnection = Connection(this)
         btnRecusarDesistirPendente.setOnClickListener {
-            handleDesistirRecusar()
+            if (mConnection.validateConection()) {
+                handleDesistirRecusar()
+            }
+
         }
         btnAceitarVoltarPendente.setOnClickListener {
             handleAceitarVoltar()
         }
 
         supportActionBar!!.title = "Pendente "
-                getEndereco()
+        getEndereco()
         handleTextButton()
 
 
     }
 
     private fun handleAceitarVoltar() {
-        if (mMyService!!.idContratante == mAuth.currentUser!!.uid){
+        if (mMyService!!.idContratante == mAuth.currentUser!!.uid) {
             finish()
-        }else if (mMyService!!.idContratado == mAuth.currentUser!!.uid ){
-              val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyService!!.documentId!!)
-            mFirestore.runTransaction {
-                val content = it.get(tsDoc).toObject(Myservice::class.java)
-                content?.pendente = false
-                content?.andamento = true
-                notification()
-                it.set(tsDoc, content!!)
+        } else if (mMyService!!.idContratado == mAuth.currentUser!!.uid) {
+            if (mConnection.validateConection()) {
+                val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                    .document(mMyService!!.documentId!!)
+                mFirestore.runTransaction {
+                    val content = it.get(tsDoc).toObject(Myservice::class.java)
+                    content?.pendente = false
+                    content?.andamento = true
+                    notification()
+                    it.set(tsDoc, content!!)
+                }
+                finish()
             }
-            finish()
         }
     }
-    private fun notification(){
+
+    private fun notification() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mMyService!!.idContratante!!)
             .get()
@@ -65,7 +75,8 @@ class PendenteActivity : AppCompatActivity() {
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyService!!.serviceId
-                notification.text = "${mMyService!!.nomeContratante} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                notification.text =
+                    "${mMyService!!.nomeContratante} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -77,28 +88,29 @@ class PendenteActivity : AppCompatActivity() {
 
 
     private fun handleDesistirRecusar() {
-       val mDialog = AlertDialog.Builder(this)
+        val mDialog = AlertDialog.Builder(this)
         mDialog.setTitle("Você tem certeza disso?")
-        mDialog.setPositiveButton("Sim"){dialog: DialogInterface?, which: Int ->
+        mDialog.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
             mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                 .document(mMyService!!.documentId!!)
                 .delete()
                 .addOnSuccessListener {
-                    if (mMyService!!.idContratante == mAuth.currentUser!!.uid){
+                    if (mMyService!!.idContratante == mAuth.currentUser!!.uid) {
                         notificationDesistence(mMyService!!.idContratado!!, "desistiu")
-                    }else{
+                    } else {
                         notificationDesistence(mMyService!!.idContratante!!, "rejeitou")
                     }
                     finish()
                 }.addOnFailureListener {
-                    Toast.makeText(this, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
-        mDialog.setNegativeButton("Não"){dialog: DialogInterface?, which: Int ->  }
+        mDialog.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
         mDialog.show()
     }
 
-    private fun notificationDesistence(uid: String, status: String){
+    private fun notificationDesistence(uid: String, status: String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -107,7 +119,8 @@ class PendenteActivity : AppCompatActivity() {
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyService!!.serviceId
-                notification.text = "${mMyService!!.nomeContratante} $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                notification.text =
+                    "${mMyService!!.nomeContratante} $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -119,11 +132,10 @@ class PendenteActivity : AppCompatActivity() {
 
 
     private fun handleTextButton() {
-        if (mMyService!!.idContratado == mAuth.currentUser!!.uid){
+        if (mMyService!!.idContratado == mAuth.currentUser!!.uid) {
             btnAceitarVoltarPendente.text = "Aceitar"
             btnRecusarDesistirPendente.text = "Recusar"
-        }
-        else {
+        } else {
             btnAceitarVoltarPendente.text = "Voltar"
             btnRecusarDesistirPendente.text = "Desistir"
         }

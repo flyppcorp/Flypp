@@ -44,11 +44,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mMyservice = Myservice()
         getDataService()
         btnConfirmContract.setOnClickListener {
-            //handleConfirm()
-            //progressBar.visibility = View.VISIBLE
-            getToSave()
-            if (!validateConection()) {
-                return@setOnClickListener
+            if (validateConection()) {
+                getToSave()
             }
         }
 
@@ -112,10 +109,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
                     val user: User? = info.toObject(User::class.java)
                     val notification = Notification()
                     notification.serviceId = documentId
-                    notification.text = "${mMyservice.nomeContratante} está solicitando um serviço (${mMyservice!!.serviceNome})"
+                    notification.text =
+                        "${mMyservice.nomeContratante} está solicitando um serviço (${mMyservice!!.serviceNome})"
                     notification.title = "Novo serviço solicitado"
 
-                    mFirestoreContract.confirmServiceContract(mMyservice, documentId, user!!.token!!, notification
+                    mFirestoreContract.confirmServiceContract(
+                        mMyservice, documentId, user!!.token!!, notification
                     )
                 }
 

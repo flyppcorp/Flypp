@@ -47,13 +47,6 @@ class AddActivity : AppCompatActivity() {
         btnSelectPhotoService.setOnClickListener { handleSelect() }
         btnSaveService.setOnClickListener {
             handleSaveService()
-            if(validate()){
-                //progressBar5.visibility = View.VISIBLE
-                mFirestoreService.mDialog.show()
-            }
-            if (!validateConection()){
-                return@setOnClickListener
-            }
         }
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
@@ -104,98 +97,98 @@ class AddActivity : AppCompatActivity() {
 
     //funcao que salva no db firestore
     private fun handleSaveService() {
-        //definindo valores para a classe servico
-        val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
-        val ref = mStorage.getReference("/ServicesImages/${timestamp}")
-        mServiceAtributes.nome = mUser.nome
-        mServiceAtributes.uid = mUser.uid
-        mServiceAtributes.uidProfile[mUser.uid.toString()] = true
+        if (validateConection()) {
+            if (validate()) {
 
-        mServiceAtributes.urlProfile = mUser.url
-        mServiceAtributes.ddd = mUser.ddd
-        mServiceAtributes.telefone = mUser.telefone
-        mServiceAtributes.nomeService = editService.text.toString()
-        mServiceAtributes.shortDesc = editDescCurta.text.toString()
-        mServiceAtributes.longDesc = editDescDetalhada.text.toString()
-        mServiceAtributes.preco = editPreco.text.toString()
-        mServiceAtributes.tipoCobranca = spinnerDuracaoService.selectedItem.toString()
-        mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
-        mServiceAtributes.cep = editCep.text.toString()
-        mServiceAtributes.estado = editEstadosAdd.text.toString()
-        mServiceAtributes.cidade = editCidadeService.text.toString()
-        mServiceAtributes.bairro = EditBairroService.text.toString()
-        mServiceAtributes.rua = editRuaService.text.toString()
-        mServiceAtributes.numero = editNumService.text.toString()
-        mServiceAtributes.email = mAuth.currentUser!!.email
-        val serviceId = UUID.randomUUID().toString() + mUser.uid
-        mServiceAtributes.serviceId = serviceId
-        val tagInput = editTags.text.toString().toLowerCase()
-        mServiceAtributes.tagsStr = tagInput
-        val tagArray: Array<String> = tagInput.split(",").toTypedArray()
-        val tags: MutableMap<String, Boolean> = HashMap()
-        for (tag in tagArray) {
-            tags[tag] = true
-        }
-        if (tags.isEmpty()) tags[""] = false
-        mServiceAtributes.tags = tags
-        //fim
+                //definindo valores para a classe servico
+                val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
+                val ref = mStorage.getReference("/ServicesImages/${timestamp}")
+                mServiceAtributes.nome = mUser.nome
+                mServiceAtributes.uid = mUser.uid
+                mServiceAtributes.uidProfile[mUser.uid.toString()] = true
 
-        //obtendo url da imagem no firestorage
-        mUri?.let {
-            ref.putFile(it)
-                .addOnSuccessListener {
-                    ref.downloadUrl
-                        .addOnSuccessListener {
-                            mServiceAtributes.urlService = it.toString()
-
-                            //salvando no db caso haja uma url
-                            if (validate()) {
-                                mFirestoreService.servicos(mServiceAtributes, serviceId)
-
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    "Por favor, preencha o nome do serviço e/ou as TAGS",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                mServiceAtributes.urlProfile = mUser.url
+                mServiceAtributes.ddd = mUser.ddd
+                mServiceAtributes.telefone = mUser.telefone
+                mServiceAtributes.nomeService = editService.text.toString()
+                mServiceAtributes.shortDesc = editDescCurta.text.toString()
+                mServiceAtributes.longDesc = editDescDetalhada.text.toString()
+                mServiceAtributes.preco = editPreco.text.toString()
+                mServiceAtributes.tipoCobranca = spinnerDuracaoService.selectedItem.toString()
+                mServiceAtributes.qualidadesDiferenciais =
+                    editQualidadesDiferenciais.text.toString()
+                mServiceAtributes.cep = editCep.text.toString()
+                mServiceAtributes.estado = editEstadosAdd.text.toString()
+                mServiceAtributes.cidade = editCidadeService.text.toString()
+                mServiceAtributes.bairro = EditBairroService.text.toString()
+                mServiceAtributes.rua = editRuaService.text.toString()
+                mServiceAtributes.numero = editNumService.text.toString()
+                mServiceAtributes.email = mAuth.currentUser!!.email
+                val serviceId = UUID.randomUUID().toString() + mUser.uid
+                mServiceAtributes.serviceId = serviceId
+                val tagInput = editTags.text.toString().toLowerCase()
+                mServiceAtributes.tagsStr = tagInput
+                val tagArray: Array<String> = tagInput.split(",").toTypedArray()
+                val tags: MutableMap<String, Boolean> = HashMap()
+                for (tag in tagArray) {
+                    tags[tag] = true
                 }
+                if (tags.isEmpty()) tags[""] = false
+                mServiceAtributes.tags = tags
+                //fim
 
-        }
-        //savando no db caso não haja uma url
-        if (mUri == null) {
-            if (validate() && validateConection()) {
-                mFirestoreService.servicos(mServiceAtributes, serviceId)
+                //obtendo url da imagem no firestorage
+                mUri?.let {
+                    ref.putFile(it)
+                        .addOnSuccessListener {
+                            ref.downloadUrl
+                                .addOnSuccessListener {
+                                    mServiceAtributes.urlService = it.toString()
+
+                                    //salvando no db caso haja uma url
+                                    mFirestoreService.servicos(mServiceAtributes, serviceId)
+
+
+                                }
+                        }
+
+                }
+                //savando no db caso não haja uma url
+                if (mUri == null) {
+                    mFirestoreService.servicos(mServiceAtributes, serviceId)
+                }
 
             } else {
                 Toast.makeText(
                     this,
-                    "Por favor, preencha o nome do serviço e/ou as TAGS",
+                    "Verifique se os campos nome serviço, preço e tags estão preenchidos",
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
         }
 
 
     }
-
 
 
     //função de validacao
     fun validate(): Boolean {
         return editTags.text.toString() != "" &&
-                editService.text.toString() != ""
+                editService.text.toString() != "" &&
+                editPreco.text.toString() != ""
 
     }
-    fun validateConection(): Boolean{
+
+    fun validateConection(): Boolean {
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo
-        if (networkInfo != null && networkInfo.isConnected){
+        if (networkInfo != null && networkInfo.isConnected) {
             return true
-        }else{
+        } else {
 
-            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
 
