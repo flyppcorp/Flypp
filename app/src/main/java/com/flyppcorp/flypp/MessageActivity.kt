@@ -144,7 +144,7 @@ class MessageActivity : AppCompatActivity() {
                         .collection(fromId)
                         .add(message)
                         .addOnSuccessListener {
-
+                            notificationMessage(mMeUser!!.nome!!, task.token!!, text)
                             val lastMessages = LastMessage()
                             lastMessages.name = mUser!!.nome
                             lastMessages.toId = toId
@@ -179,6 +179,18 @@ class MessageActivity : AppCompatActivity() {
         }
         editTextMessage.setText("")
 
+    }
+
+    private fun notificationMessage(nome: String, token: String, text: String){
+        val mNotification = NotificationMessage()
+        mNotification.title = "Nova mensagem de $nome"
+        mNotification.token = token
+        mNotification.text = text
+
+        val mFireNotification = FirebaseFirestore.getInstance()
+        mFireNotification.collection(Constants.COLLECTIONS.NOTIFICATION)
+            .document(token)
+            .set(mNotification)
     }
 
 

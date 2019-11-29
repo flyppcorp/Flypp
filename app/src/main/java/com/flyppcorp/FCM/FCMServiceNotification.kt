@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.LastMessages
 import com.flyppcorp.flypp.ManagerServicesActivity
 import com.flyppcorp.flypp.R
 import com.flyppcorp.managerServices.PendenteActivity
@@ -25,6 +26,11 @@ class FCMServiceNotification : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val data: MutableMap<String, String> = remoteMessage.data
         val firestore = FirebaseFirestore.getInstance()
+
+        if (remoteMessage.data.size > 0){
+            val payload : MutableMap<String, String> = remoteMessage.data
+            messageNotification(payload)
+        }
 
         if (data == null || data.get("sender") == null) return
 
@@ -75,5 +81,50 @@ class FCMServiceNotification : FirebaseMessagingService() {
             }
     }
 
+    private fun messageNotification(payload: MutableMap<String, String>) {
+        var intent: Intent = Intent(this, LastMessages::class.java)
+        val pItent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
 
+        val notificationManager1 =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationChannelId1 = "Flypp"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val notificationChannel1 = NotificationChannel(
+                notificationChannelId1,
+                "Flypp",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            notificationChannel1.description = "Você receberá notificações de Flypp "
+            notificationChannel1.lightColor = Color.WHITE
+            notificationChannel1.enableLights(true)
+
+            notificationManager1.createNotificationChannel(notificationChannel1)
+
+        }
+
+        val builder: NotificationCompat.Builder =
+            NotificationCompat.Builder(applicationContext, notificationChannelId1)
+
+        builder.setAutoCancel(true)
+            .setSmallIcon(R.drawable.ic_notification_logo)
+            .setContentTitle(payload.get("titleKey"))
+            .setContentText(payload.get("bodyKey"))
+            .setContentIntent(pItent)
+
+        val random = java.util.Random().nextInt(500)
+
+        if (payload.get("senderKey") == null){
+            return
+        }else{
+            notificationManager1.notify(random, builder.build())
+        }
+
+
+
+    }
 }
+
+
