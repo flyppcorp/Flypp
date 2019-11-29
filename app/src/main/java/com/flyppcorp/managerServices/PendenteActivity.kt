@@ -76,7 +76,7 @@ class PendenteActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyService!!.serviceId
                 notification.text =
-                    "${mMyService!!.nomeContratante} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                    "${mMyService!!.nomeContratado} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
