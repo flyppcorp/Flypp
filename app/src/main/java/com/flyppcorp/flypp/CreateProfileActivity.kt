@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreUser
@@ -30,6 +31,7 @@ class CreateProfileActivity : AppCompatActivity() {
     private lateinit var mFirestoreUser: FirestoreUser
     private lateinit var mUser: User
     private lateinit var mProgress: ProgressDialog
+    private lateinit var mConnect: Connection
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,7 @@ class CreateProfileActivity : AppCompatActivity() {
         mFirestoreUser = FirestoreUser(this)
         mUser = User()
         mProgress = ProgressDialog(this)
+        mConnect = Connection(this)
 
 
         //setlistener é uma funcao que tem os botoes de acao da activity
@@ -100,54 +103,51 @@ class CreateProfileActivity : AppCompatActivity() {
     }
 
     private fun handleProfile() {
-        if (!validate()) {
-            return
-        } else {
-            mProgress.show()
-            val nome = editNomeUser.text.toString()
-            val email = mAuth.currentUser!!.email
-            val ddd = editDDD.text.toString()
-            val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
-            val ref = mStorage.getReference("image/${filename}")
-            mUser.nome = nome
-            mUser.ddd = ddd
-            mUser.telefone = editPhone.text.toString()
-            mUser.cep = editCep.text.toString()
-            mUser.estado = spinnerEstado.selectedItem.toString()
-            mUser.cidade = editCidade.text.toString()
-            mUser.bairro = editBairro.text.toString()
-            mUser.rua = editRua.text.toString()
-            mUser.numero = editNumero.text.toString()
-            mUser.servicosAtivos = 0
-            mUser.totalServicosFinalizados = 0
+        if (mConnect.validateConection()){
+            if (validate()){
+                mProgress.show()
+                val nome = editNomeUser.text.toString()
+                val email = mAuth.currentUser!!.email
+                val ddd = editDDD.text.toString()
+                val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
+                val ref = mStorage.getReference("image/${filename}")
+                mUser.nome = nome
+                mUser.ddd = ddd
+                mUser.telefone = editPhone.text.toString()
+                mUser.cep = editCep.text.toString()
+                mUser.estado = spinnerEstado.selectedItem.toString()
+                mUser.cidade = editCidade.text.toString()
+                mUser.bairro = editBairro.text.toString()
+                mUser.rua = editRua.text.toString()
+                mUser.numero = editNumero.text.toString()
+                mUser.servicosAtivos = 0
+                mUser.totalServicosFinalizados = 0
 
 
-            mUser.uid = mAuth.currentUser!!.uid
-            mUser.email = email
+                mUser.uid = mAuth.currentUser!!.uid
+                mUser.email = email
 
-            mUri?.let {
-                ref.putFile(it)
-                    .addOnSuccessListener {
-                        ref.downloadUrl
-                            .addOnSuccessListener {
+                mUri?.let {
+                    ref.putFile(it)
+                        .addOnSuccessListener {
+                            ref.downloadUrl
+                                .addOnSuccessListener {
 
-                                mUser.url = it.toString()
+                                    mUser.url = it.toString()
 
-                                mFirestoreUser.saveUser(mUser)
+                                    mFirestoreUser.saveUser(mUser)
 
 
-                            }
-                    }
-            }
+                                }
+                        }
+                }
 
-            if (mUri == null) {
-                if (!validate()) {
-                    return
-                } else {
+                if (mUri == null) {
                     mFirestoreUser.saveUser(mUser)
                 }
             }
         }
+
 
     }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -29,8 +30,9 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mProgress: ProgressDialog
-    private var servicosAtivos : Int? = null
-    private var servicosFinalizados : Int? = null
+    private var servicosAtivos: Int? = null
+    private var servicosFinalizados: Int? = null
+    private lateinit var mConnect: Connection
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,7 @@ class ProfileActivity : AppCompatActivity() {
         mFirestoreUser = FirestoreUser(this)
         mStorage = FirebaseStorage.getInstance()
         mProgress = ProgressDialog(this)
+        mConnect = Connection(this)
 
         selectPhotoProfile.setOnClickListener {
             handleSelectPhoto()
@@ -54,7 +57,6 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
         fetchData()
-
 
 
     }
@@ -104,67 +106,58 @@ class ProfileActivity : AppCompatActivity() {
                     servicosFinalizados = userItem.totalServicosFinalizados
 
 
-
-
                 }
 
             }
     }
 
     private fun handleUpdate() {
-        if (!validate()) {
-            return
-        } else {
-            mProgress.show()
-            val nome = editNomeUserProfile.text.toString()
-            val ddd = editDDDProfile.text.toString()
-            val phoneNumber = editPhoneProfile.text.toString()
-            val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
-            val ref = mStorage.getReference("image/${filename}")
-            mUserInfo.nome = nome
-            mUserInfo.ddd = ddd
-            mUserInfo.telefone = phoneNumber
-            mUserInfo.cep = editCepProfile.text.toString()
-            mUserInfo.estado = editEstado.text.toString()
-            mUserInfo.cidade = editCidadeProfile.text.toString()
-            mUserInfo.bairro = editBairroProfile.text.toString()
-            mUserInfo.rua = editRuaProfile.text.toString()
-            mUserInfo.numero = editNumeroProfile.text.toString()
-            mUserInfo.email = mAuth.currentUser!!.email
-            mUserInfo.uid = mAuth.currentUser!!.uid
-            mUserInfo.servicosAtivos = servicosAtivos!!
-            mUserInfo.totalServicosFinalizados = servicosFinalizados!!
-
-
-
-            mUri?.let {
-                ref.putFile(it)
-                    .addOnSuccessListener {
-                        ref.downloadUrl
-                            .addOnSuccessListener {
-                                mUserInfo.url = it.toString()
-                                mFirestoreUser.saveUser(mUserInfo)
-
-                            }
-                    }
-            }
-        }
-        if (mUri == null) {
-            if (!validate()) {
-                return
-            } else {
+        if (mConnect.validateConection()) {
+            if (validate()){
+                mProgress.show()
                 val nome = editNomeUserProfile.text.toString()
-                if (mUser?.url != null) mUserInfo.url = mUser?.url
-                mFirestoreUser.saveUser(mUserInfo)
+                val ddd = editDDDProfile.text.toString()
+                val phoneNumber = editPhoneProfile.text.toString()
+                val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
+                val ref = mStorage.getReference("image/${filename}")
+                mUserInfo.nome = nome
+                mUserInfo.ddd = ddd
+                mUserInfo.telefone = phoneNumber
+                mUserInfo.cep = editCepProfile.text.toString()
+                mUserInfo.estado = editEstado.text.toString()
+                mUserInfo.cidade = editCidadeProfile.text.toString()
+                mUserInfo.bairro = editBairroProfile.text.toString()
+                mUserInfo.rua = editRuaProfile.text.toString()
+                mUserInfo.numero = editNumeroProfile.text.toString()
+                mUserInfo.email = mAuth.currentUser!!.email
+                mUserInfo.uid = mAuth.currentUser!!.uid
+                mUserInfo.servicosAtivos = servicosAtivos!!
+                mUserInfo.totalServicosFinalizados = servicosFinalizados!!
 
+
+
+                mUri?.let {
+                    ref.putFile(it)
+                        .addOnSuccessListener {
+                            ref.downloadUrl
+                                .addOnSuccessListener {
+                                    mUserInfo.url = it.toString()
+                                    mFirestoreUser.saveUser(mUserInfo)
+
+                                }
+                        }
+
+                    if (mUri == null) {
+                        val nome = editNomeUserProfile.text.toString()
+                        if (mUser?.url != null) mUserInfo.url = mUser?.url
+                        mFirestoreUser.saveUser(mUserInfo)
+                    }
+                }
             }
-
         }
+
 
     }
-
-
-
 
 
     private fun validate(): Boolean {
