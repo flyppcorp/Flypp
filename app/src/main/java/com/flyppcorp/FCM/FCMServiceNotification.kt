@@ -30,55 +30,10 @@ class FCMServiceNotification : FirebaseMessagingService() {
         if (remoteMessage.data.size > 0){
             val payload : MutableMap<String, String> = remoteMessage.data
             messageNotification(payload)
+            serviceNotification(payload)
         }
 
-        if (data == null || data.get("sender") == null) return
 
-        var intent: Intent = Intent(this, ManagerServicesActivity::class.java)
-
-        firestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .document(data.get("sender")!!)
-            .get()
-            .addOnSuccessListener {
-
-
-                val mMyService: Myservice? = it.toObject(Myservice::class.java)
-                val pItent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
-
-                val notificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                val notificationChannelId = "Flypp"
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                    val notificationChannel = NotificationChannel(
-                        notificationChannelId,
-                        "Flypp",
-                        NotificationManager.IMPORTANCE_DEFAULT
-                    )
-
-                    notificationChannel.description = "Você receberá notificações de Flypp "
-                    notificationChannel.lightColor = Color.WHITE
-                    notificationChannel.enableLights(true)
-
-                    notificationManager.createNotificationChannel(notificationChannel)
-
-                }
-
-                val builder: NotificationCompat.Builder =
-                    NotificationCompat.Builder(applicationContext, notificationChannelId)
-
-                builder.setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_notification_logo)
-                    .setContentTitle(data.get("title"))
-                    .setContentText(data.get("body"))
-                    .setContentIntent(pItent)
-
-                val random = java.util.Random().nextInt(500)
-
-                notificationManager.notify(random, builder.build())
-
-            }
     }
 
     private fun messageNotification(payload: MutableMap<String, String>) {
@@ -120,6 +75,51 @@ class FCMServiceNotification : FirebaseMessagingService() {
             return
         }else{
             notificationManager1.notify(random, builder.build())
+        }
+
+
+
+    }
+
+    private fun serviceNotification(payload: MutableMap<String, String>) {
+        var intent: Intent = Intent(this, ManagerServicesActivity::class.java)
+        val pItent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationChannelId = "Flypp"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val notificationChannel = NotificationChannel(
+                notificationChannelId,
+                "Flypp",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            notificationChannel.description = "Você receberá notificações de Flypp "
+            notificationChannel.lightColor = Color.WHITE
+            notificationChannel.enableLights(true)
+
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
+
+        val builder: NotificationCompat.Builder =
+            NotificationCompat.Builder(applicationContext, notificationChannelId)
+
+        builder.setAutoCancel(true)
+            .setSmallIcon(R.drawable.ic_notification_logo)
+            .setContentTitle(payload.get("title"))
+            .setContentText(payload.get("body"))
+            .setContentIntent(pItent)
+
+        val random = java.util.Random().nextInt(500)
+
+        if (payload.get("sender") == null){
+            return
+        }else{
+            notificationManager.notify(random, builder.build())
         }
 
 
