@@ -32,6 +32,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mProgress: ProgressDialog
     private var servicosAtivos: Int? = null
     private var servicosFinalizados: Int? = null
+    private var avaliacao : Int? = null
+    private var totalAvaliacao : Int? = null
     private lateinit var mConnect: Connection
 
 
@@ -104,6 +106,8 @@ class ProfileActivity : AppCompatActivity() {
                     editNumeroProfile.setText(userItem.numero)
                     servicosAtivos = userItem.servicosAtivos
                     servicosFinalizados = userItem.totalServicosFinalizados
+                    avaliacao = userItem.avaliacao
+                    totalAvaliacao = userItem.totalAvaliacao
 
 
                 }
@@ -133,6 +137,8 @@ class ProfileActivity : AppCompatActivity() {
                 mUserInfo.uid = mAuth.currentUser!!.uid
                 mUserInfo.servicosAtivos = servicosAtivos!!
                 mUserInfo.totalServicosFinalizados = servicosFinalizados!!
+                mUserInfo.totalAvaliacao = totalAvaliacao!!
+                mUserInfo.avaliacao = avaliacao!!
 
 
 
@@ -146,12 +152,11 @@ class ProfileActivity : AppCompatActivity() {
 
                                 }
                         }
-
-                    if (mUri == null) {
-                        val nome = editNomeUserProfile.text.toString()
-                        if (mUser?.url != null) mUserInfo.url = mUser?.url
-                        mFirestoreUser.saveUser(mUserInfo)
-                    }
+                }
+                if (mUri == null) {
+                    val nome = editNomeUserProfile.text.toString()
+                    if (mUser?.url != null) mUserInfo.url = mUser?.url
+                    mFirestoreUser.saveUser(mUserInfo)
                 }
             }
         }
