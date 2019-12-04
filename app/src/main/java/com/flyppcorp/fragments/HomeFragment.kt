@@ -222,9 +222,7 @@ class HomeFragment : Fragment() {
                 Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(viewholder.imgServiceMain)
 
             }
-            viewholder.imgServiceMain.setOnClickListener {
-                Toast.makeText(context, servicos[position].urlService, Toast.LENGTH_SHORT).show()
-            }
+            
             viewholder.txtNomeUser.text = servicos[position].nome
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = servicos[position].shortDesc

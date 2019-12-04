@@ -83,7 +83,7 @@ class ContaFragment : Fragment() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
            viewHolder.itemView.txtMyName.text = mUser.nome
-            Picasso.get().load(mUser.url).into(viewHolder.itemView.photoPerfil)
+            Picasso.get().load(mUser.url).resize(80,80).centerCrop().into(viewHolder.itemView.photoPerfil)
             viewHolder.itemView.photoPerfil.setOnClickListener {
                  FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
                      .document(mAuth.currentUser!!.uid)

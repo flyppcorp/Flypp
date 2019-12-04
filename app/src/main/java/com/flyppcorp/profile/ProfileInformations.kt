@@ -132,7 +132,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
                 profileName.text = mUser!!.nome
-                Picasso.get().load(mUser?.url).into(imageProfile)
+                Picasso.get().load(mUser?.url).resize(80,80).centerCrop().into(imageProfile)
 
 
                 profileGo()

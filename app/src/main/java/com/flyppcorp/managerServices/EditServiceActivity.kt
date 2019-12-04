@@ -93,8 +93,12 @@ class EditServiceActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            imgService.setImageURI(mUri)
-            btnSelectPhotoService.alpha = 0f
+            if (mUri != null){
+                Picasso.get().load(mUri.toString()).resize(100, 100).centerCrop().into(imgService)
+                btnSelectPhotoService.alpha = 0f
+            }
+
+
         }
     }
 
@@ -106,11 +110,11 @@ class EditServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         if (serviceItem.urlService != null) {
-                            Picasso.get().load(serviceItem.urlService).into(imgService)
+                            Picasso.get().load(serviceItem.urlService).resize(150, 150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
                         if (mUri != null) {
-                            imgService.setImageURI(mUri)
+                            Picasso.get().load(mUri.toString()).resize(150,150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
                         editService.setText(serviceItem.nomeService)
@@ -139,7 +143,7 @@ class EditServiceActivity : AppCompatActivity() {
 
         if (validateConection()) {
             if (validate()) {
-
+                mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
                 mGetService?.let {
                     val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())

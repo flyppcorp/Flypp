@@ -60,7 +60,7 @@ class FragmentPendentes : Fragment() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.txtNomeServiceManager.text = mMyservice.serviceNome
-            if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).fit().centerCrop().into(
+            if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).resize(100, 100).centerCrop().into(
                 viewHolder.itemView.imgServiceManager
             )
             if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).into(

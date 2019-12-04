@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
-                if (mUser?.url != null) Picasso.get().load(mUser?.url).into(imgManagerProfile)
+                if (mUser?.url != null) Picasso.get().load(mUser?.url).resize(150,150).centerCrop().into(imgManagerProfile)
                 txtManagerNome.text = mUser!!.nome
                 txtMAnagerEnderecoProfile.text =
                     "${mUser?.rua}, ${mUser?.bairro}, ${mUser?.numero} \n" +

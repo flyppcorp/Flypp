@@ -27,7 +27,7 @@ class FirestoreUser(private val context: Context) {
     //função que salva usuario no firestore
     fun saveUser(mFirestoreClasses: User) {
         //progress dialog
-        mProgressDialog.show()
+        //mProgressDialog.show()
         val uid = mAuth.currentUser!!.uid
 
             mDadosUser.collection(Constants.COLLECTIONS.USER_COLLECTION)

@@ -16,6 +16,7 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.activity_add.editCep
 import java.text.SimpleDateFormat
@@ -89,8 +90,12 @@ class AddActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            imgService.setImageURI(mUri)
-            btnSelectPhotoService.alpha = 0f
+            if (mUri != null){
+                Picasso.get().load(mUri.toString()).fit().centerCrop().into(imgService)
+                btnSelectPhotoService.alpha = 0f
+            }
+            //imgService.setImageURI(mUri)
+
 
         }
     }
@@ -99,7 +104,7 @@ class AddActivity : AppCompatActivity() {
     private fun handleSaveService() {
         if (validateConection()) {
             if (validate()) {
-
+                 mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
