@@ -20,7 +20,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:src="@color/colorAccent"
+            android:src="@drawable/btn_select_photo_profile"
             app:civ_border_color="@color/colorPrimaryDark"
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"

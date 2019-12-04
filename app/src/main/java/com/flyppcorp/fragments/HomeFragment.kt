@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.flyppcorp.flypp.R
 import android.view.MenuItem
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.Query
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.service_items.*
 import kotlinx.android.synthetic.main.service_items.view.*
 
 class HomeFragment : Fragment() {
@@ -219,11 +221,13 @@ class HomeFragment : Fragment() {
             if (servicos[position].urlService == null) {
                 viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
             } else {
+
                 Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(viewholder.imgServiceMain)
 
             }
             
             viewholder.txtNomeUser.text = servicos[position].nome
+
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
             viewholder.txtShortDesc.text = servicos[position].shortDesc
             val avaliacao: Double =
