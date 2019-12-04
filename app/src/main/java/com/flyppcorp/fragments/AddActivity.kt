@@ -101,8 +101,8 @@ class AddActivity : AppCompatActivity() {
             if (validate()) {
 
                 //definindo valores para a classe servico
-                val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
-                val ref = mStorage.getReference("/ServicesImages/${timestamp}")
+                val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
+                val ref = mStorage.getReference("image/${filename}")
                 mServiceAtributes.nome = mUser.nome
                 mServiceAtributes.uid = mUser.uid
                 mServiceAtributes.uidProfile[mUser.uid.toString()] = true

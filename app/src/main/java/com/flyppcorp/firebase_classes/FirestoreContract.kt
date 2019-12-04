@@ -15,7 +15,7 @@ import com.google.android.gms.ads.*
 import androidx.appcompat.app.AppCompatActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Notification
-import com.muddzdev.styleabletoast.StyleableToast
+
 
 
 class FirestoreContract(var context: Context) {

@@ -142,8 +142,8 @@ class EditServiceActivity : AppCompatActivity() {
 
                 //definindo valores para a classe servico
                 mGetService?.let {
-                    val timestamp = SimpleDateFormat("aaaaMMdd", Locale("EUA")).format(Date())
-                    val ref = mStorage.getReference("/ServicesImages/${timestamp}")
+                    val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
+                    val ref = mStorage.getReference("image/${filename}")
                     mServiceAtributes.totalAvaliacao = mGetService!!.totalAvaliacao
                     mServiceAtributes.totalServicos = mGetService!!.totalServicos
                     mServiceAtributes.avaliacao = mGetService!!.avaliacao

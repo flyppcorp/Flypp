@@ -7,7 +7,6 @@ import android.os.Handler
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.agrawalsuneet.dotsloader.loaders.LazyLoader
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_splash.*
 

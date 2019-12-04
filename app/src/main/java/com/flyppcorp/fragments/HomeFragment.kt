@@ -21,6 +21,7 @@ import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
@@ -218,10 +219,11 @@ class HomeFragment : Fragment() {
             if (servicos[position].urlService == null) {
                 viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
             } else {
-                Picasso.get().load(servicos[position].urlService)
-                    .fit()
-                    .centerCrop()
-                    .into(viewholder.imgServiceMain)
+                Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(viewholder.imgServiceMain)
+
+            }
+            viewholder.imgServiceMain.setOnClickListener {
+                Toast.makeText(context, servicos[position].urlService, Toast.LENGTH_SHORT).show()
             }
             viewholder.txtNomeUser.text = servicos[position].nome
             Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)

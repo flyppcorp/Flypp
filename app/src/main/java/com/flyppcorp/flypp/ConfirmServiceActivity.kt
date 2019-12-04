@@ -139,7 +139,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
         if (networkInfo != null && networkInfo.isConnected) {
             return true
         } else {
-            progressBar.visibility = View.GONE
+            //progressBar.visibility = View.GONE
             Toast.makeText(this, "Você não possui conexão com a internet", Toast.LENGTH_SHORT)
                 .show()
             return false

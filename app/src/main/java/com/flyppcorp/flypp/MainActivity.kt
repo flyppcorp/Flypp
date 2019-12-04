@@ -59,15 +59,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         getToken()
         getPermissions()
-        connectionStatus()
 
     }
 
-    private fun connectionStatus(){
-        if (mConnection.validateConection()){
-            return
-        }
-    }
+
 
     private fun getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(

@@ -122,7 +122,7 @@ class ProfileActivity : AppCompatActivity() {
                 val nome = editNomeUserProfile.text.toString()
                 val ddd = editDDDProfile.text.toString()
                 val phoneNumber = editPhoneProfile.text.toString()
-                val filename = SimpleDateFormat("ddMMaaaa", Locale("PT-BR")).format(Date())
+                val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
                 mUserInfo.nome = nome
                 mUserInfo.ddd = ddd
