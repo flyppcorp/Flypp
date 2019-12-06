@@ -186,7 +186,7 @@ class ServiceActivity : AppCompatActivity() {
                         )}/5 segundo os usuários "
 
 
-                        txtPreco.text = "R$ ${service.preco} por ${service.tipoCobranca}"
+                        txtPreco.text = "R$ ${service.preco.toString().replace(".",",")} por ${service.tipoCobranca}"
                         txtDetailDesc.text = service.longDesc
                         txtQuality.text = service.qualidadesDiferenciais
                         txtEndereco.text =

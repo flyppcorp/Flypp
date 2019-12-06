@@ -120,6 +120,7 @@ class AndamentoActivity : AppCompatActivity() {
                         .document(mMyservice!!.documentId!!)
                         .delete()
                         .addOnSuccessListener {
+                            notificationCancel()
                             finish()
                         }.addOnFailureListener {
                             Toast.makeText(
@@ -137,6 +138,23 @@ class AndamentoActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun notificationCancel() {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyservice!!.idContratado!!)
+            .get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyservice!!.serviceId
+                notification.text = "${mMyservice!!.nomeContratado} cancelou o serviço (${mMyservice!!.serviceNome})"
+                notification.title ="Nova atualização de serviço"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user!!.token!!)
+                    .set(notification)
+            }
     }
 
     private fun btnText() {
@@ -166,7 +184,7 @@ class AndamentoActivity : AppCompatActivity() {
             txtContratanteAndamentoAcct.text = mMyservice!!.nomeContratante
             txtServiceAndamentoAcct.text = mMyservice!!.serviceNome
             txtObservacaoAndamento.text = mMyservice?.observacao
-            txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco} por ${mMyservice?.tipoCobranca}"
+            txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
 

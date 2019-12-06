@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun getToken() {
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
         //val token = FirebaseInstanceId.getInstance().token
         if (uid != null) {
             FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {

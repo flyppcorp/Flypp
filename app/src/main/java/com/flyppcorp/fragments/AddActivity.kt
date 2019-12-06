@@ -118,7 +118,7 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.nomeService = editService.text.toString()
                 mServiceAtributes.shortDesc = editDescCurta.text.toString()
                 mServiceAtributes.longDesc = editDescDetalhada.text.toString()
-                mServiceAtributes.preco = editPreco.text.toString()
+                mServiceAtributes.preco = editPreco.text.toString().toFloat()
                 mServiceAtributes.tipoCobranca = spinnerDuracaoService.selectedItem.toString()
                 mServiceAtributes.qualidadesDiferenciais =
                     editQualidadesDiferenciais.text.toString()

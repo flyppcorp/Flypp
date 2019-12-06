@@ -69,7 +69,8 @@ class FragmentPendentes : Fragment() {
             viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado
             viewHolder.itemView.txtNomeContratante.text = mMyservice.nomeContratante
             viewHolder.itemView.txtPrecoManager.text =
-                "R$ ${mMyservice.preco} por ${mMyservice.tipoCobranca}"
+                "R$ ${mMyservice.preco.toString().replace(".",",")} por ${mMyservice.tipoCobranca}"
+
         }
 
 

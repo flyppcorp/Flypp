@@ -68,7 +68,7 @@ class FinalizadoActivity : AppCompatActivity() {
             txtContratanteFinalizadoAcct.text = mMyservice!!.nomeContratado
             txtServicoFinalizadoAcct.text = mMyservice!!.serviceNome
             txtObservacaoFinalizado.text = mMyservice?.observacao
-            txtPrecoFinalizadoAcct.text = "R$ ${mMyservice?.preco} por ${mMyservice?.tipoCobranca}"
+            txtPrecoFinalizadoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
 

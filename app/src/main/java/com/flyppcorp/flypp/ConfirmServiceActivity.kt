@@ -126,7 +126,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mUser?.let {
             nomeContratante.text = it.nome
             txtServicoContratar.text = mServices?.nomeService
-            txtPrecoContratante.text = "R$ ${mServices?.preco} por  ${mServices?.tipoCobranca}"
+            txtPrecoContratante.text = "R$ ${mServices?.preco.toString().replace(".",",")} por  ${mServices?.tipoCobranca}"
             txtEnderecoContratante.text =
                 "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
 

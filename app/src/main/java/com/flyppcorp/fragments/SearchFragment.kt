@@ -128,7 +128,7 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPrecoList.text = "R$ ${contentServicesearch[position].preco} Por ${contentServicesearch[position].tipoCobranca}"
+            viewholder.txtPrecoList.text = "R$ ${contentServicesearch[position].preco.toString().replace(".",",")} Por ${contentServicesearch[position].tipoCobranca}"
 
             viewholder.btnFavoriteList.setOnClickListener {
                 favoriteEvent(position)

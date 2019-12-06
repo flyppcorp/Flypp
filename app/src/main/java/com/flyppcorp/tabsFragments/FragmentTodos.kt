@@ -101,7 +101,7 @@ class FragmentTodos : Fragment() {
             if (contentService[position].avaliacao == 0) vh.txtAvaliacaoList.text = "0/5"
             else vh.txtAvaliacaoList.text = "${avaliacao.toString().substring(0,3)}/5"
 
-            vh.txtPrecoList.text = "R$ ${contentService[position].preco} por ${contentService[position].tipoCobranca}"
+            vh.txtPrecoList.text = "R$ ${contentService[position].preco.toString().replace(".",",")} por ${contentService[position].tipoCobranca}"
 
 
 

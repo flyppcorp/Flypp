@@ -236,7 +236,7 @@ class HomeFragment : Fragment() {
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text =
-                "R$ ${servicos[position].preco} por ${servicos[position].tipoCobranca}"
+                "R$ ${servicos[position].preco.toString().replace(".",",")} por ${servicos[position].tipoCobranca}"
 
 
             viewholder.btnFavorite.setOnClickListener {

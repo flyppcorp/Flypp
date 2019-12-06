@@ -96,9 +96,9 @@ class PendenteActivity : AppCompatActivity() {
                 .delete()
                 .addOnSuccessListener {
                     if (mMyService!!.idContratante == mAuth.currentUser!!.uid) {
-                        notificationDesistence(mMyService!!.idContratado!!, "desistiu")
+                        notificationDesistence(mMyService!!.idContratado!!, "desistiu", mMyService!!.nomeContratante!!)
                     } else {
-                        notificationDesistence(mMyService!!.idContratante!!, "rejeitou")
+                        notificationDesistence(mMyService!!.idContratante!!, "rejeitou",mMyService!!.nomeContratado!!)
                     }
                     finish()
                 }.addOnFailureListener {
@@ -110,7 +110,7 @@ class PendenteActivity : AppCompatActivity() {
         mDialog.show()
     }
 
-    private fun notificationDesistence(uid: String, status: String) {
+    private fun notificationDesistence(uid: String, status: String, nome : String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -120,7 +120,7 @@ class PendenteActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyService!!.serviceId
                 notification.text =
-                    "${mMyService!!.nomeContratante} $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                    "$nome $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -159,7 +159,7 @@ class PendenteActivity : AppCompatActivity() {
             txtContratadoAcct.text = mMyService!!.nomeContratado
             txtServicoAcct.text = mMyService!!.serviceNome
             txtObservacao.text = mMyService?.observacao
-            txtPrecoAcct.text = "R$ ${mMyService?.preco} por ${mMyService?.tipoCobranca}"
+            txtPrecoAcct.text = "R$ ${mMyService?.preco.toString().replace(".",",")} por ${mMyService?.tipoCobranca}"
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
         }

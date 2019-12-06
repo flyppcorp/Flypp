@@ -111,7 +111,7 @@ class FavFragment : Fragment() {
             if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicos[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPrecoList.text = "R$ ${contentServicos[position].preco} Por ${contentServicos[position].tipoCobranca}"
+            viewholder.txtPrecoList.text = "R$ ${contentServicos[position].preco.toString().replace(".",",")} Por ${contentServicos[position].tipoCobranca}"
 
 
             viewholder.btnFavoriteList.setOnClickListener {
