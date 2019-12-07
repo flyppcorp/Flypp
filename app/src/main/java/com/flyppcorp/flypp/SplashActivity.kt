@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -32,6 +33,11 @@ class SplashActivity : AppCompatActivity() {
             }, 500)
         }, 2500)
 
+        loadImage()
+    }
+
+    private fun loadImage() {
+        Picasso.get().load(R.drawable.logo).resize(500,500).centerInside().into(imageView8)
     }
 
 

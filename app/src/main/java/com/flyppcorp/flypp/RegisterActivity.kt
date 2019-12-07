@@ -3,6 +3,7 @@ package com.flyppcorp.flypp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.firebase_classes.SignInFirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -21,6 +22,11 @@ class RegisterActivity : AppCompatActivity() {
         btnCad.setOnClickListener {
             handleRegister()
         }
+        loadImage()
+    }
+
+    private fun loadImage() {
+        Picasso.get().load(R.drawable.logo).resize(500,500).centerInside().into(imageView2)
     }
 
     private fun handleRegister() {

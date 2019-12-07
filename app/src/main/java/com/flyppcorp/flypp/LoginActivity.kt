@@ -1,6 +1,8 @@
 package com.flyppcorp.flypp
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +11,10 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.view.*
+import java.io.File
 
 class LoginActivity : AppCompatActivity() {
     //inicia objetos
@@ -27,6 +31,11 @@ class LoginActivity : AppCompatActivity() {
         setListeners()
         //moveMain leva para a main caso user esteja conectado
         //moveMainPage()
+        image()
+    }
+
+    private fun image() {
+        Picasso.get().load(R.drawable.logo).placeholder(R.drawable.logo).resize(500, 500).centerInside().into(imageViewLogo)
     }
 
     private fun setListeners() {

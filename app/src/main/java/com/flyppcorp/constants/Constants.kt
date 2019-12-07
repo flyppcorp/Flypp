@@ -26,7 +26,7 @@ class Constants {
         const val MENOR_PRECO = "menor_preco"
         const val MAIOR_PRECO = "maior_preco"
         const val MENOR_RELEVANCIA = "menor_relevancia"
-        const val MAIOR_RELEVANCIA = "maior_preco"
+        const val MAIOR_RELEVANCIA = "maior_relevancia"
         const val MENOS_AVALIADO = "menos_avaliado"
         const val MAIS_AVALIADO = "mais_avaliado"
     }
