@@ -3,6 +3,7 @@ package com.flyppcorp.flypp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.flyppcorp.Helper.RedimensionImage
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.ConfirmationCount
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +14,7 @@ class ConfirmationActivity : AppCompatActivity() {
     //inicio tardio e declaração dos objetos
     private lateinit var mConfirmationCount: ConfirmationCount
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mSize : RedimensionImage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,7 @@ class ConfirmationActivity : AppCompatActivity() {
         //instancia dos objetos
         mAuth = FirebaseAuth.getInstance()
         mConfirmationCount = ConfirmationCount(this)
+        mSize = RedimensionImage()
         handleImg()
         showMessage()
         //botao que inicia funcao de validar email
@@ -37,7 +40,9 @@ class ConfirmationActivity : AppCompatActivity() {
                     }
                 }
         }
+
     }
+
 
     //função que mostra mensagem com email do usuario
     private fun showMessage() {
@@ -54,14 +59,14 @@ class ConfirmationActivity : AppCompatActivity() {
             val imgRandomico = extras.getString(Constants.KEY.RANDOM_KEY)
 
             if (imgRandomico.equals("0")) {
-                imgRandom.setImageResource(R.drawable.ic_email_one)
+                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_one, 400, 300))
 
             } else if (imgRandomico.equals("1")) {
-                imgRandom.setImageResource(R.drawable.ic_email_two)
+                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_two, 400, 300))
             } else if (imgRandomico.equals("2")) {
-                imgRandom.setImageResource(R.drawable.ic_email_three)
+                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_three, 400, 300))
             } else if (imgRandomico.equals("3")) {
-                imgRandom.setImageResource(R.drawable.ic_email_four)
+                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_four, 400, 300))
             }
         }
     }

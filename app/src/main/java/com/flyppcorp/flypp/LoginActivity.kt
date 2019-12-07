@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.flyppcorp.Helper.RedimensionImage
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -20,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     //inicia objetos
     private lateinit var mLoginFirebaseAuth: LoginFirebaseAuth
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mSize : RedimensionImage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         //instancia
         mLoginFirebaseAuth = LoginFirebaseAuth(this)
         mAuth = FirebaseAuth.getInstance()
+        mSize = RedimensionImage()
         //setListeners possui os Onclick
         setListeners()
         //moveMain leva para a main caso user esteja conectado
@@ -35,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun image() {
-        Picasso.get().load(R.drawable.logo).placeholder(R.drawable.logo).resize(500, 500).centerInside().into(imageViewLogo)
+        //Picasso.get().load(R.drawable.logo).placeholder(R.drawable.logo).resize(500, 500).centerInside().into(imageViewLogo)
+        imageViewLogo.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 200))
     }
 
     private fun setListeners() {
