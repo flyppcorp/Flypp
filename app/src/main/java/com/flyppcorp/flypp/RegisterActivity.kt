@@ -10,13 +10,13 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mSignInFirebaseAuth: SignInFirebaseAuth
-    private lateinit var mSize : RedimensionImage
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         mSignInFirebaseAuth = SignInFirebaseAuth(this)
-        mSize = RedimensionImage()
+
 
         setListeners()
     }
@@ -25,13 +25,9 @@ class RegisterActivity : AppCompatActivity() {
         btnCad.setOnClickListener {
             handleRegister()
         }
-        //loadImage()
+
     }
 
-    private fun loadImage() {
-        //Picasso.get().load(R.drawable.logo).resize(500,500).centerInside().into(imageView2)
-        imageView2.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 350, 130))
-    }
 
     private fun handleRegister() {
         val email = editEmailCad.text.toString()

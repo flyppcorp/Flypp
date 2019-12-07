@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     //inicia objetos
     private lateinit var mLoginFirebaseAuth: LoginFirebaseAuth
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var mSize : RedimensionImage
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +29,11 @@ class LoginActivity : AppCompatActivity() {
         //instancia
         mLoginFirebaseAuth = LoginFirebaseAuth(this)
         mAuth = FirebaseAuth.getInstance()
-        mSize = RedimensionImage()
         //setListeners possui os Onclick
         setListeners()
         //moveMain leva para a main caso user esteja conectado
         //moveMainPage()
-        //image()
-    }
 
-    private fun image() {
-        //Picasso.get().load(R.drawable.logo).placeholder(R.drawable.logo).resize(500, 500).centerInside().into(imageViewLogo)
-        imageViewLogo.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 130))
     }
 
     private fun setListeners() {
