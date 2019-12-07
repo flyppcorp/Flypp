@@ -36,12 +36,12 @@ class SplashActivity : AppCompatActivity() {
             }, 500)
         }, 2500)
 
-        loadImage()
+        //loadImage()
     }
 
     private fun loadImage() {
        // Picasso.get().load(R.drawable.logo).resize(500,500).centerInside().into(imageView8)
-        imageView8.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 200))
+        imageView8.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 130))
     }
 
 

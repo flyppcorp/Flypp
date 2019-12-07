@@ -34,12 +34,12 @@ class LoginActivity : AppCompatActivity() {
         setListeners()
         //moveMain leva para a main caso user esteja conectado
         //moveMainPage()
-        image()
+        //image()
     }
 
     private fun image() {
         //Picasso.get().load(R.drawable.logo).placeholder(R.drawable.logo).resize(500, 500).centerInside().into(imageViewLogo)
-        imageViewLogo.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 200))
+        imageViewLogo.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 130))
     }
 
     private fun setListeners() {

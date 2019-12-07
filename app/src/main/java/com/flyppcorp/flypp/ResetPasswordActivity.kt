@@ -23,12 +23,10 @@ class ResetPasswordActivity : AppCompatActivity() {
         mSize = RedimensionImage()
 
         setlisteners()
-        getImage()
+
     }
 
-    private fun getImage() {
-        imageView3.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.write, 300, 200))
-    }
+
 
     private fun setlisteners() {
         btnEnviarEmail.setOnClickListener {
