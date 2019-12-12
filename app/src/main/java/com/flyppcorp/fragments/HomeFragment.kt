@@ -79,8 +79,9 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            servicos.add(item!!)
-                            contentUidList.add(doc.id)
+                                servicos.add(item!!)
+                                contentUidList.add(doc.id)
+
                         }
                         mAdapter.notifyDataSetChanged()
                     }

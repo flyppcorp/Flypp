@@ -1,12 +1,17 @@
 package com.flyppcorp.flypp
 
 import android.Manifest
+import android.content.ContentProviderClient
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,18 +24,26 @@ import com.flyppcorp.fragments.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.IOException
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var mSharedFilter: SharedFilter
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mConnection: Connection
+    private lateinit var client: FusedLocationProviderClient
+    //private lateinit var mCity : SharedFilter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +57,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         MobileAds.initialize(this)
         mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
         mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
+        client = LocationServices.getFusedLocationProviderClient(this)
 
         bottom_nav.setOnNavigationItemSelectedListener(this)
         //item que ja esta selecionado
@@ -61,7 +75,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         getPermissions()
 
     }
-
 
 
     private fun getPermissions() {
@@ -82,6 +95,42 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ),
                 1
             )
+        } else {
+            val errorCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+            when (errorCode) {
+                ConnectionResult.SERVICE_MISSING, ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, ConnectionResult.SERVICE_DISABLED -> {
+                    GoogleApiAvailability.getInstance().getErrorDialog(this, errorCode, 0) {
+                        finish()
+                    }.show()
+
+                }
+            }
+
+            client.lastLocation.addOnSuccessListener {
+                try {
+                    if (it == null) {
+                        return@addOnSuccessListener
+                    } else {
+                        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                        val adress: List<Address>? =
+                            geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                        if (adress != null) {
+                            if (adress!!.size > 0) {
+                                for (adresses: Address in adress) {
+                                    Toast.makeText(this, adresses.subAdminArea, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+
+                        } else {
+                            return@addOnSuccessListener
+                        }
+                    }
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
