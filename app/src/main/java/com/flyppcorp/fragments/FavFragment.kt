@@ -101,10 +101,10 @@ class FavFragment : Fragment() {
             if (contentServicos[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicos[position].urlService).fit().centerCrop().into(viewholder.imgServiceMainList)
+                Picasso.get().load(contentServicos[position].urlService).fit().centerCrop().placeholder(R.drawable.photo_work).into(viewholder.imgServiceMainList)
             }
             viewholder.txtNomeUserList.text = contentServicos[position].nome
-            Picasso.get().load(contentServicos[position].urlProfile)
+            Picasso.get().load(contentServicos[position].urlProfile).placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
             viewholder.txtShortDescList.text = contentServicos[position].shortDesc
             val avaliacao : Double = contentServicos[position].avaliacao.toDouble()/contentServicos[position].totalAvaliacao

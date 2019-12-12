@@ -59,10 +59,10 @@ class FragmentAndamento : Fragment() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.txtNomeServiceManager.text = mMyservice.serviceNome
-            if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).fit().centerCrop().into(
+            if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).fit().centerCrop().placeholder(R.drawable.photo_work).into(
                 viewHolder.itemView.imgServiceManager
             )
-            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).fit().centerCrop().into(
+            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).fit().centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
                 viewHolder.itemView.imgProfileImgManager
             )
             viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado

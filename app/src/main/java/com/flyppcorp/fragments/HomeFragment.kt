@@ -222,13 +222,17 @@ class HomeFragment : Fragment() {
                 viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
             } else {
 
-                Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(viewholder.imgServiceMain)
+                Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working)
+                    .fit().centerCrop().into(viewholder.imgServiceMain)
 
             }
-            
-            viewholder.txtNomeUser.text = servicos[position].nome
+            if (servicos[position].urlProfile != null) {
+                Picasso.get().load(servicos[position].urlProfile).placeholder(R.drawable.btn_select_photo_profile).centerCrop().fit().into(viewholder.imgProfileImgMain)
+            } else {
+                viewholder.imgProfileImgMain.setImageResource(R.drawable.btn_select_photo_profile)
+            }
 
-            Picasso.get().load(servicos[position].urlProfile).into(viewholder.imgProfileImgMain)
+            viewholder.txtNomeUser.text = servicos[position].nome
             viewholder.txtShortDesc.text = servicos[position].shortDesc
             val avaliacao: Double =
                 servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
@@ -236,7 +240,10 @@ class HomeFragment : Fragment() {
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
             viewholder.txtPreco.text =
-                "R$ ${servicos[position].preco.toString().replace(".",",")} por ${servicos[position].tipoCobranca}"
+                "R$ ${servicos[position].preco.toString().replace(
+                    ".",
+                    ","
+                )} por ${servicos[position].tipoCobranca}"
 
 
             viewholder.btnFavorite.setOnClickListener {
@@ -251,7 +258,11 @@ class HomeFragment : Fragment() {
                 viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
             if (servicos[position].uidProfile.containsKey(uid)) {
-                updateInfo(servicos[position].nome!!, servicos[position].urlProfile.toString(), position)
+                updateInfo(
+                    servicos[position].nome!!,
+                    servicos[position].urlProfile.toString(),
+                    position
+                )
             }
 
 
@@ -264,14 +275,16 @@ class HomeFragment : Fragment() {
                 .get()
                 .addOnSuccessListener {
                     mUser = it.toObject(User::class.java)
-                    val tsDoc = mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(contentUidList[position])
+                    val tsDoc =
+                        mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                            .document(contentUidList[position])
                     mFirestoreService.runTransaction {
                         val userUp = it.get(tsDoc).toObject(Servicos::class.java)
-                        if (userUp!!.uidProfile.containsKey(uid)){
-                            if (nome != mUser!!.nome){
+                        if (userUp!!.uidProfile.containsKey(uid)) {
+                            if (nome != mUser!!.nome) {
                                 userUp.nome = mUser!!.nome
                             }
-                            if (url != mUser?.url){
+                            if (url != mUser?.url) {
                                 userUp.urlProfile = mUser?.url
                             }
                         }
