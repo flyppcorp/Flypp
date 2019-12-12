@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.Connection
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
@@ -31,6 +32,7 @@ class SearchFragment : Fragment() {
     private lateinit var mAdapter: SearchRecyclerView
     private lateinit var uid: String
     private lateinit var mConnection: Connection
+    private lateinit var mCity : SharedFilter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class SearchFragment : Fragment() {
         contentUidList = arrayListOf()
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         mConnection = Connection(context!!)
+        mCity = SharedFilter(context!!)
 
         //primeiras configurações e manipulações da recyclerview
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_search, container, false)
@@ -78,8 +81,11 @@ class SearchFragment : Fragment() {
                 contentUidList.clear()
                 for (doc in snapshot!!.documents) {
                     val item = doc.toObject(Servicos::class.java)
-                    contentServicesearch.add(item!!)
-                    contentUidList.add(doc.id)
+                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) ){
+                        contentServicesearch.add(item!!)
+                        contentUidList.add(doc.id)
+                    }
+
                 }
                 mAdapter.notifyDataSetChanged()
 

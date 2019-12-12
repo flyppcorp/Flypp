@@ -43,13 +43,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mConnection: Connection
     private lateinit var client: FusedLocationProviderClient
-    //private lateinit var mCity : SharedFilter
+    private lateinit var mCity: SharedFilter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mSharedFilter = SharedFilter(this)
         mConnection = Connection(this)
+        mCity = SharedFilter(this)
         //acao do bottomNav
 
         mFirestoreContract = FirestoreContract(this)
@@ -73,12 +74,73 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         getToken()
         getPermissions()
+        //getLocation()
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLocation()
+
+
+    }
+
+    private fun getLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            val errorCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+            when (errorCode) {
+                ConnectionResult.SERVICE_MISSING, ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, ConnectionResult.SERVICE_DISABLED -> {
+                    GoogleApiAvailability.getInstance().getErrorDialog(this, errorCode, 0) {
+                        finish()
+                    }.show()
+
+                }
+            }
+            if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
+                client.lastLocation.addOnSuccessListener {
+                    try {
+                        if (it == null) {
+                            return@addOnSuccessListener
+                        } else {
+                            val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                            val adress: List<Address>? =
+                                geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                            if (adress != null) {
+                                if (adress!!.size > 0) {
+                                    for (adresses: Address in adress) {
+                                        if (mCity.getFilter(Constants.KEY.CITY_NAME) != "" || mCity.getFilter(
+                                                Constants.KEY.CITY_NAME
+                                            ) != adresses.subAdminArea
+                                        ) {
+                                            mCity.saveFilter(
+                                                Constants.KEY.CITY_NAME,
+                                                adresses.subAdminArea
+                                            )
+                                        }
+                                    }
+                                }
+
+                            } else {
+                                return@addOnSuccessListener
+                            }
+                        }
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }else {
+            return
+        }
     }
 
 
     private fun getPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            && ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -95,42 +157,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ),
                 1
             )
-        } else {
-            val errorCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-            when (errorCode) {
-                ConnectionResult.SERVICE_MISSING, ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, ConnectionResult.SERVICE_DISABLED -> {
-                    GoogleApiAvailability.getInstance().getErrorDialog(this, errorCode, 0) {
-                        finish()
-                    }.show()
+            getLocation()
+            ///////////////////////////////////////////
 
-                }
-            }
-
-            client.lastLocation.addOnSuccessListener {
-                try {
-                    if (it == null) {
-                        return@addOnSuccessListener
-                    } else {
-                        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
-                        val adress: List<Address>? =
-                            geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                        if (adress != null) {
-                            if (adress!!.size > 0) {
-                                for (adresses: Address in adress) {
-                                    Toast.makeText(this, adresses.subAdminArea, Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                            }
-
-                        } else {
-                            return@addOnSuccessListener
-                        }
-                    }
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
         }
     }
 

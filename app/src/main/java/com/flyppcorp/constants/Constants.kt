@@ -9,6 +9,7 @@ class Constants {
         const val PROFILE_KEY = "profile"
         const val SERVICE_STATUS = "pendentes"
         const val FILTER_KEY = "filter"
+        const val CITY_NAME = "city_name"
     }
 
     object COLLECTIONS {

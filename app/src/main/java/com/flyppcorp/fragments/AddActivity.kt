@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.widget.Toast
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -32,6 +33,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: User
+    private lateinit var mCity: SharedFilter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class AddActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mServiceAtributes = Servicos()
         mUser = User()
+        mCity = SharedFilter(this)
         supportActionBar!!.title = "Adicionar serviço"
 
         btnSelectPhotoService.setOnClickListener { handleSelect() }
@@ -113,6 +116,7 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.uidProfile[mUser.uid.toString()] = true
 
                 mServiceAtributes.urlProfile = mUser.url
+                mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
                 mServiceAtributes.ddd = mUser.ddd
                 mServiceAtributes.telefone = mUser.telefone
                 mServiceAtributes.nomeService = editService.text.toString()

@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -46,6 +47,7 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mFirestoreService: FirestoreService
     private var mGetService: Servicos? = null
     private var mProfile: User? = null
+    private lateinit var mCity: SharedFilter
     private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +59,7 @@ class EditServiceActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mProgress = ProgressDialog(this)
         mFirestoreService = FirestoreService(this)
+        mCity = SharedFilter(this)
         btnSelectPhotoService.setOnClickListener {
             handleSelectPhoto()
         }
@@ -157,6 +160,7 @@ class EditServiceActivity : AppCompatActivity() {
 
                     ////////////////////////////////////////////////////////////
                     mServiceAtributes.urlProfile = mGetService?.urlProfile
+                    mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
                     mServiceAtributes.nome = mGetService!!.nome
                     mServiceAtributes.ddd = mGetService?.ddd
                     mServiceAtributes.telefone = mGetService?.telefone

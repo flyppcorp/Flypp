@@ -51,7 +51,8 @@ data class Servicos(
     var totalServicos: Int = 0,
     var favoritos: MutableMap<String, Boolean> = HashMap(),
     var tags: MutableMap<String, Boolean> = HashMap(),
-    var tagsStr: String? = null
+    var tagsStr: String? = null,
+    var cityName: String? = null
 
 ) : Endereco(), Parcelable
 
