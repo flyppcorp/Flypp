@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LoginActivity
@@ -106,6 +107,11 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
 
     private fun signOut() {
         val correntUser = mAuth.currentUser
+        val UID = "UID"
+         val mSharedFilter = SharedFilter(this)
+        if (correntUser != null){
+            mSharedFilter.saveFilter(UID, correntUser.uid)
+        }
         FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(correntUser!!.uid)
             .update("online", false)
@@ -115,6 +121,8 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
         alert.setPositiveButton("Sim", {dialog, which ->
             if (correntUser != null) {
                 mAuth.signOut()
+                FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION).document(mSharedFilter.getFilter(UID))
+                    .update("token", "token_vazio")
                 val intent: Intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }

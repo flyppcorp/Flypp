@@ -59,14 +59,14 @@ class ConfirmationActivity : AppCompatActivity() {
             val imgRandomico = extras.getString(Constants.KEY.RANDOM_KEY)
 
             if (imgRandomico.equals("0")) {
-                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_one, 400, 300))
+                imgRandom.setImageResource(R.drawable.ic_email_one)
 
             } else if (imgRandomico.equals("1")) {
-                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_two, 400, 300))
+                imgRandom.setImageResource(R.drawable.ic_email_two)
             } else if (imgRandomico.equals("2")) {
-                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_three, 400, 300))
+                imgRandom.setImageResource(R.drawable.ic_email_three)
             } else if (imgRandomico.equals("3")) {
-                imgRandom.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_email_four, 400, 300))
+                imgRandom.setImageResource(R.drawable.ic_email_four)
             }
         }
     }

@@ -121,6 +121,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun handleUpdate() {
         if (mConnect.validateConection()) {
             if (validate()){
+                mProgress.setCancelable(false)
                 mProgress.show()
                 val nome = editNomeUserProfile.text.toString()
                 val ddd = editDDDProfile.text.toString()

@@ -29,6 +29,7 @@ class LoginFirebaseAuth(private val context: Context) {
     fun loginEmailSenha(email: String, senha: String) {
 
         //chamada da progress enquanto processa a função
+        mProgressDialog.setCancelable(false)
         mProgressDialog.show()
 
         // fim da chamada

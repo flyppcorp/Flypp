@@ -142,7 +142,7 @@ class AndamentoActivity : AppCompatActivity() {
 
     private fun notificationCancel() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mMyservice!!.idContratado!!)
+            .document(mMyservice!!.idContratante!!)
             .get()
             .addOnSuccessListener {
                 val user = it.toObject(User::class.java)

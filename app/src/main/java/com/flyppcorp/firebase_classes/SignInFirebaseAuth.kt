@@ -23,6 +23,7 @@ class SignInFirebaseAuth(private val context: Context) {
     private val mProgressDialog: ProgressDialog = ProgressDialog(context)
 
     fun signInFirebaseAuth(email: String, senha: String) {
+        mProgressDialog.setCancelable(false)
         mProgressDialog.show()
         mAuth.createUserWithEmailAndPassword(email, senha)
             .addOnCompleteListener {

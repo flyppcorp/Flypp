@@ -15,6 +15,7 @@ class ResetPassword (private val context:Context) {
     private val mAlert = AlertDialog.Builder(context)
 
     fun resetPassword(email: String){
+        mProgressDialog.setCancelable(false)
         mProgressDialog.show()
             mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener {

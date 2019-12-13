@@ -17,7 +17,6 @@ import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Notification
 
 
-
 class FirestoreContract(var context: Context) {
     private val mFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var mProgress: Boolean = true
@@ -26,7 +25,13 @@ class FirestoreContract(var context: Context) {
 
     @SuppressLint("ResourceAsColor")
 
-    fun confirmServiceContract(myservice: Myservice, documentId: String, token: String, notification: Notification ) {
+    fun confirmServiceContract(
+        myservice: Myservice,
+        documentId: String,
+        token: String,
+        notification: Notification
+    ) {
+        progress.setCancelable(false)
         progress.show()
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
             .document(documentId)
@@ -36,7 +41,12 @@ class FirestoreContract(var context: Context) {
                 progress.dismiss()
                 moveAndShowAd()
                 dashBoard()
+
                 sendNotification(token, notification)
+
+
+
+
                 toast()
 
 
@@ -46,12 +56,15 @@ class FirestoreContract(var context: Context) {
             }
 
     }
-    private fun sendNotification(token : String, notification: Notification){
-        mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-            .document(token)
-            .set(notification)
-    }
 
+    private fun sendNotification(token: String, notification: Notification) {
+
+            mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                .document(token)
+                .set(notification)
+
+
+    }
 
 
     private fun toast() {

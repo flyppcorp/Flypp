@@ -107,6 +107,7 @@ class AddActivity : AppCompatActivity() {
     private fun handleSaveService() {
         if (validateConection()) {
             if (validate()) {
+                mFirestoreService.mDialog.setCancelable(false)
                  mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())

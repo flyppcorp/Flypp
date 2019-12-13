@@ -146,6 +146,7 @@ class EditServiceActivity : AppCompatActivity() {
 
         if (validateConection()) {
             if (validate()) {
+                mFirestoreService.mDialog.setCancelable(false)
                 mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
                 mGetService?.let {

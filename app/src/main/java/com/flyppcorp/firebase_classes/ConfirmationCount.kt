@@ -25,6 +25,7 @@ class ConfirmationCount(private val context: Context) {
     //função que valida emails
     fun validarEmail() {
         //mostra uma progressDialog enquanto carrega
+        mProgressDialog.setCancelable(false)
         mProgressDialog.show()
         //Obtem o usuario atual e verifica a autenticação
         val user = mAuth.currentUser!!

@@ -126,7 +126,7 @@ class MessageActivity : AppCompatActivity() {
         mMeUser?.let { task ->
             val toId = mUser!!.uid
             val fromId = mAuth.currentUser!!.uid
-            val timestamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
+            val timestamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Date())
             var text = editTextMessage.text.toString()
 
             val message = Message()

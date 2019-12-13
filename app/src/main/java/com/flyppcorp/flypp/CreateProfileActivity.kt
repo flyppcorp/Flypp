@@ -105,6 +105,7 @@ class CreateProfileActivity : AppCompatActivity() {
     private fun handleProfile() {
         if (mConnect.validateConection()){
             if (validate()){
+                mProgress.setCancelable(false)
                 mProgress.show()
                 val nome = editNomeUser.text.toString()
                 val email = mAuth.currentUser!!.email
