@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile_informations.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import java.util.*
 
 class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var header: View
@@ -108,6 +109,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
     private fun signOut() {
         val correntUser = mAuth.currentUser
         val UID = "UID"
+        val temporatyToken = UUID.randomUUID().toString()
          val mSharedFilter = SharedFilter(this)
         if (correntUser != null){
             mSharedFilter.saveFilter(UID, correntUser.uid)
@@ -122,7 +124,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             if (correntUser != null) {
                 mAuth.signOut()
                 FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION).document(mSharedFilter.getFilter(UID))
-                    .update("token", "token_vazio")
+                    .update("token", "${temporatyToken}")
                 val intent: Intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
