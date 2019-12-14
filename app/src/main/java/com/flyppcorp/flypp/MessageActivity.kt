@@ -60,12 +60,12 @@ class MessageActivity : AppCompatActivity() {
             if (message.fromId == mAuth.currentUser!!.uid) {
                 viewHolder.itemView.txt_msg_from.text = message.text
                 Picasso.get().load(mMeUser?.url).into(viewHolder.itemView.img_profile_from)
-                val sdf = SimpleDateFormat("HH:mm")
+                val sdf = SimpleDateFormat("HH:mm dd/MM/yy")
                 viewHolder.itemView.hrFrom.text = sdf.format(message.timestampView).toString()
             } else {
                 viewHolder.itemView.txt_message_to.text = message.text
                 Picasso.get().load(mUser?.url).into(viewHolder.itemView.img_profile_to)
-                val sdf = SimpleDateFormat("HH:mm")
+                val sdf = SimpleDateFormat("HH:mm dd/MM/yy")
                 viewHolder.itemView.hrTo.text = sdf.format(message.timestampView).toString()
             }
         }
