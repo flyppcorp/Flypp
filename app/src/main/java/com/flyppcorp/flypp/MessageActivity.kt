@@ -2,16 +2,10 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.SyncStateContract
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
@@ -19,9 +13,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 
-import kotlinx.android.synthetic.main.activity_andamento.*
 import kotlinx.android.synthetic.main.activity_message2.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.from_id.view.*
 import kotlinx.android.synthetic.main.to_id.view.*
 import java.text.SimpleDateFormat
@@ -68,9 +60,13 @@ class MessageActivity : AppCompatActivity() {
             if (message.fromId == mAuth.currentUser!!.uid) {
                 viewHolder.itemView.txt_msg_from.text = message.text
                 Picasso.get().load(mMeUser?.url).into(viewHolder.itemView.img_profile_from)
+                val sdf = SimpleDateFormat("HH:mm")
+                viewHolder.itemView.hrFrom.text = sdf.format(message.timestampView).toString()
             } else {
                 viewHolder.itemView.txt_message_to.text = message.text
                 Picasso.get().load(mUser?.url).into(viewHolder.itemView.img_profile_to)
+                val sdf = SimpleDateFormat("HH:mm")
+                viewHolder.itemView.hrTo.text = sdf.format(message.timestampView).toString()
             }
         }
     }
@@ -126,12 +122,17 @@ class MessageActivity : AppCompatActivity() {
         mMeUser?.let { task ->
             val toId = mUser!!.uid
             val fromId = mAuth.currentUser!!.uid
-            val timestamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Date())
+            val timeZone = TimeZone.getTimeZone("America/Sao_Paulo")
+            val simpledateFormat = SimpleDateFormat("yyyyMMddHHmmssSS")
+            val timeNow = Calendar.getInstance(timeZone)
+            val timestamp = simpledateFormat.format(timeNow.time).toLong()
+            //val timestamp = Date().time
             var text = editTextMessage.text.toString()
 
             val message = Message()
             message.text = text
-            message.timestamp = timestamp.toLong()
+            message.timestamp = timestamp
+            message.timestampView = System.currentTimeMillis()
             message.fromId = fromId
             message.toId = toId
 
@@ -149,7 +150,13 @@ class MessageActivity : AppCompatActivity() {
                                 .collection(fromId)
                                 .add(message)
                                 .addOnSuccessListener {
-                                    notificationMessage(mMeUser!!.nome!!, text)
+                                    val uid = mAuth.currentUser?.uid
+                                    if (uid == fromId){
+                                        notificationMessage(mMeUser!!.nome!!, text, toId)
+                                    }else{
+                                        notificationMessage(mMeUser!!.nome!!, text, fromId)
+                                    }
+
                                     val lastMessages = LastMessage()
                                     lastMessages.name = mUser!!.nome
                                     lastMessages.toId = toId
@@ -193,9 +200,9 @@ class MessageActivity : AppCompatActivity() {
         return editTextMessage.text.toString() != ""
     }
 
-    private fun notificationMessage(nome: String, text: String) {
+    private fun notificationMessage(nome: String, text: String, uid : String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mUser!!.uid!!)
+            .document(uid)
             .get()
             .addOnSuccessListener {
                 val itemUser = it.toObject(User::class.java)

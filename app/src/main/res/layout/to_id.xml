@@ -34,4 +34,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_profile_to"
         app:layout_constraintTop_toTopOf="@+id/img_profile_to" />
+
+    <TextView
+        android:id="@+id/hrTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_message_to"
+        app:layout_constraintStart_toStartOf="@+id/txt_message_to"
+        app:layout_constraintTop_toBottomOf="@+id/txt_message_to" />
 </androidx.constraintlayout.widget.ConstraintLayout>
