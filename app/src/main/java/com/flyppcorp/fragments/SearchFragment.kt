@@ -81,7 +81,7 @@ class SearchFragment : Fragment() {
                 contentUidList.clear()
                 for (doc in snapshot!!.documents) {
                     val item = doc.toObject(Servicos::class.java)
-                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) ){
+                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                         contentServicesearch.add(item!!)
                         contentUidList.add(doc.id)
                     }

@@ -145,6 +145,7 @@ class AddActivity : AppCompatActivity() {
                 }
                 if (tags.isEmpty()) tags[""] = false
                 mServiceAtributes.tags = tags
+
                 //fim
 
                 //obtendo url da imagem no firestorage

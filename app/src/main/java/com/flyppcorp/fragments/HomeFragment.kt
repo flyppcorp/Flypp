@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
@@ -113,7 +113,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
@@ -145,7 +145,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
@@ -160,7 +160,7 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)){
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
                                 servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }

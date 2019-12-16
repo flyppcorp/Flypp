@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -23,6 +24,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
     private var mServicos: Servicos? = null
     private lateinit var mFirestore: FirebaseFirestore
     private var url: String? = null
+    private var menuPause: MenuItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_edit_service)
@@ -33,7 +35,18 @@ class ManagerEditServiceActivity : AppCompatActivity() {
         tb.setTitle("")
         setSupportActionBar(tb)
         fetchServico()
+        fetchVisible()
 
+    }
+
+    private fun fetchVisible() {
+        mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+            .document(mServicos!!.serviceId!!)
+            .get()
+            .addOnSuccessListener {
+                val service = it.toObject(Servicos::class.java)
+               if (!service!!.visible) menuPause?.setIcon(R.drawable.ic_play)
+            }
     }
 
     private fun fetchServico() {
@@ -51,9 +64,9 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                             "${serviceItem.totalServicos} serviços finalizados"
                         txtTituloServicesView.text = serviceItem.nomeService
                         txtDescShortView.text = serviceItem.shortDesc
-                        if (serviceItem.avaliacao == 0){
+                        if (serviceItem.avaliacao == 0) {
                             txtAvaliacaoView.text = "Este serviço não possui avaliações"
-                        }else {
+                        } else {
                             val avaliacao: Double =
                                 serviceItem.avaliacao.toDouble() / serviceItem.totalAvaliacao
                             txtAvaliacaoView.text = "Avaliado em ${avaliacao.toString().substring(
@@ -63,7 +76,10 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         }
 
                         txtPrecoView.text =
-                            "R$ ${serviceItem.preco.toString().replace(".",",")} por ${serviceItem.tipoCobranca}"
+                            "R$ ${serviceItem.preco.toString().replace(
+                                ".",
+                                ","
+                            )} por ${serviceItem.tipoCobranca}"
                         txtDetailDescView.text = serviceItem.longDesc
                         txtQualityView.text = serviceItem.qualidadesDiferenciais
                         txtEnderecoView.text =
@@ -78,7 +94,8 @@ class ManagerEditServiceActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.manager_services_items_menu, menu)
-        return true
+        menuPause = menu?.findItem(R.id.pausePlayServiceIc)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,9 +113,36 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 intent.putExtra("url", url)
                 startActivity(intent)
             }
+
+            R.id.pausePlayServiceIc -> {
+                //menuPause?.setIcon(R.drawable.ic_play)
+                handleVisible()
+                mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .document(mServicos!!.serviceId!!)
+                    .get()
+                    .addOnSuccessListener {
+                        val visible = it.toObject(Servicos::class.java)
+                        if (visible?.visible == true) menuPause?.setIcon(R.drawable.ic_play)
+                        else menuPause?.setIcon(R.drawable.ic_pause)
+                    }
+            }
+
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun handleVisible(){
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(mServicos!!.serviceId!!)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(Servicos::class.java)
+            if (content?.visible == false){
+                content.visible = true
+            }else {
+                content?.visible = false
+            }
+            it.set(tsDoc, content!!)
+        }
     }
 
     private fun deleteService() {
@@ -114,7 +158,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             }
     }
 
-    private fun servicosAtivos(){
+    private fun servicosAtivos() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
         mFirestore.runTransaction {
