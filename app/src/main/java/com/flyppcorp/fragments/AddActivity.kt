@@ -93,7 +93,7 @@ class AddActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            if (mUri != null){
+            if (mUri != null) {
                 Picasso.get().load(mUri.toString()).fit().centerCrop().into(imgService)
                 btnSelectPhotoService.alpha = 0f
             }
@@ -108,7 +108,7 @@ class AddActivity : AppCompatActivity() {
         if (validateConection()) {
             if (validate()) {
                 mFirestoreService.mDialog.setCancelable(false)
-                 mFirestoreService.mDialog.show()
+                mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
