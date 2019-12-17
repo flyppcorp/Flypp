@@ -45,7 +45,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 val service = it.toObject(Servicos::class.java)
-               if (!service!!.visible) menuPause?.setIcon(R.drawable.ic_play)
+                if (!service!!.visible) menuPause?.setIcon(R.drawable.ic_play)
             }
     }
 
@@ -132,13 +132,14 @@ class ManagerEditServiceActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun handleVisible(){
-        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(mServicos!!.serviceId!!)
+    private fun handleVisible() {
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+            .document(mServicos!!.serviceId!!)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(Servicos::class.java)
-            if (content?.visible == false){
+            if (content?.visible == false) {
                 content.visible = true
-            }else {
+            } else {
                 content?.visible = false
             }
             it.set(tsDoc, content!!)
