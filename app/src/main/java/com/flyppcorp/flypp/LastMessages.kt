@@ -59,7 +59,7 @@ class LastMessages : AppCompatActivity() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.txtNomeProfile.text = mLast.name
-            Picasso.get().load(mLast.url).into(viewHolder.itemView.imgLastProfile)
+            Picasso.get().load(mLast.url).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(viewHolder.itemView.imgLastProfile)
             viewHolder.itemView.txtLastMessage.text = mLast.text
         }
 
