@@ -56,7 +56,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
-                        if (serviceItem.urlService != null) Picasso.get().load(serviceItem.urlService).fit().centerCrop().into(
+                        if (serviceItem.urlService != null) Picasso.get().load(serviceItem.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(
                             imgServiceManagerView
                         )
                         else imgServiceManagerView.setImageResource(R.drawable.ic_working)

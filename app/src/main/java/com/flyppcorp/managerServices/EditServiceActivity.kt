@@ -113,11 +113,11 @@ class EditServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         if (serviceItem.urlService != null) {
-                            Picasso.get().load(serviceItem.urlService).resize(150, 150).centerCrop().into(imgService)
+                            Picasso.get().load(serviceItem.urlService).placeholder(R.drawable.photo_work).resize(150, 150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
                         if (mUri != null) {
-                            Picasso.get().load(mUri.toString()).resize(150,150).centerCrop().into(imgService)
+                            Picasso.get().load(mUri.toString()).placeholder(R.drawable.photo_work).resize(150,150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
                         editService.setText(serviceItem.nomeService)

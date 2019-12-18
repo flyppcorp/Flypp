@@ -154,7 +154,7 @@ class PendenteActivity : AppCompatActivity() {
     private fun fetchPendente() {
         mAdress?.let {
             if (mMyService?.urlService == null) imgServiceAcct.setImageResource(R.drawable.ic_working)
-            else Picasso.get().load(mMyService?.urlService).fit().centerCrop().into(imgServiceAcct)
+            else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(imgServiceAcct)
             txtContratanteAcct.text = mMyService!!.nomeContratante
             txtContratadoAcct.text = mMyService!!.nomeContratado
             txtServicoAcct.text = mMyService!!.serviceNome
