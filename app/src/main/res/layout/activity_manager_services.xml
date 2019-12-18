@@ -21,7 +21,8 @@
         app:tabMode="scrollable"
         app:tabMinWidth="100dp"
         style="@style/MyTabLayout"
-        app:tabTextColor="@color/textIcons"
+        app:tabTextColor="@color/divider"
+        app:tabSelectedTextColor="@color/textIcons"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/textIcons"/>
 
