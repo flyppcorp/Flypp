@@ -8,6 +8,8 @@ import com.flyppcorp.flypp.R
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.*
 import kotlinx.android.synthetic.main.service_items.view.*
@@ -38,7 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter: DetailRecyclerView
     private lateinit var mSharedFilter: SharedFilter
     private var mUser: User? = null
-    private lateinit var mCity : SharedFilter
+    private lateinit var mCity: SharedFilter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +59,7 @@ class HomeFragment : Fragment() {
         mCity = SharedFilter(context!!)
         view.recyclerview_main.adapter = mAdapter
 
+
         //configurações e inicio da recyclerview, evento de clique
         view.recyclerview_main.layoutManager = LinearLayoutManager(activity)
         mAdapter.onItemClicked = {
@@ -63,6 +67,9 @@ class HomeFragment : Fragment() {
             intent.putExtra(Constants.KEY.SERVICE_KEY, servicos[it])
             startActivity(intent)
         }
+
+
+
 
         fetchServices()
         return view
@@ -81,12 +88,14 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
                             }
 
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)) {
@@ -97,12 +106,14 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
                             }
-
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)) {
@@ -113,12 +124,16 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
 
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)) {
@@ -129,12 +144,16 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
 
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)) {
@@ -145,11 +164,15 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)) {
@@ -160,12 +183,16 @@ class HomeFragment : Fragment() {
                         contentUidList.clear()
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
-                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                                servicos.add(item!!)
+                            if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                                servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
 
                         }
+                        if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                        if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
             }
@@ -178,9 +205,13 @@ class HomeFragment : Fragment() {
                     contentUidList.clear()
                     for (doc in snapshot!!.documents) {
                         val item = doc.toObject(Servicos::class.java)
+
                         servicos.add(item!!)
                         contentUidList.add(doc.id)
+
                     }
+                    if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
+                    if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                     mAdapter.notifyDataSetChanged()
                 }
         }
@@ -225,6 +256,7 @@ class HomeFragment : Fragment() {
 
 
         override fun getItemCount(): Int {
+
             return servicos.size
         }
 
@@ -237,71 +269,76 @@ class HomeFragment : Fragment() {
             var viewholder = (holder as CustomViewHolder).itemView
 
 
-                viewholder.txtNomeServico.text = servicos[position].nomeService
-                if (servicos[position].urlService == null) {
-                    viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
-                } else {
+            viewholder.txtNomeServico.text = servicos[position].nomeService
+            if (servicos[position].urlService == null) {
+                viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
+            } else {
 
-                    Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working)
-                        .fit().centerCrop().into(viewholder.imgServiceMain)
+                Picasso.get().load(servicos[position].urlService).placeholder(R.drawable.ic_working)
+                    .fit().centerCrop().into(viewholder.imgServiceMain)
 
-                }
-                if (servicos[position].urlProfile != null) {
-                    Picasso.get().load(servicos[position].urlProfile).placeholder(R.drawable.btn_select_photo_profile).centerCrop().fit().into(viewholder.imgProfileImgMain)
-                } else {
-                    viewholder.imgProfileImgMain.setImageResource(R.drawable.btn_select_photo_profile)
-                }
+            }
+            if (servicos[position].urlProfile != null) {
+                Picasso.get().load(servicos[position].urlProfile)
+                    .placeholder(R.drawable.btn_select_photo_profile).centerCrop().fit()
+                    .into(viewholder.imgProfileImgMain)
+            } else {
+                viewholder.imgProfileImgMain.setImageResource(R.drawable.btn_select_photo_profile)
+            }
 
-                viewholder.txtNomeUser.text = servicos[position].nome
-                viewholder.txtShortDesc.text = servicos[position].shortDesc
-                val avaliacao: Double =
-                    servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
-                if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
-                    "${servicos[position].avaliacao}/5"
-                else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-                viewholder.txtPreco.text =
-                    "R$ ${servicos[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )} por ${servicos[position].tipoCobranca}"
-
-
-                viewholder.btnFavorite.setOnClickListener {
-                    eventFavorite(position)
+            viewholder.txtNomeUser.text = servicos[position].nome
+            viewholder.txtShortDesc.text = servicos[position].shortDesc
+            val avaliacao: Double =
+                servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
+            if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
+                "${servicos[position].avaliacao}/5"
+            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
+            viewholder.txtPreco.text =
+                "R$ ${servicos[position].preco.toString().replace(
+                    ".",
+                    ","
+                )} por ${servicos[position].tipoCobranca}"
 
 
-                }
-                if (servicos[position].favoritos.containsKey(uid)) {
-                    viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite)
+            viewholder.btnFavorite.setOnClickListener {
+                eventFavorite(position)
 
-                } else {
-                    viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
-                }
-                if (servicos[position].uidProfile.containsKey(uid)) {
-                    updateInfo(
-                        servicos[position].nome!!,
-                        servicos[position].urlProfile.toString(),
-                        position
-                    )
-                }
 
-             updateLocation()
+            }
+            if (servicos[position].favoritos.containsKey(uid)) {
+                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite)
+
+            } else {
+                viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+            }
+            if (servicos[position].uidProfile.containsKey(uid)) {
+                updateInfo(
+                    servicos[position].nome!!,
+                    servicos[position].urlProfile.toString(),
+                    position
+                )
+            }
+
+            updateLocation()
 
         }
-        private fun updateLocation(){
+
+        private fun updateLocation() {
             val mFirestoreService = FirebaseFirestore.getInstance()
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .whereEqualTo("uid", uid)
                 .addSnapshotListener { snapshot, exception ->
                     if (snapshot == null) return@addSnapshotListener
                     snapshot?.let {
-                        for (doc in snapshot){
+                        for (doc in snapshot) {
                             val serviceLocation = doc.toObject(Servicos::class.java)
-                            val tsDoc = mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION).document(serviceLocation.serviceId!!)
+                            val tsDoc =
+                                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                    .document(serviceLocation.serviceId!!)
                             mFirestoreService.runTransaction {
                                 val content = it.get(tsDoc).toObject(Servicos::class.java)
-                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME)){
-                                    content?.cityName =  mCity.getFilter(Constants.KEY.CITY_NAME)
+                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME)) {
+                                    content?.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
                                 }
                                 it.set(tsDoc, content!!)
                             }

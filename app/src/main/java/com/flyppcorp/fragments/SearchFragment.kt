@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,8 +69,11 @@ class SearchFragment : Fragment() {
             startActivity(intent)
         }
 
+
         return view
     }
+
+
 
     //função que busca os resultados no banco de dados
     fun get(search: String) {
@@ -77,16 +81,20 @@ class SearchFragment : Fragment() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .whereEqualTo("tags.${search}", true)
             .addSnapshotListener { snapshot, exception ->
+
                 contentServicesearch.clear()
                 contentUidList.clear()
                 for (doc in snapshot!!.documents) {
                     val item = doc.toObject(Servicos::class.java)
                     if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                        contentServicesearch.add(item!!)
+                        contentServicesearch.add(item)
                         contentUidList.add(doc.id)
+
                     }
 
                 }
+                if (contentServicesearch.size == 0 ) framesearch?.visibility = View.VISIBLE
+                if (contentServicesearch.size > 0)framesearch?.visibility = View.GONE
                 mAdapter.notifyDataSetChanged()
 
             }
