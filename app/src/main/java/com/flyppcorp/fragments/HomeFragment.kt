@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import java.lang.IndexOutOfBoundsException
 
 class HomeFragment : Fragment() {
 
@@ -43,7 +44,6 @@ class HomeFragment : Fragment() {
     private var mUser: User? = null
     private lateinit var mCity: SharedFilter
     private var cityOther: User? = null
-
 
 
     override fun onCreateView(
@@ -331,19 +331,24 @@ class HomeFragment : Fragment() {
             } else {
                 viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
-            if (servicos[position].uidProfile.containsKey(uid)) {
-                updateInfo(
-                    servicos[position].nome!!,
-                    servicos[position].urlProfile.toString(),
-                    position
-                )
-            }
+
+                if ((servicos != null && servicos.size > 0) && (contentUidList != null && contentUidList.size > 0)  || (servicos != null && servicos.size > 1) && (contentUidList != null && contentUidList.size > 1) ){
+                    if (servicos[position].uidProfile.containsKey(uid) ) {
+                        updateInfo(
+                            servicos[position].nome!!,
+                            servicos[position].urlProfile.toString(),
+                            position
+                        )
+                    }
+                }
+
 
             updateLocation()
 
         }
 
         private fun updateLocation() {
+
             val mFirestoreService = FirebaseFirestore.getInstance()
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .whereEqualTo("uid", uid)
@@ -372,30 +377,33 @@ class HomeFragment : Fragment() {
         }
 
         private fun updateInfo(nome: String, url: String, position: Int) {
-            val user = FirebaseFirestore.getInstance()
-            user.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .get()
-                .addOnSuccessListener {
-                    mUser = it.toObject(User::class.java)
-                    val tsDoc =
-                        mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                            .document(contentUidList[position])
-                    mFirestoreService.runTransaction {
-                        val userUp = it.get(tsDoc).toObject(Servicos::class.java)
-                        if (userUp!!.uidProfile.containsKey(uid)) {
-                            if (nome != mUser!!.nome) {
-                                userUp.nome = mUser!!.nome
-                            }
-                            if (url != mUser?.url) {
-                                userUp.urlProfile = mUser?.url
+
+                val user = FirebaseFirestore.getInstance()
+                user.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener {
+                        mUser = it.toObject(User::class.java)
+                        val tsDoc =
+                            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                .document(contentUidList[position])
+                        mFirestoreService.runTransaction {
+                            val userUp = it.get(tsDoc).toObject(Servicos::class.java)
+                            if (userUp!!.uidProfile.containsKey(uid)) {
+                                if (nome != mUser!!.nome) {
+                                    userUp.nome = mUser!!.nome
+                                }
+                                if (url != mUser?.url) {
+                                    userUp.urlProfile = mUser?.url
+                                }
+
                             }
 
+                            it.set(tsDoc, userUp)
                         }
-
-                        it.set(tsDoc, userUp)
                     }
-                }
+
+
         }
 
         fun eventFavorite(position: Int) {
