@@ -384,23 +384,28 @@ class HomeFragment : Fragment() {
                     .get()
                     .addOnSuccessListener {
                         mUser = it.toObject(User::class.java)
-                        val tsDoc =
-                            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                .document(contentUidList[position])
-                        mFirestoreService.runTransaction {
-                            val userUp = it.get(tsDoc).toObject(Servicos::class.java)
-                            if (userUp!!.uidProfile.containsKey(uid)) {
-                                if (nome != mUser!!.nome) {
-                                    userUp.nome = mUser!!.nome
-                                }
-                                if (url != mUser?.url) {
-                                    userUp.urlProfile = mUser?.url
+                        if (contentUidList != null && contentUidList.size > 0){
+                            val tsDoc =
+                                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                    .document(contentUidList[position])
+                            mFirestoreService.runTransaction {
+                                val userUp = it.get(tsDoc).toObject(Servicos::class.java)
+                                if (userUp!!.uidProfile.containsKey(uid)) {
+                                    if (nome != mUser!!.nome) {
+                                        userUp.nome = mUser!!.nome
+                                    }
+                                    if (url != mUser?.url) {
+                                        userUp.urlProfile = mUser?.url
+                                    }
+
                                 }
 
+                                it.set(tsDoc, userUp)
                             }
-
-                            it.set(tsDoc, userUp)
+                        }else{
+                            return@addOnSuccessListener
                         }
+
                     }
 
 
