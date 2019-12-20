@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
     private var mUser: User? = null
     private lateinit var mCity: SharedFilter
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -91,7 +92,21 @@ class HomeFragment : Fragment() {
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
                                 servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
+
+                            /*else {
+                                mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                                    .document(uid)
+                                    .get()
+                                    .addOnSuccessListener {
+                                        val user = it.toObject(User::class.java)
+                                        if (user?.cidade != null && user.cidade == item?.cityName  && item!!.visible ){
+                                            servicos.add(item)
+                                            contentUidList.add(doc.id)
+                                        }
+                                    }
+                            }*/
 
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
@@ -107,10 +122,11 @@ class HomeFragment : Fragment() {
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
-
                                 servicos.add(item)
                                 contentUidList.add(doc.id)
+
                             }
+
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -125,10 +141,8 @@ class HomeFragment : Fragment() {
                         for (doc in snapshot!!.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
-
                                 servicos.add(item)
                                 contentUidList.add(doc.id)
-
                             }
 
                         }
@@ -337,7 +351,7 @@ class HomeFragment : Fragment() {
                                     .document(serviceLocation.serviceId!!)
                             mFirestoreService.runTransaction {
                                 val content = it.get(tsDoc).toObject(Servicos::class.java)
-                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME)) {
+                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME) && mCity.getFilter(Constants.KEY.CITY_NAME) != "" ) {
                                     content?.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
                                 }
                                 it.set(tsDoc, content!!)

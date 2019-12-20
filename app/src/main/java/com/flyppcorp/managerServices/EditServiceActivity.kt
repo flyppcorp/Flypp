@@ -162,7 +162,8 @@ class EditServiceActivity : AppCompatActivity() {
 
                     ////////////////////////////////////////////////////////////
                     mServiceAtributes.urlProfile = mGetService?.urlProfile
-                    mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
+                    if (mCity.getFilter(Constants.KEY.CITY_NAME) != "" )  mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
+                    else  mServiceAtributes.cityName = editCidadeService.text.toString()
                     mServiceAtributes.nome = mGetService!!.nome
                     mServiceAtributes.ddd = mGetService?.ddd
                     mServiceAtributes.telefone = mGetService?.telefone

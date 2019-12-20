@@ -117,7 +117,8 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.uidProfile[mUser.uid.toString()] = true
 
                 mServiceAtributes.urlProfile = mUser.url
-                mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
+                if (mCity.getFilter(Constants.KEY.CITY_NAME) != "") mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
+                else  mServiceAtributes.cityName = editCidadeService.text.toString()
                 mServiceAtributes.ddd = mUser.ddd
                 mServiceAtributes.telefone = mUser.telefone
                 mServiceAtributes.nomeService = editService.text.toString()
