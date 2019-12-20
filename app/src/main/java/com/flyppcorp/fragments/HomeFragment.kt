@@ -300,7 +300,8 @@ class HomeFragment : Fragment() {
             }
             if (servicos[position].urlProfile != null) {
                 Picasso.get().load(servicos[position].urlProfile)
-                    .placeholder(R.drawable.btn_select_photo_profile).centerCrop().fit()
+                    .resize(300,300)
+                    .placeholder(R.drawable.btn_select_photo_profile).centerCrop()
                     .into(viewholder.imgProfileImgMain)
             } else {
                 viewholder.imgProfileImgMain.setImageResource(R.drawable.btn_select_photo_profile)

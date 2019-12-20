@@ -131,11 +131,11 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService).fit().centerCrop().placeholder(R.drawable.photo_work)
+                Picasso.get().load(contentServicesearch[position].urlService).resize(100,100).centerCrop().placeholder(R.drawable.photo_work)
                     .into(viewholder.imgServiceMainList)
             }
             viewholder.txtNomeUserList.text = contentServicesearch[position].nome
-            Picasso.get().load(contentServicesearch[position].urlProfile).placeholder(R.drawable.btn_select_photo_profile)
+            Picasso.get().load(contentServicesearch[position].urlProfile).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
             viewholder.txtShortDescList.text = contentServicesearch[position].shortDesc
             val avaliacao : Double = contentServicesearch[position].avaliacao.toDouble()/contentServicesearch[position].totalAvaliacao
