@@ -42,6 +42,8 @@ class HomeFragment : Fragment() {
     private lateinit var mSharedFilter: SharedFilter
     private var mUser: User? = null
     private lateinit var mCity: SharedFilter
+    private var cityOther: User? = null
+
 
 
     override fun onCreateView(
@@ -73,6 +75,7 @@ class HomeFragment : Fragment() {
 
 
         fetchServices()
+        locationOther()
         return view
     }
 
@@ -94,19 +97,6 @@ class HomeFragment : Fragment() {
                                 contentUidList.add(doc.id)
 
                             }
-
-                            /*else {
-                                mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                                    .document(uid)
-                                    .get()
-                                    .addOnSuccessListener {
-                                        val user = it.toObject(User::class.java)
-                                        if (user?.cidade != null && user.cidade == item?.cityName  && item!!.visible ){
-                                            servicos.add(item)
-                                            contentUidList.add(doc.id)
-                                        }
-                                    }
-                            }*/
 
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
@@ -233,6 +223,22 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun locationOther() {
+        if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) == "") {
+            mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(uid)
+                .get()
+                .addOnSuccessListener {
+                    cityOther = it.toObject(User::class.java)
+                    if (cityOther?.cidade != null) {
+                        mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
+                    } else {
+                        return@addOnSuccessListener
+                    }
+                }
+        }
+    }
+
 
     //funcões de manipulaçao de toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -351,7 +357,10 @@ class HomeFragment : Fragment() {
                                     .document(serviceLocation.serviceId!!)
                             mFirestoreService.runTransaction {
                                 val content = it.get(tsDoc).toObject(Servicos::class.java)
-                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME) && mCity.getFilter(Constants.KEY.CITY_NAME) != "" ) {
+                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME) && mCity.getFilter(
+                                        Constants.KEY.CITY_NAME
+                                    ) != ""
+                                ) {
                                     content?.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
                                 }
                                 it.set(tsDoc, content!!)
