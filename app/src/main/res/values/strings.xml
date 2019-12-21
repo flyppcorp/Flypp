@@ -74,7 +74,8 @@
 
     <string name="ads_intertitial_id">ca-app-pub-3940256099942544/1033173712</string>
 
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais</string>
+    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro.</string>
 </resources>
