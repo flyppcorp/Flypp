@@ -45,7 +45,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 val service = it.toObject(Servicos::class.java)
-                if (!service!!.visible) menuPause?.setIcon(R.drawable.ic_play)
+                if (service?.visible != true) menuPause?.setIcon(R.drawable.ic_play)
             }
     }
 
