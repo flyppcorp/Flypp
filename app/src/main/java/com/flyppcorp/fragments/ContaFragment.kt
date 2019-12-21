@@ -1,6 +1,7 @@
 package com.flyppcorp.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,16 @@ class ContaFragment : Fragment() {
             adapter.getItemId(it)
            when{
                it == 0 -> startActivity(Intent(context, ManagerServicesActivity::class.java))
+               it == 1 -> {
+                   val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://flyppbrasil.epizy.com/"))
+                   startActivity(intent)
+               }
+               it == 2 -> {
+                   val intent = Intent(Intent.ACTION_SEND)
+                   intent.setType("text/plain")
+                   intent.putExtra(Intent.EXTRA_TEXT, "Use o Flypp para contratar e oferecer serviços de forma rápida, fácil e grátis:  \nhttp://flyppbrasil.epizy.com/")
+                   startActivity(intent)
+               }
            }
         }
 
