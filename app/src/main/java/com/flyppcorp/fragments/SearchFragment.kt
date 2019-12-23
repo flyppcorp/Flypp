@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
     private lateinit var mAdapter: SearchRecyclerView
     private lateinit var uid: String
     private lateinit var mConnection: Connection
-    private lateinit var mCity : SharedFilter
+    private lateinit var mCity: SharedFilter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,9 +53,9 @@ class SearchFragment : Fragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_search, container, false)
         view.recyclerSearch.adapter = mAdapter
         view.btnSearch.setOnClickListener {
-            if (!editSearch.text.toString().isEmpty()){
-                if (mConnection.validateConection()){
-                    get(editSearch.text.toString().toLowerCase())
+            if (!editSearch.text.toString().isEmpty()) {
+                if (mConnection.validateConection()) {
+                    get()
                     editSearch.onEditorAction(EditorInfo.IME_ACTION_DONE)
                 }
 
@@ -74,27 +74,35 @@ class SearchFragment : Fragment() {
     }
 
 
-
     //função que busca os resultados no banco de dados
-    fun get(search: String) {
+    fun get() {
 
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .whereEqualTo("tags.${search}", true)
+            //.whereEqualTo("tags.${search}", true)
             .addSnapshotListener { snapshot, exception ->
 
                 contentServicesearch.clear()
                 contentUidList.clear()
                 for (doc in snapshot!!.documents) {
                     val item = doc.toObject(Servicos::class.java)
-                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible){
-                        contentServicesearch.add(item)
-                        contentUidList.add(doc.id)
+                    val prefix = editSearch?.text.toString().toLowerCase()
+
+                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+                        for (key in item.tags) {
+                            if (key.toString().startsWith(prefix)) {
+                                contentServicesearch.add(item)
+                                contentUidList.add(doc.id)
+                                break
+                            }
+
+                        }
 
                     }
 
+
                 }
-                if (contentServicesearch.size == 0 ) framesearch?.visibility = View.VISIBLE
-                if (contentServicesearch.size > 0)framesearch?.visibility = View.GONE
+                if (contentServicesearch.size == 0) framesearch?.visibility = View.VISIBLE
+                if (contentServicesearch.size > 0) framesearch?.visibility = View.GONE
                 mAdapter.notifyDataSetChanged()
 
             }
@@ -109,7 +117,8 @@ class SearchFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.service_items_all, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.service_items_all, parent, false)
             return CustomViewholder(view)
         }
 
@@ -131,18 +140,25 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService).resize(100,100).centerCrop().placeholder(R.drawable.photo_work)
+                Picasso.get().load(contentServicesearch[position].urlService).resize(100, 100)
+                    .centerCrop().placeholder(R.drawable.photo_work)
                     .into(viewholder.imgServiceMainList)
             }
             viewholder.txtNomeUserList.text = contentServicesearch[position].nome
-            Picasso.get().load(contentServicesearch[position].urlProfile).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile)
+            Picasso.get().load(contentServicesearch[position].urlProfile).resize(300, 300)
+                .centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
             viewholder.txtShortDescList.text = contentServicesearch[position].shortDesc
-            val avaliacao : Double = contentServicesearch[position].avaliacao.toDouble()/contentServicesearch[position].totalAvaliacao
+            val avaliacao: Double =
+                contentServicesearch[position].avaliacao.toDouble() / contentServicesearch[position].totalAvaliacao
             if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPrecoList.text = "R$ ${contentServicesearch[position].preco.toString().replace(".",",")} Por ${contentServicesearch[position].tipoCobranca}"
+            viewholder.txtPrecoList.text =
+                "R$ ${contentServicesearch[position].preco.toString().replace(
+                    ".",
+                    ","
+                )} Por ${contentServicesearch[position].tipoCobranca}"
 
             viewholder.btnFavoriteList.setOnClickListener {
                 favoriteEvent(position)
