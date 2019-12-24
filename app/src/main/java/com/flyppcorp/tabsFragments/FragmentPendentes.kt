@@ -63,7 +63,7 @@ class FragmentPendentes : Fragment() {
             if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).resize(100, 100).centerCrop().placeholder(R.drawable.photo_work).into(
                 viewHolder.itemView.imgServiceManager
             )
-            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).resize(100,100).placeholder(R.drawable.btn_select_photo_profile).into(
+            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).resize(100,100).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
                 viewHolder.itemView.imgProfileImgManager
             )
             viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado

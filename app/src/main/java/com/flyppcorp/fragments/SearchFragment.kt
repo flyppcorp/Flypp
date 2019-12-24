@@ -1,13 +1,10 @@
 package com.flyppcorp.fragments
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.Connection
@@ -21,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
-import kotlinx.android.synthetic.main.service_items.view.*
 import kotlinx.android.synthetic.main.service_items_all.view.*
 
 class SearchFragment : Fragment() {
@@ -83,7 +79,8 @@ class SearchFragment : Fragment() {
 
                 contentServicesearch.clear()
                 contentUidList.clear()
-                for (doc in snapshot!!.documents) {
+                if (snapshot == null) return@addSnapshotListener
+                for (doc in snapshot.documents) {
                     val item = doc.toObject(Servicos::class.java)
                     val prefix = editSearch?.text.toString().toLowerCase()
 

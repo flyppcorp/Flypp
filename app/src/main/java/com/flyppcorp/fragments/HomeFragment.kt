@@ -90,7 +90,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
                                 servicos.add(item)
@@ -109,7 +110,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
                                 servicos.add(item)
@@ -128,7 +130,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
                                 servicos.add(item)
@@ -146,7 +149,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
 
@@ -166,7 +170,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
 
@@ -185,7 +190,8 @@ class HomeFragment : Fragment() {
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        for (doc in snapshot!!.documents) {
+                        if (snapshot == null) return@addSnapshotListener
+                        for (doc in snapshot.documents) {
                             val item = doc.toObject(Servicos::class.java)
                             if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
 
@@ -207,7 +213,8 @@ class HomeFragment : Fragment() {
                 .addSnapshotListener { snapshot, exception ->
                     servicos.clear()
                     contentUidList.clear()
-                    for (doc in snapshot!!.documents) {
+                    if (snapshot == null) return@addSnapshotListener
+                    for (doc in snapshot.documents) {
                         val item = doc.toObject(Servicos::class.java)
 
                         servicos.add(item!!)

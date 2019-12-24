@@ -62,7 +62,8 @@ class FragmentTodos : Fragment() {
                 .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser!!.uid)
                 .addSnapshotListener { snapshot, exception ->
                     contentService.clear()
-                    for (doc in snapshot!!.documents){
+                    if (snapshot == null) return@addSnapshotListener
+                    for (doc in snapshot.documents){
                         val item = doc.toObject(Servicos::class.java)
                         contentService.add(item!!)
                     }

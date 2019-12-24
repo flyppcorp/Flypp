@@ -87,7 +87,8 @@ class ProfileActivity : AppCompatActivity() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .whereEqualTo("uid", mUser!!.uid)
             .addSnapshotListener { snapshot, firestoreException ->
-                for (doc in snapshot!!.documents) {
+                if (snapshot == null) return@addSnapshotListener
+                for (doc in snapshot.documents) {
                     val userItem = doc.toObject(User::class.java)
                     if (userItem?.url != null && mUri == null) {
                         Picasso.get().load(userItem.url).resize(150,150).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
