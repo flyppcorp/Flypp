@@ -68,7 +68,8 @@ class FavFragment : Fragment() {
                 .addSnapshotListener { snapshot, exception ->
                     contentServicos.clear()
                     contentUidList.clear()
-                    for (doc in snapshot!!.documents) {
+                    if (snapshot == null) return@addSnapshotListener
+                    for (doc in snapshot.documents) {
                         val item = doc.toObject(Servicos::class.java)
                         contentServicos.add(item!!)
                         contentUidList.add(doc.id)
