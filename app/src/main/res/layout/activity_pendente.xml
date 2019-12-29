@@ -69,7 +69,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgServiceAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/btnDate" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -196,6 +196,24 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView38"
                 app:layout_constraintStart_toStartOf="@+id/textView38"
                 app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+            <Button
+                android:id="@+id/btnDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/button_bg"
+                android:padding="15dp"
+                android:text="Clique para escolher a data do serviço"
+                android:textColor="@color/textIcons"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgServiceAcct" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

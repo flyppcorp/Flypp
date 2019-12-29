@@ -187,6 +187,12 @@ class AndamentoActivity : AppCompatActivity() {
             txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
+            if (it.dateService != null){
+                txtDate.text = it.dateService
+            }else{
+                txtDate.visibility = View.GONE
+                dataText.visibility = View.GONE
+            }
 
         }
     }

@@ -1,8 +1,10 @@
 package com.flyppcorp.managerServices
 
+import android.app.DatePickerDialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.Helper.Connection
@@ -15,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pendente.*
+import java.util.*
 
 class PendenteActivity : AppCompatActivity() {
 
@@ -23,6 +26,7 @@ class PendenteActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
+    private var data : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pendente)
@@ -40,11 +44,35 @@ class PendenteActivity : AppCompatActivity() {
             handleAceitarVoltar()
         }
 
+        btnDate.setOnClickListener {
+            handleDate()
+        }
+
         supportActionBar!!.title = "Pendente "
         getEndereco()
         handleTextButton()
+        handleDateVisibility()
 
 
+    }
+
+    private fun handleDate() : String? {
+
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{
+            view, year, month, dayOfMonth -> data = "$dayOfMonth / ${month + 1} / $year"
+            btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
+        }, year, month, day)
+        dpd.show()
+        return data
+    }
+
+    private fun handleDateVisibility() {
+        if (mAuth.currentUser?.uid == mMyService?.idContratante) btnDate?.visibility = View.GONE
     }
 
     private fun handleAceitarVoltar() {
@@ -58,6 +86,7 @@ class PendenteActivity : AppCompatActivity() {
                     val content = it.get(tsDoc).toObject(Myservice::class.java)
                     content?.pendente = false
                     content?.andamento = true
+                    content?.dateService = data
                     notification()
                     it.set(tsDoc, content!!)
                 }

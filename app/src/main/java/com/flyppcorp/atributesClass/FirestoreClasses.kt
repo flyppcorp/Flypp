@@ -111,7 +111,8 @@ data class Myservice(
     var idAvaliador: MutableMap<String, Boolean> = HashMap(),
     var pendente: Boolean = false,
     var andamento: Boolean = false,
-    var finalizado: Boolean = false
+    var finalizado: Boolean = false,
+    var dateService : String ? = null
 ) : Endereco(), Parcelable
 
 data class DashBoard(
