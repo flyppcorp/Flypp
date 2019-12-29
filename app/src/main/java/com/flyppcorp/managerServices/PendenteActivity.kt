@@ -64,8 +64,16 @@ class PendenteActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{
-            view, year, month, dayOfMonth -> data = "$dayOfMonth / ${month + 1} / $year"
-            btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
+            view, year, month, dayOfMonth ->
+            if (month < 10){
+                if (dayOfMonth < 10){
+                    data = "0$dayOfMonth / 0${month + 1} / $year"
+                    btnDate.text = "0$dayOfMonth / 0${month + 1}/ $year"
+                }
+            }else{
+                data = "$dayOfMonth / ${month + 1} / $year"
+                btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
+            }
         }, year, month, day)
         dpd.show()
         return data
