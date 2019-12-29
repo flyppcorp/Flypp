@@ -217,8 +217,12 @@ class HomeFragment : Fragment() {
                     for (doc in snapshot.documents) {
                         val item = doc.toObject(Servicos::class.java)
 
-                        servicos.add(item!!)
-                        contentUidList.add(doc.id)
+                        if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+
+                            servicos.add(item)
+                            contentUidList.add(doc.id)
+
+                        }
 
                     }
                     if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
