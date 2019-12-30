@@ -78,4 +78,5 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro.</string>
+    <string name="observa_o_do_profissional">Observação do profissional</string>
 </resources>

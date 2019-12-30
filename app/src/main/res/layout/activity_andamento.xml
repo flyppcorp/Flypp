@@ -145,7 +145,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoAndamentoAcct"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtPrecoAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento" />
+                app:layout_constraintTop_toBottomOf="@id/txtObsProf"
+                tools:layout_editor_absoluteY="651dp" />
 
             <TextView
                 android:id="@+id/txtEnderecoAndamentoAcct"
@@ -219,6 +220,26 @@
                 app:layout_constraintStart_toStartOf="@+id/dataText"
                 app:layout_constraintTop_toBottomOf="@+id/dataText"
                 android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/textView45"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Observação do Profissional:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtObservacaoAndamento"
+                app:layout_constraintStart_toStartOf="@+id/txtObservacaoAndamento"
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento" />
+
+            <TextView
+                android:id="@+id/txtObsProf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView45"
+                app:layout_constraintStart_toStartOf="@+id/textView40"
+                app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

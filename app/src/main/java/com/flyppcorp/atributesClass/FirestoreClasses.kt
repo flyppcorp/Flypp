@@ -108,6 +108,7 @@ data class Myservice(
     var documentId: String? = null,
     var shortDesc: String? = null,
     var observacao: String? = null,
+    var observacaoProfissional: String? = null,
     var idAvaliador: MutableMap<String, Boolean> = HashMap(),
     var pendente: Boolean = false,
     var andamento: Boolean = false,

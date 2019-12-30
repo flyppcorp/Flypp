@@ -184,6 +184,7 @@ class AndamentoActivity : AppCompatActivity() {
             txtContratanteAndamentoAcct.text = mMyservice!!.nomeContratante
             txtServiceAndamentoAcct.text = mMyservice!!.serviceNome
             txtObservacaoAndamento.text = mMyservice?.observacao
+            txtObsProf.text = mMyservice?.observacaoProfissional
             txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"

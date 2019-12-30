@@ -16,6 +16,7 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_andamento.*
 import kotlinx.android.synthetic.main.activity_pendente.*
 import java.util.*
 
@@ -94,7 +95,12 @@ class PendenteActivity : AppCompatActivity() {
     }
 
     private fun handleDateVisibility() {
-        if (mAuth.currentUser?.uid == mMyService?.idContratante) btnDate?.visibility = View.GONE
+        if (mAuth.currentUser?.uid == mMyService?.idContratante) {
+            btnDate?.visibility = View.GONE
+            textInputLayout12?.visibility = View.GONE
+            txtObsProf?.visibility = View.GONE
+        }
+
     }
 
     private fun handleAceitarVoltar() {
@@ -109,6 +115,7 @@ class PendenteActivity : AppCompatActivity() {
                     content?.pendente = false
                     content?.andamento = true
                     content?.dateService = data
+                    content?.observacaoProfissional = editprofissionalobs?.text.toString()
                     notification()
                     it.set(tsDoc, content!!)
                 }
