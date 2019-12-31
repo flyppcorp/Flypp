@@ -96,7 +96,7 @@ class EditServiceActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            if (mUri != null){
+            if (mUri != null) {
                 Picasso.get().load(mUri.toString()).resize(100, 100).centerCrop().into(imgService)
                 btnSelectPhotoService.alpha = 0f
             }
@@ -113,17 +113,23 @@ class EditServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         if (serviceItem.urlService != null) {
-                            Picasso.get().load(serviceItem.urlService).placeholder(R.drawable.photo_work).resize(150, 150).centerCrop().into(imgService)
+                            Picasso.get().load(serviceItem.urlService)
+                                .placeholder(R.drawable.photo_work).resize(150, 150).centerCrop()
+                                .into(imgService)
                             btnSelectPhotoService.alpha = 0f
                         }
                         if (mUri != null) {
-                            Picasso.get().load(mUri.toString()).placeholder(R.drawable.photo_work).resize(150,150).centerCrop().into(imgService)
+                            Picasso.get().load(mUri.toString()).placeholder(R.drawable.photo_work)
+                                .resize(150, 150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
+                        }
+                        if (serviceItem.nome != null) {
+                            editEmpresaUpdate.setText(serviceItem.nome)
                         }
                         editService.setText(serviceItem.nomeService)
                         editDescCurta.setText(serviceItem.shortDesc)
                         editDescDetalhada.setText(serviceItem.longDesc)
-                        editPreco.setText(serviceItem.preco.toString().replace(".",","))
+                        editPreco.setText(serviceItem.preco.toString().replace(".", ","))
                         editDuracaoEdit.setText(serviceItem.tipoCobranca)
                         editQualidadesDiferenciais.setText(serviceItem.qualidadesDiferenciais)
                         editCep.setText(serviceItem.cep)
@@ -162,9 +168,10 @@ class EditServiceActivity : AppCompatActivity() {
 
                     ////////////////////////////////////////////////////////////
                     mServiceAtributes.urlProfile = mGetService?.urlProfile
-                    if (mCity.getFilter(Constants.KEY.CITY_NAME) != "" )  mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
-                    else  mServiceAtributes.cityName = editCidadeService.text.toString()
-                    mServiceAtributes.nome = mGetService!!.nome
+                    if (mCity.getFilter(Constants.KEY.CITY_NAME) != "") mServiceAtributes.cityName =
+                        mCity.getFilter(Constants.KEY.CITY_NAME)
+                    else mServiceAtributes.cityName = editCidadeService.text.toString()
+                    mServiceAtributes.nome = editEmpresaUpdate.text.toString()
                     mServiceAtributes.ddd = mGetService?.ddd
                     mServiceAtributes.telefone = mGetService?.telefone
                     ///////////////////////////////////////////////////////////
@@ -172,7 +179,7 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.nomeService = editService.text.toString()
                     mServiceAtributes.shortDesc = editDescCurta.text.toString()
                     mServiceAtributes.longDesc = editDescDetalhada.text.toString()
-                    mServiceAtributes.preco = editPreco.text.toString().replace(",",".").toFloat()
+                    mServiceAtributes.preco = editPreco.text.toString().replace(",", ".").toFloat()
                     mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
                     mServiceAtributes.qualidadesDiferenciais =
                         editQualidadesDiferenciais.text.toString()
@@ -237,7 +244,7 @@ class EditServiceActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Verifique se os campos nome serviço, preço e tags estão preenchidos",
+                    "Verifique se os campos nome empresa/negócio, nome serviço, preço e tags estão preenchidos",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -250,7 +257,8 @@ class EditServiceActivity : AppCompatActivity() {
     fun validate(): Boolean {
         return editTags.text.toString() != "" &&
                 editService.text.toString() != "" &&
-                editPreco.text.toString() != ""
+                editPreco.text.toString() != "" &&
+                editEmpresaUpdate.text.toString() != ""
 
     }
 

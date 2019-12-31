@@ -34,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
     private var servicosFinalizados: Int? = null
     private var avaliacao : Int? = null
     private var totalAvaliacao : Int? = null
+    private var mEmpresa : String? = null
     private lateinit var mConnect: Connection
 
 
@@ -112,6 +113,7 @@ class ProfileActivity : AppCompatActivity() {
                     servicosFinalizados = userItem.totalServicosFinalizados
                     avaliacao = userItem.avaliacao
                     totalAvaliacao = userItem.totalAvaliacao
+                    mEmpresa = userItem.nomeEmpresa
 
 
                 }
@@ -130,6 +132,7 @@ class ProfileActivity : AppCompatActivity() {
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
                 mUserInfo.nome = nome
+                mUserInfo.nomeEmpresa = mEmpresa
                 mUserInfo.ddd = ddd
                 mUserInfo.telefone = phoneNumber
                 mUserInfo.cep = editCepProfile.text.toString()

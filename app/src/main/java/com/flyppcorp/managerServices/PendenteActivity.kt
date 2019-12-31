@@ -98,7 +98,7 @@ class PendenteActivity : AppCompatActivity() {
         if (mAuth.currentUser?.uid == mMyService?.idContratante) {
             btnDate?.visibility = View.GONE
             textInputLayout12?.visibility = View.GONE
-            txtObsProf?.visibility = View.GONE
+            textView43?.visibility = View.GONE
         }
 
     }

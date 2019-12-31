@@ -403,9 +403,9 @@ class HomeFragment : Fragment() {
                             mFirestoreService.runTransaction {
                                 val userUp = it.get(tsDoc).toObject(Servicos::class.java)
                                 if (userUp!!.uidProfile.containsKey(uid)) {
-                                    if (nome != mUser!!.nome) {
+                                    /*if (nome != mUser!!.nome) {
                                         userUp.nome = mUser!!.nome
-                                    }
+                                    }*/
                                     if (url != mUser?.url) {
                                         userUp.urlProfile = mUser?.url
                                     }

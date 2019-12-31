@@ -15,6 +15,7 @@ abstract class Endereco(
 @Parcelize
 data class User(
     var nome: String? = null,
+    var nomeEmpresa : String? = null,
     var uid: String? = null,
     var url: String? = null,
     var ddd: String? = null,

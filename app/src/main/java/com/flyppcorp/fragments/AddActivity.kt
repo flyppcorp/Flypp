@@ -71,6 +71,9 @@ class AddActivity : AppCompatActivity() {
                         editRuaService.setText(mUser.rua)
                         EditBairroService.setText(mUser.bairro)
                         editEstadosAdd.setText(mUser.estado)
+                        if (mUser.nomeEmpresa != null){
+                            editEmpresaAdd.setText(mUser.nomeEmpresa)
+                        }
 
 
                     }
@@ -112,7 +115,7 @@ class AddActivity : AppCompatActivity() {
                 //definindo valores para a classe servico
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
-                mServiceAtributes.nome = mUser.nome
+                mServiceAtributes.nome = editEmpresaAdd.text.toString()
                 mServiceAtributes.uid = mUser.uid
                 mServiceAtributes.uidProfile[mUser.uid.toString()] = true
 
@@ -159,6 +162,7 @@ class AddActivity : AppCompatActivity() {
 
                                     //salvando no db caso haja uma url
                                     mFirestoreService.servicos(mServiceAtributes, serviceId)
+                                    updateProfile()
 
 
                                 }
@@ -168,12 +172,13 @@ class AddActivity : AppCompatActivity() {
                 //savando no db caso não haja uma url
                 if (mUri == null) {
                     mFirestoreService.servicos(mServiceAtributes, serviceId)
+                    updateProfile()
                 }
 
             } else {
                 Toast.makeText(
                     this,
-                    "Verifique se os campos nome serviço, preço e tags estão preenchidos",
+                    "Verifique se os campos nome empresa/negócio, nome serviço, preço e tags estão preenchidos",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -183,12 +188,20 @@ class AddActivity : AppCompatActivity() {
 
     }
 
+    private fun updateProfile (){
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mAuth.currentUser!!.uid)
+            .update("nomeEmpresa", editEmpresaAdd.text.toString())
+
+    }
+
 
     //função de validacao
     fun validate(): Boolean {
         return editTags.text.toString() != "" &&
                 editService.text.toString() != "" &&
-                editPreco.text.toString() != ""
+                editPreco.text.toString() != "" &&
+                editEmpresaAdd.text.toString() != ""
 
     }
 

@@ -44,319 +44,352 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/btnSelectPhotoService"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/btn_select_photo_work"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgService"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSelectPhotoService"
-        app:layout_constraintEnd_toEndOf="@+id/btnSelectPhotoService"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btnSelectPhotoService"
-        app:layout_constraintTop_toTopOf="@+id/btnSelectPhotoService"
-        app:civ_border_width="3dp"
-        app:civ_border_color="@color/colorPrimaryDark"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editServiceLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/servi_o"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgService">
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        app:layout_constraintVertical_bias="0.0">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editService"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnSelectPhotoService"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_select_photo_work"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgService"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="3dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnSelectPhotoService"
+                app:layout_constraintEnd_toEndOf="@+id/btnSelectPhotoService"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/btnSelectPhotoService"
+                app:layout_constraintTop_toTopOf="@+id/btnSelectPhotoService" />
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout19"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Nome empresa/negócio"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSelectPhotoService">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout7"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/descri_o_curta"
-        app:counterMaxLength="100"
-        app:counterEnabled="true"
-        app:layout_constraintEnd_toEndOf="@+id/editServiceLayout"
-        app:layout_constraintStart_toStartOf="@+id/editServiceLayout"
-        app:layout_constraintTop_toBottomOf="@+id/editServiceLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEmpresaUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editDescCurta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="100"
-            android:singleLine="false" />
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout11"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/descri_o_detalhada"
-        app:layout_constraintEnd_toEndOf="@+id/editServiceLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editServiceLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editServiceLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/servi_o"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout19">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editDescDetalhada"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout13"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/r"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editPreco"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/spinnerDuracaoService"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout13"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout13"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout13"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Duração"
-        >
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editDuracaoEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout7"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/descri_o_curta"
+                app:counterEnabled="true"
+                app:counterMaxLength="100"
+                app:layout_constraintEnd_toEndOf="@+id/editServiceLayout"
+                app:layout_constraintStart_toStartOf="@+id/editServiceLayout"
+                app:layout_constraintTop_toBottomOf="@+id/editServiceLayout">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDescCurta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="100"
+                    android:singleLine="false"
+                    android:inputType="textCapWords"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout14"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/qualidades_diferenciais"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout11"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/descri_o_detalhada"
+                app:layout_constraintEnd_toEndOf="@+id/editServiceLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/editServiceLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editQualidadesDiferenciais"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:inputType="textMultiLine" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDescDetalhada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:inputType="textCapWords"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout13"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/r"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Endereço"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout14"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout15"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/cep"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editCep"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="8"
-            android:singleLine="true" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editPreco"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/spinnerDuracaoService"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:hint="Duração"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout13"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout13"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout13">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/spinnerEstadoService"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout15"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout15"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout15"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Estado">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDuracaoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editEstadoEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout14"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/qualidades_diferenciais"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/cidade"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout15"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editQualidadesDiferenciais"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:inputType="textMultiLine"
+                    />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editCidadeService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Endereço"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout14"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout17"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/bairro"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerEstadoService"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout2">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout15"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/cep"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EditBairroService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editCep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:singleLine="true" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout16"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/rua"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editRuaService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/spinnerEstadoService"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:hint="Estado"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout15"
+                app:layout_constraintEnd_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout15"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout15">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout18"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:hint="@string/n_mero"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout16"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout17"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout16"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout16">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEstadoEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editNumService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lay22"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="tags"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout18"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/cidade"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout15"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editCidadeService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="As tags são palavras chaves que te deixam visíveis para pesquisas. Separe-as com vírgulas."
-        android:textColor="@android:color/holo_red_light"
-        app:layout_constraintEnd_toEndOf="@+id/lay22"
-        app:layout_constraintStart_toStartOf="@+id/lay22"
-        app:layout_constraintTop_toBottomOf="@+id/lay22" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout17"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/bairro"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerEstadoService"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/EditBairroService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout16"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/rua"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editRuaService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textCapWords"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout18"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:hint="@string/n_mero"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout16"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout17"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout16"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout16">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editNumService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lay22"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="tags"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout18"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="As tags são palavras chaves que te deixam visíveis para pesquisas. Separe-as com vírgulas."
+                android:textColor="@android:color/holo_red_light"
+                app:layout_constraintEnd_toEndOf="@+id/lay22"
+                app:layout_constraintStart_toStartOf="@+id/lay22"
+                app:layout_constraintTop_toBottomOf="@+id/lay22" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
