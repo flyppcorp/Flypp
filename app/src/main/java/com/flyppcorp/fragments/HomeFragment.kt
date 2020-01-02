@@ -76,8 +76,13 @@ class HomeFragment : Fragment() {
 
         fetchServices()
         locationOther()
+        //updateProfile()
         return view
     }
+
+
+
+
 
 
     //funcao que obtem servicos com e sem filtro
@@ -250,6 +255,40 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /*private fun updateProfile() {
+        val user = FirebaseFirestore.getInstance()
+        user.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener { data ->
+                val mUsers = data.toObject(User::class.java)
+
+                user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .whereEqualTo("uidProfile.${uid}", true)
+                    .addSnapshotListener { snapshot, exception ->
+                        snapshot?.let {
+                            for (doc in snapshot) {
+                                val item = doc.toObject(Servicos::class.java)
+                                if (item.urlProfile != mUsers?.url) {
+                                    val tsDoc =
+                                        user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                            .document(item.serviceId!!)
+                                    user.runTransaction {
+                                        val content =
+                                            it.get(tsDoc).toObject(Servicos::class.java)
+                                        content?.urlProfile = mUsers?.url
+
+                                        it.set(tsDoc, content!!)
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+            }
+    }*/
+
 
     //funcões de manipulaçao de toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -311,7 +350,7 @@ class HomeFragment : Fragment() {
             }
             if (servicos[position].urlProfile != null) {
                 Picasso.get().load(servicos[position].urlProfile)
-                    .resize(300,300)
+                    .resize(300, 300)
                     .placeholder(R.drawable.btn_select_photo_profile).centerCrop()
                     .into(viewholder.imgProfileImgMain)
             } else {
@@ -344,15 +383,15 @@ class HomeFragment : Fragment() {
                 viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
 
-                if ((servicos != null && servicos.size > 0) && (contentUidList != null && contentUidList.size > 0)  || (servicos != null && servicos.size > 1) && (contentUidList != null && contentUidList.size > 1) ){
-                    if (servicos[position].uidProfile.containsKey(uid) ) {
-                        updateInfo(
-                            servicos[position].nome!!,
-                            servicos[position].urlProfile.toString(),
-                            position
-                        )
-                    }
+            /*if ((servicos != null && servicos.size > 0) && (contentUidList != null && contentUidList.size > 0)  || (servicos != null && servicos.size > 1) && (contentUidList != null && contentUidList.size > 1) ){
+                if (servicos[position].uidProfile.containsKey(uid) ) {
+                    updateInfo(
+                        servicos[position].nome!!,
+                        servicos[position].urlProfile.toString(),
+                        position
+                    )
                 }
+            }*/
 
 
             updateLocation()
@@ -388,42 +427,43 @@ class HomeFragment : Fragment() {
                 }
         }
 
-        private fun updateInfo(nome: String, url: String, position: Int) {
+        /*private fun updateInfo(nome: String, url: String, position: Int) {
 
-                val user = FirebaseFirestore.getInstance()
-                user.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                    .document(uid)
-                    .get()
-                    .addOnSuccessListener {
-                        mUser = it.toObject(User::class.java)
-                        if (contentUidList != null && contentUidList.size > 0){
-                            val tsDoc =
-                                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                    .document(contentUidList[position])
-                            mFirestoreService.runTransaction {
-                                val userUp = it.get(tsDoc).toObject(Servicos::class.java)
-                                if (userUp!!.uidProfile.containsKey(uid)) {
-                                    /*if (nome != mUser!!.nome) {
-                                        userUp.nome = mUser!!.nome
-                                    }*/
-                                    if (url != mUser?.url) {
-                                        userUp.urlProfile = mUser?.url
-                                    }
-
+            val user = FirebaseFirestore.getInstance()
+            user.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(uid)
+                .get()
+                .addOnSuccessListener {
+                    mUser = it.toObject(User::class.java)
+                    if (contentUidList != null && contentUidList.size > 0) {
+                        val tsDoc =
+                            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                .document(contentUidList[position])
+                        mFirestoreService.runTransaction {
+                            val userUp = it.get(tsDoc).toObject(Servicos::class.java)
+                            if (userUp!!.uidProfile.containsKey(uid)) {
+                                /*if (nome != mUser!!.nome) {
+                                    userUp.nome = mUser!!.nome
+                                }*/
+                                if (url != mUser?.url) {
+                                    userUp.urlProfile = mUser?.url
                                 }
 
-                                it.set(tsDoc, userUp)
                             }
-                        }else{
-                            return@addOnSuccessListener
-                        }
 
+                            it.set(tsDoc, userUp)
+                        }
+                    } else {
+                        return@addOnSuccessListener
                     }
 
+                }
 
-        }
 
-        fun eventFavorite(position: Int) {
+        }*/
+
+
+        private fun eventFavorite(position: Int) {
 
             var tsDoc = mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(contentUidList[position])

@@ -157,6 +157,7 @@ class ProfileActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     mUserInfo.url = it.toString()
                                     mFirestoreUser.saveUser(mUserInfo)
+                                    updateProfile()
 
                                 }
                         }
@@ -165,11 +166,46 @@ class ProfileActivity : AppCompatActivity() {
                     val nome = editNomeUserProfile.text.toString()
                     if (mUser?.url != null) mUserInfo.url = mUser?.url
                     mFirestoreUser.saveUser(mUserInfo)
+                    updateProfile()
                 }
             }
         }
 
 
+    }
+    private fun updateProfile() {
+        val user = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        user.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener { data ->
+                val mUsers = data.toObject(User::class.java)
+
+                user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                    .whereEqualTo("uidProfile.${uid}", true)
+                    .addSnapshotListener { snapshot, exception ->
+                        snapshot?.let {
+                            for (doc in snapshot) {
+                                val item = doc.toObject(Servicos::class.java)
+                                if (item.urlProfile != mUsers?.url) {
+                                    val tsDoc =
+                                        user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                            .document(item.serviceId!!)
+                                    user.runTransaction {
+                                        val content =
+                                            it.get(tsDoc).toObject(Servicos::class.java)
+                                        content?.urlProfile = mUsers?.url
+
+                                        it.set(tsDoc, content!!)
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+            }
     }
 
 
