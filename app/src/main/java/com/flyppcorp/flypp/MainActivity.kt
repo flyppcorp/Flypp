@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.multidex.MultiDexApplication
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.Helper.LifeCyclerApplication
 import com.flyppcorp.Helper.SharedFilter

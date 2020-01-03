@@ -2,13 +2,20 @@ package com.flyppcorp.Helper
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LifeCyclerApplication : Application(), Application.ActivityLifecycleCallbacks {
 
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     private fun setOnline(enabled: Boolean) {
         var uid = FirebaseAuth.getInstance().currentUser?.uid
