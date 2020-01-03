@@ -46,9 +46,10 @@ class ConfirmationActivity : AppCompatActivity() {
 
     //função que mostra mensagem com email do usuario
     private fun showMessage() {
-        val emailUser = mAuth.currentUser!!.email
+        val emailUser = mAuth.currentUser?.email
         txtMessageConfirm.text =
             "Olá, um e-mail foi enviado para ${emailUser}, vá até ele e confirme clicando no link." +
+                    "\n(O e-mail pode estar em Promoções, Atualizações ou até mesmo em Spam)" +
                     "\nApós seguir os passos, clique no botão abaixo"
     }
 
