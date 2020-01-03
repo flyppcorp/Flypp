@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -152,12 +153,25 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             .delete()
             .addOnSuccessListener {
                 servicosAtivos()
+                dashBoard()
                 finish()
 
             }.addOnFailureListener {
                 Toast.makeText(this, "Ocorreu um erro, tente novamente", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun dashBoard(){
+        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
+            Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(DashBoard::class.java)
+            content!!.newServices = content.newServices - 1
+            it.set(tsDoc, content)
+        }
+    }
+
+
 
     private fun servicosAtivos() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid

@@ -9,6 +9,7 @@ import android.os.Bundle
 
 import android.widget.Toast
 import com.flyppcorp.Helper.SharedFilter
+import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -163,6 +164,7 @@ class AddActivity : AppCompatActivity() {
                                     //salvando no db caso haja uma url
                                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                                     updateProfile()
+                                    dashBoard()
 
 
                                 }
@@ -173,6 +175,7 @@ class AddActivity : AppCompatActivity() {
                 if (mUri == null) {
                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                     updateProfile()
+                    dashBoard()
                 }
 
             } else {
@@ -186,6 +189,16 @@ class AddActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun dashBoard(){
+        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
+            Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(DashBoard::class.java)
+            content!!.newServices = content.newServices + 1
+            it.set(tsDoc, content)
+        }
     }
 
     private fun updateProfile (){

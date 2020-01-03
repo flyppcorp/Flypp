@@ -61,6 +61,7 @@
     <string-array name="opcao_preco">
         <item>Hora</item>
         <item>Dia</item>
+        <item>Mês</item>
         <item>Fixo</item>
         <item>A combinar</item>
     </string-array>

@@ -15,7 +15,7 @@ abstract class Endereco(
 @Parcelize
 data class User(
     var nome: String? = null,
-    var nomeEmpresa : String? = null,
+    var nomeEmpresa: String? = null,
     var uid: String? = null,
     var url: String? = null,
     var ddd: String? = null,
@@ -54,7 +54,7 @@ data class Servicos(
     var tags: MutableMap<String, Boolean> = HashMap(),
     var tagsStr: String? = null,
     var cityName: String? = null,
-    var visible : Boolean = true
+    var visible: Boolean = true
 
 ) : Endereco(), Parcelable
 
@@ -64,7 +64,7 @@ data class Message(
     var toId: String? = null,
     var fromId: String? = null,
     var timestamp: Long = 0,
-    var timestampView : Long = 0
+    var timestampView: Long = 0
 ) : Parcelable
 
 
@@ -114,11 +114,13 @@ data class Myservice(
     var pendente: Boolean = false,
     var andamento: Boolean = false,
     var finalizado: Boolean = false,
-    var dateService : String ? = null
+    var dateService: String? = null
 ) : Endereco(), Parcelable
 
 data class DashBoard(
     var newUser: Long = 0,
     var contractService: Long = 0,
-    var finishService: Long = 0
+    var finishService: Long = 0,
+    var newServices: Long = 0,
+    var totalGasto: Long = 0
 )
