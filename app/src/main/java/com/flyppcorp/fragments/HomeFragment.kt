@@ -240,7 +240,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun locationOther() {
-        if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) == "") {
+
             mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
                 .document(uid)
                 .get()
@@ -248,11 +248,14 @@ class HomeFragment : Fragment() {
                     cityOther = it.toObject(User::class.java)
                     if (cityOther?.cidade != null) {
                         mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
-                    } else {
+                    }else if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) != cityOther?.cidade){
+                        mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
+                    }
+                    else {
                         return@addOnSuccessListener
                     }
                 }
-        }
+
     }
 
     /*private fun updateProfile() {
