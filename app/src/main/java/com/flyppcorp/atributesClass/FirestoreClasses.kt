@@ -74,7 +74,8 @@ data class LastMessage(
     var url: String? = null,
     var text: String? = null,
     var toId: String? = null,
-    var timestamp: Long = 0
+    var timestamp: Long = 0,
+    var unread : Boolean = true
 ) : Parcelable
 
 @Parcelize

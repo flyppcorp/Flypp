@@ -2,6 +2,7 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
@@ -46,6 +47,22 @@ class MessageActivity : AppCompatActivity() {
         supportActionBar?.title = mUser?.nome
         setListeners()
         getUser()
+        
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val uid = mAuth.currentUser!!.uid
+        val  tsDoc = mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE).document(uid).collection(Constants.COLLECTIONS.CONTACTS).document(mUser!!.uid!!)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(LastMessage::class.java)
+
+            if (content!!.unread){
+                content.unread = content.unread == false
+            }
+
+            it.set(tsDoc, content)
+        }
     }
 
     private inner class MessageItem(val message: Message) : Item<GroupieViewHolder>() {

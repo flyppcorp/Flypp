@@ -37,10 +37,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:singleLine="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:ellipsize="marquee"
-        app:layout_constraintEnd_toEndOf="@+id/txtNomeProfile"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@+id/dot"
         app:layout_constraintStart_toStartOf="@+id/txtNomeProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtNomeProfile" />
+
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtNomeProfile"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomeProfile"
+        android:src="@drawable/ic_notification"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

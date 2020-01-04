@@ -3,6 +3,7 @@ package com.flyppcorp.flypp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -61,6 +62,11 @@ class LastMessages : AppCompatActivity() {
             viewHolder.itemView.txtNomeProfile.text = mLast.name
             Picasso.get().load(mLast.url).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(viewHolder.itemView.imgLastProfile)
             viewHolder.itemView.txtLastMessage.text = mLast.text
+            if (mLast.unread){
+                viewHolder.itemView.dot.visibility = View.VISIBLE
+            }else{
+                viewHolder.itemView.dot.visibility = View.GONE
+            }
         }
 
 
