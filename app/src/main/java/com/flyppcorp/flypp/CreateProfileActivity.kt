@@ -117,7 +117,7 @@ class CreateProfileActivity : AppCompatActivity() {
                 mUser.telefone = editPhone.text.toString()
                 mUser.cep = editCep.text.toString()
                 mUser.estado = spinnerEstado.selectedItem.toString()
-                mUser.cidade = editCidade.text.toString()
+                mUser.cidade = editCidade.text.toString().trimEnd()
                 mUser.bairro = editBairro.text.toString()
                 mUser.rua = editRua.text.toString()
                 mUser.numero = editNumero.text.toString()

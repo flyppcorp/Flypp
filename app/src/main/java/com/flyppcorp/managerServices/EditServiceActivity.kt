@@ -185,7 +185,7 @@ class EditServiceActivity : AppCompatActivity() {
                         editQualidadesDiferenciais.text.toString()
                     mServiceAtributes.cep = editCep.text.toString()
                     mServiceAtributes.estado = editEstadoEdit.text.toString()
-                    mServiceAtributes.cidade = editCidadeService.text.toString()
+                    mServiceAtributes.cidade = editCidadeService.text.toString().trimEnd()
                     mServiceAtributes.bairro = EditBairroService.text.toString()
                     mServiceAtributes.rua = editRuaService.text.toString()
                     mServiceAtributes.numero = editNumService.text.toString()

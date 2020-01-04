@@ -137,7 +137,7 @@ class ProfileActivity : AppCompatActivity() {
                 mUserInfo.telefone = phoneNumber
                 mUserInfo.cep = editCepProfile.text.toString()
                 mUserInfo.estado = editEstado.text.toString()
-                mUserInfo.cidade = editCidadeProfile.text.toString()
+                mUserInfo.cidade = editCidadeProfile.text.toString().trimEnd()
                 mUserInfo.bairro = editBairroProfile.text.toString()
                 mUserInfo.rua = editRuaProfile.text.toString()
                 mUserInfo.numero = editNumeroProfile.text.toString()
