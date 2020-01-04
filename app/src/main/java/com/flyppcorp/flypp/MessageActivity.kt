@@ -180,6 +180,7 @@ class MessageActivity : AppCompatActivity() {
                                     lastMessages.url = mUser?.url
                                     lastMessages.timestamp = timestamp.toLong()
                                     lastMessages.text = text
+                                    lastMessages.unread = false
                                     messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
                                         .document(fromId)
                                         .collection(Constants.COLLECTIONS.CONTACTS)
