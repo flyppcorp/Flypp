@@ -44,6 +44,7 @@ data class Servicos(
     var nomeService: String? = null,
     var shortDesc: String? = null,
     var longDesc: String? = null,
+    var tempoResposta : String? = null,
     var preco: Float? = null,
     var tipoCobranca: String? = null,
     var qualidadesDiferenciais: String? = null,

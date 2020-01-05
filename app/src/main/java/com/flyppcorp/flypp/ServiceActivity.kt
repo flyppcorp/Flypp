@@ -176,6 +176,7 @@ class ServiceActivity : AppCompatActivity() {
                         txtQtdServices.text = "${service.totalServicos} serviços finalizados"
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
+                        txtResponde.text = service.tempoResposta
                         val avaliacao: Double =
                             service.avaliacao.toDouble() / service.totalAvaliacao
                         if (service.avaliacao == 0) txtAvaliacao.text =

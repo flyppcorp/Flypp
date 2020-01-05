@@ -95,7 +95,7 @@
                     android:id="@+id/editEmpresaUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,9 +141,9 @@
                     android:id="@+id/editDescCurta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
                     android:maxLength="100"
-                    android:singleLine="false"
-                    android:inputType="textCapWords"/>
+                    android:singleLine="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -162,8 +162,27 @@
                     android:id="@+id/editDescDetalhada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout20"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/geralmente_responde_em"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/respondeEm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -174,7 +193,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="@string/r"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout20">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editPreco"
@@ -221,8 +240,7 @@
                     android:id="@+id/editQualidadesDiferenciais"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:inputType="textMultiLine"
-                    />
+                    android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -276,8 +294,8 @@
                     android:id="@+id/editEstadoEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -295,8 +313,8 @@
                     android:id="@+id/editCidadeService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -314,8 +332,8 @@
                     android:id="@+id/EditBairroService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -334,8 +352,8 @@
                     android:id="@+id/editRuaService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

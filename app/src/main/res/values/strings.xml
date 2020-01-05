@@ -66,6 +66,18 @@
         <item>A combinar</item>
     </string-array>
 
+    <string-array name="resposta">
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>2 horas</item>
+        <item>algumas horas</item>
+        <item>1 dia</item>
+        <item>2 dias</item>
+        <item>alguns dias</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="solicitado_por">Solicitado por:</string>
@@ -80,4 +92,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro.</string>
     <string name="observa_o_do_profissional">Observação do profissional</string>
+    <string name="geralmente_responde_em">Geralmente responde em :</string>
 </resources>

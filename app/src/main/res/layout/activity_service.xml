@@ -163,8 +163,9 @@
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtQuality"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtQuality"
-                app:layout_constraintTop_toBottomOf="@+id/txtQuality" />
+                app:layout_constraintTop_toBottomOf="@+id/txtResponde" />
 
             <TextView
                 android:id="@+id/txtEndereco"
@@ -203,6 +204,25 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtTelefone"
                 app:layout_constraintStart_toStartOf="@+id/txtTelefone"
                 app:layout_constraintTop_toBottomOf="@+id/txtTelefone" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Geralmente responde em:"
+                android:textColor="@color/primaryText"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtQuality"
+                app:layout_constraintStart_toStartOf="@+id/txtQuality"
+                app:layout_constraintTop_toBottomOf="@+id/txtQuality" />
+
+            <TextView
+                android:id="@+id/txtResponde"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/txtQualityView"
+                app:layout_constraintStart_toStartOf="@+id/textView50"
+                app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -131,6 +131,7 @@ class EditServiceActivity : AppCompatActivity() {
                         editDescDetalhada.setText(serviceItem.longDesc)
                         editPreco.setText(serviceItem.preco.toString().replace(".", ","))
                         editDuracaoEdit.setText(serviceItem.tipoCobranca)
+                        if (serviceItem.tempoResposta != null) respondeEm.setText(serviceItem.tempoResposta)
                         editQualidadesDiferenciais.setText(serviceItem.qualidadesDiferenciais)
                         editCep.setText(serviceItem.cep)
                         editEstadoEdit.setText(serviceItem.estado)
@@ -183,6 +184,7 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
                     mServiceAtributes.qualidadesDiferenciais =
                         editQualidadesDiferenciais.text.toString()
+                    mServiceAtributes.tempoResposta = respondeEm.text.toString()
                     mServiceAtributes.cep = editCep.text.toString()
                     mServiceAtributes.estado = editEstadoEdit.text.toString()
                     mServiceAtributes.cidade = editCidadeService.text.toString().trimEnd()
