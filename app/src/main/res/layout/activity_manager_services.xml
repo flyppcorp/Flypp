@@ -8,7 +8,8 @@
 
     <include
         android:id="@+id/include4"
-        layout="@layout/toolbar" />
+        layout="@layout/tb"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabManagerServices"
