@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.flyppcorp.atributesClass.Myservice
@@ -63,10 +64,14 @@ class FCMServiceNotification : FirebaseMessagingService() {
         val builder: NotificationCompat.Builder =
             NotificationCompat.Builder(applicationContext, notificationChannelId1)
 
+        val alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         builder.setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_notification_logo)
-            .setContentTitle(payload.get("titleKey"))
-            .setContentText(payload.get("bodyKey"))
+            .setStyle(NotificationCompat.BigTextStyle()
+                .setBigContentTitle(payload.get("titleKey"))
+                .bigText(payload.get("bodyKey")))
+            .setSound(alarm)
             .setContentIntent(pItent)
 
         val random = java.util.Random().nextInt(500)
@@ -108,10 +113,14 @@ class FCMServiceNotification : FirebaseMessagingService() {
         val builder: NotificationCompat.Builder =
             NotificationCompat.Builder(applicationContext, notificationChannelId)
 
+        val alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         builder.setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_notification_logo)
-            .setContentTitle(payload.get("title"))
-            .setContentText(payload.get("body"))
+            .setStyle(NotificationCompat.BigTextStyle()
+                .setBigContentTitle(payload.get("title"))
+                .bigText(payload.get("body")))
+            .setSound(alarm)
             .setContentIntent(pItent)
 
         val random = java.util.Random().nextInt(500)
