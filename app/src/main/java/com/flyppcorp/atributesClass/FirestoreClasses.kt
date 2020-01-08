@@ -124,5 +124,6 @@ data class DashBoard(
     var contractService: Long = 0,
     var finishService: Long = 0,
     var newServices: Long = 0,
-    var totalGasto: Long = 0
+    var totalGasto: Long = 0,
+    var lucroLiquido: Double = 0.0
 )

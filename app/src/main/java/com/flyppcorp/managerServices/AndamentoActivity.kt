@@ -204,7 +204,8 @@ class AndamentoActivity : AppCompatActivity() {
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
             content!!.finishService = content.finishService + 1
-            content!!.totalGasto = content.totalGasto + mMyservice?.preco!!.toLong()
+            content.totalGasto = content.totalGasto + mMyservice?.preco!!.toLong()
+            content.lucroLiquido = content.lucroLiquido + ((mMyservice!!.preco!!.toDouble() / 100) * 10)
             it.set(tsDoc, content)
         }
     }
