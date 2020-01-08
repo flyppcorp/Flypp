@@ -72,6 +72,8 @@ class FCMServiceNotification : FirebaseMessagingService() {
                 .setBigContentTitle(payload.get("titleKey"))
                 .bigText(payload.get("bodyKey")))
             .setSound(alarm)
+            .setContentTitle(payload.get("titleKey"))
+            .setContentText(payload.get("bodyKey"))
             .setContentIntent(pItent)
 
         val random = java.util.Random().nextInt(500)
@@ -121,6 +123,8 @@ class FCMServiceNotification : FirebaseMessagingService() {
                 .setBigContentTitle(payload.get("title"))
                 .bigText(payload.get("body")))
             .setSound(alarm)
+            .setContentTitle(payload.get("title"))
+            .setContentText(payload.get("body"))
             .setContentIntent(pItent)
 
         val random = java.util.Random().nextInt(500)
