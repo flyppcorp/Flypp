@@ -16,6 +16,7 @@ import com.flyppcorp.flypp.ServiceActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.service_items_all.view.*
@@ -65,9 +66,10 @@ class SearchFragment : Fragment() {
             startActivity(intent)
         }
 
-
         return view
     }
+
+
 
 
     //função que busca os resultados no banco de dados

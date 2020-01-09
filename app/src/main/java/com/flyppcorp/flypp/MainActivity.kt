@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -186,29 +187,34 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 val homeFragment = HomeFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_view, homeFragment)
                     .commit()
+                toolbarMain?.visibility = View.VISIBLE
                 return true
             }
             R.id.searchFrag -> {
                 val searchFragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_view, searchFragment)
                     .commit()
+                toolbarMain?.visibility = View.GONE
                 return true
             }
             R.id.addFrag -> {
                 val intent = Intent(this, AddActivity::class.java)
                 startActivity(intent)
+                toolbarMain?.visibility = View.VISIBLE
                 return true
             }
             R.id.favFrag -> {
                 val favFragment = FavFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_view, favFragment)
                     .commit()
+                toolbarMain?.visibility = View.VISIBLE
                 return true
             }
             R.id.contaFrag -> {
                 val contaFragment = ContaFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_view, contaFragment)
                     .commit()
+                toolbarMain?.visibility = View.VISIBLE
                 return true
             }
         }
