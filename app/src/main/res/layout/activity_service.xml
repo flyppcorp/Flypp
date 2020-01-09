@@ -109,8 +109,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtQtdServices"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtQtdServices"
-                app:layout_constraintTop_toBottomOf="@+id/txtQtdServices" />
+                app:layout_constraintTop_toBottomOf="@+id/btnComments" />
 
             <TextView
                 android:id="@+id/txtDetailDescview"
@@ -223,6 +224,18 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtQualityView"
                 app:layout_constraintStart_toStartOf="@+id/textView50"
                 app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+            <TextView
+                android:id="@+id/btnComments"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtQtdServices"
+                app:layout_constraintStart_toStartOf="@+id/txtQtdServices"
+                app:layout_constraintTop_toBottomOf="@+id/txtQtdServices"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

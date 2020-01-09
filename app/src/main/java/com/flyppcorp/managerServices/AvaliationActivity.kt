@@ -3,6 +3,7 @@ package com.flyppcorp.managerServices
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.Helper.Connection
+import com.flyppcorp.atributesClass.Comentarios
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -46,6 +47,10 @@ class AvaliationActivity : AppCompatActivity() {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
                 content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
                 content.totalAvaliacao = content.totalAvaliacao + 1
+                if (editComentario?.text.toString() != ""){
+                    content.comments = content.comments + 1
+                }
+                comment()
 
                 it.set(tsDoc, content)
             }
@@ -68,6 +73,23 @@ class AvaliationActivity : AppCompatActivity() {
             it.set(tsDoc, content)
         }
 
+
+    }
+
+    private fun comment(){
+        val mComments = Comentarios()
+        mComments.comentario = editComentario.text.toString()
+        mComments.nomeContratante = mMyservice?.nomeContratante
+        mComments.serviceId = mMyservice!!.serviceId
+        mComments.urlContratante = mMyservice?.urlContratante
+        if (editComentario?.text.toString() != ""){
+            mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                .document(mMyservice!!.serviceId!!)
+                .collection(Constants.COLLECTIONS.COMMENTS)
+                .add(mComments)
+        }else{
+            return
+        }
 
     }
 

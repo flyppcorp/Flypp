@@ -175,7 +175,8 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.nome = editEmpresaUpdate.text.toString()
                     mServiceAtributes.ddd = mGetService?.ddd
                     mServiceAtributes.telefone = mGetService?.telefone
-                    ///////////////////////////////////////////////////////////
+                    mServiceAtributes.comments = mGetService!!.comments
+                            ///////////////////////////////////////////////////////////
 
                     mServiceAtributes.nomeService = editService.text.toString()
                     mServiceAtributes.shortDesc = editDescCurta.text.toString()

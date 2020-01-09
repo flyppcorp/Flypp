@@ -10,6 +10,7 @@ class Constants {
         const val SERVICE_STATUS = "pendentes"
         const val FILTER_KEY = "filter"
         const val CITY_NAME = "city_name"
+        const val COMMENTS = "comments"
     }
 
     object COLLECTIONS {
@@ -21,6 +22,7 @@ class Constants {
         const val CONVERSATION_COLLETION = "conversation"
         const val NOTIFICATION = "notifications"
         const val NOTIFICATION_SERVICE = "notificationsServices"
+        const val COMMENTS = "comments"
     }
 
     object FILTERS_VALUES{

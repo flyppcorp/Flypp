@@ -55,7 +55,8 @@ data class Servicos(
     var tags: MutableMap<String, Boolean> = HashMap(),
     var tagsStr: String? = null,
     var cityName: String? = null,
-    var visible: Boolean = true
+    var visible: Boolean = true,
+    var comments : Long = 0
 
 ) : Endereco(), Parcelable
 
@@ -126,4 +127,11 @@ data class DashBoard(
     var newServices: Long = 0,
     var totalGasto: Long = 0,
     var lucroLiquido: Double = 0.0
+)
+
+data class Comentarios(
+    var urlContratante: String? = null,
+    var nomeContratante: String? = null,
+    var comentario: String? = null,
+    var serviceId: String? = null
 )

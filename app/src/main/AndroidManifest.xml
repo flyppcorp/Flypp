@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <dist:module dist:instant="true" />
 
@@ -19,9 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.flyppcorp.fragments.AddActivity"
-            android:theme="@style/AppThemeToolbar"
-            android:screenOrientation="portrait">
+        <activity android:name=".CommentActivity"></activity>
+        <activity
+            android:name="com.flyppcorp.fragments.AddActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeToolbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -130,13 +132,11 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-2365101539319201~7418774497" />
 
-
         <service android:name="com.flyppcorp.FCM.FCMServiceNotification">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

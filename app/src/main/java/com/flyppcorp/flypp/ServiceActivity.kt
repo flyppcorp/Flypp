@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Servicos
@@ -40,11 +41,27 @@ class ServiceActivity : AppCompatActivity() {
         btnContratar.setOnClickListener {
             handleContract()
         }
+        btnComments?.setOnClickListener {
+            val mServico = Servicos()
+            mServico.serviceId = mService?.serviceId
+            val intent = Intent(this, CommentActivity::class.java)
+            intent.putExtra(Constants.KEY.COMMENTS, mServico)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
 
         //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
         //tb.title = ""
         supportActionBar!!.title = "Serviço"
+        btnCommentsVisible()
         getIcon()
+    }
+
+    private fun btnCommentsVisible() {
+        if (mService?.comments != null || mService?.comments!! > 0){
+            btnComments.text = "${mService?.comments} comentários"
+            btnComments?.visibility = View.VISIBLE
+        }
     }
 
     private fun getIcon() {
