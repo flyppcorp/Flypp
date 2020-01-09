@@ -32,6 +32,11 @@ class AvaliationActivity : AppCompatActivity() {
             }
 
         }
+        focus()
+    }
+
+    private fun focus() {
+        editNota.requestFocus()
     }
 
     private fun handleAvalatiation() {
