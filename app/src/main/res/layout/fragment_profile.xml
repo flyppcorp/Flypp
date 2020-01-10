@@ -53,15 +53,16 @@
                 android:id="@+id/textView42"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_location"
                 android:text="Endereço:"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtManagerNome"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/txtManagerNome"
-                app:layout_constraintTop_toBottomOf="@+id/txtManagerNome" />
+                app:layout_constraintTop_toBottomOf="@+id/btnEditProfileGo" />
 
             <TextView
                 android:id="@+id/txtMAnagerEnderecoProfile"
@@ -183,6 +184,22 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtAvaliacaoProfile"
                 app:layout_constraintStart_toStartOf="@+id/txtAvaliacaoProfile"
                 app:layout_constraintTop_toBottomOf="@+id/txtAvaliacaoProfile" />
+
+            <Button
+                android:id="@+id/btnEditProfileGo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/bg_service_info"
+                android:text="Editar Perfil"
+                android:textColor="@color/textIcons"
+                app:layout_constraintEnd_toEndOf="@+id/txtManagerNome"
+                app:layout_constraintStart_toStartOf="@+id/txtManagerNome"
+                app:layout_constraintTop_toBottomOf="@+id/txtManagerNome" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

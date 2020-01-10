@@ -17,6 +17,7 @@ import com.flyppcorp.firebase_classes.FirestoreUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_create_profile.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -97,8 +98,11 @@ class CreateProfileActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            photoSelected.setImageURI(mUri)
-            selectPhoto.alpha = 0f
+            if(mUri != null){
+                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(photoSelected)
+                selectPhoto.alpha = 0f
+            }
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.flyppcorp.profile
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.ProfileActivity
 
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -78,8 +80,20 @@ class ProfileFragment : Fragment() {
                     txtAvaliacaoProfile.text = "${media.toString().substring(0,3)}"
 
                 }
+                profileGo()
 
             }
+    }
+
+    private fun profileGo() {
+        mUser?.let { information ->
+            btnEditProfileGo.setOnClickListener {
+                val intent = Intent(context, ProfileActivity::class.java)
+                intent.putExtra(Constants.KEY.PROFILE_KEY, mUser)
+                startActivity(intent)
+            }
+
+        }
     }
 
 

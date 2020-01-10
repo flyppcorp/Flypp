@@ -78,7 +78,7 @@ class ProfileActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
             if (mUri != null){
-                Picasso.get().load(mUri.toString()).resize(100,100).centerCrop().into(photoSelectedProfile)
+                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(photoSelectedProfile)
                 selectPhotoProfile.alpha = 0f
 
             }
@@ -94,12 +94,12 @@ class ProfileActivity : AppCompatActivity() {
                 for (doc in snapshot.documents) {
                     val userItem = doc.toObject(User::class.java)
                     if (userItem?.url != null && mUri == null) {
-                        Picasso.get().load(userItem.url).resize(150,150).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
+                        Picasso.get().load(userItem.url).resize(200,200).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
                         selectPhotoProfile.alpha = 0f
                     } else if (mUser!!.url == null) {
                         photoSelectedProfile.setImageResource(R.drawable.btn_select_photo_profile)
                     } else if (mUri != null) {
-                        Picasso.get().load(mUri.toString()).resize(100, 100).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
+                        Picasso.get().load(mUri.toString()).resize(200, 200).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
                         selectPhotoProfile.alpha = 0f
                     }
                     editNomeUserProfile.setText(userItem!!.nome)

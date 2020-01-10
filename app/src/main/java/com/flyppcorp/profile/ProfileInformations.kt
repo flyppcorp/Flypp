@@ -91,7 +91,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
                 signOut()
 
             }
-            R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
+            //R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
         }
 
         return false
@@ -142,7 +142,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
                 profileName.text = mUser!!.nome
-                Picasso.get().load(mUser?.url).resize(80,80).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(imageProfile)
+                Picasso.get().load(mUser?.url).resize(200,200).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(imageProfile)
 
 
                 profileGo()

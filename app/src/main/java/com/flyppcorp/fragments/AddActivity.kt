@@ -98,7 +98,7 @@ class AddActivity : AppCompatActivity() {
             mUri = data?.data
 
             if (mUri != null) {
-                Picasso.get().load(mUri.toString()).fit().centerCrop().into(imgService)
+                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(imgService)
                 btnSelectPhotoService.alpha = 0f
             }
             //imgService.setImageURI(mUri)
