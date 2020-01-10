@@ -37,6 +37,19 @@ class ManagerEditServiceActivity : AppCompatActivity() {
         setSupportActionBar(tb)
         fetchServico()
         fetchVisible()
+        handleComment()
+
+    }
+
+    private fun handleComment() {
+        val mServices = Servicos()
+        mServices.serviceId = mServicos?.serviceId
+        txtManagerComments.setOnClickListener {
+            val intent = Intent(this, CommentActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            intent.putExtra(Constants.KEY.COMMENTS, mServices)
+            startActivity(intent)
+        }
 
     }
 
@@ -63,6 +76,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         else imgServiceManagerView.setImageResource(R.drawable.ic_working)
                         txtQtdServicesView.text =
                             "${serviceItem.totalServicos} serviços finalizados"
+                        txtManagerComments.text = "${serviceItem.comments} comentários"
                         txtTituloServicesView.text = serviceItem.nomeService
                         txtDescShortView.text = serviceItem.shortDesc
                         if (serviceItem.avaliacao == 0) {
