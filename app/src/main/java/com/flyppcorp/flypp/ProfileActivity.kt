@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.flyppcorp.Helper.Connection
+import com.flyppcorp.atributesClass.Comentarios
+import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -158,6 +160,7 @@ class ProfileActivity : AppCompatActivity() {
                                     mUserInfo.url = it.toString()
                                     mFirestoreUser.saveUser(mUserInfo)
                                     updateProfile()
+                                    updateProfileComments(it.toString(), editNomeUserProfile.text.toString())
 
                                 }
                         }
@@ -167,6 +170,8 @@ class ProfileActivity : AppCompatActivity() {
                     if (mUser?.url != null) mUserInfo.url = mUser?.url
                     mFirestoreUser.saveUser(mUserInfo)
                     updateProfile()
+                    updateProfileComments(mUser?.url, editNomeUserProfile.text.toString())
+
                 }
             }
         }
@@ -205,6 +210,46 @@ class ProfileActivity : AppCompatActivity() {
                         }
                     }
 
+            }
+    }
+
+
+    private fun updateProfileComments(url: String?, nome : String?){
+        val mFirestoreUpdate = FirebaseFirestore.getInstance()
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        mFirestoreUpdate.collection(Constants.COLLECTIONS.MY_SERVICE)
+            .whereEqualTo("idContratante", uid )
+            .addSnapshotListener { snapshot, exception ->
+                snapshot?.let {
+                    for(doc1 in snapshot){
+                        val itemMyService = doc1.toObject(Myservice::class.java)
+
+                        mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                            .document(itemMyService.serviceId!!)
+                            .collection(Constants.COLLECTIONS.COMMENTS)
+                            .addSnapshotListener { snapshot, exception ->
+                                snapshot?.let {
+                                    for ( doc2 in snapshot){
+                                        val itemServicos = doc2.toObject(Comentarios::class.java)
+                                        val tsDoc = mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                            .document(itemMyService.serviceId!!)
+                                            .collection(Constants.COLLECTIONS.COMMENTS)
+                                            .document(itemServicos.commentId.toString())
+                                        mFirestoreUpdate.runTransaction { transaction ->
+                                            val content = transaction.get(tsDoc).toObject(Comentarios::class.java)
+                                            if (content?.urlContratante != url){
+                                                content?.urlContratante = url
+                                            }else if (content?.nomeContratante != nome){
+                                                content?.nomeContratante = nome
+                                            }
+                                            transaction.set(tsDoc, content!!)
+
+                                        }
+                                    }
+                                }
+                            }
+                    }
+                }
             }
     }
 

@@ -12,6 +12,7 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_avaliation.*
+import java.util.*
 
 class AvaliationActivity : AppCompatActivity() {
 
@@ -87,11 +88,14 @@ class AvaliationActivity : AppCompatActivity() {
         mComments.nomeContratante = mMyservice?.nomeContratante
         mComments.serviceId = mMyservice!!.serviceId
         mComments.urlContratante = mMyservice?.urlContratante
+        val docId = UUID.randomUUID().toString()
+        mComments.commentId = docId
         if (editComentario?.text.toString() != ""){
             mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice!!.serviceId!!)
                 .collection(Constants.COLLECTIONS.COMMENTS)
-                .add(mComments)
+                .document(docId)
+                .set(mComments)
         }else{
             return
         }
