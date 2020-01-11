@@ -36,72 +36,70 @@
 
             <TextView
                 android:id="@+id/txtQtdServicesView"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:gravity="start"
-                android:textColor="@color/secondaryText"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/imgServiceManagerView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgServiceManagerView" />
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txtTituloServicesView"
+                app:layout_constraintTop_toBottomOf="@+id/txtTituloServicesView" />
 
             <TextView
                 android:id="@+id/txtDescShortView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:gravity="start"
                 android:textColor="@color/secondaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQtdServicesView"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtQtdServicesView"
-                app:layout_constraintTop_toBottomOf="@+id/txtTituloServicesView" />
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoView"
+                app:layout_constraintStart_toStartOf="@+id/txtManagerComments"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoView" />
 
             <TextView
                 android:id="@+id/txtAvaliacaoView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:gravity="start"
-                android:textColor="@color/secondaryText"
+                android:textColor="#FDCF25"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/txtDescShortView"
-                app:layout_constraintStart_toStartOf="@+id/txtDescShortView"
-                app:layout_constraintTop_toBottomOf="@+id/txtDescShortView" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtTituloServicesView"
+                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
             <TextView
                 android:id="@+id/txtPrecoView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:gravity="start"
-                android:textColor="@color/primaryText"
+                android:textColor="@android:color/holo_red_light"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtAvaliacaoView"
-                app:layout_constraintStart_toStartOf="@+id/txtAvaliacaoView"
+                app:layout_constraintStart_toStartOf="@+id/imageView10"
                 app:layout_constraintTop_toBottomOf="@+id/txtAvaliacaoView" />
 
             <TextView
                 android:id="@+id/txtTituloServicesView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:gravity="start"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQtdServicesView"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtQtdServicesView"
-                app:layout_constraintTop_toBottomOf="@+id/txtManagerComments" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgServiceManagerView" />
 
             <TextView
                 android:id="@+id/txtDetailDescviewView"
@@ -111,9 +109,9 @@
                 android:text="Descrição detalhada"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoView"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoView"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoView" />
+                app:layout_constraintEnd_toEndOf="@+id/view5"
+                app:layout_constraintStart_toStartOf="@+id/view5"
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
 
             <TextView
                 android:id="@+id/txtDetailDescView"
@@ -197,12 +195,38 @@
                 android:id="@+id/txtManagerComments"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textColor="@color/colorAccent"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtQtdServicesView"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtQtdServicesView"
-                app:layout_constraintTop_toBottomOf="@+id/txtQtdServicesView" />
+                app:layout_constraintTop_toTopOf="@+id/txtPrecoView" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_star_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtQtdServicesView"
+                app:layout_constraintStart_toEndOf="@+id/txtQtdServicesView"
+                app:layout_constraintTop_toTopOf="@+id/txtQtdServicesView" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/browser_actions_title_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtDescShortView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -212,8 +236,6 @@
 
 
     <!---->
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
