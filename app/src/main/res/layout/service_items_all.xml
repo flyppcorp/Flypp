@@ -55,7 +55,9 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileImgMainList"
