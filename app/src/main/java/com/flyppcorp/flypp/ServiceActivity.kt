@@ -197,14 +197,14 @@ class ServiceActivity : AppCompatActivity() {
                         val avaliacao: Double =
                             service.avaliacao.toDouble() / service.totalAvaliacao
                         if (service.avaliacao == 0) txtAvaliacao.text =
-                            "${service.avaliacao}/5 pelos usuários"
-                        else txtAvaliacao.text = "Avaliado em ${avaliacao.toString().substring(
+                            "Sem avaliações"
+                        else txtAvaliacao.text = "${avaliacao.toString().substring(
                             0,
                             1
-                        )}/5 pelos usuários "
+                        )}/5  (${service.totalAvaliacao})"
 
 
-                        txtPreco.text = "R$ ${service.preco.toString().replace(".",",")} por ${service.tipoCobranca}"
+                        txtPreco.text = "R$ ${service.preco.toString().replace(".",",")}/${service.tipoCobranca}"
                         txtDetailDesc.text = service.longDesc
                         txtQuality.text = service.qualidadesDiferenciais
                         txtEndereco.text =

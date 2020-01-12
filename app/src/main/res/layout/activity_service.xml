@@ -57,7 +57,7 @@
                 android:id="@+id/txtDescShort"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:textColor="@color/secondaryText"
                 android:textSize="18sp"
@@ -65,17 +65,18 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtPreco"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/btnComments"
-                app:layout_constraintTop_toBottomOf="@+id/txtPreco" />
+                app:layout_constraintTop_toBottomOf="@+id/btnComments" />
 
             <TextView
                 android:id="@+id/txtAvaliacao"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:gravity="start"
                 android:textColor="#FDCF25"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+                app:layout_constraintEnd_toEndOf="@+id/txtQtdServices"
                 app:layout_constraintStart_toEndOf="@+id/imageView9"
                 app:layout_constraintTop_toTopOf="@+id/imageView9" />
 
@@ -83,14 +84,16 @@
                 android:id="@+id/txtPreco"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:gravity="center"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtAvaliacao"
-                app:layout_constraintStart_toStartOf="@+id/imageView9"
-                app:layout_constraintTop_toBottomOf="@+id/txtAvaliacao" />
+                app:layout_constraintBottom_toBottomOf="@+id/btnComments"
+                app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
+                app:layout_constraintStart_toEndOf="@+id/txtAvaliacao"
+                app:layout_constraintTop_toTopOf="@+id/txtQtdServices" />
 
             <TextView
                 android:id="@+id/txtTituloServices"
@@ -226,25 +229,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/secondaryText"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/txtQtdServices"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtQtdServices"
-                app:layout_constraintTop_toTopOf="@+id/txtPreco" />
+                app:layout_constraintEnd_toEndOf="@+id/txtAvaliacao"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/txtAvaliacao" />
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_star_black_24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtQtdServices"
-                app:layout_constraintStart_toEndOf="@+id/txtQtdServices"
-                app:layout_constraintTop_toTopOf="@+id/txtQtdServices"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toStartOf="@+id/txtQtdServices"
+                app:layout_constraintTop_toBottomOf="@+id/txtQtdServices" />
 
             <View
                 android:id="@+id/view4"

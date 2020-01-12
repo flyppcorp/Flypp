@@ -70,7 +70,7 @@ class ContaFragment : Fragment() {
                it == 2 -> {
                    val intent = Intent(Intent.ACTION_SEND)
                    intent.setType("text/plain")
-                   intent.putExtra(Intent.EXTRA_TEXT, "Use o Flypp para contratar e oferecer serviços de forma rápida, fácil e grátis:  \nhttp://flyppbrasil.epizy.com/")
+                   intent.putExtra(Intent.EXTRA_TEXT, "Use o Flypp para contratar e oferecer serviços de forma rápida, fácil e grátis:  \nhttps://play.google.com/store/apps/details?id=com.flyppcorp.flypp")
                    startActivity(intent)
                }
            }

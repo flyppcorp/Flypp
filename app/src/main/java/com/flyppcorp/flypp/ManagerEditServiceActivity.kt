@@ -80,21 +80,21 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         txtTituloServicesView.text = serviceItem.nomeService
                         txtDescShortView.text = serviceItem.shortDesc
                         if (serviceItem.avaliacao == 0) {
-                            txtAvaliacaoView.text = "Este serviço não possui avaliações"
+                            txtAvaliacaoView.text = "Sem avaliações"
                         } else {
                             val avaliacao: Double =
                                 serviceItem.avaliacao.toDouble() / serviceItem.totalAvaliacao
-                            txtAvaliacaoView.text = "Avaliado em ${avaliacao.toString().substring(
+                            txtAvaliacaoView.text = "${avaliacao.toString().substring(
                                 0,
                                 3
-                            )}/5 segundo ${serviceItem.totalAvaliacao} usuários"
+                            )}/5 (${serviceItem.totalAvaliacao})"
                         }
 
                         txtPrecoView.text =
                             "R$ ${serviceItem.preco.toString().replace(
                                 ".",
                                 ","
-                            )} por ${serviceItem.tipoCobranca}"
+                            )}/${serviceItem.tipoCobranca}"
                         txtDetailDescView.text = serviceItem.longDesc
                         txtQualityView.text = serviceItem.qualidadesDiferenciais
                         txtEnderecoView.text =

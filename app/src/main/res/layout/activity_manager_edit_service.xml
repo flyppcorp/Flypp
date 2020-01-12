@@ -15,8 +15,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_managerService">
+        app:layout_constraintTop_toBottomOf="@+id/tb_managerService"
+        app:layout_constraintVertical_bias="1.0">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,24 +52,26 @@
                 android:id="@+id/txtDescShortView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:gravity="start"
                 android:textColor="@color/secondaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoView"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtManagerComments"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoView" />
+                app:layout_constraintTop_toBottomOf="@+id/txtManagerComments" />
 
             <TextView
                 android:id="@+id/txtAvaliacaoView"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:gravity="start"
                 android:textColor="#FDCF25"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtTituloServicesView"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+                app:layout_constraintEnd_toEndOf="@+id/txtQtdServicesView"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
                 app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
@@ -75,14 +79,16 @@
                 android:id="@+id/txtPrecoView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:gravity="start"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtAvaliacaoView"
-                app:layout_constraintStart_toStartOf="@+id/imageView10"
-                app:layout_constraintTop_toBottomOf="@+id/txtAvaliacaoView" />
+                app:layout_constraintBottom_toBottomOf="@+id/txtManagerComments"
+                app:layout_constraintEnd_toEndOf="@+id/txtTituloServicesView"
+                app:layout_constraintStart_toEndOf="@+id/txtAvaliacaoView"
+                app:layout_constraintTop_toTopOf="@+id/txtQtdServicesView" />
 
             <TextView
                 android:id="@+id/txtTituloServicesView"
@@ -195,24 +201,20 @@
                 android:id="@+id/txtManagerComments"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
+                android:textColor="@color/secondaryText"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQtdServicesView"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtQtdServicesView"
-                app:layout_constraintTop_toTopOf="@+id/txtPrecoView" />
+                app:layout_constraintEnd_toEndOf="@+id/txtAvaliacaoView"
+                app:layout_constraintStart_toStartOf="@+id/imageView10"
+                app:layout_constraintTop_toBottomOf="@+id/txtAvaliacaoView" />
 
             <ImageView
                 android:id="@+id/imageView10"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_star_black_24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtQtdServicesView"
-                app:layout_constraintStart_toEndOf="@+id/txtQtdServicesView"
-                app:layout_constraintTop_toTopOf="@+id/txtQtdServicesView" />
+                app:layout_constraintStart_toStartOf="@+id/txtQtdServicesView"
+                app:layout_constraintTop_toBottomOf="@+id/txtQtdServicesView" />
 
             <View
                 android:id="@+id/view5"
