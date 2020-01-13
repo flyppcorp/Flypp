@@ -131,7 +131,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2365101539319201~7418774497" />
+            android:value="ca-app-pub-2365101539319201~4909485019" />
 
         <service android:name="com.flyppcorp.FCM.FCMServiceNotification">
             <intent-filter>
