@@ -396,38 +396,11 @@ class HomeFragment : Fragment() {
             }*/
 
 
-            updateLocation()
+            //updateLocation()
 
         }
 
-        private fun updateLocation() {
 
-            val mFirestoreService = FirebaseFirestore.getInstance()
-            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .whereEqualTo("uid", uid)
-                .addSnapshotListener { snapshot, exception ->
-                    if (snapshot == null) return@addSnapshotListener
-                    snapshot?.let {
-                        for (doc in snapshot) {
-                            val serviceLocation = doc.toObject(Servicos::class.java)
-                            val tsDoc =
-                                mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                    .document(serviceLocation.serviceId!!)
-                            mFirestoreService.runTransaction {
-                                val content = it.get(tsDoc).toObject(Servicos::class.java)
-                                if (content?.cityName != mCity.getFilter(Constants.KEY.CITY_NAME) && mCity.getFilter(
-                                        Constants.KEY.CITY_NAME
-                                    ) != ""
-                                ) {
-                                    content?.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
-                                }
-                                it.set(tsDoc, content!!)
-                            }
-
-                        }
-                    }
-                }
-        }
 
         /*private fun updateInfo(nome: String, url: String, position: Int) {
 
