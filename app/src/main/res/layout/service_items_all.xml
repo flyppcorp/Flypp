@@ -81,7 +81,7 @@
             android:textColor="@color/secondaryText"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfileImgMainList"
-            app:layout_constraintEnd_toEndOf="@+id/txtNomeServico"
+            app:layout_constraintEnd_toEndOf="@+id/txtNomeServicoList"
             app:layout_constraintStart_toEndOf="@+id/imgProfileImgMainList"
             app:layout_constraintTop_toTopOf="@+id/imgProfileImgMainList" />
 

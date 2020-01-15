@@ -1,7 +1,6 @@
 package com.flyppcorp.flypp
 
 import android.Manifest
-import android.content.ContentProviderClient
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -9,14 +8,12 @@ import android.location.Geocoder
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.multidex.MultiDexApplication
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.Helper.LifeCyclerApplication
 import com.flyppcorp.Helper.SharedFilter
@@ -34,7 +31,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.util.*
@@ -46,6 +42,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var mConnection: Connection
     private lateinit var client: FusedLocationProviderClient
     private lateinit var mCity: SharedFilter
+    private lateinit var mFirestore : FirebaseFirestore
+    private lateinit var mAuth : FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +52,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mSharedFilter = SharedFilter(this)
         mConnection = Connection(this)
         mCity = SharedFilter(this)
+        mFirestore = FirebaseFirestore.getInstance()
+        mAuth = FirebaseAuth.getInstance()
         //acao do bottomNav
 
         mFirestoreContract = FirestoreContract(this)
@@ -73,13 +74,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val application: LifeCyclerApplication = application as LifeCyclerApplication
         getApplication().registerActivityLifecycleCallbacks(application)
 
-
         getToken()
         getPermissions()
+
+
         //getLocation()
 
 
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -100,7 +103,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                 }
             }
-            if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
+
                 client.lastLocation.addOnSuccessListener {
                     try {
                         if (it == null) {
@@ -112,15 +115,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             if (adress != null) {
                                 if (adress!!.size > 0) {
                                     for (adresses: Address in adress) {
-                                        if (mCity.getFilter(Constants.KEY.CITY_NAME) != "" || mCity.getFilter(
-                                                Constants.KEY.CITY_NAME
-                                            ) != adresses.subAdminArea
-                                        ) {
-                                            mCity.saveFilter(
-                                                Constants.KEY.CITY_NAME,
-                                                adresses.subAdminArea
-                                            )
-                                        }
+                                        mCity.saveFilter(Constants.KEY.CITY_NAME,adresses.subAdminArea)
+
                                     }
                                 }
 
@@ -133,7 +129,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         e.printStackTrace()
                     }
                 }
-            }
+
         }else {
             return
         }

@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
     private var cityOther: User? = null
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -246,9 +247,7 @@ class HomeFragment : Fragment() {
                 .get()
                 .addOnSuccessListener {
                     cityOther = it.toObject(User::class.java)
-                    if (cityOther?.cidade != null) {
-                        mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
-                    }else if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) != cityOther?.cidade){
+                    if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
                         mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
                     }
                     else {
