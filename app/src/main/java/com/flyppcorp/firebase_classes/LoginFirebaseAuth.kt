@@ -10,11 +10,14 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
+import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.ConfirmationActivity
 import com.flyppcorp.flypp.LoginActivity
 import com.flyppcorp.flypp.MainActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.view.*
+import java.util.*
 import kotlin.properties.Delegates
 
 class LoginFirebaseAuth(private val context: Context) {
@@ -40,9 +43,18 @@ class LoginFirebaseAuth(private val context: Context) {
             .addOnCompleteListener {
                 when {
                     it.isSuccessful -> {
-                        val intent = Intent(context, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(context, intent, null)
+                        if (mAuth.currentUser?.isEmailVerified == true){
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(context, intent, null)
+                        }else {
+                            val random = Random().nextInt(4)
+                            val intent = Intent(context, ConfirmationActivity::class.java)
+                            intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
+                            mAuth.currentUser?.sendEmailVerification()
+                            startActivity(context, intent, null)
+                        }
+
 
                     }
                     !it.isSuccessful -> {

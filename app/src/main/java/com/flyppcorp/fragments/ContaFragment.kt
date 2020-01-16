@@ -114,7 +114,7 @@ class ContaFragment : Fragment() {
     //metodo que recupera infirmações do user
     private fun fetchUser(){
         mFs.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .whereEqualTo("uid", mAuth.currentUser!!.uid)
+            .whereEqualTo("uid", mAuth.currentUser?.uid)
             .addSnapshotListener { snapshot, exception ->
                 mAdapter.clear()
                 snapshot?.let {

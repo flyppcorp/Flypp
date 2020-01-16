@@ -8,9 +8,11 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.flyppcorp.Helper.RedimensionImage
+import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
@@ -24,14 +26,26 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             Handler().postDelayed({
-                if (mAuth.currentUser?.uid != null && mAuth.currentUser!!.isEmailVerified ){
-                    val intent = Intent(baseContext, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }else{
-                    val intent = Intent(baseContext, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                when {
+                    mAuth.currentUser?.uid != null && mAuth.currentUser!!.isEmailVerified -> {
+                        val intent = Intent(baseContext, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    mAuth.currentUser?.uid != null && !mAuth.currentUser!!.isEmailVerified -> {
+                        val random = Random().nextInt(4)
+                        val intent = Intent(this, ConfirmationActivity::class.java)
+                        intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
+                        mAuth.currentUser?.sendEmailVerification()
+                        ContextCompat.startActivity(this, intent, null)
+                        finish()
+
+                    }
+                    else -> {
+                        val intent = Intent(baseContext, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }, 500)
         }, 2500)

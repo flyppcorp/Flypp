@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         //iniciando todos os objetos
         mFirestoreService = FirebaseFirestore.getInstance()
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_home, container, false)
-        uid = FirebaseAuth.getInstance().currentUser!!.uid
+        uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
         servicos = arrayListOf()
         contentUidList = arrayListOf()
         mAdapter = DetailRecyclerView()

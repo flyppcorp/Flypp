@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun updateLocation() {
 
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
         val mFirestoreService = FirebaseFirestore.getInstance()
         mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .whereEqualTo("uid", uid)
