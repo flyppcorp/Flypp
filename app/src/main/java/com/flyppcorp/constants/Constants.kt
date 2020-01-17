@@ -4,6 +4,7 @@ class Constants {
     object KEY {
         const val RANDOM_KEY = "fotoRandomica"
         const val REQUEST_CODE = 1
+        const val REQUEST_CODE2 = 2
         const val SERVICE_KEY = "serviceKey"
         const val MESSAGE_KEY = "messageKey"
         const val PROFILE_KEY = "profile"

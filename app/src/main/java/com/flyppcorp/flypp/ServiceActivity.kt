@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.Helper.PagerAdapterImage
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -29,6 +30,7 @@ class ServiceActivity : AppCompatActivity() {
     private lateinit var mUser: User
     private lateinit var mAuth: FirebaseAuth
     var menuFAv: MenuItem? = null
+    private lateinit var mUrl : ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_service)
@@ -36,6 +38,28 @@ class ServiceActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mUser = User()
         mService = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
+        if (mService?.urlService != null && mService?.urlService2 != null){
+            mUrl = arrayListOf(
+                mService?.urlService.toString(),
+                mService?.urlService2.toString()
+            )
+        }else if (mService?.urlService != null && mService?.urlService2 == null){
+            mUrl = arrayListOf(
+                mService?.urlService.toString()
+
+            )
+        }else if (mService?.urlService == null && mService?.urlService2 != null){
+            mUrl = arrayListOf(
+                mService?.urlService2.toString()
+            )
+        }else if (mService?.urlService == null && mService?.urlService2 == null){
+            mUrl = arrayListOf(
+
+            )
+        }
+
+        val adapter  = PagerAdapterImage (this, mUrl)
+        imgServiceView.adapter = adapter
         getService()
 
         btnContratar.setOnClickListener {
@@ -185,11 +209,7 @@ class ServiceActivity : AppCompatActivity() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val service = doc.toObject(Servicos::class.java)
-                        if (service.urlService == null) {
-                            imgServiceView.setImageResource(R.drawable.ic_working)
-                        } else {
-                            Picasso.get().load(service.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(imgServiceView)
-                        }
+
                         txtQtdServices.text = "${service.totalServicos} serviços finalizados"
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc

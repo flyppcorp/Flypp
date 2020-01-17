@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import com.flyppcorp.Helper.PagerAdapterImage
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
@@ -19,19 +20,46 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_manager_edit_service.*
+import kotlinx.android.synthetic.main.activity_manager_edit_service.txtQualityView
+import kotlinx.android.synthetic.main.activity_service.*
 
 class ManagerEditServiceActivity : AppCompatActivity() {
 
     private var mServicos: Servicos? = null
     private lateinit var mFirestore: FirebaseFirestore
     private var url: String? = null
+    private var url2: String? = null
     private var menuPause: MenuItem? = null
+    private lateinit var mUrl : ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_edit_service)
         mServicos = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
+        if (mServicos?.urlService != null && mServicos?.urlService2 != null){
+            mUrl = arrayListOf(
+                mServicos?.urlService.toString(),
+                mServicos?.urlService2.toString()
+            )
+        }else if (mServicos?.urlService != null && mServicos?.urlService2 == null){
+            mUrl = arrayListOf(
+                mServicos?.urlService.toString()
+
+            )
+        }else if (mServicos?.urlService == null && mServicos?.urlService2 != null){
+            mUrl = arrayListOf(
+                mServicos?.urlService2.toString()
+            )
+        }else if (mServicos?.urlService == null && mServicos?.urlService2 == null){
+            mUrl = arrayListOf(
+
+            )
+        }
+
+        val adapter  = PagerAdapterImage (this, mUrl)
+        imgServiceManagerView2.adapter = adapter
         mFirestore = FirebaseFirestore.getInstance()
         url = mServicos?.urlService
+        url2 = mServicos?.urlService2
         val tb = findViewById<Toolbar>(R.id.tb_managerService)
         tb.setTitle("")
         setSupportActionBar(tb)
@@ -70,10 +98,6 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
-                        if (serviceItem.urlService != null) Picasso.get().load(serviceItem.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(
-                            imgServiceManagerView
-                        )
-                        else imgServiceManagerView.setImageResource(R.drawable.ic_working)
                         txtQtdServicesView.text =
                             "${serviceItem.totalServicos} serviços finalizados"
                         txtManagerComments.text = "${serviceItem.comments} comentários"
@@ -126,6 +150,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 val intent = Intent(this, EditServiceActivity::class.java)
                 intent.putExtra(Constants.KEY.SERVICE_KEY, mServicos)
                 intent.putExtra("url", url)
+                intent.putExtra("url2", url)
                 startActivity(intent)
             }
 

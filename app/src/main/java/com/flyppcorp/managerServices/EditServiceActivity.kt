@@ -18,9 +18,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.activity_edit_service.*
 import kotlinx.android.synthetic.main.activity_edit_service.EditBairroService
 import kotlinx.android.synthetic.main.activity_edit_service.btnSelectPhotoService
+import kotlinx.android.synthetic.main.activity_edit_service.btnSelectPhotoService2
 import kotlinx.android.synthetic.main.activity_edit_service.editCep
 import kotlinx.android.synthetic.main.activity_edit_service.editCidadeService
 import kotlinx.android.synthetic.main.activity_edit_service.editDescCurta
@@ -32,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_edit_service.editRuaService
 import kotlinx.android.synthetic.main.activity_edit_service.editService
 import kotlinx.android.synthetic.main.activity_edit_service.editTags
 import kotlinx.android.synthetic.main.activity_edit_service.imgService
+import kotlinx.android.synthetic.main.activity_edit_service.imgService2
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -40,6 +43,7 @@ class EditServiceActivity : AppCompatActivity() {
 
     private var mService: Servicos? = null
     private var mUri: Uri? = null
+    private var mUri2: Uri? = null
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mServiceAtributes: Servicos
@@ -62,6 +66,9 @@ class EditServiceActivity : AppCompatActivity() {
         mCity = SharedFilter(this)
         btnSelectPhotoService.setOnClickListener {
             handleSelectPhoto()
+        }
+        btnSelectPhotoService2.setOnClickListener {
+            handleSelect2()
         }
         btnUpdateService.setOnClickListener {
             fetchUp()
@@ -90,6 +97,12 @@ class EditServiceActivity : AppCompatActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, Constants.KEY.REQUEST_CODE)
     }
+    private fun handleSelect2() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, Constants.KEY.REQUEST_CODE2)
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -102,6 +115,14 @@ class EditServiceActivity : AppCompatActivity() {
             }
 
 
+        }
+        if (requestCode == 2) {
+            mUri2 = data?.data
+
+            if (mUri2 != null) {
+                Picasso.get().load(mUri2.toString()).resize(300,300).centerCrop().into(imgService2)
+                btnSelectPhotoService2.alpha = 0f
+            }
         }
     }
 
@@ -122,6 +143,18 @@ class EditServiceActivity : AppCompatActivity() {
                             Picasso.get().load(mUri.toString()).placeholder(R.drawable.photo_work)
                                 .resize(150, 150).centerCrop().into(imgService)
                             btnSelectPhotoService.alpha = 0f
+                        }
+
+                        if (serviceItem.urlService2 != null) {
+                            Picasso.get().load(serviceItem.urlService2)
+                                .placeholder(R.drawable.photo_work).resize(150, 150).centerCrop()
+                                .into(imgService2)
+                            btnSelectPhotoService2.alpha = 0f
+                        }
+                        if (mUri2 != null) {
+                            Picasso.get().load(mUri.toString()).placeholder(R.drawable.photo_work)
+                                .resize(150, 150).centerCrop().into(imgService2)
+                            btnSelectPhotoService2.alpha = 0f
                         }
                         if (serviceItem.nome != null) {
                             editEmpresaUpdate.setText(serviceItem.nome)
@@ -221,6 +254,7 @@ class EditServiceActivity : AppCompatActivity() {
                                             .set(mServiceAtributes)
                                             .addOnFailureListener {
                                                 mProgress.hide()
+                                                secondPhoto(mService!!.serviceId!!, filename)
                                             }
                                         finish()
                                     }
@@ -232,6 +266,9 @@ class EditServiceActivity : AppCompatActivity() {
                         mProgress.show()
                         val extras = intent.extras
                         if (extras != null) mServiceAtributes.urlService = extras.getString("url")
+                        if (extras != null && extras.getString("url2") != ""){
+                            secondPhoto(mService!!.serviceId!!, filename)
+                        }
 
                         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                             .document(mService!!.serviceId!!)
@@ -253,6 +290,22 @@ class EditServiceActivity : AppCompatActivity() {
             }
         }
 
+
+    }
+
+    private fun secondPhoto( document: String, filename : String){
+        val ref = mStorage.getReference("image/${filename}2")
+        mUri2?.let {
+            ref.putFile(it)
+                .addOnSuccessListener {
+                    ref.downloadUrl
+                        .addOnSuccessListener {
+                            mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                .document(document)
+                                .update("urlService2", it.toString())
+                        }
+                }
+        }
 
     }
 

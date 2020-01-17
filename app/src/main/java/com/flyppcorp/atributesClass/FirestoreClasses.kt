@@ -56,7 +56,8 @@ data class Servicos(
     var tagsStr: String? = null,
     var cityName: String? = null,
     var visible: Boolean = true,
-    var comments : Long = 0
+    var comments : Long = 0,
+    var urlService2: String? = null
 
 ) : Endereco(), Parcelable
 

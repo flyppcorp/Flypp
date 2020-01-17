@@ -28,6 +28,7 @@ import kotlin.collections.HashMap
 class AddActivity : AppCompatActivity() {
     //declaração das variaveis e objetos
     private var mUri: Uri? = null
+    private var mUri2: Uri? = null
     private lateinit var mFirestoreService: FirestoreService
     private lateinit var mStorage: FirebaseStorage
     private lateinit var mServiceAtributes: Servicos
@@ -50,6 +51,7 @@ class AddActivity : AppCompatActivity() {
         supportActionBar!!.title = "Adicionar serviço"
 
         btnSelectPhotoService.setOnClickListener { handleSelect() }
+        btnSelectPhotoService2.setOnClickListener { handleSelect2() }
         btnSaveService.setOnClickListener {
             handleSaveService()
         }
@@ -57,7 +59,7 @@ class AddActivity : AppCompatActivity() {
         getInfo()
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         val uid = mAuth.currentUser?.uid
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .whereEqualTo("uid", "${uid}")
@@ -91,6 +93,12 @@ class AddActivity : AppCompatActivity() {
         startActivityForResult(intent, Constants.KEY.REQUEST_CODE)
 
     }
+    private fun handleSelect2() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, Constants.KEY.REQUEST_CODE2)
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -101,9 +109,14 @@ class AddActivity : AppCompatActivity() {
                 Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(imgService)
                 btnSelectPhotoService.alpha = 0f
             }
-            //imgService.setImageURI(mUri)
+        }
+        if (requestCode == 2) {
+            mUri2 = data?.data
 
-
+            if (mUri2 != null) {
+                Picasso.get().load(mUri2.toString()).resize(300,300).centerCrop().into(imgService2)
+                btnSelectPhotoService2.alpha = 0f
+            }
         }
     }
 
@@ -146,6 +159,7 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.tagsStr = tagInput
                 val tagArray: Array<String> = tagInput.split(",").toTypedArray()
                 val tags: MutableMap<String, Boolean> = HashMap()
+                mServiceAtributes.visible = false
                 for (tag in tagArray) {
                     tags[tag.trimStart().trimEnd()] = true
                 }
@@ -166,6 +180,7 @@ class AddActivity : AppCompatActivity() {
                                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                                     updateProfile()
                                     dashBoard()
+                                    secondPhoto(serviceId, filename)
 
 
                                 }
@@ -177,6 +192,7 @@ class AddActivity : AppCompatActivity() {
                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                     updateProfile()
                     dashBoard()
+                    secondPhoto(serviceId, filename)
                 }
 
             } else {
@@ -206,6 +222,22 @@ class AddActivity : AppCompatActivity() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser!!.uid)
             .update("nomeEmpresa", editEmpresaAdd.text.toString())
+
+    }
+
+    private fun secondPhoto( document: String, filename : String){
+        val ref = mStorage.getReference("image/${filename}2")
+        mUri2?.let {
+            ref.putFile(it)
+                .addOnSuccessListener {
+                    ref.downloadUrl
+                        .addOnSuccessListener {
+                            mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                .document(document)
+                                .update("urlService2", it.toString())
+                        }
+                }
+        }
 
     }
 
