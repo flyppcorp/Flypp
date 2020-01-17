@@ -159,7 +159,7 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.tagsStr = tagInput
                 val tagArray: Array<String> = tagInput.split(",").toTypedArray()
                 val tags: MutableMap<String, Boolean> = HashMap()
-                mServiceAtributes.visible = false
+
                 for (tag in tagArray) {
                     tags[tag.trimStart().trimEnd()] = true
                 }
