@@ -1,7 +1,9 @@
 package com.flyppcorp.flypp
 
+import android.content.ClipData
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -60,6 +62,7 @@ class ServiceActivity : AppCompatActivity() {
 
         val adapter  = PagerAdapterImage (this, mUrl)
         imgServiceView.adapter = adapter
+        
         getService()
 
         btnContratar.setOnClickListener {
@@ -79,6 +82,7 @@ class ServiceActivity : AppCompatActivity() {
         supportActionBar!!.title = "Serviço"
         btnCommentsVisible()
         getIcon()
+
     }
 
     private fun btnCommentsVisible() {
