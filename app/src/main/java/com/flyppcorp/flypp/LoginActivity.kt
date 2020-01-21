@@ -1,21 +1,11 @@
 package com.flyppcorp.flypp
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.core.view.isVisible
-import com.flyppcorp.Helper.RedimensionImage
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
 import com.google.firebase.auth.FirebaseAuth
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.view.*
-import java.io.File
 
 class LoginActivity : AppCompatActivity() {
     //inicia objetos
@@ -37,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        txtRegister.setOnClickListener {
+        btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
         btnLogin.setOnClickListener {

@@ -8,4 +8,5 @@
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
     <color name="divider">#BDBDBD</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#BDBDBD</color>
 </resources>

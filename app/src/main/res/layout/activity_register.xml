@@ -16,10 +16,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editEmailCadLayout"
@@ -32,7 +32,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/e_mail"
+        android:textColorHint="@color/textIcons"
+        app:boxStrokeColor="@color/textIcons"
         app:errorEnabled="true"
+        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
@@ -52,7 +55,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/senha"
+        android:textColorHint="@color/textIcons"
+        app:boxStrokeColor="@color/textIcons"
         app:errorEnabled="true"
+        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
         app:layout_constraintEnd_toEndOf="@+id/editEmailCadLayout"
         app:layout_constraintStart_toStartOf="@+id/editEmailCadLayout"
         app:layout_constraintTop_toBottomOf="@+id/editEmailCadLayout"
@@ -74,7 +80,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/confirmar_senha"
+        android:textColorHint="@color/textIcons"
+        app:boxStrokeColor="@color/textIcons"
         app:errorEnabled="true"
+        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
         app:layout_constraintEnd_toEndOf="@+id/editSenhaCadLayout"
         app:layout_constraintStart_toStartOf="@+id/editSenhaCadLayout"
         app:layout_constraintTop_toBottomOf="@+id/editSenhaCadLayout"

@@ -29,6 +29,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/textIcons</item>
         <item name="android:textAllCaps">true</item>
-    </style>p
+    </style>
+
+    <style name="Base.Widget.MaterialComponents.TextInputLayout.Hint">
+        <item name="android:color">#FFFFFF</item>
+        <item name="android:textSize">10sp</item>
+    </style>
 
 </resources>
