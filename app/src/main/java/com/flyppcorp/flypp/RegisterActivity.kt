@@ -1,5 +1,7 @@
 package com.flyppcorp.flypp
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.Helper.RedimensionImage
@@ -24,6 +26,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun setListeners() {
         btnCad.setOnClickListener {
             handleRegister()
+        }
+        btnTermos.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://flyppbrasil.epizy.com/termosdeuso.html"))
+            startActivity(intent)
         }
 
     }
