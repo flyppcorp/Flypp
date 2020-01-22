@@ -405,7 +405,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="tags"
+                android:hint="@string/palavras_chave"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout18"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
@@ -423,7 +423,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="As tags são palavras chaves que te deixam visíveis para pesquisas. Separe-as com vírgulas."
+                android:text="As palavras-chave que te deixam visíveis para pesquisas. Separe-as com vírgulas."
                 android:textColor="@android:color/holo_red_light"
                 app:layout_constraintEnd_toEndOf="@+id/lay22"
                 app:layout_constraintStart_toStartOf="@+id/lay22"

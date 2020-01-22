@@ -93,4 +93,5 @@
     <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro.</string>
     <string name="observa_o_do_profissional">Observação do profissional</string>
     <string name="geralmente_responde_em">Geralmente responde em :</string>
+    <string name="palavras_chave">Palavras-chave</string>
 </resources>
