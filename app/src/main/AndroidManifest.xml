@@ -45,7 +45,13 @@
             android:theme="@style/appThemeProfile" />
         <activity
             android:name=".LastMessages"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <action android:name="LastMessages"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MessageActivity"
             android:label="User"
@@ -94,7 +100,14 @@
         </activity>
         <activity
             android:name=".ManagerServicesActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <action android:name="ManagerServicesActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".ConfirmServiceActivity"
             android:screenOrientation="portrait" />
@@ -138,6 +151,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+                   android:resource="@drawable/ic_notification_logo"/>
+
     </application>
 
 </manifest>
