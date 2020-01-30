@@ -165,6 +165,13 @@ class AddActivity : AppCompatActivity() {
                 }
                 if (tags.isEmpty()) tags[""] = false
                 mServiceAtributes.tags = tags
+                if (radioGroup.checkedRadioButtonId != -1){
+                    if (local.isChecked){
+                        mServiceAtributes.nacional = false
+                    }else if (nacional.isChecked){
+                        mServiceAtributes.nacional = true
+                    }
+                }
 
                 //fim
 

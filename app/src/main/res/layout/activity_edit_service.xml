@@ -246,6 +246,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/seu_servi_o_local_apenas_na_sua_cidade_ou_nacional"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerDuracaoService"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout13"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout13" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView53"
+                app:layout_constraintStart_toStartOf="@+id/textView53"
+                app:layout_constraintTop_toBottomOf="@+id/textView53"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/localEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/local"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/nacionalEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nacional"
+                    android:layout_weight="1"
+                    />
+
+            </RadioGroup>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout14"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -255,7 +293,7 @@
                 android:hint="@string/qualidades_diferenciais"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
+                app:layout_constraintTop_toBottomOf="@+id/radioGroupEdit">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editQualidadesDiferenciais"

@@ -94,4 +94,7 @@
     <string name="observa_o_do_profissional">Observação do profissional</string>
     <string name="geralmente_responde_em">Geralmente responde em :</string>
     <string name="palavras_chave">Palavras-chave</string>
+    <string name="nacional">Nacional</string>
+    <string name="local">Local</string>
+    <string name="seu_servi_o_local_apenas_na_sua_cidade_ou_nacional">Seu serviço é local, apenas na sua cidade ou nacional ?</string>
 </resources>

@@ -237,7 +237,6 @@ class ServiceActivity : AppCompatActivity() {
                         txtTelefone.text = "(${service.ddd}) ${service.telefone}"
                         txtEmail.text = service.email
 
-
                     }
                 }
 

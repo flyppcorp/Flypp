@@ -173,6 +173,11 @@ class EditServiceActivity : AppCompatActivity() {
                         EditBairroService.setText(serviceItem.bairro)
                         editNumService.setText(serviceItem.numero)
                         editTags.setText(serviceItem.tagsStr)
+                        if(serviceItem.nacional){
+                            nacionalEdit.isChecked = true
+                        }else if (!serviceItem.nacional){
+                            localEdit.isChecked = true
+                        }
 
                     }
                 }
@@ -236,6 +241,14 @@ class EditServiceActivity : AppCompatActivity() {
                     }
                     if (tags.isEmpty()) tags[""] = false
                     mServiceAtributes.tags = tags
+
+                    if (radioGroupEdit.checkedRadioButtonId != -1){
+                        if (localEdit.isChecked){
+                            mServiceAtributes.nacional = false
+                        }else if (nacionalEdit.isChecked){
+                            mServiceAtributes.nacional = true
+                        }
+                    }
                     //fim
 
                     //obtendo url da imagem no firestorage

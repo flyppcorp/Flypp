@@ -86,7 +86,7 @@ class SearchFragment : Fragment() {
                     val item = doc.toObject(Servicos::class.java)
                     val prefix = editSearch?.text.toString().toLowerCase()
 
-                    if (item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) && item.visible) {
+                    if ((item?.nacional == true || item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)) && item.visible) {
                         for (key in item.tags) {
                             if (key.toString().startsWith(prefix)) {
                                 contentServicesearch.add(item)
