@@ -27,20 +27,12 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             Handler().postDelayed({
                 when {
-                    mAuth.currentUser?.uid != null && mAuth.currentUser!!.isEmailVerified -> {
+                    mAuth.currentUser?.uid != null -> {
                         val intent = Intent(baseContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
-                    mAuth.currentUser?.uid != null && !mAuth.currentUser!!.isEmailVerified -> {
-                        val random = Random().nextInt(4)
-                        val intent = Intent(this, ConfirmationActivity::class.java)
-                        intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
-                        mAuth.currentUser?.sendEmailVerification()
-                        ContextCompat.startActivity(this, intent, null)
-                        finish()
 
-                    }
                     else -> {
                         val intent = Intent(baseContext, LoginActivity::class.java)
                         startActivity(intent)

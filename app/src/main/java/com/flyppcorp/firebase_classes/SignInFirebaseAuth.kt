@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.ConfirmationActivity
+import com.flyppcorp.flypp.CreateProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -30,10 +31,10 @@ class SignInFirebaseAuth(private val context: Context) {
 
                 when {
                     it.isSuccessful -> {
-                        val random = Random().nextInt(4)
-                        val intent = Intent(context, ConfirmationActivity::class.java)
-                        intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
-                        mAuth.currentUser!!.sendEmailVerification()
+                        //val random = Random().nextInt(4)
+                        val intent = Intent(context, CreateProfileActivity::class.java)
+                        //intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
+                        //mAuth.currentUser!!.sendEmailVerification()
                         startActivity(context, intent, null)
 
                     }
