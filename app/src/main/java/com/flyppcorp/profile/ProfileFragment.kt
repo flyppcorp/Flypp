@@ -47,9 +47,9 @@ class ProfileFragment : Fragment() {
 
 
     private fun fetchUsers() {
-        val uid = mAuth.currentUser!!.uid
+        val uid = mAuth.currentUser?.uid
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(uid)
+            .document(uid.toString())
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
