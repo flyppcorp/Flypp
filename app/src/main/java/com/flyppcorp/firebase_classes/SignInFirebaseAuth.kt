@@ -8,6 +8,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.ConfirmationActivity
 import com.flyppcorp.flypp.CreateProfileActivity
@@ -15,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 class SignInFirebaseAuth(private val context: Context) {
@@ -22,6 +24,7 @@ class SignInFirebaseAuth(private val context: Context) {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val mAlertDialog = AlertDialog.Builder(context)
     private val mProgressDialog: ProgressDialog = ProgressDialog(context)
+    private val mFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun signInFirebaseAuth(email: String, senha: String) {
         mProgressDialog.setCancelable(false)
@@ -35,6 +38,12 @@ class SignInFirebaseAuth(private val context: Context) {
                         val intent = Intent(context, CreateProfileActivity::class.java)
                         //intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
                         //mAuth.currentUser!!.sendEmailVerification()
+                        val user = User()
+                        user.nome = "default"
+                        user.uid = mAuth.currentUser?.uid
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(mAuth.currentUser?.uid.toString())
+                            .set(user)
                         startActivity(context, intent, null)
 
                     }

@@ -248,7 +248,12 @@ class HomeFragment : Fragment() {
                 .addOnSuccessListener {
                     cityOther = it.toObject(User::class.java)
                     if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
-                        mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade!!)
+                        if (cityOther?.cidade != null){
+                            mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade.toString())
+                        }else{
+                            return@addOnSuccessListener
+                        }
+
                     }
                     else {
                         return@addOnSuccessListener

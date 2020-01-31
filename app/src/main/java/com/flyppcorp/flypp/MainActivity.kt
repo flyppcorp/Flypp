@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val mFirestoreService = FirebaseFirestore.getInstance()
         mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .whereEqualTo("uid", uid)
+            .whereEqualTo("uid", uid.toString())
             .addSnapshotListener { snapshot, exception ->
                 if (snapshot == null) return@addSnapshotListener
                 snapshot?.let {
