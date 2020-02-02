@@ -93,7 +93,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/btnComments"
                 app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
                 app:layout_constraintStart_toEndOf="@+id/txtAvaliacao"
-                app:layout_constraintTop_toTopOf="@+id/txtQtdServices" />
+                app:layout_constraintTop_toBottomOf="@+id/txtTituloServices" />
 
             <TextView
                 android:id="@+id/txtTituloServices"
