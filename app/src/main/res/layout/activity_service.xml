@@ -35,7 +35,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/imgServiceView"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 android:background="@drawable/ic_working"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
                 android:id="@+id/txtDescShort"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:textColor="@color/secondaryText"
                 android:textSize="18sp"
@@ -83,17 +83,18 @@
             <TextView
                 android:id="@+id/txtPreco"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
                 android:gravity="center"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="24sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/btnComments"
                 app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/txtAvaliacao"
-                app:layout_constraintTop_toBottomOf="@+id/txtTituloServices" />
+                app:layout_constraintTop_toTopOf="@+id/txtQtdServices" />
 
             <TextView
                 android:id="@+id/txtTituloServices"

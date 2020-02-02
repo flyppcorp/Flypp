@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/imgServiceMain"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,14 +33,14 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/primaryText"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgProfileImgMain"
-            app:layout_constraintTop_toTopOf="@+id/imgProfileImgMain"
-            android:maxLines="2"
-            android:ellipsize="end"/>
+            app:layout_constraintTop_toTopOf="@+id/imgProfileImgMain" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileImgMain"
