@@ -1,5 +1,6 @@
 package com.flyppcorp.managerServices
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ class AndamentoActivity : AppCompatActivity() {
     private var mMyservice: Myservice? = null
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
+    private lateinit var mProgress: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +31,15 @@ class AndamentoActivity : AppCompatActivity() {
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mConnection = Connection(this)
+        mProgress = ProgressDialog(this)
         mMyservice = intent.extras?.getParcelable(Constants.KEY.SERVICE_STATUS)
         btnVoltarAndamento.setOnClickListener {
             handleCancel()
         }
         btnFinalizarAndamento.setOnClickListener {
             if (mConnection.validateConection()){
+                mProgress.setCancelable(false)
+                mProgress.show()
                 handleFinalizar()
             }
 
@@ -116,13 +121,17 @@ class AndamentoActivity : AppCompatActivity() {
         if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
             if (mConnection.validateConection()) {
                 mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
+                    mProgress.setCancelable(false)
+                    mProgress.show()
                     mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                         .document(mMyservice!!.documentId!!)
                         .delete()
                         .addOnSuccessListener {
                             notificationCancel()
+                            mProgress.hide()
                             finish()
                         }.addOnFailureListener {
+                            mProgress.hide()
                             Toast.makeText(
                                 this,
                                 "Ocorreu um erro. Tente novamente!",

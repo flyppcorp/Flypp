@@ -1,6 +1,7 @@
 package com.flyppcorp.managerServices
 
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,6 +29,7 @@ class PendenteActivity : AppCompatActivity() {
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
     private var data : String? = null
+    private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pendente)
@@ -35,6 +37,7 @@ class PendenteActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
         mConnection = Connection(this)
+        mProgress = ProgressDialog(this)
         btnRecusarDesistirPendente.setOnClickListener {
             if (mConnection.validateConection()) {
                 handleDesistirRecusar()
@@ -108,6 +111,8 @@ class PendenteActivity : AppCompatActivity() {
             finish()
         } else if (mMyService!!.idContratado == mAuth.currentUser!!.uid) {
             if (mConnection.validateConection()) {
+                mProgress.setCancelable(false)
+                mProgress.show()
                 val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                     .document(mMyService!!.documentId!!)
                 mFirestore.runTransaction {
@@ -119,6 +124,7 @@ class PendenteActivity : AppCompatActivity() {
                     notification()
                     it.set(tsDoc, content!!)
                 }
+                mProgress.hide()
                 finish()
             }
         }
@@ -149,6 +155,8 @@ class PendenteActivity : AppCompatActivity() {
         val mDialog = AlertDialog.Builder(this)
         mDialog.setTitle("Você tem certeza disso?")
         mDialog.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
+            mProgress.setCancelable(false)
+            mProgress.show()
             mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                 .document(mMyService!!.documentId!!)
                 .delete()
@@ -158,8 +166,10 @@ class PendenteActivity : AppCompatActivity() {
                     } else {
                         notificationDesistence(mMyService!!.idContratante!!, "rejeitou",mMyService!!.nomeContratado!!)
                     }
+                    mProgress.hide()
                     finish()
                 }.addOnFailureListener {
+                    mProgress.hide()
                     Toast.makeText(this, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT)
                         .show()
                 }

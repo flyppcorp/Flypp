@@ -14,6 +14,7 @@ import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -73,10 +74,11 @@ class LastMessages : AppCompatActivity() {
 
     }
     private fun fetchLastMessage() {
-        val uid = mAuth.currentUser!!.uid
+        val uid = mAuth.currentUser?.uid
         mfirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-            .document(uid)
+            .document(uid.toString())
             .collection(Constants.COLLECTIONS.CONTACTS)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
                     mAdapter.clear()

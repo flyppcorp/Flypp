@@ -95,7 +95,7 @@ class FragmentTodos : Fragment() {
             if (contentService[position].urlService != null) Picasso.get().load(contentService[position].urlService).placeholder(R.drawable.photo_work).resize(100,100).centerCrop().into(vh.imgServiceMainList)
             else vh.imgServiceMainList.setImageResource(R.drawable.photo_work)
             if (contentService[position].urlProfile != null) Picasso.get().load(contentService[position].urlProfile).resize(100,100).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(vh.imgProfileImgMainList)
-            else vh.imgProfileImgMainList.setCircleBackgroundColorResource(R.color.colorAccent)
+
             vh.txtNomeUserList.text = contentService[position].nome
             vh.txtShortDescList.text = contentService[position].shortDesc
             val avaliacao : Double = contentService[position].avaliacao.toDouble()/contentService[position].totalAvaliacao

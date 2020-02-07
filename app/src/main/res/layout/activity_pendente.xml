@@ -95,13 +95,15 @@
                 android:id="@+id/textView13"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Oferecido por:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtContratanteAcct"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtContratanteAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtContratanteAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacao" />
 
             <TextView
                 android:id="@+id/txtContratadoAcct"
@@ -135,6 +137,7 @@
                 android:id="@+id/textView20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Preço:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
@@ -163,7 +166,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoAcct"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtPrecoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtObservacao" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAcct" />
 
             <TextView
                 android:id="@+id/txtEnderecoAcct"
@@ -186,7 +189,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoAcct"
                 app:layout_constraintStart_toStartOf="@+id/txtPrecoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/txtContratanteAcct" />
 
             <TextView
                 android:id="@+id/txtObservacao"

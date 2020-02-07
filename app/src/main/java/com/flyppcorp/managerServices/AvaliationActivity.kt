@@ -1,5 +1,6 @@
 package com.flyppcorp.managerServices
 
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.Helper.Connection
@@ -20,6 +21,7 @@ class AvaliationActivity : AppCompatActivity() {
     private lateinit var mfirestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mConnection: Connection
+    private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avaliation)
@@ -27,8 +29,9 @@ class AvaliationActivity : AppCompatActivity() {
         mfirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mConnection = Connection(this)
+        mProgress = ProgressDialog(this)
         btnNota.setOnClickListener {
-            if (mConnection.validateConection()){
+            if (mConnection.validateConection()) {
                 handleAvalatiation()
             }
 
@@ -47,17 +50,19 @@ class AvaliationActivity : AppCompatActivity() {
             editNotaLayout.error = "Sua nota não pode ser maior que 5"
         } else {
             avaliationUser()
+            mProgress.setCancelable(false)
+            mProgress.show()
             val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice!!.serviceId!!)
             mfirestore.runTransaction {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
                 content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
                 content.totalAvaliacao = content.totalAvaliacao + 1
-                if (editComentario?.text.toString() != ""){
+                if (editComentario?.text.toString() != "") {
                     content.comments = content.comments + 1
                 }
                 comment()
-
+                mProgress.hide()
                 it.set(tsDoc, content)
             }
             val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
@@ -70,8 +75,10 @@ class AvaliationActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun avaliationUser(){
-        val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mMyservice!!.idContratado!!)
+
+    private fun avaliationUser() {
+        val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyservice!!.idContratado!!)
         mfirestore.runTransaction {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalAvaliacao = content.totalAvaliacao + 1
@@ -82,7 +89,7 @@ class AvaliationActivity : AppCompatActivity() {
 
     }
 
-    private fun comment(){
+    private fun comment() {
         val mComments = Comentarios()
         mComments.comentario = editComentario.text.toString()
         mComments.nomeContratante = mMyservice?.nomeContratante
@@ -90,13 +97,13 @@ class AvaliationActivity : AppCompatActivity() {
         mComments.urlContratante = mMyservice?.urlContratante
         val docId = UUID.randomUUID().toString()
         mComments.commentId = docId
-        if (editComentario?.text.toString() != ""){
+        if (editComentario?.text.toString() != "") {
             mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice!!.serviceId!!)
                 .collection(Constants.COLLECTIONS.COMMENTS)
                 .document(docId)
                 .set(mComments)
-        }else{
+        } else {
             return
         }
 
