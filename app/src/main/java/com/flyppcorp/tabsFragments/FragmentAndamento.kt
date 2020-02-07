@@ -16,6 +16,7 @@ import com.flyppcorp.managerServices.AndamentoActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -76,8 +77,7 @@ class FragmentAndamento : Fragment() {
 
     private fun fetchAndamento() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .whereEqualTo("id.${mAuth.currentUser!!.uid}", true)
-            .whereEqualTo("andamento", true)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 mAdapter.clear()
                 exception?.let {
@@ -86,7 +86,10 @@ class FragmentAndamento : Fragment() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val item = doc.toObject(Myservice::class.java)
-                        mAdapter.add(ItemAndamento(item))
+                        if (item.id.containsKey(mAuth.currentUser?.uid) && item.andamento){
+                            mAdapter.add(ItemAndamento(item))
+                        }
+
                     }
                     mAdapter.notifyDataSetChanged()
                 }

@@ -80,8 +80,7 @@ class FragmentFinalizado : Fragment() {
 
     private fun fetchFinalizado() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .whereEqualTo("id.${mAuth.currentUser!!.uid}", true)
-            .whereEqualTo("finalizado", true)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 mAdapter.clear()
                 exception?.let {
@@ -90,7 +89,10 @@ class FragmentFinalizado : Fragment() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val item = doc.toObject(Myservice::class.java)
-                        mAdapter.add(ItemFinalizado(item))
+                        if (item.id.containsKey(mAuth.currentUser?.uid) && item.finalizado){
+                            mAdapter.add(ItemFinalizado(item))
+                        }
+
                     }
                     mAdapter.notifyDataSetChanged()
                 }

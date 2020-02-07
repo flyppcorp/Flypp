@@ -16,6 +16,7 @@ import com.flyppcorp.managerServices.PendenteActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -78,8 +79,7 @@ class FragmentPendentes : Fragment() {
 
     private fun fetchPendente() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .whereEqualTo("id.${mAuth.currentUser!!.uid}", true)
-            .whereEqualTo("pendente", true)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 mAdapter.clear()
                 exception?.let {
@@ -88,7 +88,10 @@ class FragmentPendentes : Fragment() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val item = doc.toObject(Myservice::class.java)
-                        mAdapter.add(ItemPendente(item))
+                        if (item.id.containsKey(mAuth.currentUser?.uid) && item.pendente){
+                            mAdapter.add(ItemPendente(item))
+                        }
+
                     }
                     mAdapter.notifyDataSetChanged()
                 }
