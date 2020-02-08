@@ -207,6 +207,8 @@ class AndamentoActivity : AppCompatActivity() {
         if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             btnVoltarAndamento.text = "Cancelar"
             btnFinalizarAndamento.visibility = View.GONE
+        }else{
+            btnVoltarAndamento?.visibility= View.GONE
         }
     }
 

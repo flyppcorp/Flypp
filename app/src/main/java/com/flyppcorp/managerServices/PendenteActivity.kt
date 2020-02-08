@@ -32,7 +32,7 @@ class PendenteActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
-    private var data : String? = null
+    private var data: String? = null
     private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,68 +70,72 @@ class PendenteActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.mensagem_my_service -> {
-               if (mAuth.currentUser?.uid == mMyService?.idContratante ){
-                   mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                       .document(mMyService?.idContratado.toString())
-                       .get()
-                       .addOnSuccessListener {
-                           val user = it.toObject(User::class.java)
-                           val intent = Intent(this, MessageActivity::class.java)
-                           intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
-                           startActivity(intent)
-                       }
-               }else if (mAuth.currentUser?.uid == mMyService?.idContratado){
-                   mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                       .document(mMyService?.idContratante.toString())
-                       .get()
-                       .addOnSuccessListener {
-                           val user = it.toObject(User::class.java)
-                           val intent = Intent(this, MessageActivity::class.java)
-                           intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
-                           startActivity(intent)
-                       }
-               }
-               }
+                if (mAuth.currentUser?.uid == mMyService?.idContratante) {
+                    mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                        .document(mMyService?.idContratado.toString())
+                        .get()
+                        .addOnSuccessListener {
+                            val user = it.toObject(User::class.java)
+                            val intent = Intent(this, MessageActivity::class.java)
+                            intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                            startActivity(intent)
+                        }
+                } else if (mAuth.currentUser?.uid == mMyService?.idContratado) {
+                    mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                        .document(mMyService?.idContratante.toString())
+                        .get()
+                        .addOnSuccessListener {
+                            val user = it.toObject(User::class.java)
+                            val intent = Intent(this, MessageActivity::class.java)
+                            intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                            startActivity(intent)
+                        }
+                }
+            }
 
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun handleDate() : String? {
+    private fun handleDate(): String? {
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{
-            view, year, month, dayOfMonth ->
+        val dpd = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
-            when {
-                month <= 8 && dayOfMonth < 10 -> {
-                    data = "0$dayOfMonth / 0${month + 1} / $year"
-                    btnDate.text = "0$dayOfMonth / 0${month + 1}/ $year"
+                when {
+                    month <= 8 && dayOfMonth < 10 -> {
+                        data = "0$dayOfMonth / 0${month + 1} / $year"
+                        btnDate.text = "0$dayOfMonth / 0${month + 1}/ $year"
 
+                    }
+                    month >= 9 && dayOfMonth < 10 -> {
+                        data = "0$dayOfMonth / ${month + 1} / $year"
+                        btnDate.text = "0$dayOfMonth / ${month + 1}/ $year"
+                    }
+                    month <= 8 && dayOfMonth > 10 -> {
+                        data = "$dayOfMonth / 0${month + 1} / $year"
+                        btnDate.text = "$dayOfMonth / 0${month + 1}/ $year"
+                    }
+                    else -> {
+                        data = "$dayOfMonth / ${month + 1} / $year"
+                        btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
+                    }
                 }
-                month >= 9 && dayOfMonth < 10 -> {
-                    data = "0$dayOfMonth / ${month + 1} / $year"
-                    btnDate.text = "0$dayOfMonth / ${month + 1}/ $year"
-                }
-                month <= 8 && dayOfMonth > 10 -> {
-                    data = "$dayOfMonth / 0${month + 1} / $year"
-                    btnDate.text = "$dayOfMonth / 0${month + 1}/ $year"
-                }
-                else -> {
-                    data = "$dayOfMonth / ${month + 1} / $year"
-                    btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
-                }
-            }
 
 
-
-        }, year, month, day)
+            },
+            year,
+            month,
+            day
+        )
         dpd.show()
         return data
     }
@@ -201,9 +205,17 @@ class PendenteActivity : AppCompatActivity() {
                 .delete()
                 .addOnSuccessListener {
                     if (mMyService?.idContratante == mAuth.currentUser?.uid) {
-                        notificationDesistence(mMyService?.idContratado.toString(), "desistiu", mMyService?.nomeContratante.toString())
+                        notificationDesistence(
+                            mMyService?.idContratado.toString(),
+                            "desistiu",
+                            mMyService?.nomeContratante.toString()
+                        )
                     } else {
-                        notificationDesistence(mMyService!!.idContratante!!, "rejeitou",mMyService!!.nomeContratado!!)
+                        notificationDesistence(
+                            mMyService!!.idContratante!!,
+                            "rejeitou",
+                            mMyService!!.nomeContratado!!
+                        )
                     }
                     mProgress.hide()
                     finish()
@@ -217,7 +229,7 @@ class PendenteActivity : AppCompatActivity() {
         mDialog.show()
     }
 
-    private fun notificationDesistence(uid: String, status: String, nome : String) {
+    private fun notificationDesistence(uid: String, status: String, nome: String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -243,7 +255,7 @@ class PendenteActivity : AppCompatActivity() {
             btnAceitarVoltarPendente.text = "Aceitar"
             btnRecusarDesistirPendente.text = "Recusar"
         } else {
-            btnAceitarVoltarPendente.text = "Voltar"
+            btnAceitarVoltarPendente?.visibility = View.GONE
             btnRecusarDesistirPendente.text = "Desistir"
         }
     }
@@ -261,12 +273,17 @@ class PendenteActivity : AppCompatActivity() {
     private fun fetchPendente() {
         mAdress?.let {
             if (mMyService?.urlService == null) imgServiceAcct.setImageResource(R.drawable.ic_working)
-            else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(imgServiceAcct)
+            else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(
+                imgServiceAcct
+            )
             txtContratanteAcct.text = mMyService?.nomeContratante
             txtContratadoAcct.text = mMyService?.nomeContratado
             txtServicoAcct.text = mMyService?.serviceNome
             txtObservacao.text = mMyService?.observacao
-            txtPrecoAcct.text = "R$ ${mMyService?.preco.toString().replace(".",",")} por ${mMyService?.tipoCobranca}"
+            txtPrecoAcct.text = "R$ ${mMyService?.preco.toString().replace(
+                ".",
+                ","
+            )} por ${mMyService?.tipoCobranca}"
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
         }

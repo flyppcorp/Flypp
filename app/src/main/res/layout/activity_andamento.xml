@@ -21,7 +21,8 @@
             android:layout_weight="1"
             android:background="@android:color/holo_red_light"
             android:text="Voltar"
-            android:textColor="@color/textIcons" />
+            android:textColor="@color/textIcons"
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btnFinalizarAndamento"
@@ -207,19 +208,19 @@
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/txtServiceAndamentoAcct"
                 app:layout_constraintStart_toStartOf="@+id/txtServiceAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct" />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/dataText"
                 app:layout_constraintStart_toStartOf="@+id/dataText"
-                app:layout_constraintTop_toBottomOf="@+id/dataText"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/dataText" />
 
             <TextView
                 android:id="@+id/textView45"

@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:textColor="@color/textIcons" />
+            android:textColor="@color/textIcons"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -228,17 +229,17 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:hint="@string/observa_o_do_profissional"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDate"
-                android:hint="@string/observa_o_do_profissional"
-                android:visibility="visible">
+                app:layout_constraintTop_toBottomOf="@+id/btnDate">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editprofissionalobs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editprofissionalobs"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

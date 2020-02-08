@@ -166,7 +166,7 @@
                     android:id="@+id/editDescDetalhada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -375,8 +375,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="As palavras-chave que te deixam visíveis para pesquisas. Separe-as com vírgulas."
+                android:text="@string/separe_as_palavras_chave_com_v_rgulas_s_o_elas_que_te_deixam_vis_veis_nas_pesquisas"
                 android:textColor="@android:color/holo_red_light"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/lay22"
                 app:layout_constraintStart_toStartOf="@+id/lay22"
                 app:layout_constraintTop_toBottomOf="@+id/lay22" />
