@@ -40,7 +40,7 @@ class LastMessages : AppCompatActivity() {
         mAdapter.setOnItemClickListener { item, view ->
             val item : LastMessageItem = item as LastMessageItem
             mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(item.mLast.toId!!)
+                .document(item.mLast.toId.toString())
                 .get()
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)

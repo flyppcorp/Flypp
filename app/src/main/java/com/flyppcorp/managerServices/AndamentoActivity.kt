@@ -5,12 +5,15 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.MessageActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,26 +47,60 @@ class AndamentoActivity : AppCompatActivity() {
             }
 
         }
-        supportActionBar!!.title = "Em andamento"
+        supportActionBar?.title = "Em andamento"
         getEndereco()
         btnText()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.message_my_pendente, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.mensagem_my_service -> {
+                if (mAuth.currentUser?.uid == mMyservice?.idContratante ){
+                    mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                        .document(mMyservice?.idContratado.toString())
+                        .get()
+                        .addOnSuccessListener {
+                            val user = it.toObject(User::class.java)
+                            val intent = Intent(this, MessageActivity::class.java)
+                            intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                            startActivity(intent)
+                        }
+                }else if (mAuth.currentUser?.uid == mMyservice?.idContratado){
+                    mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                        .document(mMyservice?.idContratante.toString())
+                        .get()
+                        .addOnSuccessListener {
+                            val user = it.toObject(User::class.java)
+                            val intent = Intent(this, MessageActivity::class.java)
+                            intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                            startActivity(intent)
+                        }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun handleFinalizar() {
         val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .document(mMyservice!!.documentId!!)
+            .document(mMyservice?.documentId.toString())
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(Myservice::class.java)
             content?.andamento = false
             content?.finalizado = true
             //Aqui será a chamada para a tela de avaliacao caso seja finalizado pelo contratante
             it.set(tsDoc, content!!)
-            servicosFinalizado(mMyservice!!.idContratado!!)
+            servicosFinalizado(mMyservice?.idContratado.toString())
             dashBoard()
 
         }
         val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mMyservice!!.serviceId!!)
+            .document(mMyservice?.serviceId.toString())
         mFirestore.runTransaction {
             val contentService = it.get(tsServiceDoc).toObject(Servicos::class.java)
 
@@ -71,7 +108,7 @@ class AndamentoActivity : AppCompatActivity() {
             it.set(tsServiceDoc, contentService)
         }
 
-        if (mMyservice!!.idContratante == mAuth.currentUser!!.uid) {
+        if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
             val intent = Intent(this, AvaliationActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
             startActivity(intent)
@@ -86,10 +123,10 @@ class AndamentoActivity : AppCompatActivity() {
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalServicosFinalizados = content.totalServicosFinalizados + 1
-            if (mMyservice!!.idContratante == mAuth.currentUser!!.uid) {
-                notification(mMyservice!!.idContratado!!)
+            if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
+                notification(mMyservice?.idContratado.toString())
             } else {
-                notification(mMyservice!!.idContratante!!)
+                notification(mMyservice?.idContratante.toString())
             }
             it.set(tsDoc, content)
 
@@ -103,13 +140,13 @@ class AndamentoActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 val user: User? = it.toObject(User::class.java)
                 val notification = Notification()
-                notification.serviceId = mMyservice!!.documentId
+                notification.serviceId = mMyservice?.documentId
                 notification.text =
-                    "${mMyservice!!.nomeContratante} finalizou um serviço (${mMyservice!!.serviceNome})"
+                    "${mMyservice?.nomeContratante} finalizou um serviço (${mMyservice?.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-                    .document(user!!.token!!)
+                    .document(user?.token.toString())
                     .set(notification)
             }
 
@@ -118,13 +155,13 @@ class AndamentoActivity : AppCompatActivity() {
     private fun handleCancel() {
         val mAlert = AlertDialog.Builder(this)
         mAlert.setTitle("Você tem certeza disso?")
-        if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
+        if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             if (mConnection.validateConection()) {
                 mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
                     mProgress.setCancelable(false)
                     mProgress.show()
                     mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-                        .document(mMyservice!!.documentId!!)
+                        .document(mMyservice?.documentId.toString())
                         .delete()
                         .addOnSuccessListener {
                             notificationCancel()
@@ -151,23 +188,23 @@ class AndamentoActivity : AppCompatActivity() {
 
     private fun notificationCancel() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mMyservice!!.idContratante!!)
+            .document(mMyservice?.idContratante.toString())
             .get()
             .addOnSuccessListener {
                 val user = it.toObject(User::class.java)
                 val notification = Notification()
-                notification.serviceId = mMyservice!!.serviceId
-                notification.text = "${mMyservice!!.nomeContratado} cancelou o serviço (${mMyservice!!.serviceNome})"
+                notification.serviceId = mMyservice?.serviceId
+                notification.text = "${mMyservice?.nomeContratado} cancelou o serviço (${mMyservice?.serviceNome})"
                 notification.title ="Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-                    .document(user!!.token!!)
+                    .document(user?.token.toString())
                     .set(notification)
             }
     }
 
     private fun btnText() {
-        if (mMyservice!!.idContratado!! == mAuth.currentUser!!.uid) {
+        if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             btnVoltarAndamento.text = "Cancelar"
             btnFinalizarAndamento.visibility = View.GONE
         }
@@ -175,7 +212,7 @@ class AndamentoActivity : AppCompatActivity() {
 
     private fun getEndereco() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .document(mMyservice!!.documentId!!)
+            .document(mMyservice?.documentId.toString())
             .get()
             .addOnSuccessListener {
                 mAdress = it.toObject(Myservice::class.java)
@@ -189,9 +226,9 @@ class AndamentoActivity : AppCompatActivity() {
                 imgAndamentoAcct
             )
             else imgAndamentoAcct.setImageResource(R.drawable.ic_working)
-            txtContratadoAndamentoAcct.text = mMyservice!!.nomeContratado
-            txtContratanteAndamentoAcct.text = mMyservice!!.nomeContratante
-            txtServiceAndamentoAcct.text = mMyservice!!.serviceNome
+            txtContratadoAndamentoAcct.text = mMyservice?.nomeContratado
+            txtContratanteAndamentoAcct.text = mMyservice?.nomeContratante
+            txtServiceAndamentoAcct.text = mMyservice?.serviceNome
             txtObservacaoAndamento.text = mMyservice?.observacao
             txtObsProf.text = mMyservice?.observacaoProfissional
             txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"

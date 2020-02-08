@@ -2,9 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
     <item android:id="@+id/filter"
          android:title="Filtrar"
         android:icon="@drawable/ic_filter"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/work"
+        android:title="Meus serviços"
+        android:icon="@drawable/ic_work"
         app:showAsAction="always"/>
 
     <item android:id="@+id/mensagem"

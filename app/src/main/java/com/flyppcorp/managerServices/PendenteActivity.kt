@@ -3,8 +3,11 @@ package com.flyppcorp.managerServices
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +16,7 @@ import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.MessageActivity
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -52,12 +56,47 @@ class PendenteActivity : AppCompatActivity() {
             handleDate()
         }
 
-        supportActionBar!!.title = "Pendente "
+        supportActionBar?.title = "Pendente "
         getEndereco()
         handleTextButton()
         handleDateVisibility()
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.message_my_pendente, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.mensagem_my_service -> {
+               if (mAuth.currentUser?.uid == mMyService?.idContratante ){
+                   mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                       .document(mMyService?.idContratado.toString())
+                       .get()
+                       .addOnSuccessListener {
+                           val user = it.toObject(User::class.java)
+                           val intent = Intent(this, MessageActivity::class.java)
+                           intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                           startActivity(intent)
+                       }
+               }else if (mAuth.currentUser?.uid == mMyService?.idContratado){
+                   mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                       .document(mMyService?.idContratante.toString())
+                       .get()
+                       .addOnSuccessListener {
+                           val user = it.toObject(User::class.java)
+                           val intent = Intent(this, MessageActivity::class.java)
+                           intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                           startActivity(intent)
+                       }
+               }
+               }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun handleDate() : String? {
@@ -107,14 +146,14 @@ class PendenteActivity : AppCompatActivity() {
     }
 
     private fun handleAceitarVoltar() {
-        if (mMyService!!.idContratante == mAuth.currentUser!!.uid) {
+        if (mMyService?.idContratante == mAuth.currentUser?.uid) {
             finish()
-        } else if (mMyService!!.idContratado == mAuth.currentUser!!.uid) {
+        } else if (mMyService?.idContratado == mAuth.currentUser?.uid) {
             if (mConnection.validateConection()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
                 val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-                    .document(mMyService!!.documentId!!)
+                    .document(mMyService?.documentId.toString())
                 mFirestore.runTransaction {
                     val content = it.get(tsDoc).toObject(Myservice::class.java)
                     content?.pendente = false
@@ -132,19 +171,19 @@ class PendenteActivity : AppCompatActivity() {
 
     private fun notification() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mMyService!!.idContratante!!)
+            .document(mMyService?.idContratante.toString())
             .get()
             .addOnSuccessListener { info ->
 
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
-                notification.serviceId = mMyService!!.serviceId
+                notification.serviceId = mMyService?.serviceId
                 notification.text =
-                    "${mMyService!!.nomeContratado} aceitou sua solicitação de trabalho (${mMyService!!.serviceNome})"
+                    "${mMyService?.nomeContratado} aceitou sua solicitação de trabalho (${mMyService?.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-                    .document(user!!.token!!)
+                    .document(user?.token.toString())
                     .set(notification)
 
             }
@@ -158,11 +197,11 @@ class PendenteActivity : AppCompatActivity() {
             mProgress.setCancelable(false)
             mProgress.show()
             mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-                .document(mMyService!!.documentId!!)
+                .document(mMyService?.documentId.toString())
                 .delete()
                 .addOnSuccessListener {
-                    if (mMyService!!.idContratante == mAuth.currentUser!!.uid) {
-                        notificationDesistence(mMyService!!.idContratado!!, "desistiu", mMyService!!.nomeContratante!!)
+                    if (mMyService?.idContratante == mAuth.currentUser?.uid) {
+                        notificationDesistence(mMyService?.idContratado.toString(), "desistiu", mMyService?.nomeContratante.toString())
                     } else {
                         notificationDesistence(mMyService!!.idContratante!!, "rejeitou",mMyService!!.nomeContratado!!)
                     }
@@ -186,13 +225,13 @@ class PendenteActivity : AppCompatActivity() {
 
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
-                notification.serviceId = mMyService!!.serviceId
+                notification.serviceId = mMyService?.serviceId
                 notification.text =
                     "$nome $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de serviço"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
-                    .document(user!!.token!!)
+                    .document(user?.token.toString())
                     .set(notification)
 
             }
@@ -200,7 +239,7 @@ class PendenteActivity : AppCompatActivity() {
 
 
     private fun handleTextButton() {
-        if (mMyService!!.idContratado == mAuth.currentUser!!.uid) {
+        if (mMyService?.idContratado == mAuth.currentUser?.uid) {
             btnAceitarVoltarPendente.text = "Aceitar"
             btnRecusarDesistirPendente.text = "Recusar"
         } else {
@@ -211,7 +250,7 @@ class PendenteActivity : AppCompatActivity() {
 
     private fun getEndereco() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .document(mMyService!!.documentId!!)
+            .document(mMyService?.documentId.toString())
             .get()
             .addOnSuccessListener {
                 mAdress = it.toObject(Myservice::class.java)
@@ -223,9 +262,9 @@ class PendenteActivity : AppCompatActivity() {
         mAdress?.let {
             if (mMyService?.urlService == null) imgServiceAcct.setImageResource(R.drawable.ic_working)
             else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(imgServiceAcct)
-            txtContratanteAcct.text = mMyService!!.nomeContratante
-            txtContratadoAcct.text = mMyService!!.nomeContratado
-            txtServicoAcct.text = mMyService!!.serviceNome
+            txtContratanteAcct.text = mMyService?.nomeContratante
+            txtContratadoAcct.text = mMyService?.nomeContratado
+            txtServicoAcct.text = mMyService?.serviceNome
             txtObservacao.text = mMyService?.observacao
             txtPrecoAcct.text = "R$ ${mMyService?.preco.toString().replace(".",",")} por ${mMyService?.tipoCobranca}"
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

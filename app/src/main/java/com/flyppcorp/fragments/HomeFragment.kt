@@ -19,6 +19,7 @@ import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LastMessages
+import com.flyppcorp.flypp.ManagerServicesActivity
 import com.flyppcorp.flypp.ServiceActivity
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -313,6 +314,7 @@ class HomeFragment : Fragment() {
         when (item.itemId) {
             R.id.filter -> startActivity(Intent(context, FilterActivity::class.java))
             R.id.mensagem -> startActivity(Intent(context, LastMessages::class.java))
+            R.id.work -> startActivity(Intent(context, ManagerServicesActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
