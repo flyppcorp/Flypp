@@ -48,6 +48,9 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 getToSave()
             }
         }
+        btn_tb_voltar.setOnClickListener {
+            finish()
+        }
 
 
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -61,9 +64,9 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
     }
 
-    fun getToSave() {
+    private fun getToSave() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mAuth.currentUser!!.uid)
+            .document(mAuth.currentUser?.uid.toString())
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
@@ -102,7 +105,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.documentId = documentId
 
             mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(mMyservice.idContratado!!)
+                .document(mMyservice.idContratado.toString())
                 .get()
                 .addOnSuccessListener { info ->
 
@@ -114,7 +117,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
                     notification.title = "Novo serviço solicitado"
 
                     mFirestoreContract.confirmServiceContract(
-                        mMyservice, documentId, user!!.token!!, notification
+                        mMyservice, documentId, user?.token.toString(), notification
                     )
                 }
 

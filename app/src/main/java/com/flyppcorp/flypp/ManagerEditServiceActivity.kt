@@ -93,7 +93,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
 
     private fun fetchServico() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .whereEqualTo("serviceId", mServicos!!.serviceId!!)
+            .whereEqualTo("serviceId", mServicos?.serviceId.toString())
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
                     for (doc in snapshot) {

@@ -52,7 +52,7 @@ class CommentActivity : AppCompatActivity() {
 
     private fun fetchComments(){
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mService!!.serviceId!!)
+            .document(mService?.serviceId.toString())
             .collection(Constants.COLLECTIONS.COMMENTS)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {

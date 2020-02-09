@@ -74,7 +74,7 @@ class MessageActivity : AppCompatActivity() {
         }
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            if (message.fromId == mAuth.currentUser!!.uid) {
+            if (message.fromId == mAuth.currentUser?.uid) {
                 viewHolder.itemView.txt_msg_from.text = message.text
                 Picasso.get().load(mMeUser?.url).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(viewHolder.itemView.img_profile_from)
                 val sdf = SimpleDateFormat("HH:mm dd/MM/yy")
@@ -91,7 +91,7 @@ class MessageActivity : AppCompatActivity() {
 
     private fun getUser() {
         mFirestoreMessage.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mAuth.currentUser!!.uid)
+            .document(mAuth.currentUser?.uid.toString())
             .get()
             .addOnSuccessListener {
                 mMeUser = it.toObject(User::class.java)
@@ -102,10 +102,10 @@ class MessageActivity : AppCompatActivity() {
     private fun fetchMessages() {
         mMeUser?.let {
             val fromId = it.uid.toString()
-            val toId = mUser!!.uid
+            val toId = mUser?.uid
             mFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
                 .document(fromId)
-                .collection(toId!!)
+                .collection(toId.toString())
                 .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot, exception ->
                     snapshot?.let {
@@ -137,8 +137,8 @@ class MessageActivity : AppCompatActivity() {
 
     private fun sendMessage() {
         mMeUser?.let { task ->
-            val toId = mUser!!.uid
-            val fromId = mAuth.currentUser!!.uid
+            val toId = mUser?.uid
+            val fromId = mAuth.currentUser?.uid
             val timeZone = TimeZone.getTimeZone("America/Sao_Paulo")
             val simpledateFormat = SimpleDateFormat("yyyyMMddHHmmssSS")
             val timeNow = Calendar.getInstance(timeZone)
@@ -158,20 +158,20 @@ class MessageActivity : AppCompatActivity() {
 
                 if (validate()) {
                     messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                        .document(fromId)
-                        .collection(toId!!)
+                        .document(fromId.toString())
+                        .collection(toId.toString())
                         .add(message)
                         .addOnSuccessListener {
                             messageFirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
-                                .document(toId)
-                                .collection(fromId)
+                                .document(toId.toString())
+                                .collection(fromId.toString())
                                 .add(message)
                                 .addOnSuccessListener {
                                     val uid = mAuth.currentUser?.uid
                                     if (uid == fromId){
-                                        notificationMessage(mMeUser!!.nome!!, text, toId)
+                                        notificationMessage(mMeUser!!.nome!!, text, toId.toString())
                                     }else{
-                                        notificationMessage(mMeUser!!.nome!!, text, fromId)
+                                        notificationMessage(mMeUser!!.nome!!, text, fromId.toString())
                                     }
 
                                     val lastMessages = LastMessage()
@@ -182,9 +182,9 @@ class MessageActivity : AppCompatActivity() {
                                     lastMessages.text = text
                                     lastMessages.unread = false
                                     messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                                        .document(fromId)
+                                        .document(fromId.toString())
                                         .collection(Constants.COLLECTIONS.CONTACTS)
-                                        .document(toId)
+                                        .document(toId.toString())
                                         .set(lastMessages)
                                         .addOnSuccessListener {
                                             val lastMessage = LastMessage()
@@ -195,9 +195,9 @@ class MessageActivity : AppCompatActivity() {
                                             lastMessage.name = task.nome
 
                                             messageFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
-                                                .document(toId)
+                                                .document(toId.toString())
                                                 .collection(Constants.COLLECTIONS.CONTACTS)
-                                                .document(fromId)
+                                                .document(fromId.toString())
                                                 .set(lastMessage)
                                         }
 

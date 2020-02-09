@@ -51,6 +51,10 @@ class LastMessages : AppCompatActivity() {
 
         }
 
+        btn_voltar_lm.setOnClickListener {
+            finish()
+        }
+
         fetchLastMessage()
     }
 

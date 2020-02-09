@@ -88,7 +88,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun fetchData() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .whereEqualTo("uid", mUser!!.uid)
+            .whereEqualTo("uid", mUser?.uid.toString())
             .addSnapshotListener { snapshot, firestoreException ->
                 if (snapshot == null) return@addSnapshotListener
                 for (doc in snapshot.documents) {

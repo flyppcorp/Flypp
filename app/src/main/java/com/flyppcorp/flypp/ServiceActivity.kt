@@ -79,7 +79,7 @@ class ServiceActivity : AppCompatActivity() {
 
         //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
         //tb.title = ""
-        supportActionBar!!.title = "Serviço"
+        supportActionBar?.title = "Serviço"
         btnCommentsVisible()
         getIcon()
 
@@ -94,7 +94,7 @@ class ServiceActivity : AppCompatActivity() {
 
     private fun getIcon() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mService!!.serviceId!!)
+            .document(mService?.serviceId.toString())
             .get()
             .addOnSuccessListener {
                 mFavorito = it.toObject(Servicos::class.java)
@@ -136,8 +136,8 @@ class ServiceActivity : AppCompatActivity() {
             }
 
            R.id.id_send_message -> {
-                val uid = mAuth.currentUser!!.uid
-                if (uid != mService!!.uid){
+                val uid = mAuth.currentUser?.uid
+                if (uid != mService?.uid){
                     handleMessage()
                 }else{
                     val mAlert = AlertDialog.Builder(this)
@@ -155,12 +155,12 @@ class ServiceActivity : AppCompatActivity() {
 
    private fun handleMessage() {
           mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-              .document(mService!!.serviceId!!)
+              .document(mService?.serviceId.toString())
               .get()
               .addOnSuccessListener {
                   getMessageAtributes = it.toObject(Servicos::class.java)
                   mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                      .document(getMessageAtributes!!.uid!!)
+                      .document(getMessageAtributes?.uid.toString())
                       .get()
                       .addOnSuccessListener {
                           mUser = it.toObject(User::class.java)!!
@@ -173,11 +173,11 @@ class ServiceActivity : AppCompatActivity() {
 
     private fun handleFavorite() {
         var tsDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mService!!.serviceId!!)
+            .document(mService?.serviceId.toString())
         mFirestore.runTransaction {
             var contentServico = it.get(tsDoc).toObject(Servicos::class.java)
-            if (contentServico!!.favoritos.containsKey(mAuth.currentUser!!.uid)) {
-                contentServico.favoritos.remove(mAuth.currentUser!!.uid)
+            if (contentServico!!.favoritos.containsKey(mAuth.currentUser?.uid)) {
+                contentServico.favoritos.remove(mAuth.currentUser?.uid)
 
             } else {
                 contentServico.favoritos[mAuth.currentUser!!.uid] = true
@@ -201,6 +201,7 @@ class ServiceActivity : AppCompatActivity() {
         } else {
             val intent = Intent(this, ConfirmServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, mService)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
         }
     }
