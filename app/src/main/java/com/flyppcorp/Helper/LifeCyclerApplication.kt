@@ -29,7 +29,7 @@ class LifeCyclerApplication : Application(), Application.ActivityLifecycleCallba
     }
 
     override fun onActivityPaused(activity: Activity) {
-        setOnline(false)
+        //setOnline(false)
     }
 
     override fun onActivityStarted(activity: Activity) {
@@ -53,6 +53,6 @@ class LifeCyclerApplication : Application(), Application.ActivityLifecycleCallba
     }
 
     override fun onActivityResumed(activity: Activity) {
-        setOnline(true)
+        //setOnline(true)
     }
 }

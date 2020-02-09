@@ -14,7 +14,7 @@ android {
         applicationId "com.flyppcorp.flypp"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 11
+        versionCode 13
         versionName "1.0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
