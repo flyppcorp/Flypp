@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 
 import android.widget.Toast
 import com.flyppcorp.Helper.SharedFilter
@@ -48,13 +49,14 @@ class AddActivity : AppCompatActivity() {
         mServiceAtributes = Servicos()
         mUser = User()
         mCity = SharedFilter(this)
-        supportActionBar!!.title = "Adicionar serviço"
+        supportActionBar?.title = "Adicionar serviço"
 
         btnSelectPhotoService.setOnClickListener { handleSelect() }
         btnSelectPhotoService2.setOnClickListener { handleSelect2() }
         btnSaveService.setOnClickListener {
             handleSaveService()
         }
+
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
     }
