@@ -53,7 +53,7 @@ class AvaliationActivity : AppCompatActivity() {
             mProgress.setCancelable(false)
             mProgress.show()
             val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .document(mMyservice!!.serviceId!!)
+                .document(mMyservice?.serviceId.toString())
             mfirestore.runTransaction {
                 val content = it.get(tsDoc).toObject(Servicos::class.java)
                 content!!.avaliacao = content.avaliacao + editNota.text.toString().toInt()
@@ -62,7 +62,7 @@ class AvaliationActivity : AppCompatActivity() {
                     content.comments = content.comments + 1
                 }
                 comment()
-                mProgress.hide()
+                //mProgress.hide()
                 it.set(tsDoc, content)
             }
             val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
