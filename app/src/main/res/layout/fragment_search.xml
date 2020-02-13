@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/view"
-        android:imeOptions="actionDone"/>
+        android:imeOptions="actionSearch"/>
 
     <ImageView
         android:id="@+id/btnSearch"

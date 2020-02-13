@@ -1,9 +1,11 @@
 package com.flyppcorp.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
 import com.flyppcorp.flypp.ServiceActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -53,11 +56,26 @@ class SearchFragment : Fragment() {
             if (!editSearch.text.toString().isEmpty()) {
                 if (mConnection.validateConection()) {
                     get()
-                    editSearch.onEditorAction(EditorInfo.IME_ACTION_DONE)
+                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken,0)
+
                 }
 
             }
 
+        }
+        view.editSearch.setOnEditorActionListener { v, actionId, event ->
+           if (actionId == EditorInfo.IME_ACTION_SEARCH){
+               if (!editSearch.text.toString().isEmpty()) {
+                   if (mConnection.validateConection()) {
+                       get()
+                       val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                       imm.hideSoftInputFromWindow(view.windowToken,0)
+                   }
+
+               }
+           }
+            true
         }
         view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
         mAdapter.onItemClick = {

@@ -97,5 +97,5 @@
     <string name="nacional">Nacional</string>
     <string name="local">Local</string>
     <string name="seu_servi_o_local_apenas_na_sua_cidade_ou_nacional">Seu serviço é local, apenas na sua cidade ou nacional ?</string>
-    <string name="separe_as_palavras_chave_com_v_rgulas_s_o_elas_que_te_deixam_vis_veis_nas_pesquisas">Separe as Palavras-chave com vírgulas. São elas que te deixam visíveis nas pesquisas.</string>
+    <string name="separe_as_palavras_chave_com_v_rgulas_s_o_elas_que_te_deixam_vis_veis_nas_pesquisas">Separe as Palavras-chave com vírgulas (Exemplo1,Exemplo2,Exemplo3 ). São elas que te deixam visíveis nas pesquisas.</string>
 </resources>

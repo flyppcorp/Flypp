@@ -24,10 +24,12 @@
         <activity
             android:name="com.flyppcorp.fragments.AddActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar">
+            android:theme="@style/AppThemeToolbar"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".MainActivity"
+                />
         </activity>
         <activity
             android:name=".SplashActivity"
@@ -67,7 +69,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.flyppcorp.managerServices.EditServiceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ManagerEditServiceActivity"
             android:screenOrientation="portrait" />
@@ -113,7 +116,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ServiceActivity"
             android:screenOrientation="portrait"
@@ -124,7 +128,8 @@
         </activity>
         <activity
             android:name=".CreateProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ResetPasswordActivity"
             android:screenOrientation="portrait" />
@@ -133,10 +138,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

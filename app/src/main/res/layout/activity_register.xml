@@ -34,93 +34,115 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editEmailCadLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/e_mail"
-        android:textColorHint="@color/textIcons"
-        app:boxStrokeColor="@color/textIcons"
-        app:errorEnabled="true"
-        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editEmailCad"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/textIcons" />
+            android:layout_height="match_parent"
+            android:id="@+id/cl">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editEmailCadLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="@string/e_mail"
+                android:textColorHint="@color/textIcons"
+                app:boxStrokeColor="@color/textIcons"
+                app:errorEnabled="true"
+                app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editSenhaCadLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/senha"
-        android:textColorHint="@color/textIcons"
-        app:boxStrokeColor="@color/textIcons"
-        app:errorEnabled="true"
-        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
-        app:layout_constraintEnd_toEndOf="@+id/editEmailCadLayout"
-        app:layout_constraintStart_toStartOf="@+id/editEmailCadLayout"
-        app:layout_constraintTop_toBottomOf="@+id/editEmailCadLayout"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/textIcons">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEmailCad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/textIcons" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editSenhaCad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/textIcons" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+   <com.google.android.material.textfield.TextInputLayout
+       android:id="@+id/editSenhaCadLayout"
+       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:hint="@string/senha"
+       android:textColorHint="@color/textIcons"
+       app:boxStrokeColor="@color/textIcons"
+       app:errorEnabled="true"
+       app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
+       app:layout_constraintEnd_toEndOf="@+id/editEmailCadLayout"
+       app:layout_constraintStart_toStartOf="@+id/editEmailCadLayout"
+       app:layout_constraintTop_toBottomOf="@+id/editEmailCadLayout"
+       app:passwordToggleEnabled="true"
+       app:passwordToggleTint="@color/textIcons">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editSenhaConfirmCadLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/confirmar_senha"
-        android:textColorHint="@color/textIcons"
-        app:boxStrokeColor="@color/textIcons"
-        app:errorEnabled="true"
-        app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
-        app:layout_constraintEnd_toEndOf="@+id/editSenhaCadLayout"
-        app:layout_constraintStart_toStartOf="@+id/editSenhaCadLayout"
-        app:layout_constraintTop_toBottomOf="@+id/editSenhaCadLayout"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/textIcons">
+       <com.google.android.material.textfield.TextInputEditText
+           android:id="@+id/editSenhaCad"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:inputType="textPassword"
+           android:textColor="@color/textIcons" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editSenhaConfirmCad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/textIcons" />
+   </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+   <com.google.android.material.textfield.TextInputLayout
+       android:id="@+id/editSenhaConfirmCadLayout"
+       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:hint="@string/confirmar_senha"
+       android:textColorHint="@color/textIcons"
+       app:boxStrokeColor="@color/textIcons"
+       app:errorEnabled="true"
+       app:hintTextAppearance="@style/Base.Widget.MaterialComponents.TextInputLayout.Hint"
+       app:layout_constraintEnd_toEndOf="@+id/editSenhaCadLayout"
+       app:layout_constraintStart_toStartOf="@+id/editSenhaCadLayout"
+       app:layout_constraintTop_toBottomOf="@+id/editSenhaCadLayout"
+       app:passwordToggleEnabled="true"
+       app:passwordToggleTint="@color/textIcons">
 
-    <Button
-        android:id="@+id/btnCad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_bg"
-        android:text="@string/criar_conta"
-        android:textColor="@color/textIcons"
-        app:layout_constraintEnd_toEndOf="@+id/editSenhaConfirmCadLayout"
-        app:layout_constraintStart_toStartOf="@+id/editSenhaConfirmCadLayout"
-        app:layout_constraintTop_toBottomOf="@+id/editSenhaConfirmCadLayout" />
+       <com.google.android.material.textfield.TextInputEditText
+           android:id="@+id/editSenhaConfirmCad"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:inputType="textPassword"
+           android:textColor="@color/textIcons" />
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+   <Button
+       android:id="@+id/btnCad"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="16dp"
+       android:background="@drawable/button_bg"
+       android:text="@string/criar_conta"
+       android:textColor="@color/textIcons"
+       app:layout_constraintEnd_toEndOf="@+id/editSenhaConfirmCadLayout"
+       app:layout_constraintStart_toStartOf="@+id/editSenhaConfirmCadLayout"
+       app:layout_constraintTop_toBottomOf="@+id/editSenhaConfirmCadLayout" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
