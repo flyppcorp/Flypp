@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -83,7 +84,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
 
     private fun fetchVisible() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mServicos!!.serviceId!!)
+            .document(mServicos?.serviceId.toString())
             .get()
             .addOnSuccessListener {
                 val service = it.toObject(Servicos::class.java)
@@ -100,7 +101,11 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         txtQtdServicesView.text =
                             "${serviceItem.totalServicos} serviços finalizados"
-                        txtManagerComments.text = "${serviceItem.comments} comentários"
+                        if (serviceItem.comments > 0){
+                            txtManagerComments?.text = "${serviceItem.comments} comentários"
+                        }else {
+                            txtManagerComments?.visibility = View.GONE
+                        }
                         txtTituloServicesView.text = serviceItem.nomeService
                         txtDescShortView.text = serviceItem.shortDesc
                         if (serviceItem.avaliacao == 0) {

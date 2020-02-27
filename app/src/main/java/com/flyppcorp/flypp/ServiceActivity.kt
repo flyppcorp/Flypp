@@ -80,17 +80,11 @@ class ServiceActivity : AppCompatActivity() {
         //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
         //tb.title = ""
         supportActionBar?.title = "Serviço"
-        btnCommentsVisible()
         getIcon()
 
     }
 
-    private fun btnCommentsVisible() {
-        if (mService?.comments != null || mService?.comments!! > 0){
-            btnComments.text = "${mService?.comments} comentários"
-            btnComments?.visibility = View.VISIBLE
-        }
-    }
+
 
     private fun getIcon() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -225,8 +219,8 @@ class ServiceActivity : AppCompatActivity() {
                             "Sem avaliações"
                         else txtAvaliacao.text = "${avaliacao.toString().substring(
                             0,
-                            1
-                        )}/5  (${service.totalAvaliacao})"
+                            3
+                        )}/5 (${service.totalAvaliacao})"
 
 
                         txtPreco.text = "R$ ${service.preco.toString().replace(".",",")}/${service.tipoCobranca}"
@@ -235,8 +229,19 @@ class ServiceActivity : AppCompatActivity() {
                         txtEndereco.text =
                             "${service.rua},  ${service.bairro}, ${service.numero} \n" +
                                     "CEP:${service.cep}, ${service.cidade}, ${service.estado}"
-                        txtTelefone.text = "(${service.ddd}) ${service.telefone}"
+                        if (service.ddd == null && service.telefone == null){
+                            txtTelefone.text = "Sem telefone"
+                        }else{
+                            txtTelefone.text = "(${service.ddd}) ${service.telefone}"
+                        }
+
                         txtEmail.text = service.email
+                        if ( service.comments > 0){
+                            btnComments.text = "${mService?.comments} comentários"
+                            btnComments?.visibility = View.VISIBLE
+                        }else{
+                            btnComments.visibility = View.GONE
+                        }
 
                     }
                 }

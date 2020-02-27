@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             val adress: List<Address>? =
                                 geocoder.getFromLocation(it.latitude, it.longitude, 1)
                             if (adress != null) {
-                                if (adress!!.size > 0) {
+                                if (adress.size > 0) {
                                     for (adresses: Address in adress) {
                                         mCity.saveFilter(Constants.KEY.CITY_NAME,adresses.subAdminArea)
 

@@ -216,7 +216,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun updateProfileComments(url: String?, nome : String?){
         val mFirestoreUpdate = FirebaseFirestore.getInstance()
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
         mFirestoreUpdate.collection(Constants.COLLECTIONS.MY_SERVICE)
             .whereEqualTo("idContratante", uid )
             .addSnapshotListener { snapshot, exception ->
@@ -225,24 +225,28 @@ class ProfileActivity : AppCompatActivity() {
                         val itemMyService = doc1.toObject(Myservice::class.java)
 
                         mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                            .document(itemMyService.serviceId!!)
+                            .document(itemMyService.serviceId.toString())
                             .collection(Constants.COLLECTIONS.COMMENTS)
                             .addSnapshotListener { snapshot, exception ->
                                 snapshot?.let {
                                     for ( doc2 in snapshot){
                                         val itemServicos = doc2.toObject(Comentarios::class.java)
                                         val tsDoc = mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                            .document(itemMyService.serviceId!!)
+                                            .document(itemMyService.serviceId.toString())
                                             .collection(Constants.COLLECTIONS.COMMENTS)
                                             .document(itemServicos.commentId.toString())
                                         mFirestoreUpdate.runTransaction { transaction ->
                                             val content = transaction.get(tsDoc).toObject(Comentarios::class.java)
-                                            if (content?.urlContratante != url){
-                                                content?.urlContratante = url
-                                            }else if (content?.nomeContratante != nome){
-                                                content?.nomeContratante = nome
+                                            if (itemServicos.uid == uid){
+                                                if (content?.urlContratante != url){
+                                                    content?.urlContratante = url
+                                                }else if (content?.nomeContratante != nome){
+                                                    content?.nomeContratante = nome
+                                                }
+                                                transaction.set(tsDoc, content!!)
                                             }
-                                            transaction.set(tsDoc, content!!)
+
+
 
                                         }
                                     }

@@ -136,5 +136,6 @@ data class Comentarios(
     var nomeContratante: String? = null,
     var comentario: String? = null,
     var serviceId: String? = null,
-    var commentId: String? = null
+    var commentId: String? = null,
+    var uid: String? = null
 )

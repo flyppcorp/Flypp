@@ -78,7 +78,7 @@ class AvaliationActivity : AppCompatActivity() {
 
     private fun avaliationUser() {
         val tsDoc = mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mMyservice!!.idContratado!!)
+            .document(mMyservice?.idContratado.toString())
         mfirestore.runTransaction {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalAvaliacao = content.totalAvaliacao + 1
@@ -93,13 +93,14 @@ class AvaliationActivity : AppCompatActivity() {
         val mComments = Comentarios()
         mComments.comentario = editComentario.text.toString()
         mComments.nomeContratante = mMyservice?.nomeContratante
-        mComments.serviceId = mMyservice!!.serviceId
+        mComments.serviceId = mMyservice?.serviceId.toString()
         mComments.urlContratante = mMyservice?.urlContratante
+        mComments.uid = FirebaseAuth.getInstance().currentUser?.uid
         val docId = UUID.randomUUID().toString()
         mComments.commentId = docId
         if (editComentario?.text.toString() != "") {
             mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .document(mMyservice!!.serviceId!!)
+                .document(mMyservice?.serviceId.toString())
                 .collection(Constants.COLLECTIONS.COMMENTS)
                 .document(docId)
                 .set(mComments)

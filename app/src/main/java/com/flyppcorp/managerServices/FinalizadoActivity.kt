@@ -52,7 +52,7 @@ class FinalizadoActivity : AppCompatActivity() {
 
     private fun getadress() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .document(mMyservice!!.documentId!!)
+            .document(mMyservice?.documentId.toString())
             .get()
             .addOnSuccessListener {
                 mAdress = it.toObject(Myservice::class.java)

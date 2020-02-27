@@ -56,6 +56,7 @@ class CommentActivity : AppCompatActivity() {
             .collection(Constants.COLLECTIONS.COMMENTS)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
+                    mAdapter.clear()
                     for( doc in snapshot){
                         val item = doc.toObject(Comentarios::class.java)
                         mAdapter.add(ItemComments(item))

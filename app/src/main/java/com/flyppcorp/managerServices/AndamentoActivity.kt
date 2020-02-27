@@ -93,6 +93,7 @@ class AndamentoActivity : AppCompatActivity() {
             val content = it.get(tsDoc).toObject(Myservice::class.java)
             content?.andamento = false
             content?.finalizado = true
+            content?.timestamp = System.currentTimeMillis()
             //Aqui será a chamada para a tela de avaliacao caso seja finalizado pelo contratante
             it.set(tsDoc, content!!)
             servicosFinalizado(mMyservice?.idContratado.toString())
