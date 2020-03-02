@@ -3,6 +3,7 @@ package com.flyppcorp.managerServices
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -53,7 +54,7 @@ class AndamentoActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.message_my_pendente, menu)
+        menuInflater.inflate(R.menu.message_my_service, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -82,8 +83,41 @@ class AndamentoActivity : AppCompatActivity() {
                         }
                 }
             }
+            R.id.ligar_my_service -> {
+                val uid = mAuth.currentUser?.uid.toString()
+
+                if (uid == mMyservice?.idContratado) {
+                    phoneCall(mMyservice?.idContratante.toString())
+
+                } else if (uid == mMyservice?.idContratante) {
+                    phoneCall(mMyservice?.idContratado.toString())
+
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun phoneCall(uid: String) {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener {
+
+                val items = it.toObject(User::class.java)
+                if (items?.ddd != null && items.telefone != null) {
+                    val phone = items.ddd + items.telefone
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+                    intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
+                } else {
+                    val alert = AlertDialog.Builder(this)
+                    alert.setMessage("Este usuário não informou o telefone")
+                    alert.setPositiveButton("Ok", { dialog, which -> })
+                    alert.show()
+                }
+
+            }
     }
 
     private fun handleFinalizar() {

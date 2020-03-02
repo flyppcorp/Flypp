@@ -148,7 +148,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             if (adress != null) {
                                 if (adress.size > 0) {
                                     for (adresses: Address in adress) {
-                                        mCity.saveFilter(Constants.KEY.CITY_NAME,adresses.subAdminArea)
+                                        if (adresses.subAdminArea != null){
+                                            mCity.saveFilter(Constants.KEY.CITY_NAME,adresses.subAdminArea)
+                                        }
+
 
                                     }
                                 }

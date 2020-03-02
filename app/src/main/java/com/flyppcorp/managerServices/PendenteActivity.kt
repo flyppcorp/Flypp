@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -21,7 +22,6 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_andamento.*
 import kotlinx.android.synthetic.main.activity_pendente.*
 import java.util.*
 
@@ -65,7 +65,7 @@ class PendenteActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.message_my_pendente, menu)
+        menuInflater.inflate(R.menu.message_my_service, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -95,9 +95,44 @@ class PendenteActivity : AppCompatActivity() {
                 }
             }
 
+            R.id.ligar_my_service -> {
+                val uid = mAuth.currentUser?.uid.toString()
+
+                if (uid == mMyService?.idContratado) {
+                    phoneCall(mMyService?.idContratante.toString())
+
+                } else if (uid == mMyService?.idContratante) {
+                    phoneCall(mMyService?.idContratado.toString())
+
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun phoneCall(uid: String) {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener {
+
+                val items = it.toObject(User::class.java)
+                if (items?.ddd != null && items.telefone != null) {
+                    val phone = items.ddd + items.telefone
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+                    intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
+                } else {
+                    val alert = AlertDialog.Builder(this)
+                    alert.setMessage("Este usuário não informou o telefone")
+                    alert.setPositiveButton("Ok", { dialog, which -> })
+                    alert.show()
+                }
+
+            }
+    }
+
 
     private fun handleDate(): String? {
 
