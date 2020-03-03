@@ -39,7 +39,11 @@ class SignInFirebaseAuth(private val context: Context) {
                         //intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
                         //mAuth.currentUser!!.sendEmailVerification()
                         val user = User()
-                        user.nome = mAuth.currentUser?.displayName
+                        if (mAuth.currentUser?.displayName != null){
+                            user.nome = mAuth.currentUser?.displayName
+                        }else {
+                            user.nome = "User"
+                        }
                         user.uid = mAuth.currentUser?.uid
                         user.email = mAuth.currentUser?.email
                         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
