@@ -83,7 +83,7 @@ class AndamentoActivity : AppCompatActivity() {
                         }
                 }
             }
-            R.id.ligar_my_service -> {
+            /*R.id.ligar_my_service -> {
                 val uid = mAuth.currentUser?.uid.toString()
 
                 if (uid == mMyservice?.idContratado) {
@@ -93,7 +93,7 @@ class AndamentoActivity : AppCompatActivity() {
                     phoneCall(mMyservice?.idContratado.toString())
 
                 }
-            }
+            }*/
         }
         return super.onOptionsItemSelected(item)
     }

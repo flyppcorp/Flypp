@@ -95,7 +95,7 @@ class PendenteActivity : AppCompatActivity() {
                 }
             }
 
-            R.id.ligar_my_service -> {
+            /*R.id.ligar_my_service -> {
                 val uid = mAuth.currentUser?.uid.toString()
 
                 if (uid == mMyService?.idContratado) {
@@ -105,7 +105,7 @@ class PendenteActivity : AppCompatActivity() {
                     phoneCall(mMyService?.idContratado.toString())
 
                 }
-            }
+            }*/
 
         }
         return super.onOptionsItemSelected(item)

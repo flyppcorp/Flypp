@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.MainActivity
@@ -35,8 +36,10 @@ class FirestoreUser(private val context: Context) {
                 .set(mFirestoreClasses)
                 .addOnSuccessListener {
                     val intent = Intent(context, MainActivity::class.java)
+                    dashBoard()
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(context, intent, null)
+
                     mProgressDialog.hide()
                     //mProgressDialog.dismiss()
 
@@ -51,6 +54,16 @@ class FirestoreUser(private val context: Context) {
                 }
 
 
+    }
+
+    private fun dashBoard(){
+        val tsDoc = mDadosUser.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
+            Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+        mDadosUser.runTransaction {
+            val content = it.get(tsDoc).toObject(DashBoard::class.java)
+            content!!.newUser = content.newUser + 1
+            it.set(tsDoc, content)
+        }
     }
 
 }
