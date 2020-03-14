@@ -209,7 +209,7 @@ class ServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val service = doc.toObject(Servicos::class.java)
 
-                        txtQtdServices.text = "${service.totalServicos} serviços finalizados"
+                        txtQtdServices.text = "${service.totalServicos} concluídos"
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
                         txtResponde.text = service.tempoResposta
@@ -222,8 +222,20 @@ class ServiceActivity : AppCompatActivity() {
                             3
                         )}/5 (${service.totalAvaliacao})"
 
+                        if (service.preco.toString().substringAfter(".").length == 1){
+                            txtPreco.text =
+                                "R$ ${service.preco.toString().replace(
+                                    ".",
+                                    ","
+                                )}${"0"} Por ${service.tipoCobranca}"
+                        }else{
+                            txtPreco.text =
+                                "R$ ${service.preco.toString().replace(
+                                    ".",
+                                    ","
+                                )} Por ${service.tipoCobranca}"
+                        }
 
-                        txtPreco.text = "R$ ${service.preco.toString().replace(".",",")}/${service.tipoCobranca}"
                         txtDetailDesc.text = service.longDesc
                         txtQuality.text = service.qualidadesDiferenciais
                         txtEndereco.text =

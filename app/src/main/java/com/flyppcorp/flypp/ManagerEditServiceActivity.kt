@@ -100,7 +100,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         txtQtdServicesView.text =
-                            "${serviceItem.totalServicos} serviços finalizados"
+                            "${serviceItem.totalServicos} concluídos"
                         if (serviceItem.comments > 0){
                             txtManagerComments?.text = "${serviceItem.comments} comentários"
                         }else {
@@ -119,11 +119,21 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                             )}/5 (${serviceItem.totalAvaliacao})"
                         }
 
-                        txtPrecoView.text =
-                            "R$ ${serviceItem.preco.toString().replace(
-                                ".",
-                                ","
-                            )}/${serviceItem.tipoCobranca}"
+
+                        if (serviceItem.preco.toString().substringAfter(".").length == 1){
+                            txtPrecoView.text =
+                                "R$ ${serviceItem.preco.toString().replace(
+                                    ".",
+                                    ","
+                                )}${"0"} Por ${serviceItem.tipoCobranca}"
+                        }else{
+                            txtPrecoView.text =
+                                "R$ ${serviceItem.preco.toString().replace(
+                                    ".",
+                                    ","
+                                )} Por ${serviceItem.tipoCobranca}"
+                        }
+
                         txtDetailDescView.text = serviceItem.longDesc
                         txtQualityView.text = serviceItem.qualidadesDiferenciais
                         txtEnderecoView.text =

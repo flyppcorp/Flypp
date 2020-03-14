@@ -64,13 +64,29 @@ class FinalizadoActivity : AppCompatActivity() {
         mAdress?.let {
             if(mMyservice?.urlService !=  null) Picasso.get().load(mMyservice?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(imgServiceFinalizadoAcct)
             else imgServiceFinalizadoAcct.setImageResource(R.drawable.ic_working)
-            txtContratadoFinalizadoAcct.text = mMyservice!!.nomeContratante
-            txtContratanteFinalizadoAcct.text = mMyservice!!.nomeContratado
-            txtServicoFinalizadoAcct.text = mMyservice!!.serviceNome
+            txtContratadoFinalizadoAcct.text = mMyservice?.nomeContratante
+            txtContratanteFinalizadoAcct.text = mMyservice?.nomeContratado
+            txtServicoFinalizadoAcct.text = mMyservice?.serviceNome
             txtObservacaoFinalizado.text = mMyservice?.observacao
-            txtPrecoFinalizadoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
+
+            if (mMyservice?.preco.toString().substringAfter(".").length == 1){
+                txtPrecoFinalizadoAcct.text =
+                    "R$ ${mMyservice?.preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${mMyservice?.tipoCobranca}"
+            }else{
+                txtPrecoFinalizadoAcct.text =
+                    "R$ ${mMyservice?.preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${mMyservice?.tipoCobranca}"
+            }
+
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
+
+
 
         }
     }

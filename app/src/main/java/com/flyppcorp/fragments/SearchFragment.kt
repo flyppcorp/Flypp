@@ -106,7 +106,7 @@ class SearchFragment : Fragment() {
 
                     if ((item?.nacional == true || item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)) && item.visible) {
                         for (key in item.tags) {
-                            if (key.toString().startsWith(prefix)) {
+                            if (key.toString().contains(prefix)) {
                                 contentServicesearch.add(item)
                                 contentUidList.add(doc.id)
                                 break
@@ -171,11 +171,20 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPrecoList.text =
-                "R$ ${contentServicesearch[position].preco.toString().replace(
-                    ".",
-                    ","
-                )} Por ${contentServicesearch[position].tipoCobranca}"
+
+            if (contentServicesearch[position].preco.toString().substringAfter(".").length == 1){
+                viewholder.txtPrecoList.text =
+                    "R$ ${contentServicesearch[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${contentServicesearch[position].tipoCobranca}"
+            }else{
+                viewholder.txtPrecoList.text =
+                    "R$ ${contentServicesearch[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${contentServicesearch[position].tipoCobranca}"
+            }
 
             viewholder.btnFavoriteList.setOnClickListener {
                 favoriteEvent(position)

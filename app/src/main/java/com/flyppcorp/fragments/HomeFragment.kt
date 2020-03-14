@@ -373,11 +373,21 @@ class HomeFragment : Fragment() {
             if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
-            viewholder.txtPreco.text =
-                "R$ ${servicos[position].preco.toString().replace(
-                    ".",
-                    ","
-                )} por ${servicos[position].tipoCobranca}"
+
+
+            if (servicos[position].preco.toString().substringAfter(".").length == 1){
+                viewholder.txtPreco.text =
+                    "R$ ${servicos[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${servicos[position].tipoCobranca}"
+            }else{
+                viewholder.txtPreco.text =
+                    "R$ ${servicos[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${servicos[position].tipoCobranca}"
+            }
 
 
             viewholder.btnFavorite.setOnClickListener {

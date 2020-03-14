@@ -268,7 +268,21 @@ class AndamentoActivity : AppCompatActivity() {
             txtServiceAndamentoAcct.text = mMyservice?.serviceNome
             txtObservacaoAndamento.text = mMyservice?.observacao
             txtObsProf.text = mMyservice?.observacaoProfissional
-            txtPrecoAndamentoAcct.text = "R$ ${mMyservice?.preco.toString().replace(".",",")} por ${mMyservice?.tipoCobranca}"
+
+            if (mMyservice?.preco.toString().substringAfter(".").length == 1){
+                txtPrecoAndamentoAcct.text =
+                    "R$ ${mMyservice?.preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${mMyservice?.tipoCobranca}"
+            }else{
+                txtPrecoAndamentoAcct.text =
+                    "R$ ${mMyservice?.preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${mMyservice?.tipoCobranca}"
+            }
+
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
             if (it.dateService != null){

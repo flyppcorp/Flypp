@@ -70,7 +70,22 @@ class FragmentFinalizado : Fragment() {
             )
             viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado
             viewHolder.itemView.txtNomeContratante.text = mMyservice.nomeContratante
-           viewHolder.itemView.txtPrecoManager.text = "R$ ${mMyservice.preco.toString().replace(".",",")} por ${mMyservice.tipoCobranca}"
+
+
+            if (mMyservice.preco.toString().substringAfter(".").length == 1){
+                viewHolder.itemView.txtPrecoManager.text =
+                    "R$ ${mMyservice.preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${mMyservice.tipoCobranca}"
+            }else{
+                viewHolder.itemView.txtPrecoManager.text =
+                    "R$ ${mMyservice.preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${mMyservice.tipoCobranca}"
+            }
+
         }
 
 
