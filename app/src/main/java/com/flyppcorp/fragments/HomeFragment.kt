@@ -1,20 +1,16 @@
 package com.flyppcorp.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.flyppcorp.flypp.R
 import android.view.MenuItem
-import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.SharedFilter
-import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -25,13 +21,10 @@ import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.service_items.*
 import kotlinx.android.synthetic.main.service_items.view.*
-import java.lang.IndexOutOfBoundsException
 
 class HomeFragment : Fragment() {
 
@@ -73,16 +66,11 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-
-
-
         fetchServices()
         locationOther()
         //updateProfile()
         return view
     }
-
-
 
 
 
@@ -216,7 +204,7 @@ class HomeFragment : Fragment() {
 
         } else {
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .orderBy("totalServicos", Query.Direction.ASCENDING)
+                .orderBy("totalServicos", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, exception ->
                     servicos.clear()
                     contentUidList.clear()

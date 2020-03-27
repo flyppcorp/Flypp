@@ -24,6 +24,7 @@ import com.xwray.groupie.Item
 
 import kotlinx.android.synthetic.main.fragment_fragment_finalizado.view.*
 import kotlinx.android.synthetic.main.manager_service_items.view.*
+import java.text.SimpleDateFormat
 
 /**
  * A simple [Fragment] subclass.
@@ -85,6 +86,9 @@ class FragmentFinalizado : Fragment() {
                         ","
                     )} Por ${mMyservice.tipoCobranca}"
             }
+
+            val horaService = SimpleDateFormat("dd/MM/yyyy").format(mMyservice.timestamp)
+            viewHolder.itemView.txtHora.text = horaService
 
         }
 

@@ -16,7 +16,7 @@
 
     <item android:id="@+id/mensagem"
         app:showAsAction="always"
-        android:icon="@drawable/ic_message"
+        android:icon="@drawable/ic_icon_message_circle"
         android:title="Mensagem"/>
 
 

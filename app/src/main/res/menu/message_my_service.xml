@@ -10,7 +10,7 @@
 
     <item android:id="@+id/mensagem_my_service"
         app:showAsAction="always"
-        android:icon="@drawable/ic_message"
+        android:icon="@drawable/ic_icon_message_circle"
         android:title="Enviar Mensagem"/>
 
 
