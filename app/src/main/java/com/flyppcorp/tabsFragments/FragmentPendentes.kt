@@ -86,7 +86,7 @@ class FragmentPendentes : Fragment() {
                     )} Por ${mMyservice.tipoCobranca}"
             }
 
-            val sdfHora = SimpleDateFormat("hh:mm dd/MM/yyyy").format(mMyservice.timestamp)
+            val sdfHora = SimpleDateFormat("HH:mm dd/MM/yyyy").format(mMyservice.timestamp)
             viewHolder.itemView.txtHora.text = sdfHora
 
 

@@ -6,18 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.flyppcorp.Helper.RedimensionImage
 import com.flyppcorp.firebase_classes.SignInFirebaseAuth
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var mSignInFirebaseAuth: SignInFirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         mSignInFirebaseAuth = SignInFirebaseAuth(this)
+        mAuth = FirebaseAuth.getInstance()
 
 
         setListeners()
@@ -41,7 +44,10 @@ class RegisterActivity : AppCompatActivity() {
         val confirmSenha = editSenhaConfirmCad.text.toString()
 
         if (validateEmail() && validateSenha() && validateConfirmSenha()){
-            mSignInFirebaseAuth.signInFirebaseAuth(email, senha)
+                mSignInFirebaseAuth.signInFirebaseAuth(email, senha)
+
+
+
 
         }
     }

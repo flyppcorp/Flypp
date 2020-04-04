@@ -85,7 +85,9 @@ class ContaFragment : Fragment() {
             }
         }
 
+
         fetchUser()
+
         return view
     }
 

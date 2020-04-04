@@ -1,10 +1,15 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.flyppcorp.atributesClass.DashBoard
+import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -37,6 +42,36 @@ class LoginActivity : AppCompatActivity() {
         esqueceuSenha.setOnClickListener {
             startActivity(Intent(this, ResetPasswordActivity::class.java))
         }
+
+        txtAnonimo.setOnClickListener {
+            handleAnonimo()
+        }
+    }
+
+    private fun handleAnonimo() {
+        val mProgress = ProgressDialog(this)
+        mProgress.setCancelable(false)
+        mProgress.show()
+        mAuth.signInAnonymously()
+            .addOnCompleteListener {
+
+                if (it.isSuccessful){
+                    val intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    val mFirestore = FirebaseFirestore.getInstance()
+                    val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+                    mFirestore.runTransaction {
+                        val content = it.get(tsDoc).toObject(DashBoard::class.java)
+                        content?.anonimo = content!!.anonimo + 1
+
+                        it.set(tsDoc, content)
+                    }
+                }else {
+                    Toast.makeText(this, "Oops! Algo deu errado", Toast.LENGTH_SHORT).show()
+                    mProgress.hide()
+                }
+
+            }
     }
 
     private fun handleLogin() {

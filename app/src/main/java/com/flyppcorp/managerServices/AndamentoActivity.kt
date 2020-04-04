@@ -1,8 +1,12 @@
 package com.flyppcorp.managerServices
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +23,7 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_andamento.*
 
 class AndamentoActivity : AppCompatActivity() {
@@ -48,6 +53,16 @@ class AndamentoActivity : AppCompatActivity() {
             }
 
         }
+
+        floatingActionButton?.setOnClickListener {
+            notificationRun()
+        }
+
+        floatingActionButton?.setOnLongClickListener {
+            Toast.makeText(this, "Avisar que está a caminho", Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener true
+        }
+
         supportActionBar?.title = "Em andamento"
         getEndereco()
         btnText()
@@ -187,6 +202,49 @@ class AndamentoActivity : AppCompatActivity() {
 
     }
 
+
+    private fun notificationRun() {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyservice?.idContratante.toString())
+            .get()
+            .addOnSuccessListener {
+                val user: User? = it.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyservice!!.documentId
+                notification.text =
+                    "Quase lá, ${mMyservice!!.nomeContratado} está a caminho"
+                notification.title = "Boas notícias"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user?.token.toString())
+                    .set(notification).addOnSuccessListener {
+
+                        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice?.documentId.toString())
+                        mFirestore.runTransaction {
+                            val content = it.get(tsDoc).toObject(Myservice::class.java)
+                            if (mMyservice?.caminho == false){
+                                content?.caminho = true
+                            }
+                            it.set(tsDoc, content!!)
+                        }
+
+                        val colorFilter = PorterDuffColorFilter(Color.rgb(22,160,133), PorterDuff.Mode.MULTIPLY)
+                        floatingActionButton?.background?.colorFilter = colorFilter
+                        Alerter.create(this)
+                            .setTitle("Quase lá!")
+                            .setText("Seu cliente já foi avisado que você está a caminho")
+                            .setIcon(R.drawable.ic_run)
+                            .setBackgroundColorRes(R.color.colorPrimaryDark)
+                            .setDuration(5000)
+                            .enableProgress(true)
+                            .setProgressColorRes(R.color.textIcons)
+                            .enableSwipeToDismiss()
+                            .show()
+                    }
+            }
+
+    }
+
     private fun handleCancel() {
         val mAlert = AlertDialog.Builder(this)
         mAlert.setTitle("Você tem certeza disso?")
@@ -238,12 +296,21 @@ class AndamentoActivity : AppCompatActivity() {
             }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun btnText() {
         if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             btnVoltarAndamento.text = "Cancelar"
             btnFinalizarAndamento.visibility = View.GONE
         }else{
             btnVoltarAndamento?.visibility= View.GONE
+        }
+
+        if (mMyservice?.caminho == true){
+            val colorFilter = PorterDuffColorFilter(Color.rgb(22,160,133), PorterDuff.Mode.MULTIPLY)
+            floatingActionButton?.background?.colorFilter = colorFilter
+        }
+        if (mMyservice?.idContratante == mAuth.currentUser?.uid ){
+            floatingActionButton?.visibility = View.GONE
         }
     }
 

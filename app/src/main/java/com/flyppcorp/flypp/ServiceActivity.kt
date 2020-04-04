@@ -66,7 +66,21 @@ class ServiceActivity : AppCompatActivity() {
         getService()
 
         btnContratar.setOnClickListener {
-            handleContract()
+            if (mAuth.currentUser?.isAnonymous == false){
+                handleContract()
+            }else {
+                val alert = AlertDialog.Builder(this)
+                alert.setTitle("Ops!")
+                alert.setMessage("Para contratar um serviço você precisa fazer login ou criar uma conta." +
+                        "\nDeseja fazer isso agora ?")
+                alert.setNegativeButton("Agora não", {dialog, which ->  })
+                alert.setPositiveButton("Sim", {dialog, which ->
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                })
+                alert.show()
+            }
+
         }
         btnComments?.setOnClickListener {
             val mServico = Servicos()
@@ -116,12 +130,12 @@ class ServiceActivity : AppCompatActivity() {
             R.id.fav_action -> {
                 handleFavorite()
                 mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                    .document(mService!!.serviceId!!)
+                    .document(mService?.serviceId.toString())
                     .get()
                     .addOnSuccessListener {
                         mFavorito = it.toObject(Servicos::class.java)
                         mFavorito?.let {
-                            if (!it.favoritos.containsKey(mAuth.currentUser!!.uid)) menuFAv?.setIcon(
+                            if (!it.favoritos.containsKey(mAuth.currentUser?.uid)) menuFAv?.setIcon(
                                 R.drawable.ic_favorite_white
                             )
                             else menuFAv?.setIcon(R.drawable.ic_favorite_border_white)
@@ -132,7 +146,21 @@ class ServiceActivity : AppCompatActivity() {
            R.id.id_send_message -> {
                 val uid = mAuth.currentUser?.uid
                 if (uid != mService?.uid){
-                    handleMessage()
+                    if (mAuth.currentUser?.isAnonymous == false){
+                        handleMessage()
+                    }else {
+                        val alert = AlertDialog.Builder(this)
+                        alert.setTitle("Ops!")
+                        alert.setMessage("Para enviar mensagens você precisa fazer login ou criar uma conta." +
+                                "\nDeseja fazer isso agora ?")
+                        alert.setNegativeButton("Agora não", {dialog, which ->  })
+                        alert.setPositiveButton("Sim", {dialog, which ->
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        alert.show()
+                    }
+
                 }else{
                     val mAlert = AlertDialog.Builder(this)
                     mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")

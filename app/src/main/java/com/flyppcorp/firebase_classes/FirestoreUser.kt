@@ -29,10 +29,10 @@ class FirestoreUser(private val context: Context) {
     fun saveUser(mFirestoreClasses: User) {
         //progress dialog
         //mProgressDialog.show()
-        val uid = mAuth.currentUser!!.uid
+        val uid = mAuth.currentUser?.uid
 
             mDadosUser.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
+                .document(uid.toString())
                 .set(mFirestoreClasses)
                 .addOnSuccessListener {
                     val intent = Intent(context, MainActivity::class.java)

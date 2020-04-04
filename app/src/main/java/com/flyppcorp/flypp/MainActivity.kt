@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -75,14 +75,30 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val application: LifeCyclerApplication = application as LifeCyclerApplication
         getApplication().registerActivityLifecycleCallbacks(application)
 
+
+
         getToken()
         getPermissions()
         updateLocation()
+        goToLogin()
 
 
         //getLocation()
 
 
+    }
+
+    private fun goToLogin() {
+        if (mAuth.currentUser?.isAnonymous == true){
+            btnLogin?.visibility = View.VISIBLE
+            btnLogin?.alpha = 0.8f
+            btnLogin?.setOnClickListener {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+        }
     }
 
 
@@ -230,9 +246,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.addFrag -> {
-                val intent = Intent(this, AddActivity::class.java)
-                startActivity(intent)
-                toolbarMain?.visibility = View.VISIBLE
+                if (mAuth.currentUser?.isAnonymous ==  false){
+                    val intent = Intent(this, AddActivity::class.java)
+                    startActivity(intent)
+                    toolbarMain?.visibility = View.VISIBLE
+
+                }else {
+                    val alert = AlertDialog.Builder(this)
+                    alert.setTitle("Ops! uma ação é necessária")
+                    alert.setMessage("Para adicionar um serviço você precisa fazer login ou criar uma conta" +
+                                     "\nDeseja fazer isso agora ?")
+                    alert.setNegativeButton("Agora não", {dialog, which ->  })
+                    alert.setPositiveButton("Sim", {dialog, which ->
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                    })
+                    alert.show()
+                }
                 return true
             }
             R.id.favFrag -> {

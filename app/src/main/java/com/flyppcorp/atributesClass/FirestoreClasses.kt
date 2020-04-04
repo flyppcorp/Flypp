@@ -119,7 +119,8 @@ data class Myservice(
     var pendente: Boolean = false,
     var andamento: Boolean = false,
     var finalizado: Boolean = false,
-    var dateService: String? = null
+    var dateService: String? = null,
+    var caminho: Boolean = false
 ) : Endereco(), Parcelable
 
 data class DashBoard(
@@ -128,7 +129,8 @@ data class DashBoard(
     var finishService: Long = 0,
     var newServices: Long = 0,
     var totalGasto: Long = 0,
-    var lucroLiquido: Double = 0.0
+    var lucroLiquido: Double = 0.0,
+    var anonimo : Long = 0
 )
 
 data class Comentarios(
