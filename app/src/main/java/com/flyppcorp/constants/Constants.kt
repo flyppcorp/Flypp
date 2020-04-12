@@ -12,6 +12,8 @@ class Constants {
         const val FILTER_KEY = "filter"
         const val CITY_NAME = "city_name"
         const val COMMENTS = "comments"
+        const val NEW_VERSION = "new_version"
+        const val VERSION_CODE = "version_code"
     }
 
     object COLLECTIONS {
@@ -26,7 +28,7 @@ class Constants {
         const val COMMENTS = "comments"
     }
 
-    object FILTERS_VALUES{
+    object FILTERS_VALUES {
         const val MENOR_PRECO = "menor_preco"
         const val MAIOR_PRECO = "maior_preco"
         const val MENOR_RELEVANCIA = "menor_relevancia"
@@ -35,7 +37,7 @@ class Constants {
         const val MAIS_AVALIADO = "mais_avaliado"
     }
 
-    object DASHBOARD_SERVICE{
+    object DASHBOARD_SERVICE {
         const val DASHBOARD_COLLECTION = "dashboard"
         const val DASHBOARD_DOCUMENT = "manager dashboard"
     }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,6 +33,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.util.*
@@ -43,8 +46,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var mConnection: Connection
     private lateinit var client: FusedLocationProviderClient
     private lateinit var mCity: SharedFilter
-    private lateinit var mFirestore : FirebaseFirestore
-    private lateinit var mAuth : FirebaseAuth
+    private lateinit var mFirestore: FirebaseFirestore
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mFirebaseRemoteConfig: FirebaseRemoteConfig
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mCity = SharedFilter(this)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         //acao do bottomNav
 
         mFirestoreContract = FirestoreContract(this)
@@ -81,6 +86,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         getPermissions()
         updateLocation()
         goToLogin()
+        messageLocation()
+        remoteConfigFunc()
 
 
         //getLocation()
@@ -88,8 +95,62 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
+    private fun remoteConfigFunc() {
+        mFirebaseRemoteConfig.fetch(0)
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    mFirebaseRemoteConfig.fetchAndActivate()
+                    handleRemote(mFirebaseRemoteConfig)
+                }
+            }
+    }
+
+    private fun handleRemote(mFirebaseRemoteConfig: FirebaseRemoteConfig) {
+        val showDialog = mFirebaseRemoteConfig.getBoolean(Constants.KEY.NEW_VERSION)
+        val version = mFirebaseRemoteConfig.getString(Constants.KEY.VERSION_CODE)
+
+        val pInfo = this.packageManager.getPackageInfo(packageName, 0)
+        val versionNumber = pInfo.versionCode
+        val dialogView = layoutInflater.inflate(R.layout.dialog, null)
+
+        if (showDialog){
+            if ( versionNumber < version.toInt() ){
+                AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .setPositiveButton("Atualizar", {dialog, which ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.flyppcorp.flypp"))
+                        startActivity(intent)
+                    })
+                    .setNegativeButton("Depois", {dialog, which ->  })
+                    .show()
+
+
+
+
+            }
+        }
+
+    }
+
+    private fun messageLocation() {
+        if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) == "") {
+            Alerter.create(this)
+                .setTitle("Estamos atualizando sua localização.")
+                .setText(
+                    "Para atualizar os profissionais da sua cidade, basta clicar no botão Home. :)"
+                )
+                .setIcon(R.drawable.ic_location)
+                .setBackgroundColorRes(R.color.colorPrimaryDark)
+                .setDuration(7000)
+                .enableProgress(true)
+                .setProgressColorRes(R.color.textIcons)
+                .enableSwipeToDismiss()
+                .show()
+        }
+    }
+
     private fun goToLogin() {
-        if (mAuth.currentUser?.isAnonymous == true){
+        if (mAuth.currentUser?.isAnonymous == true) {
             btnLogin?.visibility = View.VISIBLE
             btnLogin?.alpha = 0.8f
             btnLogin?.setOnClickListener {
@@ -105,7 +166,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onResume() {
         super.onResume()
         getLocation()
-
 
 
     }
@@ -142,7 +202,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun getLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-            && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            && ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val errorCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
             when (errorCode) {
                 ConnectionResult.SERVICE_MISSING, ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, ConnectionResult.SERVICE_DISABLED -> {
@@ -153,36 +217,39 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
             }
 
-                client.lastLocation.addOnSuccessListener {
-                    try {
-                        if (it == null) {
-                            return@addOnSuccessListener
-                        } else {
-                            val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
-                            val adress: List<Address>? =
-                                geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                            if (adress != null) {
-                                if (adress.size > 0) {
-                                    for (adresses: Address in adress) {
-                                        if (adresses.subAdminArea != null){
-                                            mCity.saveFilter(Constants.KEY.CITY_NAME,adresses.subAdminArea)
-                                        }
-
-
+            client.lastLocation.addOnSuccessListener {
+                try {
+                    if (it == null) {
+                        return@addOnSuccessListener
+                    } else {
+                        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                        val adress: List<Address>? =
+                            geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                        if (adress != null) {
+                            if (adress.size > 0) {
+                                for (adresses: Address in adress) {
+                                    if (adresses.subAdminArea != null) {
+                                        mCity.saveFilter(
+                                            Constants.KEY.CITY_NAME,
+                                            adresses.subAdminArea
+                                        )
                                     }
+
+
                                 }
-
-                            } else {
-                                return@addOnSuccessListener
                             }
+
+                        } else {
+                            return@addOnSuccessListener
                         }
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
                     }
-                }
 
-        }else {
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
+        } else {
             return
         }
     }
@@ -246,18 +313,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.addFrag -> {
-                if (mAuth.currentUser?.isAnonymous ==  false){
+                if (mAuth.currentUser?.isAnonymous == false) {
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
                     toolbarMain?.visibility = View.VISIBLE
 
-                }else {
+                } else {
                     val alert = AlertDialog.Builder(this)
                     alert.setTitle("Ops! uma ação é necessária")
-                    alert.setMessage("Para adicionar um serviço você precisa fazer login ou criar uma conta" +
-                                     "\nDeseja fazer isso agora ?")
-                    alert.setNegativeButton("Agora não", {dialog, which ->  })
-                    alert.setPositiveButton("Sim", {dialog, which ->
+                    alert.setMessage(
+                        "Para adicionar um serviço você precisa fazer login ou criar uma conta" +
+                                "\nDeseja fazer isso agora ?"
+                    )
+                    alert.setNegativeButton("Agora não", { dialog, which -> })
+                    alert.setPositiveButton("Sim", { dialog, which ->
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                     })
