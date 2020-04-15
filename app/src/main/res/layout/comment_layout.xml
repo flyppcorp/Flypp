@@ -31,7 +31,7 @@
         android:layout_marginRight="16dp"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="@string/nome_e_sobrenome"
+        android:text="Anônimo"
         android:textColor="@color/primaryText"
         android:textSize="18sp"
         android:textStyle="bold"

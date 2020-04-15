@@ -41,9 +41,9 @@ class CommentActivity : AppCompatActivity() {
         }
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            viewHolder.itemView.txtNomeComment.text = mComments.nomeContratante
+            viewHolder.itemView.txtNomeComment.text = "Anônimo"
             viewHolder.itemView.txtComment.text = mComments.comentario
-            if (mComments.urlContratante != null) Picasso.get().load(mComments.urlContratante).resize(300,300).centerCrop().into(viewHolder.itemView.img_profile_comment)
+            //if (mComments.urlContratante != null) Picasso.get().load(mComments.urlContratante).resize(300,300).centerCrop().into(viewHolder.itemView.img_profile_comment)
 
         }
 

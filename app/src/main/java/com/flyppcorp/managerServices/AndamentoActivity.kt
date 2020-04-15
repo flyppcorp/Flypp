@@ -354,9 +354,9 @@ class AndamentoActivity : AppCompatActivity() {
                     "${it.cidade}, ${it.estado}, ${it.cep}"
             if (it.dateService != null){
                 txtDate.text = it.dateService
-            }else{
-                txtDate.visibility = View.GONE
-                dataText.visibility = View.GONE
+            }
+            if (it.horario != null){
+                txtHorario.text = it.horario
             }
 
         }

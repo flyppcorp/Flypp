@@ -32,7 +32,7 @@ class PendenteActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
-    private var data: String? = null
+    //private var data: String? = null
     private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +52,9 @@ class PendenteActivity : AppCompatActivity() {
             handleAceitarVoltar()
         }
 
-        btnDate.setOnClickListener {
+        /*btnDate.setOnClickListener {
             handleDate()
-        }
+        }*/
 
         supportActionBar?.title = "Pendente "
         getEndereco()
@@ -134,7 +134,7 @@ class PendenteActivity : AppCompatActivity() {
     }
 
 
-    private fun handleDate(): String? {
+    /*private fun handleDate(): String? {
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -173,11 +173,11 @@ class PendenteActivity : AppCompatActivity() {
         )
         dpd.show()
         return data
-    }
+    }*/
 
     private fun handleDateVisibility() {
         if (mAuth.currentUser?.uid == mMyService?.idContratante) {
-            btnDate?.visibility = View.GONE
+            //btnDate?.visibility = View.GONE
             textInputLayout12?.visibility = View.GONE
             textView43?.visibility = View.GONE
         }
@@ -197,7 +197,7 @@ class PendenteActivity : AppCompatActivity() {
                     val content = it.get(tsDoc).toObject(Myservice::class.java)
                     content?.pendente = false
                     content?.andamento = true
-                    content?.dateService = data
+                    //content?.dateService = data
                     content?.observacaoProfissional = editprofissionalobs?.text.toString()
                     notification()
                     it.set(tsDoc, content!!)
@@ -312,7 +312,8 @@ class PendenteActivity : AppCompatActivity() {
                 imgServiceAcct
             )
             txtContratanteAcct.text = mMyService?.nomeContratante
-            txtContratadoAcct.text = mMyService?.nomeContratado
+            txtData.text = mMyService?.dateService
+            txtHorario.text = mMyService?.horario
             txtServicoAcct.text = mMyService?.serviceNome
             txtObservacao.text = mMyService?.observacao
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

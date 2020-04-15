@@ -1,10 +1,13 @@
 package com.flyppcorp.flypp
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TimePicker
 import android.widget.Toast
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
@@ -18,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_confirm_service.*
 import java.util.*
 import com.google.android.gms.ads.*
+import kotlinx.android.synthetic.main.activity_pendente.*
+import java.text.SimpleDateFormat
 
 class ConfirmServiceActivity : AppCompatActivity() {
     //private var mService: Servicos? = null
@@ -28,6 +33,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mMyservice: Myservice
     private var user: User? = null
+    private var data: String? = null
+    private var horario : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_service)
@@ -52,6 +59,13 @@ class ConfirmServiceActivity : AppCompatActivity() {
             finish()
         }
 
+        btnData.setOnClickListener {
+            handleDate()
+        }
+        btnHorario.setOnClickListener {
+            handleHorario()
+        }
+
 
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser!!.uid)
@@ -64,6 +78,20 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
     }
 
+    private fun handleHorario(): String? {
+        val calendar = Calendar.getInstance()
+        val timeSetListener = TimePickerDialog.OnTimeSetListener{ timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
+            horario = SimpleDateFormat("HH:mm").format(calendar.time)
+            btnHorario.text = horario
+
+
+        }
+        TimePickerDialog(this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        return horario
+    }
+
     private fun getToSave() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser?.uid.toString())
@@ -73,6 +101,46 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 handleConfirm()
             }
     }
+    private fun handleDate(): String? {
+
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+                when {
+                    month <= 8 && dayOfMonth < 10 -> {
+                        data = "0$dayOfMonth / 0${month + 1} / $year"
+                        btnData.text = "0$dayOfMonth / 0${month + 1}/ $year"
+
+                    }
+                    month >= 9 && dayOfMonth < 10 -> {
+                        data = "0$dayOfMonth / ${month + 1} / $year"
+                        btnData.text = "0$dayOfMonth / ${month + 1}/ $year"
+                    }
+                    month <= 8 && dayOfMonth > 10 -> {
+                        data = "$dayOfMonth / 0${month + 1} / $year"
+                        btnData.text = "$dayOfMonth / 0${month + 1}/ $year"
+                    }
+                    else -> {
+                        data = "$dayOfMonth / ${month + 1} / $year"
+                        btnData.text = "$dayOfMonth / ${month + 1}/ $year"
+                    }
+                }
+
+
+            },
+            year,
+            month,
+            day
+        )
+        dpd.show()
+        return data
+    }
 
     private fun handleConfirm() {
         mUser?.let {
@@ -81,6 +149,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.id[it.uid.toString()] = true
             mMyservice.id[mServices!!.uid.toString()] = true
             mMyservice.timestamp = System.currentTimeMillis()
+            mMyservice.dateService = data
+            mMyservice.horario = horario
             mMyservice.serviceId = mServices!!.serviceId
             mMyservice.urlService = mServices?.urlService
             mMyservice.serviceNome = mServices?.nomeService

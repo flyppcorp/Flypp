@@ -120,6 +120,7 @@ data class Myservice(
     var andamento: Boolean = false,
     var finalizado: Boolean = false,
     var dateService: String? = null,
+    var horario: String? = null,
     var caminho: Boolean = false
 ) : Endereco(), Parcelable
 

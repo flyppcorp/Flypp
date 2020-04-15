@@ -75,14 +75,14 @@
                 android:id="@+id/textView9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Solicitado por:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView7"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                app:layout_constraintTop_toBottomOf="@+id/txtServicoAcct" />
 
             <TextView
                 android:id="@+id/txtContratanteAcct"
@@ -93,38 +93,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <TextView
-                android:id="@+id/textView13"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Oferecido por:"
-                android:textColor="@color/primaryText"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtContratanteAcct"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtContratanteAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtObservacao" />
-
-            <TextView
-                android:id="@+id/txtContratadoAcct"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView13"
-                app:layout_constraintStart_toStartOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
                 android:id="@+id/textView18"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Serviço solicitado:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtContratadoAcct"
-                app:layout_constraintStart_toStartOf="@+id/txtContratadoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtContratadoAcct" />
+                app:layout_constraintEnd_toEndOf="@+id/textView7"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <TextView
                 android:id="@+id/txtServicoAcct"
@@ -138,14 +117,13 @@
                 android:id="@+id/textView20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Preço:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtServicoAcct"
                 app:layout_constraintStart_toStartOf="@+id/txtServicoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtServicoAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
 
             <TextView
                 android:id="@+id/txtPrecoAcct"
@@ -167,7 +145,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoAcct"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtPrecoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacao" />
 
             <TextView
                 android:id="@+id/txtEnderecoAcct"
@@ -183,14 +161,14 @@
                 android:id="@+id/textView38"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="@string/observa_o"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtPrecoAcct"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtPrecoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtContratanteAcct" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAcct" />
 
             <TextView
                 android:id="@+id/txtObservacao"
@@ -200,24 +178,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView38"
                 app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
-            <Button
-                android:id="@+id/btnDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/button_bg"
-                android:padding="15dp"
-                android:text="Clique para escolher a data do serviço"
-                android:textColor="@color/textIcons"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgServiceAcct" />
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout12"
@@ -226,14 +186,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/observa_o_do_profissional"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDate">
+                app:layout_constraintTop_toBottomOf="@+id/imgServiceAcct">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editprofissionalobs"
@@ -249,7 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Caso você tenha alguma observação, como por exemplo, o horário do serviço, escreva aqui"
+                android:text="Caso você tenha alguma observação, escreva aqui"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -257,6 +216,46 @@
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout12"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout12"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout12" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Data:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtContratanteAcct"
+                app:layout_constraintStart_toStartOf="@+id/txtContratanteAcct"
+                app:layout_constraintTop_toBottomOf="@+id/txtContratanteAcct" />
+
+            <TextView
+                android:id="@+id/txtData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Horário:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtData"
+                app:layout_constraintStart_toStartOf="@+id/txtData"
+                app:layout_constraintTop_toBottomOf="@+id/txtData" />
+
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView54"
+                app:layout_constraintStart_toStartOf="@+id/textView54"
+                app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

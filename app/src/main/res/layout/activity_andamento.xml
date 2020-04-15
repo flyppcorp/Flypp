@@ -139,7 +139,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtContratadoAndamentoAcct"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtContratadoAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+                app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
 
             <TextView
                 android:id="@+id/txtPrecoAndamentoAcct"
@@ -197,7 +197,6 @@
                 android:id="@+id/textView40"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="@string/observa_o"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
@@ -255,6 +254,28 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView45"
                 app:layout_constraintStart_toStartOf="@+id/textView40"
                 app:layout_constraintTop_toBottomOf="@+id/textView45" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Horário:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/txtDate"
+                app:layout_constraintStart_toStartOf="@+id/txtDate"
+                app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+            <TextView
+                android:id="@+id/txtHorario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/textView13"
+                app:layout_constraintStart_toStartOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
