@@ -287,7 +287,7 @@ class SearchFragment : Fragment() {
                     } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
                         val mAlert = AlertDialog.Builder(context!!)
                         mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
-                        mAlert.setPositiveButton("Ok", {dialog, which ->  })
+                        mAlert.setPositiveButton("Ok", { dialog, which -> })
                         mAlert.show()
                     }
                 }
@@ -299,110 +299,7 @@ class SearchFragment : Fragment() {
                 ad.show()
             }
 
-            /* Expand Image ********************************
 
-
-            viewholder.imgServiceMainList.setOnClickListener {
-                frameBg?.visibility = View.VISIBLE
-                txtNomeExpand.text = contentServicesearch[position].nome
-                Picasso.get().load(contentServicesearch[position].urlService).resize(250, 250)
-                    .centerCrop().placeholder(R.drawable.ic_working).into(imgExpand)
-
-                message.setOnClickListener {
-                    val mAuth = FirebaseAuth.getInstance()
-
-                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
-
-                        val mFirestore = FirebaseFirestore.getInstance()
-                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                            .document(contentServicesearch[position].uid.toString())
-                            .get()
-                            .addOnSuccessListener {
-                                val user = it.toObject(User::class.java)
-                                val intent = Intent(context, MessageActivity::class.java)
-                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
-                                startActivity(intent)
-                            }
-                    } else if (mAuth.currentUser?.isAnonymous == true) {
-                        val alert = AlertDialog.Builder(context!!)
-                        alert.setTitle("Ops!")
-                        alert.setMessage(
-                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
-                                    "\nDeseja fazer isso agora ?"
-                        )
-                        alert.setNegativeButton("Agora não", { dialog, which -> })
-                        alert.setPositiveButton("Sim", { dialog, which ->
-                            val intent = Intent(context!!, LoginActivity::class.java)
-                            startActivity(intent)
-                        })
-                        alert.show()
-                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
-                        val mAlert = AlertDialog.Builder(context!!)
-                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
-                        mAlert.setPositiveButton("Ok", { dialog, which -> })
-                        mAlert.show()
-                    }
-
-                }
-                frameBg.setOnClickListener {
-                    frameBg?.visibility = View.GONE
-                }
-            }
-
-
-            viewholder.imgProfileImgMainList.setOnClickListener {
-                frameBg?.visibility = View.VISIBLE
-                txtNomeExpand.text = contentServicesearch[position].nome
-                Picasso.get().load(contentServicesearch[position].urlProfile).resize(250, 250)
-                    .centerCrop().placeholder(R.drawable.ic_working).into(imgExpand)
-
-                message.setOnClickListener {
-
-                    val mAuth = FirebaseAuth.getInstance()
-
-                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
-                        val mFirestore = FirebaseFirestore.getInstance()
-                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                            .document(contentServicesearch[position].uid.toString())
-                            .get()
-                            .addOnSuccessListener {
-                                val user = it.toObject(User::class.java)
-                                val intent = Intent(context, MessageActivity::class.java)
-                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
-                                startActivity(intent)
-                            }
-                    } else if (mAuth.currentUser?.isAnonymous == true) {
-                        val alert = AlertDialog.Builder(context!!)
-                        alert.setTitle("Ops!")
-                        alert.setMessage(
-                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
-                                    "\nDeseja fazer isso agora ?"
-                        )
-                        alert.setNegativeButton("Agora não", { dialog, which -> })
-                        alert.setPositiveButton("Sim", { dialog, which ->
-                            val intent = Intent(context!!, LoginActivity::class.java)
-                            startActivity(intent)
-                        })
-                        alert.show()
-                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
-                        val mAlert = AlertDialog.Builder(context!!)
-                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
-                        mAlert.setPositiveButton("Ok", {dialog, which ->  })
-                        mAlert.show()
-                    }
-
-                }
-                frameBg.setOnClickListener {
-                    frameBg?.visibility = View.GONE
-                }
-            }
-
-
-            exit?.setOnClickListener {
-                frameBg?.visibility = View.GONE
-            }
-
-           */ //********************** Expand Image ********************************//
         }
 
 
