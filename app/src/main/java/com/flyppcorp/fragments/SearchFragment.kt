@@ -157,7 +157,7 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService).resize(100, 100)
+                Picasso.get().load(contentServicesearch[position].urlService).resize(300, 300)
                     .centerCrop().placeholder(R.drawable.photo_work)
                     .into(viewholder.imgServiceMainList)
             }

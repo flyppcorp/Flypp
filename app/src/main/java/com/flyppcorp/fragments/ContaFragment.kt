@@ -101,7 +101,7 @@ class ContaFragment : Fragment() {
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
             viewHolder.itemView.txtMyName.text = mUser.nome
-            Picasso.get().load(mUser.url).resize(200, 200).centerCrop()
+            Picasso.get().load(mUser.url).resize(300, 300).centerCrop()
                 .placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewHolder.itemView.photoPerfil)
             viewHolder.itemView.photoPerfil.setOnClickListener {
