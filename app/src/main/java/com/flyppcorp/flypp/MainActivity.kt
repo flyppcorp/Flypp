@@ -36,6 +36,8 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog.view.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.io.IOException
 import java.util.*
 
@@ -94,6 +96,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
     }
+
 
     private fun remoteConfigFunc() {
         mFirebaseRemoteConfig.fetch(0)

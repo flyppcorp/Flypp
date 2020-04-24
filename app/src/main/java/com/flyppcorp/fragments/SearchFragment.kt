@@ -1,25 +1,31 @@
 package com.flyppcorp.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.R
-import com.flyppcorp.flypp.ServiceActivity
+import com.flyppcorp.flypp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.dialog_fr.*
+import kotlinx.android.synthetic.main.dialog_fr.view.*
+import kotlinx.android.synthetic.main.dialog_fr.view.imgExpand
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.service_items_all.view.*
@@ -56,8 +62,9 @@ class SearchFragment : Fragment() {
             if (!editSearch.text.toString().isEmpty()) {
                 if (mConnection.validateConection()) {
                     get()
-                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view.windowToken,0)
+                    val imm =
+                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
 
                 }
 
@@ -65,16 +72,17 @@ class SearchFragment : Fragment() {
 
         }
         view.editSearch.setOnEditorActionListener { v, actionId, event ->
-           if (actionId == EditorInfo.IME_ACTION_SEARCH){
-               if (!editSearch.text.toString().isEmpty()) {
-                   if (mConnection.validateConection()) {
-                       get()
-                       val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                       imm.hideSoftInputFromWindow(view.windowToken,0)
-                   }
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (!editSearch.text.toString().isEmpty()) {
+                    if (mConnection.validateConection()) {
+                        get()
+                        val imm =
+                            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(view.windowToken, 0)
+                    }
 
-               }
-           }
+                }
+            }
             true
         }
         view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
@@ -86,8 +94,6 @@ class SearchFragment : Fragment() {
 
         return view
     }
-
-
 
 
     //função que busca os resultados no banco de dados
@@ -172,13 +178,13 @@ class SearchFragment : Fragment() {
                 "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
 
-            if (contentServicesearch[position].preco.toString().substringAfter(".").length == 1){
+            if (contentServicesearch[position].preco.toString().substringAfter(".").length == 1) {
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicesearch[position].preco.toString().replace(
                         ".",
                         ","
                     )}${"0"} Por ${contentServicesearch[position].tipoCobranca}"
-            }else{
+            } else {
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicesearch[position].preco.toString().replace(
                         ".",
@@ -194,7 +200,211 @@ class SearchFragment : Fragment() {
             } else {
                 viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite_border)
             }
+
+            viewholder.imgServiceMainList.setOnClickListener {
+                val viewD = layoutInflater.inflate(R.layout.dialog_fr, null)
+                val alert = AlertDialog.Builder(context!!)
+                viewD.txtNomeExpand.text = contentServicesearch[position].nome
+                Picasso.get().load(contentServicesearch[position].urlService).fit()
+                    .centerCrop().placeholder(R.drawable.ic_working).into(viewD.imgExpand)
+                viewD.message.setOnClickListener {
+                    val mAuth = FirebaseAuth.getInstance()
+
+                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
+
+                        val mFirestore = FirebaseFirestore.getInstance()
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(contentServicesearch[position].uid.toString())
+                            .get()
+                            .addOnSuccessListener {
+                                val user = it.toObject(User::class.java)
+                                val intent = Intent(context, MessageActivity::class.java)
+                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                                startActivity(intent)
+                            }
+                    } else if (mAuth.currentUser?.isAnonymous == true) {
+                        val alert = AlertDialog.Builder(context!!)
+                        alert.setTitle("Ops!")
+                        alert.setMessage(
+                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
+                                    "\nDeseja fazer isso agora ?"
+                        )
+                        alert.setNegativeButton("Agora não", { dialog, which -> })
+                        alert.setPositiveButton("Sim", { dialog, which ->
+                            val intent = Intent(context!!, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        alert.show()
+                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
+                        val mAlert = AlertDialog.Builder(context!!)
+                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
+                        mAlert.setPositiveButton("Ok", { dialog, which -> })
+                        mAlert.show()
+                    }
+
+                }
+                alert.setView(viewD)
+                val ad = alert.create()
+                //ad.window?.setLayout(100, 100)
+                ad.show()
+            }
+
+            viewholder.imgProfileImgMainList.setOnClickListener {
+                val viewD = layoutInflater.inflate(R.layout.dialog_fr, null)
+                val alert = AlertDialog.Builder(context!!)
+                viewD.txtNomeExpand.text = contentServicesearch[position].nome
+                Picasso.get().load(contentServicesearch[position].urlProfile).fit()
+                    .centerCrop().placeholder(R.drawable.ic_working).into(viewD.imgExpand)
+
+
+                viewD.message.setOnClickListener {
+                    val mAuth = FirebaseAuth.getInstance()
+
+                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
+                        val mFirestore = FirebaseFirestore.getInstance()
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(contentServicesearch[position].uid.toString())
+                            .get()
+                            .addOnSuccessListener {
+                                val user = it.toObject(User::class.java)
+                                val intent = Intent(context, MessageActivity::class.java)
+                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                                startActivity(intent)
+                            }
+                    } else if (mAuth.currentUser?.isAnonymous == true) {
+                        val alert = AlertDialog.Builder(context!!)
+                        alert.setTitle("Ops!")
+                        alert.setMessage(
+                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
+                                    "\nDeseja fazer isso agora ?"
+                        )
+                        alert.setNegativeButton("Agora não", { dialog, which -> })
+                        alert.setPositiveButton("Sim", { dialog, which ->
+                            val intent = Intent(context!!, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        alert.show()
+                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
+                        val mAlert = AlertDialog.Builder(context!!)
+                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
+                        mAlert.setPositiveButton("Ok", {dialog, which ->  })
+                        mAlert.show()
+                    }
+                }
+
+
+                alert.setView(viewD)
+                val ad = alert.create()
+                //ad.window?.setLayout(250, 310)
+                ad.show()
+            }
+
+            /* Expand Image ********************************
+
+
+            viewholder.imgServiceMainList.setOnClickListener {
+                frameBg?.visibility = View.VISIBLE
+                txtNomeExpand.text = contentServicesearch[position].nome
+                Picasso.get().load(contentServicesearch[position].urlService).resize(250, 250)
+                    .centerCrop().placeholder(R.drawable.ic_working).into(imgExpand)
+
+                message.setOnClickListener {
+                    val mAuth = FirebaseAuth.getInstance()
+
+                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
+
+                        val mFirestore = FirebaseFirestore.getInstance()
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(contentServicesearch[position].uid.toString())
+                            .get()
+                            .addOnSuccessListener {
+                                val user = it.toObject(User::class.java)
+                                val intent = Intent(context, MessageActivity::class.java)
+                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                                startActivity(intent)
+                            }
+                    } else if (mAuth.currentUser?.isAnonymous == true) {
+                        val alert = AlertDialog.Builder(context!!)
+                        alert.setTitle("Ops!")
+                        alert.setMessage(
+                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
+                                    "\nDeseja fazer isso agora ?"
+                        )
+                        alert.setNegativeButton("Agora não", { dialog, which -> })
+                        alert.setPositiveButton("Sim", { dialog, which ->
+                            val intent = Intent(context!!, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        alert.show()
+                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
+                        val mAlert = AlertDialog.Builder(context!!)
+                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
+                        mAlert.setPositiveButton("Ok", { dialog, which -> })
+                        mAlert.show()
+                    }
+
+                }
+                frameBg.setOnClickListener {
+                    frameBg?.visibility = View.GONE
+                }
+            }
+
+
+            viewholder.imgProfileImgMainList.setOnClickListener {
+                frameBg?.visibility = View.VISIBLE
+                txtNomeExpand.text = contentServicesearch[position].nome
+                Picasso.get().load(contentServicesearch[position].urlProfile).resize(250, 250)
+                    .centerCrop().placeholder(R.drawable.ic_working).into(imgExpand)
+
+                message.setOnClickListener {
+
+                    val mAuth = FirebaseAuth.getInstance()
+
+                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
+                        val mFirestore = FirebaseFirestore.getInstance()
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(contentServicesearch[position].uid.toString())
+                            .get()
+                            .addOnSuccessListener {
+                                val user = it.toObject(User::class.java)
+                                val intent = Intent(context, MessageActivity::class.java)
+                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
+                                startActivity(intent)
+                            }
+                    } else if (mAuth.currentUser?.isAnonymous == true) {
+                        val alert = AlertDialog.Builder(context!!)
+                        alert.setTitle("Ops!")
+                        alert.setMessage(
+                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
+                                    "\nDeseja fazer isso agora ?"
+                        )
+                        alert.setNegativeButton("Agora não", { dialog, which -> })
+                        alert.setPositiveButton("Sim", { dialog, which ->
+                            val intent = Intent(context!!, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        alert.show()
+                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
+                        val mAlert = AlertDialog.Builder(context!!)
+                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
+                        mAlert.setPositiveButton("Ok", {dialog, which ->  })
+                        mAlert.show()
+                    }
+
+                }
+                frameBg.setOnClickListener {
+                    frameBg?.visibility = View.GONE
+                }
+            }
+
+
+            exit?.setOnClickListener {
+                frameBg?.visibility = View.GONE
+            }
+
+           */ //********************** Expand Image ********************************//
         }
+
 
         //função que salva o id do user como favorito
         private fun favoriteEvent(position: Int) {
