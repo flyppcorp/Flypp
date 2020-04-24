@@ -249,7 +249,7 @@ class SearchFragment : Fragment() {
                 ad.show()
             }
 
-            viewholder.imgProfileImgMainList.setOnClickListener {
+            /*viewholder.imgProfileImgMainList.setOnClickListener {
                 val viewD = layoutInflater.inflate(R.layout.dialog_fr, null)
                 val alert = AlertDialog.Builder(context!!)
                 viewD.txtNomeExpand.text = contentServicesearch[position].nome
@@ -297,7 +297,7 @@ class SearchFragment : Fragment() {
                 val ad = alert.create()
                 //ad.window?.setLayout(250, 310)
                 ad.show()
-            }
+            }*/
 
 
         }

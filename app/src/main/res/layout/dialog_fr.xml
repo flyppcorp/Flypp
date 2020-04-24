@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <TextView
+        android:id="@+id/txtNomeExpand"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@color/colorPrimary"
+        android:ellipsize="marquee"
+        android:gravity="clip_vertical|center_vertical"
+        android:maxWidth="250dp"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgExpand"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/txtNomeExpand"
+        app:layout_constraintStart_toStartOf="@+id/txtNomeExpand"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomeExpand" />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/imgExpand"
+        app:layout_constraintStart_toStartOf="@+id/imgExpand"
+        app:layout_constraintTop_toBottomOf="@+id/imgExpand">
+
+        <ImageView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/ic_icon_message_circle" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
