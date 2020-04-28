@@ -22,7 +22,7 @@ fun menuOptions()= mutableListOf(
         nomeOption = "Ajuda"
     },
     profile  {
-        logo = R.drawable.ic_share
+        logo = R.drawable.ic_share2
         nomeOption = "Convidar amigos"
     }
 )
