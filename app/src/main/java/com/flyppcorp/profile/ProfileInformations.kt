@@ -2,6 +2,7 @@ package com.flyppcorp.profile
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -85,6 +86,16 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_conteiner, profileFragment).commit()
                 return true
+            }
+
+            R.id.termos_uso -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://flyppbrasil.epizy.com/termosdeuso.html"))
+                startActivity(intent)
+            }
+
+            R.id.privacidade -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://flyppbrasil.epizy.com/termosdeuso.html#politica_privacidade"))
+                startActivity(intent)
             }
 
             R.id.sair -> {

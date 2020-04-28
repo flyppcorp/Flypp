@@ -6,9 +6,16 @@
             android:title="Meu Perfil"
             android:icon="@drawable/ic_person_profile"/>
 
-        <!--<item android:id="@+id/conta_bancaria"
-            android:title="Dados bancários"
-            android:icon="@drawable/ic_attach_money"/>-->
+        <item android:id="@+id/termos_uso"
+            android:title="Termos de Uso"
+            android:icon="@drawable/ic_politica"/>
+
+
+        <item android:id="@+id/privacidade"
+            android:title="Política de Privacidade"
+            android:icon="@drawable/ic_politica"/>
+
+
 
         <item android:id="@+id/sair"
             android:title="Sair"
