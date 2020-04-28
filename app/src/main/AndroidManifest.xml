@@ -20,19 +20,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CommentActivity"
+        <activity android:name="com.flyppcorp.Helper.LoadLink">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="flyppbrasil.page.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CommentActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.fragments.AddActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppThemeToolbar"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"
-                />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SplashActivity"
@@ -48,25 +60,25 @@
         <activity
             android:name="com.flyppcorp.profile.ProfileInformations"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/appThemeProfile" />
+            android:theme="@style/appThemeProfile"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".LastMessages"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-
             <intent-filter>
-                <action android:name="LastMessages"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="LastMessages" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MessageActivity"
             android:label="User"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppThemeToolbar"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -74,26 +86,26 @@
         <activity
             android:name="com.flyppcorp.managerServices.FilterActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.EditServiceActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ManagerEditServiceActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.AvaliationActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.FinalizadoActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/AppThemeToolbar">
+            android:theme="@style/AppThemeToolbar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerServicesActivity" />
@@ -101,8 +113,8 @@
         <activity
             android:name="com.flyppcorp.managerServices.AndamentoActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/AppThemeToolbar">
+            android:theme="@style/AppThemeToolbar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerServicesActivity" />
@@ -110,73 +122,73 @@
         <activity
             android:name="com.flyppcorp.managerServices.PendenteActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppThemeToolbar"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerServicesActivity" />
         </activity>
         <activity
             android:name=".ManagerServicesActivity"
-            tools:ignore="LockedOrientationActivity"
-            android:screenOrientation="portrait" >
-
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
-                <action android:name="ManagerServicesActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
+                <action android:name="ManagerServicesActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ConfirmServiceActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ServiceActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/AppThemeToolbar">
+            android:theme="@style/AppThemeToolbar"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
+
         </activity>
         <activity
             android:name=".CreateProfileActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ResetPasswordActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ConfirmationActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".RegisterActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -188,9 +200,9 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
-                   android:resource="@drawable/ic_notification_logo"/>
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification_logo" />
     </application>
 
 </manifest>
