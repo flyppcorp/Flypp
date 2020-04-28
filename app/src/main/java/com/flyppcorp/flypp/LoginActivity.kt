@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
                         it.set(tsDoc, content)
                     }
+                    finish()
                 }else {
                     Toast.makeText(this, "Oops! Algo deu errado", Toast.LENGTH_SHORT).show()
                     mProgress.hide()

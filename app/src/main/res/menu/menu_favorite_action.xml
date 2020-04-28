@@ -7,15 +7,17 @@
     app:showAsAction="always"/>
 
     <item
+        android:id="@+id/share"
+        android:title="Compartilhar"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/id_send_message"
         android:title="Mensagem"
         android:icon="@drawable/ic_icon_message_circle"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/share"
-        android:title="Compartilhar"
-        android:icon="@drawable/ic_share"
-        app:showAsAction="always"/>
+
 
 </menu>

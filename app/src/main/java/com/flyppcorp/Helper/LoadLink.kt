@@ -1,5 +1,6 @@
 package com.flyppcorp.Helper
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +9,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.LoginActivity
+import com.flyppcorp.flypp.MainActivity
 import com.flyppcorp.flypp.R
 import com.flyppcorp.flypp.ServiceActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +39,6 @@ class LoadLink : AppCompatActivity() {
                 var deepLink: Uri? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
-                    progressBarLoad?.visibility = View.GONE
                     if (mAuth.currentUser?.uid != null) {
                         mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                             .document(deepLink.toString().substringAfter("&utm_source="))
@@ -45,30 +47,38 @@ class LoadLink : AppCompatActivity() {
                                 val service = it.toObject(Servicos::class.java)
                                 val intent = Intent(this, ServiceActivity::class.java)
                                 intent.putExtra(Constants.KEY.SERVICE_KEY, service)
+                                progressBarLoad?.visibility = View.GONE
                                 startActivity(intent)
                                 finish()
                             }
 
                     } else {
-                        val alert = AlertDialog.Builder(this)
-                        alert.setTitle("Ops! Você não está logado")
-                            .setCancelable(false)
-                            .setMessage("Você precisa fazer o login ou criar uma conta para prosseguir.")
-                            .setPositiveButton("Fazer Login", { dialog, which ->
-                                startActivity(Intent(this, LoginActivity::class.java))
-                                finish()
-                            })
-                        alert.show()
+                        handleAnonimo(deepLink.toString().substringAfter("&utm_source="))
                     }
                 }
 
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-                // ...
-
-                // ...
             }
             .addOnFailureListener(this) { e -> Log.w("TAG", "getDynamicLink:onFailure", e) }
+    }
+    private fun handleAnonimo(serviceId : String) {
+        mAuth.signInAnonymously()
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                        .document(serviceId)
+                        .get()
+                        .addOnSuccessListener {
+                            val service = it.toObject(Servicos::class.java)
+                            val intent = Intent(this, ServiceActivity::class.java)
+                            intent.putExtra(Constants.KEY.SERVICE_KEY, service)
+                            progressBarLoad?.visibility = View.GONE
+                            startActivity(intent)
+                            finish()
+                        }
+                }else {
+                    Toast.makeText(this, "Oops! Algo deu errado", Toast.LENGTH_SHORT).show()
+                }
+
+            }
     }
 }
