@@ -183,8 +183,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
                     val notification = Notification()
                     notification.serviceId = documentId
                     notification.text =
-                        "${mMyservice.nomeContratante} está solicitando um serviço (${mMyservice!!.serviceNome})"
-                    notification.title = "Novo serviço solicitado"
+                        "${mMyservice.nomeContratante} está solicitando um pedido (${mMyservice.serviceNome})"
+                    notification.title = "Novo pedido"
 
                     mFirestoreContract.confirmServiceContract(
                         mMyservice, documentId, user?.token.toString(), notification

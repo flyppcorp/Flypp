@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.managerServices.FinalizadoActivity
@@ -25,6 +27,7 @@ import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_fragment_finalizado.view.*
 import kotlinx.android.synthetic.main.manager_service_items.view.*
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -32,87 +35,109 @@ import java.text.SimpleDateFormat
 class FragmentFinalizado : Fragment() {
 
     private lateinit var mFirestore: FirebaseFirestore
-    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var mAdapter: FinalizadoRecyclerView
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var servicos: ArrayList<Myservice>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mFirestore = FirebaseFirestore.getInstance()
-        mAdapter = GroupAdapter()
+        servicos = arrayListOf()
+        mAdapter = FinalizadoRecyclerView()
         mAuth = FirebaseAuth.getInstance()
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_fragment_finalizado, container, false)
         view.recyclerFinalizado.adapter = mAdapter
-        mAdapter.setOnItemClickListener { item, view ->
+        view.recyclerFinalizado.layoutManager = LinearLayoutManager(activity)
+        mAdapter.onItemClicked = {
             val intent = Intent(context, FinalizadoActivity::class.java)
-            val userItem : ItemFinalizado = item as ItemFinalizado
-            intent.putExtra(Constants.KEY.SERVICE_STATUS, userItem.mMyservice)
+            intent.putExtra(Constants.KEY.SERVICE_STATUS, servicos[it])
             startActivity(intent)
         }
+
         fetchFinalizado()
 
         return view
 
 
     }
-    private inner class ItemFinalizado(val mMyservice: Myservice): Item<GroupieViewHolder>(){
-        override fun getLayout(): Int {
-            return R.layout.manager_service_items
+
+    private inner class FinalizadoRecyclerView: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            var view =
+                LayoutInflater.from(parent.context).inflate(R.layout.manager_service_items, parent, false)
+            return CustomViewHolderFinalizado(view)
         }
 
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            viewHolder.itemView.txtNomeServiceManager.text = mMyservice.serviceNome
-            if (mMyservice.urlService != null) Picasso.get().load(mMyservice.urlService).resize(100,100).centerCrop().placeholder(R.drawable.photo_work).into(
-                viewHolder.itemView.imgServiceManager
-            )
-            if (mMyservice.urlContratado != null) Picasso.get().load(mMyservice.urlContratado).resize(100,100).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
-                viewHolder.itemView.imgProfileImgManager
-            )
-            viewHolder.itemView.txtNomeContratado.text = mMyservice.nomeContratado
-            viewHolder.itemView.txtNomeContratante.text = mMyservice.nomeContratante
+        inner class CustomViewHolderFinalizado(view: View) : RecyclerView.ViewHolder(view) {
 
+        }
 
-            if (mMyservice.preco.toString().substringAfter(".").length == 1){
-                viewHolder.itemView.txtPrecoManager.text =
-                    "R$ ${mMyservice.preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"} Por ${mMyservice.tipoCobranca}"
-            }else{
-                viewHolder.itemView.txtPrecoManager.text =
-                    "R$ ${mMyservice.preco.toString().replace(
-                        ".",
-                        ","
-                    )} Por ${mMyservice.tipoCobranca}"
+        override fun getItemCount(): Int {
+            return  servicos.size
+        }
+
+        var onItemClicked: ((Int) -> Unit)? = null
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            holder.itemView.setOnClickListener {
+                onItemClicked?.invoke(position)
             }
 
-            val horaService = SimpleDateFormat("dd/MM/yyyy").format(mMyservice.timestamp)
-            viewHolder.itemView.txtHora.text = horaService
+            var viewholder = (holder as CustomViewHolderFinalizado).itemView
+            viewholder.txtNomeServiceManager.text =servicos[position].serviceNome
+            if (servicos[position].urlService != null) Picasso.get().load(servicos[position].urlService).resize(200,200).centerCrop().placeholder(R.drawable.photo_work).into(
+                viewholder.imgServiceManager
+            )
+            if (servicos[position].urlContratado != null) Picasso.get().load(servicos[position].urlContratado).resize(100,100).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
+                viewholder.imgProfileImgManager
+            )
+            viewholder.txtNomeContratado.text =servicos[position].nomeContratado
+            viewholder.txtNomeContratante.text = servicos[position].nomeContratante
 
+
+            if (servicos[position].preco.toString().substringAfter(".").length == 1){
+                viewholder.txtPrecoManager.text =
+                    "R$ ${servicos[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"} Por ${servicos[position].tipoCobranca}"
+            }else{
+                viewholder.txtPrecoManager.text =
+                    "R$ ${servicos[position].preco.toString().replace(
+                        ".",
+                        ","
+                    )} Por ${servicos[position].tipoCobranca}"
+            }
+
+            val horaService = SimpleDateFormat("dd/MM/yyyy").format(servicos[position].timestamp)
+            viewholder.txtHora.text = horaService
         }
 
 
     }
 
 
-
     private fun fetchFinalizado() {
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .whereEqualTo("id.${mAuth.currentUser?.uid}", true)
             .addSnapshotListener { snapshot, exception ->
-                mAdapter.clear()
+                servicos.clear()
                 exception?.let {
                     Log.i("EXCEPTION", it.toString())
                 }
                 snapshot?.let {
                     for (doc in snapshot) {
                         val item = doc.toObject(Myservice::class.java)
-                        if (item.id.containsKey(mAuth.currentUser?.uid) && item.finalizado){
-                            mAdapter.add(ItemFinalizado(item))
+                        if (item.finalizado){
+                            servicos.add(item)
                         }
 
                     }
+                    servicos.sortWith(kotlin.Comparator { o1, o2 ->
+                        if (o1.timestamp > o2.timestamp) -1 else if (o1.timestamp < o2.timestamp) 1 else 0
+                    })
                     mAdapter.notifyDataSetChanged()
                 }
             }

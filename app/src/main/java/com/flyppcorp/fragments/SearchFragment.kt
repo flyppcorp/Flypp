@@ -101,6 +101,8 @@ class SearchFragment : Fragment() {
 
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             //.whereEqualTo("tags.${search}", true)
+            .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+            .whereEqualTo("visible", true)
             .addSnapshotListener { snapshot, exception ->
 
                 contentServicesearch.clear()
@@ -110,15 +112,14 @@ class SearchFragment : Fragment() {
                     val item = doc.toObject(Servicos::class.java)
                     val prefix = editSearch?.text.toString().toLowerCase()
 
-                    if ((item?.nacional == true || item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME)) && item.visible) {
-                        for (key in item.tags) {
+                        for (key in item!!.tags) {
                             if (key.toString().contains(prefix)) {
                                 contentServicesearch.add(item)
                                 contentUidList.add(doc.id)
                                 break
                             }
 
-                        }
+
 
                     }
 

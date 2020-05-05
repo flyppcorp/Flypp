@@ -67,15 +67,19 @@
     </string-array>
 
     <string-array name="resposta">
+        <item>1 minuto</item>
+        <item>2 minutos</item>
+        <item>3 minutos</item>
         <item>5 minutos</item>
         <item>15 minutos</item>
         <item>30 minutos</item>
+        <item>Alguns minutos</item>
         <item>1 hora</item>
         <item>2 horas</item>
-        <item>algumas horas</item>
+        <item>Algumas horas</item>
         <item>1 dia</item>
         <item>2 dias</item>
-        <item>alguns dias</item>
+        <item>Alguns dias</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -90,7 +94,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/área ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro.</string>
+    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/região ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro (Clique no botão Home para atualizar).</string>
     <string name="observa_o_do_profissional">Observação do profissional</string>
     <string name="geralmente_responde_em">Geralmente responde em :</string>
     <string name="palavras_chave">Palavras-chave</string>

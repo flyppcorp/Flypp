@@ -205,9 +205,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/qualidades_diferenciais"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+                app:layout_constraintEnd_toEndOf="@+id/spinnerDuracaoService"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout13"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editQualidadesDiferenciais"
@@ -405,7 +405,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textView46"
                 app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textView51"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -442,7 +442,7 @@
                     android:layout_weight="1"
                     android:text="@string/nacional" />
 
-            </RadioGroup>
+            </RadioGroup>-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

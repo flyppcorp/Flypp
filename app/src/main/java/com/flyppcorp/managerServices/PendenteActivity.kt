@@ -201,9 +201,11 @@ class PendenteActivity : AppCompatActivity() {
                     content?.observacaoProfissional = editprofissionalobs?.text.toString()
                     notification()
                     it.set(tsDoc, content!!)
+                }.addOnSuccessListener {
+                    mProgress.hide()
+                    finish()
                 }
-                mProgress.hide()
-                finish()
+
             }
         }
     }
@@ -218,8 +220,8 @@ class PendenteActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyService?.serviceId
                 notification.text =
-                    "${mMyService?.nomeContratado} aceitou sua solicitação de trabalho (${mMyService?.serviceNome})"
-                notification.title = "Nova atualização de serviço"
+                    "${mMyService?.nomeContratado} aceitou seu pedido (${mMyService?.serviceNome})"
+                notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
                     .document(user?.token.toString())
@@ -247,9 +249,9 @@ class PendenteActivity : AppCompatActivity() {
                         )
                     } else {
                         notificationDesistence(
-                            mMyService!!.idContratante!!,
+                            mMyService?.idContratante.toString(),
                             "rejeitou",
-                            mMyService!!.nomeContratado!!
+                            mMyService?.nomeContratado.toString()
                         )
                     }
                     mProgress.hide()
@@ -274,8 +276,8 @@ class PendenteActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyService?.serviceId
                 notification.text =
-                    "$nome $status sua solicitação de trabalho (${mMyService!!.serviceNome})"
-                notification.title = "Nova atualização de serviço"
+                    "$nome $status sua solicitação de pedido (${mMyService!!.serviceNome})"
+                notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
                     .document(user?.token.toString())

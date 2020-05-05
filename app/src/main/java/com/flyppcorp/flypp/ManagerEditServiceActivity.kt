@@ -2,8 +2,10 @@ package com.flyppcorp.flypp
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,11 +20,15 @@ import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.managerServices.EditServiceActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_manager_edit_service.*
 import kotlinx.android.synthetic.main.activity_manager_edit_service.txtQualityView
 import kotlinx.android.synthetic.main.activity_service.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ManagerEditServiceActivity : AppCompatActivity() {
 
@@ -31,32 +37,32 @@ class ManagerEditServiceActivity : AppCompatActivity() {
     private var url: String? = null
     private var url2: String? = null
     private var menuPause: MenuItem? = null
-    private lateinit var mUrl : ArrayList<String>
+    private lateinit var mUrl: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_edit_service)
         mServicos = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
-        if (mServicos?.urlService != null && mServicos?.urlService2 != null){
+        if (mServicos?.urlService != null && mServicos?.urlService2 != null) {
             mUrl = arrayListOf(
                 mServicos?.urlService.toString(),
                 mServicos?.urlService2.toString()
             )
-        }else if (mServicos?.urlService != null && mServicos?.urlService2 == null){
+        } else if (mServicos?.urlService != null && mServicos?.urlService2 == null) {
             mUrl = arrayListOf(
                 mServicos?.urlService.toString()
 
             )
-        }else if (mServicos?.urlService == null && mServicos?.urlService2 != null){
+        } else if (mServicos?.urlService == null && mServicos?.urlService2 != null) {
             mUrl = arrayListOf(
                 mServicos?.urlService2.toString()
             )
-        }else if (mServicos?.urlService == null && mServicos?.urlService2 == null){
+        } else if (mServicos?.urlService == null && mServicos?.urlService2 == null) {
             mUrl = arrayListOf(
 
             )
         }
 
-        val adapter  = PagerAdapterImage (this, mUrl)
+        val adapter = PagerAdapterImage(this, mUrl)
         imgServiceManagerView2.adapter = adapter
         mFirestore = FirebaseFirestore.getInstance()
         url = mServicos?.urlService
@@ -101,9 +107,9 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         val serviceItem = doc.toObject(Servicos::class.java)
                         txtQtdServicesView.text =
                             "${serviceItem.totalServicos} concluídos"
-                        if (serviceItem.comments > 0){
+                        if (serviceItem.comments > 0) {
                             txtManagerComments?.text = "${serviceItem.comments} comentários"
-                        }else {
+                        } else {
                             txtManagerComments?.visibility = View.GONE
                         }
                         txtTituloServicesView.text = serviceItem.nomeService
@@ -120,13 +126,13 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         }
 
 
-                        if (serviceItem.preco.toString().substringAfter(".").length == 1){
+                        if (serviceItem.preco.toString().substringAfter(".").length == 1) {
                             txtPrecoView.text =
                                 "R$ ${serviceItem.preco.toString().replace(
                                     ".",
                                     ","
                                 )}${"0"} Por ${serviceItem.tipoCobranca}"
-                        }else{
+                        } else {
                             txtPrecoView.text =
                                 "R$ ${serviceItem.preco.toString().replace(
                                     ".",
@@ -182,6 +188,50 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                     }
             }
 
+            R.id.shareManager -> {
+                val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                    .setLink(Uri.parse("https://play.google.com/store/apps/details?id=com.flyppcorp.flypp"))
+                    .setDomainUriPrefix("https://flyppbrasil.page.link")
+                    // Open links with this app on Android
+                    .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
+                    // Open links with com.example.ios on iOS
+                    .setIosParameters(DynamicLink.IosParameters.Builder("com.example.ios").build())
+                    .buildDynamicLink()
+
+                val dynamicLinkUri = dynamicLink.uri
+                Log.i("LINK", dynamicLinkUri.toString())
+
+                val rand = Random().nextInt(100) + 100
+                val link = "https://flyppbrasil.page.link?" +
+                        "apn=com.flyppcorp.flypp" +
+                        "&ibi=com.example.ios" +
+                        "&link=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.flyppcorp.flypp" +
+                        "&st=${mServicos?.nomeService}" +
+                        "&sd=${mServicos?.shortDesc}" +
+                        "&utm_source=${mServicos?.serviceId}"
+
+                val shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                    .setLink(Uri.parse(link))
+                    .setDomainUriPrefix("https://flyppbrasil.page.link")
+                    .buildShortDynamicLink()
+                    .addOnSuccessListener { result ->
+                        // Short link created
+                        val shortLink = result.shortLink
+                        val flowchartLink = result.previewLink
+                        intent = Intent(Intent.ACTION_SEND)
+
+                        intent.setType("text/plain")
+
+                        intent.putExtra(
+                            Intent.EXTRA_TEXT, "${mServicos?.nomeService} \n${mServicos?.shortDesc} \n"+ shortLink.toString()
+                        )
+
+                        startActivity(intent)
+                    }.addOnFailureListener {
+
+                    }
+            }
+
         }
 
         return super.onOptionsItemSelected(item)
@@ -215,16 +265,17 @@ class ManagerEditServiceActivity : AppCompatActivity() {
             }
     }
 
-    private fun dashBoard(){
-        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
-            Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+    private fun dashBoard() {
+        val tsDoc =
+            mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
+                Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT
+            )
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
             content!!.newServices = content.newServices - 1
             it.set(tsDoc, content)
         }
     }
-
 
 
     private fun servicosAtivos() {

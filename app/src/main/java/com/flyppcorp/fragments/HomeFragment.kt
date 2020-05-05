@@ -40,7 +40,6 @@ class HomeFragment : Fragment() {
     private var cityOther: User? = null
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,8 +72,6 @@ class HomeFragment : Fragment() {
     }
 
 
-
-
     //funcao que obtem servicos com e sem filtro
     private fun fetchServices() {
         val filter = mSharedFilter.getFilter(Constants.KEY.FILTER_KEY)
@@ -82,18 +79,22 @@ class HomeFragment : Fragment() {
             if (filter.equals(Constants.FILTERS_VALUES.MENOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.ASCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
-
                             }
 
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -102,18 +103,22 @@ class HomeFragment : Fragment() {
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.DESCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
-
                             }
 
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -122,17 +127,22 @@ class HomeFragment : Fragment() {
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.ASCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
                             }
 
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -141,19 +151,22 @@ class HomeFragment : Fragment() {
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.DESCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
-
                             }
 
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -162,18 +175,22 @@ class HomeFragment : Fragment() {
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.ASCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
-
                             }
+
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -182,19 +199,22 @@ class HomeFragment : Fragment() {
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.DESCENDING)
+                    .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                    .whereEqualTo("visible", true)
                     .addSnapshotListener { snapshot, exception ->
                         servicos.clear()
                         contentUidList.clear()
-                        if (snapshot == null) return@addSnapshotListener
-                        for (doc in snapshot.documents) {
-                            val item = doc.toObject(Servicos::class.java)
-                            if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-
-                                servicos.add(item)
+                        snapshot?.let {
+                            for (doc in snapshot.documents) {
+                                val item = doc.toObject(Servicos::class.java)
+                                servicos.add(item!!)
                                 contentUidList.add(doc.id)
-
                             }
 
+
+                        }
+                        exception?.let {
+                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -204,21 +224,23 @@ class HomeFragment : Fragment() {
 
         } else {
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                .orderBy("totalServicos", Query.Direction.DESCENDING)
+                .orderBy("avaliacao", Query.Direction.DESCENDING)
+                .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
+                .whereEqualTo("visible", true)
                 .addSnapshotListener { snapshot, exception ->
                     servicos.clear()
                     contentUidList.clear()
-                    if (snapshot == null) return@addSnapshotListener
-                    for (doc in snapshot.documents) {
-                        val item = doc.toObject(Servicos::class.java)
-
-                        if ((item?.cityName == mCity.getFilter(Constants.KEY.CITY_NAME) || item?.nacional == true) && item.visible) {
-
-                            servicos.add(item)
+                    snapshot?.let {
+                        for (doc in snapshot.documents) {
+                            val item = doc.toObject(Servicos::class.java)
+                            servicos.add(item!!)
                             contentUidList.add(doc.id)
-
                         }
 
+
+                    }
+                    exception?.let {
+                        Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                     }
                     if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                     if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -231,23 +253,25 @@ class HomeFragment : Fragment() {
 
     private fun locationOther() {
 
-            mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .get()
-                .addOnSuccessListener {
-                    cityOther = it.toObject(User::class.java)
-                    if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
-                        if (cityOther?.cidade != null){
-                            mSharedFilter.saveFilter(Constants.KEY.CITY_NAME, cityOther?.cidade.toString())
-                        }else{
-                            return@addOnSuccessListener
-                        }
-
-                    }
-                    else {
+        mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(uid)
+            .get()
+            .addOnSuccessListener {
+                cityOther = it.toObject(User::class.java)
+                if (mCity.getFilter(Constants.KEY.CITY_NAME) == "") {
+                    if (cityOther?.cidade != null) {
+                        mSharedFilter.saveFilter(
+                            Constants.KEY.CITY_NAME,
+                            cityOther?.cidade.toString()
+                        )
+                    } else {
                         return@addOnSuccessListener
                     }
+
+                } else {
+                    return@addOnSuccessListener
                 }
+            }
 
     }
 
@@ -363,13 +387,13 @@ class HomeFragment : Fragment() {
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
 
 
-            if (servicos[position].preco.toString().substringAfter(".").length == 1){
+            if (servicos[position].preco.toString().substringAfter(".").length == 1) {
                 viewholder.txtPreco.text =
                     "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
                     )}${"0"} Por ${servicos[position].tipoCobranca}"
-            }else{
+            } else {
                 viewholder.txtPreco.text =
                     "R$ ${servicos[position].preco.toString().replace(
                         ".",
@@ -404,7 +428,6 @@ class HomeFragment : Fragment() {
             //updateLocation()
 
         }
-
 
 
         /*private fun updateInfo(nome: String, url: String, position: Int) {

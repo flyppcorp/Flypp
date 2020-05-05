@@ -64,15 +64,19 @@ class AvaliationActivity : AppCompatActivity() {
                 comment()
                 //mProgress.hide()
                 it.set(tsDoc, content)
+            }.addOnSuccessListener {
+                val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                    .document(mMyservice?.documentId.toString())
+                mfirestore.runTransaction {
+                    val content = it.get(tsDocId).toObject(Myservice::class.java)
+                    content!!.idAvaliador[mMyservice!!.idContratante.toString()] = true
+                    it.set(tsDocId, content)
+                }.addOnSuccessListener {
+                    finish()
+                }
             }
-            val tsDocId = mfirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
-                .document(mMyservice!!.documentId!!)
-            mfirestore.runTransaction {
-                val content = it.get(tsDocId).toObject(Myservice::class.java)
-                content!!.idAvaliador[mMyservice!!.idContratante.toString()] = true
-                it.set(tsDocId, content)
-            }
-            finish()
+
+
         }
     }
 

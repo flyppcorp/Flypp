@@ -148,23 +148,27 @@ class AndamentoActivity : AppCompatActivity() {
             servicosFinalizado(mMyservice?.idContratado.toString())
             dashBoard()
 
-        }
-        val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mMyservice?.serviceId.toString())
-        mFirestore.runTransaction {
-            val contentService = it.get(tsServiceDoc).toObject(Servicos::class.java)
+        }.addOnSuccessListener {
+            val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                .document(mMyservice?.serviceId.toString())
+            mFirestore.runTransaction {
+                val contentService = it.get(tsServiceDoc).toObject(Servicos::class.java)
 
-            contentService?.totalServicos = contentService?.totalServicos!!.toInt() + 1
-            it.set(tsServiceDoc, contentService)
+                contentService?.totalServicos = contentService?.totalServicos!!.toInt() + 1
+                it.set(tsServiceDoc, contentService)
+            }.addOnSuccessListener {
+                if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
+                    val intent = Intent(this, AvaliationActivity::class.java)
+                    intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
+                    startActivity(intent)
+                    finish()
+                }
+                finish()
+            }
         }
 
-        if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
-            val intent = Intent(this, AvaliationActivity::class.java)
-            intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
-            startActivity(intent)
-            finish()
-        }
-        finish()
+
+
 
     }
 
@@ -192,8 +196,8 @@ class AndamentoActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyservice?.documentId
                 notification.text =
-                    "${mMyservice?.nomeContratante} finalizou um serviço (${mMyservice?.serviceNome})"
-                notification.title = "Nova atualização de serviço"
+                    "${mMyservice?.nomeContratante} concluiu um pedido (${mMyservice?.serviceNome})"
+                notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
                     .document(user?.token.toString())
@@ -232,7 +236,7 @@ class AndamentoActivity : AppCompatActivity() {
                         floatingActionButton?.background?.colorFilter = colorFilter
                         Alerter.create(this)
                             .setTitle("Quase lá!")
-                            .setText("Seu cliente já foi avisado que você está a caminho")
+                            .setText("${mMyservice?.nomeContratante} já foi avisado que você está a caminho")
                             .setIcon(R.drawable.ic_run)
                             .setBackgroundColorRes(R.color.colorPrimaryDark)
                             .setDuration(5000)
@@ -287,8 +291,8 @@ class AndamentoActivity : AppCompatActivity() {
                 val user = it.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyservice?.serviceId
-                notification.text = "${mMyservice?.nomeContratado} cancelou o serviço (${mMyservice?.serviceNome})"
-                notification.title ="Nova atualização de serviço"
+                notification.text = "${mMyservice?.nomeContratado} cancelou o pedido (${mMyservice?.serviceNome})"
+                notification.title ="Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
                     .document(user?.token.toString())
