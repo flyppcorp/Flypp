@@ -356,12 +356,11 @@ class AndamentoActivity : AppCompatActivity() {
 
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
-            if (it.dateService != null){
-                txtDate.text = it.dateService
+            if (it.dateService != null && it.horario != null){
+                "${it.dateService} ás ${it.horario}"
             }
-            if (it.horario != null){
-                txtHorario.text = it.horario
-            }
+            txtQuantidade.text = it.quantidate.toString()
+
 
         }
     }

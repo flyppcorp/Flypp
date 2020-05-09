@@ -123,7 +123,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtServicoAcct"
                 app:layout_constraintStart_toStartOf="@+id/txtServicoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
+                app:layout_constraintTop_toBottomOf="@+id/txtQuantidade" />
 
             <TextView
                 android:id="@+id/txtPrecoAcct"
@@ -221,7 +221,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Data:"
+                android:text="Data e horário:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -241,7 +241,7 @@
                 android:id="@+id/textView54"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Horário:"
+                android:text="Quantidade:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -250,7 +250,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtData" />
 
             <TextView
-                android:id="@+id/txtHorario"
+                android:id="@+id/txtQuantidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/textView54"

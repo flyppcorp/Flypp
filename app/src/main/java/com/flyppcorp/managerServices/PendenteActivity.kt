@@ -1,6 +1,5 @@
 package com.flyppcorp.managerServices
 
-import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -23,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pendente.*
-import java.util.*
 
 class PendenteActivity : AppCompatActivity() {
 
@@ -314,8 +312,10 @@ class PendenteActivity : AppCompatActivity() {
                 imgServiceAcct
             )
             txtContratanteAcct.text = mMyService?.nomeContratante
-            txtData.text = mMyService?.dateService
-            txtHorario.text = mMyService?.horario
+            if (mMyService?.dateService != null && mMyService?.horario != null){
+                txtData.text = "${mMyService?.dateService} ás ${mMyService?.horario}"
+            }
+            txtQuantidade.text = mMyService?.quantidate.toString()
             txtServicoAcct.text = mMyService?.serviceNome
             txtObservacao.text = mMyService?.observacao
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

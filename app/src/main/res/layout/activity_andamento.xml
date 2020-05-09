@@ -139,7 +139,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtContratadoAndamentoAcct"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtContratadoAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
+                app:layout_constraintTop_toBottomOf="@+id/txtQuantidade" />
 
             <TextView
                 android:id="@+id/txtPrecoAndamentoAcct"
@@ -217,7 +217,7 @@
                 android:id="@+id/dataText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Data do pedido: "
+                android:text="Data e horário do pedido: "
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -259,7 +259,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Horário:"
+                android:text="Quantidade:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -269,7 +269,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
             <TextView
-                android:id="@+id/txtHorario"
+                android:id="@+id/txtQuantidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
