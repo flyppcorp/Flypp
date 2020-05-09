@@ -1,7 +1,6 @@
 package com.flyppcorp.fragments
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -388,17 +387,17 @@ class HomeFragment : Fragment() {
 
 
             if (servicos[position].preco.toString().substringAfter(".").length == 1) {
-                viewholder.txtPreco.text =
+                viewholder.txtPrecoContratante.text =
                     "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${servicos[position].tipoCobranca}"
+                    )}${"0"}"
             } else {
-                viewholder.txtPreco.text =
+                viewholder.txtPrecoContratante.text =
                     "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${servicos[position].tipoCobranca}"
+                    )}"
             }
 
 

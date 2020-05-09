@@ -23,6 +23,7 @@ import java.util.*
 import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.activity_pendente.*
 import java.text.SimpleDateFormat
+import kotlin.properties.Delegates
 
 class ConfirmServiceActivity : AppCompatActivity() {
     //private var mService: Servicos? = null
@@ -35,9 +36,11 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var user: User? = null
     private var data: String? = null
     private var horario : String? = null
+    private var qtd by Delegates.notNull<Int>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_service)
+        qtd = 1
         mServices = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
@@ -64,6 +67,22 @@ class ConfirmServiceActivity : AppCompatActivity() {
         }
         btnHorario.setOnClickListener {
             handleHorario()
+        }
+        mais.setOnClickListener {
+            mMyservice.quantidate = mMyservice.quantidate + 1
+            qtd = mMyservice.quantidate
+            txtQtd.text = qtd.toString()
+            getDataService()
+
+        }
+        menos.setOnClickListener {
+
+            if (qtd!! > 1){
+               mMyservice.quantidate = mMyservice.quantidate - 1
+               qtd = mMyservice.quantidate
+                txtQtd.text = qtd.toString()
+                getDataService()
+            }
         }
 
 
@@ -156,8 +175,13 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.serviceNome = mServices?.nomeService
             mMyservice.urlContratante = it.url
             mMyservice.urlContratado = mServices?.urlProfile
-            mMyservice.preco = mServices?.preco
-            mMyservice.tipoCobranca = mServices?.tipoCobranca
+            mMyservice.preco = mServices?.preco!! * qtd.toFloat()
+            mMyservice.quantidate = qtd
+            // Quantidade
+
+
+
+            //
             mMyservice.nomeContratado = mServices?.nome
             mMyservice.nomeContratante = it.nome
             mMyservice.shortDesc = mServices?.shortDesc
@@ -199,7 +223,22 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mUser?.let {
             nomeContratante.text = it.nome
             txtServicoContratar.text = mServices?.nomeService
-            txtPrecoContratante.text = "R$ ${mServices?.preco.toString().replace(".",",")} por  ${mServices?.tipoCobranca}"
+            var precoQtd = mServices?.preco!! * qtd.toFloat()
+            //txtPrecoContratante.text = "R$ ${precoQtd.toString().replace(".",",")}"
+            if (precoQtd.toString().substringAfter(".").length == 1) {
+                txtPrecoContratante.text =
+                    "R$ ${precoQtd.toString().replace(
+                        ".",
+                        ","
+                    )}${"0"}"
+            }else {
+                txtPrecoContratante.text =
+                    "R$ ${precoQtd.toString().replace(
+                        ".",
+                        ","
+                    )}"
+            }
+
             txtEnderecoContratante.text =
                 "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
 

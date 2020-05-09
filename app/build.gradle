@@ -14,9 +14,9 @@ android {
         applicationId "com.flyppcorp.flypp"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 26
+        versionCode 28
         /* remote config vai funcionar a partir da versão 23, a 22  /1.1.6 é a próxima versão*/
-        versionName "1.2.0"
+        versionName "1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

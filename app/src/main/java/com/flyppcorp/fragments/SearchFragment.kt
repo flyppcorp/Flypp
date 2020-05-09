@@ -184,13 +184,13 @@ class SearchFragment : Fragment() {
                     "R$ ${contentServicesearch[position].preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${contentServicesearch[position].tipoCobranca}"
+                    )}${"0"}"
             } else {
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicesearch[position].preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${contentServicesearch[position].tipoCobranca}"
+                    )}"
             }
 
             viewholder.btnFavoriteList.setOnClickListener {

@@ -10,8 +10,8 @@
         app:showAsAction="always"/>
 
     <item android:id="@+id/work"
-        android:title="Meus serviços"
-        android:icon="@drawable/ic_work"
+        android:title="Meus pedidos"
+        android:icon="@drawable/ic_pedidos"
         app:showAsAction="always"/>
 
     <item android:id="@+id/mensagem"

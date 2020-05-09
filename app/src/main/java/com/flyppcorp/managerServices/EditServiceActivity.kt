@@ -163,7 +163,6 @@ class EditServiceActivity : AppCompatActivity() {
                         editDescCurta.setText(serviceItem.shortDesc)
                         editDescDetalhada.setText(serviceItem.longDesc)
                         editPreco.setText(serviceItem.preco.toString().replace(".", ","))
-                        editDuracaoEdit.setText(serviceItem.tipoCobranca)
                         if (serviceItem.tempoResposta != null) respondeEm.setText(serviceItem.tempoResposta)
                         editQualidadesDiferenciais.setText(serviceItem.qualidadesDiferenciais)
                         editCep.setText(serviceItem.cep)
@@ -220,7 +219,6 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.shortDesc = editDescCurta.text.toString()
                     mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                     mServiceAtributes.preco = editPreco.text.toString().replace(",", ".").toFloat()
-                    mServiceAtributes.tipoCobranca = editDuracaoEdit.text.toString()
                     mServiceAtributes.qualidadesDiferenciais =
                         editQualidadesDiferenciais.text.toString()
                     mServiceAtributes.tempoResposta = respondeEm.text.toString()

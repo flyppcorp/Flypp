@@ -22,10 +22,10 @@
     <string name="ddd">DDD</string>
     <string name="telefone">Telefone</string>
     <string name="error">Algo deu errado. Tente novamente!</string>
-    <string name="servi_o">Serviço</string>
+    <string name="servi_o">Nome da comida</string>
     <string name="descri_o_curta">Descrição curta</string>
     <string name="descri_o_detalhada">Descrição detalhada</string>
-    <string name="r">R$</string>
+    <string name="r">Preço</string>
     <string name="qualidades_diferenciais">Qualidades diferenciais</string>
 
     <string-array name="estados">
@@ -95,7 +95,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/região ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro (Clique no botão Home para atualizar).</string>
-    <string name="observa_o_do_profissional">Observação do profissional</string>
+    <string name="observa_o_do_profissional">Observação do estabelecimento</string>
     <string name="geralmente_responde_em">Geralmente responde em :</string>
     <string name="palavras_chave">Palavras-chave</string>
     <string name="nacional">Nacional</string>

@@ -69,18 +69,19 @@ class FinalizadoActivity : AppCompatActivity() {
             txtServicoFinalizadoAcct.text = mMyservice?.serviceNome
             txtObservacaoFinalizado.text = mMyservice?.observacao
 
+
             if (mMyservice?.preco.toString().substringAfter(".").length == 1){
                 txtPrecoFinalizadoAcct.text =
                     "R$ ${mMyservice?.preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${mMyservice?.tipoCobranca}"
+                    )}${"0"}"
             }else{
                 txtPrecoFinalizadoAcct.text =
                     "R$ ${mMyservice?.preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${mMyservice?.tipoCobranca}"
+                    )}"
             }
 
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

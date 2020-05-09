@@ -46,7 +46,7 @@ data class Servicos(
     var longDesc: String? = null,
     var tempoResposta : String? = null,
     var preco: Float? = null,
-    var tipoCobranca: String? = null,
+    var tipoCobranca: String? = "cada",
     var qualidadesDiferenciais: String? = null,
     var avaliacao: Int = 0,
     var totalAvaliacao: Int = 0,
@@ -108,7 +108,8 @@ data class Myservice(
     var urlContratante: String? = null,
     var urlContratado: String? = null,
     var preco: Float? = null,
-    var tipoCobranca: String? = null,
+    var quantidate: Int = 1,
+    var tipoCobranca: String? = "cada",
     var nomeContratado: String? = null,
     var nomeContratante: String? = null,
     var documentId: String? = null,
@@ -122,6 +123,7 @@ data class Myservice(
     var dateService: String? = null,
     var horario: String? = null,
     var caminho: Boolean = false
+
 ) : Endereco(), Parcelable
 
 data class DashBoard(

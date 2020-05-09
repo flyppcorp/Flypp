@@ -345,13 +345,13 @@ class AndamentoActivity : AppCompatActivity() {
                     "R$ ${mMyservice?.preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${mMyservice?.tipoCobranca}"
+                    )}${"0"}"
             }else{
                 txtPrecoAndamentoAcct.text =
                     "R$ ${mMyservice?.preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${mMyservice?.tipoCobranca}"
+                    )}"
             }
 
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

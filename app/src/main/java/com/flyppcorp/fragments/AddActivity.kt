@@ -145,7 +145,6 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                 mServiceAtributes.preco = editPreco.text.toString().toFloat()
                 mServiceAtributes.tempoResposta = spinnerResposta.selectedItem.toString()
-                mServiceAtributes.tipoCobranca = spinnerDuracaoService.selectedItem.toString()
                 mServiceAtributes.qualidadesDiferenciais =
                     editQualidadesDiferenciais.text.toString()
                 mServiceAtributes.cep = editCep.text.toString()

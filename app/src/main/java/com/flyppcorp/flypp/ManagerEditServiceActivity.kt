@@ -131,13 +131,13 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                                 "R$ ${serviceItem.preco.toString().replace(
                                     ".",
                                     ","
-                                )}${"0"} Por ${serviceItem.tipoCobranca}"
+                                )}${"0"}"
                         } else {
                             txtPrecoView.text =
                                 "R$ ${serviceItem.preco.toString().replace(
                                     ".",
                                     ","
-                                )} Por ${serviceItem.tipoCobranca}"
+                                )}"
                         }
 
                         txtDetailDescView.text = serviceItem.longDesc

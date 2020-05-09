@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:text="Contratar serviço"
+        android:text="Fazer Pedido"
         android:textColor="@color/textIcons"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +132,7 @@
                 />
 
             <TextView
-                android:id="@+id/txtPreco"
+                android:id="@+id/txtPrecoContratante"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -141,7 +141,6 @@
                 android:padding="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="R$ 50,0 /Acombinar/ Por KG"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -159,9 +158,9 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPreco"
-                app:layout_constraintStart_toStartOf="@+id/txtPreco"
-                app:layout_constraintTop_toBottomOf="@+id/txtPreco" />
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
+                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
 
             <View
                 android:id="@+id/view4"

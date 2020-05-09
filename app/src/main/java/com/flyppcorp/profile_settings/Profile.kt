@@ -14,8 +14,8 @@ fun profile(block : ProfileBuilder.() -> Unit) : Profile = ProfileBuilder().appl
 
 fun menuOptions()= mutableListOf(
     profile {
-        logo = R.drawable.ic_my_services
-        nomeOption = "Meus Serviços"
+        logo = R.drawable.ic_my_pedidos
+        nomeOption = "Meus Pedidos"
     },
     profile  {
         logo = R.drawable.ic_help

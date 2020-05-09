@@ -107,13 +107,13 @@ class FragmentTodos : Fragment() {
                     "R$ ${contentService[position].preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${contentService[position].tipoCobranca}"
+                    )}${"0"}"
             }else{
                 vh.txtPrecoList.text =
                     "R$ ${contentService[position].preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${contentService[position].tipoCobranca}"
+                    )}"
             }
 
 

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Servicos
@@ -17,15 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fav.view.*
-import kotlinx.android.synthetic.main.service_items.view.*
-import kotlinx.android.synthetic.main.service_items.view.btnFavorite
-import kotlinx.android.synthetic.main.service_items.view.imgProfileImgMain
-import kotlinx.android.synthetic.main.service_items.view.imgServiceMain
-import kotlinx.android.synthetic.main.service_items.view.txtAvaliacao
-import kotlinx.android.synthetic.main.service_items.view.txtNomeServico
-import kotlinx.android.synthetic.main.service_items.view.txtNomeUser
-import kotlinx.android.synthetic.main.service_items.view.txtPreco
-import kotlinx.android.synthetic.main.service_items.view.txtShortDesc
 import kotlinx.android.synthetic.main.service_items_all.view.*
 
 class FavFragment : Fragment() {
@@ -119,13 +109,13 @@ class FavFragment : Fragment() {
                     "R$ ${contentServicos[position].preco.toString().replace(
                         ".",
                         ","
-                    )}${"0"} Por ${contentServicos[position].tipoCobranca}"
+                    )}${"0"}"
             }else{
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicos[position].preco.toString().replace(
                         ".",
                         ","
-                    )} Por ${contentServicos[position].tipoCobranca}"
+                    )}"
             }
 
 

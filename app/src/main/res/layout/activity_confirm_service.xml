@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            android:text="Confirmar solicitação de serviço"
+            android:text="Confirmar Pedido"
             android:textColor="@color/textIcons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,22 +63,13 @@
             android:layout_height="match_parent">
 
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:src="@drawable/ic_confirmaton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center"
@@ -88,20 +79,19 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Solicitado por: "
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
 
             <TextView
                 android:id="@+id/nomeContratante"
@@ -116,7 +106,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Serviço a contratar:"
+                android:text="Nome do pedido:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/nomeContratante"
@@ -133,34 +123,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <TextView
-                android:id="@+id/textView10"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Preço:"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtServicoContratar"
-                app:layout_constraintStart_toStartOf="@+id/txtServicoContratar"
-                app:layout_constraintTop_toBottomOf="@+id/txtServicoContratar" />
-
-            <TextView
-                android:id="@+id/txtPrecoContratante"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView10"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-            <TextView
                 android:id="@+id/textView12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Endereço solicitado:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
+                app:layout_constraintEnd_toEndOf="@+id/txtServicoContratar"
+                app:layout_constraintStart_toStartOf="@+id/txtServicoContratar"
+                app:layout_constraintTop_toBottomOf="@+id/txtServicoContratar" />
 
             <TextView
                 android:id="@+id/txtEnderecoContratante"
@@ -177,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Você tem alguma observação sobre este serviço?"
+                android:text="Você tem alguma observação sobre este pedido?"
                 android:textColor="@color/alert_default_error_background"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
@@ -210,7 +181,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="bottom|start"
-                android:text="Você pode ver o status dos seus serviços em: Conta > Meus serviços "
+                android:text="Você pode ver o status dos seus pedido em: Conta > Meus pedidos"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
@@ -221,34 +192,101 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                 <Button
+                    android:id="@+id/btnData"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimaryDark"
                     android:text="Escolher data"
-                    android:textColor="@color/textIcons"
-                    android:id="@+id/btnData"/>
+                    android:textColor="@color/textIcons" />
 
                 <Button
+                    android:id="@+id/btnHorario"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimaryDark"
                     android:text="Escolher Horário"
-                    android:textColor="@color/textIcons"
-                    android:id="@+id/btnHorario"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp" />
+                    android:textColor="@color/textIcons" />
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+                <Button
+                    android:id="@+id/menos"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_remove" />
+
+                <TextView
+                    android:id="@+id/txtQtd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:text="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/mais"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_add" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtPrecoContratante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg_stroke"
+                android:gravity="center"
+                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout10" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Quantidade:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

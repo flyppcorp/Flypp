@@ -322,18 +322,20 @@ class PendenteActivity : AppCompatActivity() {
                     "${it.cidade}, ${it.estado}, ${it.cep}"
         }
 
+        
+
         if (mMyService?.preco.toString().substringAfter(".").length == 1){
             txtPrecoAcct.text =
                 "R$ ${mMyService?.preco.toString().replace(
                     ".",
                     ","
-                )}${"0"} Por ${mMyService?.tipoCobranca}"
+                )}${"0"}"
         }else{
             txtPrecoAcct.text =
                 "R$ ${mMyService?.preco.toString().replace(
                     ".",
                     ","
-                )} Por ${mMyService?.tipoCobranca}"
+                )}"
         }
 
 

@@ -208,10 +208,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout13"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/r"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout20"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout20">
 
@@ -224,26 +225,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/spinnerDuracaoService"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:hint="Duração"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout13"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintStart_toEndOf="@+id/textInputLayout13"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout13">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDuracaoEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <!--<TextView
                 android:id="@+id/textView53"
@@ -289,8 +271,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/qualidades_diferenciais"
-                app:layout_constraintEnd_toEndOf="@+id/spinnerDuracaoService"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout13"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout20"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout20"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
                 <com.google.android.material.textfield.TextInputEditText

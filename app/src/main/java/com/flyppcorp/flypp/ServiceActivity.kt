@@ -1,19 +1,15 @@
 package com.flyppcorp.flypp
 
-import android.content.ClipData
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.system.Os.link
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.Helper.PagerAdapterImage
 import com.flyppcorp.atributesClass.Servicos
@@ -23,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_service.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -308,17 +303,17 @@ class ServiceActivity : AppCompatActivity() {
                         )}/5 (${service.totalAvaliacao})"
 
                         if (service.preco.toString().substringAfter(".").length == 1) {
-                            txtPreco.text =
+                            txtPrecoContratante.text =
                                 "R$ ${service.preco.toString().replace(
                                     ".",
                                     ","
-                                )}${"0"} Por ${service.tipoCobranca}"
+                                )}${"0"}"
                         } else {
-                            txtPreco.text =
+                            txtPrecoContratante.text =
                                 "R$ ${service.preco.toString().replace(
                                     ".",
                                     ","
-                                )} Por ${service.tipoCobranca}"
+                                )}"
                         }
 
                         txtDetailDesc.text = service.longDesc
