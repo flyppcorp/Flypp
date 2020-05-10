@@ -164,6 +164,7 @@ class EditServiceActivity : AppCompatActivity() {
                         editDescDetalhada.setText(serviceItem.longDesc)
                         editPreco.setText(serviceItem.preco.toString().replace(".", ","))
                         if (serviceItem.tempoResposta != null) respondeEm.setText(serviceItem.tempoResposta)
+                        if (serviceItem.preparo != null) tempoPreparo.setText(serviceItem.preparo)
                         editQualidadesDiferenciais.setText(serviceItem.qualidadesDiferenciais)
                         editCep.setText(serviceItem.cep)
                         editEstadoEdit.setText(serviceItem.estado)
@@ -203,6 +204,9 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.uid = mService?.uid
                     mServiceAtributes.visible = mService!!.visible
                     mServiceAtributes.uidProfile[mService?.uid.toString()] = true
+                    if (tempoPreparo.text.toString() != ""){
+                        mServiceAtributes.preparo = tempoPreparo.text.toString()
+                    }
 
                     ////////////////////////////////////////////////////////////
                     mServiceAtributes.urlProfile = mGetService?.urlProfile

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            android:text="Salvar Serviço"
+            android:text="Salvar Produto"
             android:textColor="@color/textIcons"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -178,7 +178,7 @@
                 android:hint="@string/r"
                 app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta">
+                app:layout_constraintTop_toBottomOf="@+id/spinnerPreparo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editPreco"
@@ -193,7 +193,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/qualidades_diferenciais"
                 app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
                 app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
@@ -393,7 +393,31 @@
                 android:entries="@array/resposta"
                 app:layout_constraintEnd_toEndOf="@+id/textView46"
                 app:layout_constraintStart_toStartOf="@+id/textView46"
-                app:layout_constraintTop_toBottomOf="@+id/textView46" />
+                app:layout_constraintTop_toBottomOf="@+id/textView46"
+                 />
+
+            <Spinner
+                android:id="@+id/spinnerPreparo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView51"
+                app:layout_constraintStart_toStartOf="@+id/textView51"
+                app:layout_constraintTop_toBottomOf="@+id/textView51"
+                android:entries="@array/tempo_preparo"
+                />
+
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Tempo de preparo:"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
+                app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"/>
 
             <!--<TextView
                 android:id="@+id/textView51"

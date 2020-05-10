@@ -172,6 +172,7 @@ class SearchFragment : Fragment() {
             Picasso.get().load(contentServicesearch[position].urlProfile).resize(300, 300)
                 .centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
+            if (contentServicesearch[position].preparo != null) viewholder.txtPreparoList.text = " ${contentServicesearch[position].preparo}" else viewholder.txtPreparoList.text = " ?"
             viewholder.txtShortDescList.text = contentServicesearch[position].shortDesc
             val avaliacao: Double =
                 contentServicesearch[position].avaliacao.toDouble() / contentServicesearch[position].totalAvaliacao

@@ -19,8 +19,8 @@
             android:id="@+id/view2"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_gradient"
@@ -48,16 +48,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:textColor="@color/primaryText"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2"
-            android:singleLine="true"
-            android:ellipsize="marquee"/>
+            app:layout_constraintTop_toTopOf="@+id/view2" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileImgMainList"
@@ -90,8 +90,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textSize="14sp"
@@ -104,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_star_black_small"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textColor="#FFE600"
@@ -121,33 +122,38 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:ellipsize="marquee"
+            android:gravity="center"
             android:singleLine="true"
-            app:layout_constraintEnd_toStartOf="@+id/btnFavoriteList"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/view2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtShortDescList" />
 
         <ImageView
             android:id="@+id/btnFavoriteList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/txtShortDescList"
             app:layout_constraintTop_toTopOf="@+id/txtPrecoList"
             app:srcCompat="@drawable/ic_favorite_border"
             tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtAvaliacaoList"
+        <TextView
+            android:id="@+id/txtPreparoList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:drawableLeft="@drawable/ic_clock"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnFavoriteList"
             app:layout_constraintStart_toEndOf="@+id/txtAvaliacaoList"
-            app:layout_constraintTop_toTopOf="@+id/txtAvaliacaoList"
-            app:srcCompat="@drawable/ic_star_black_24dp"
-            tools:ignore="VectorDrawableCompat" />
+            app:layout_constraintTop_toTopOf="@+id/txtPrecoList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

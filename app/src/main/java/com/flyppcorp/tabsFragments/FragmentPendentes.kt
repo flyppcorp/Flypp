@@ -91,9 +91,9 @@ class FragmentPendentes : Fragment() {
             viewholder.txtNomeContratado.text = servicos[position].nomeContratado
             viewholder.txtNomeContratante.text = servicos[position].nomeContratante
 
-            val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
+            //val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
 
-            if (precoQtd.toString().substringAfter(".").length == 1){
+            if (servicos[position].preco.toString().substringAfter(".").length == 1){
                 viewholder.txtPrecoManager.text =
                     "R$ ${servicos[position].preco.toString().replace(
                         ".",
@@ -101,7 +101,7 @@ class FragmentPendentes : Fragment() {
                     )}${"0"}"
             }else{
                 viewholder.txtPrecoManager.text =
-                    "R$ ${precoQtd.toString().replace(
+                    "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
                     )}"

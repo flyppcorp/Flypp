@@ -379,6 +379,7 @@ class HomeFragment : Fragment() {
 
             viewholder.txtNomeUser.text = servicos[position].nome
             viewholder.txtShortDesc.text = servicos[position].shortDesc
+            if (servicos[position].preparo != null) viewholder.txtPreparo.text = servicos[position].preparo else viewholder.txtPreparo.text = "?"
             val avaliacao: Double =
                 servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
             if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =

@@ -97,7 +97,7 @@ class ServiceActivity : AppCompatActivity() {
 
         //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
         //tb.title = ""
-        supportActionBar?.title = "Serviço"
+        supportActionBar?.title = mService?.nomeService.toString()
         getIcon()
 
     }
@@ -190,7 +190,6 @@ class ServiceActivity : AppCompatActivity() {
                 val dynamicLinkUri = dynamicLink.uri
                 Log.i("LINK", dynamicLinkUri.toString())
 
-                val rand = Random().nextInt(100) + 100
                 val link = "https://flyppbrasil.page.link?" +
                         "apn=com.flyppcorp.flypp" +
                         "&ibi=com.example.ios" +

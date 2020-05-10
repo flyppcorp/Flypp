@@ -242,13 +242,13 @@ class PendenteActivity : AppCompatActivity() {
                     if (mMyService?.idContratante == mAuth.currentUser?.uid) {
                         notificationDesistence(
                             mMyService?.idContratado.toString(),
-                            "desistiu",
+                            "desistiu do pedido",
                             mMyService?.nomeContratante.toString()
                         )
                     } else {
                         notificationDesistence(
                             mMyService?.idContratante.toString(),
-                            "rejeitou",
+                            "teve que recusar o seu pedido, não fique triste, temos vários outros estabelecimentos prontos para te receber",
                             mMyService?.nomeContratado.toString()
                         )
                     }
@@ -274,7 +274,7 @@ class PendenteActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyService?.serviceId
                 notification.text =
-                    "$nome $status sua solicitação de pedido (${mMyService!!.serviceNome})"
+                    "$nome $status (${mMyService!!.serviceNome})"
                 notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)

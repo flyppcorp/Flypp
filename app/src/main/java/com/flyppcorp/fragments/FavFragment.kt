@@ -98,6 +98,7 @@ class FavFragment : Fragment() {
             Picasso.get().load(contentServicos[position].urlProfile).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
             viewholder.txtShortDescList.text = contentServicos[position].shortDesc
+            if (contentServicos[position].preparo != null) viewholder.txtPreparoList.text = " ${contentServicos[position].preparo}" else viewholder.txtPreparoList.text = " ?"
             val avaliacao : Double = contentServicos[position].avaliacao.toDouble()/contentServicos[position].totalAvaliacao
             if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicos[position].avaliacao}/5"

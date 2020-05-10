@@ -95,17 +95,17 @@ class FragmentFinalizado : Fragment() {
             )
             viewholder.txtNomeContratado.text =servicos[position].nomeContratado
             viewholder.txtNomeContratante.text = servicos[position].nomeContratante
-            val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
+            //val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
 
             if (servicos[position].preco.toString().substringAfter(".").length == 1){
                 viewholder.txtPrecoManager.text =
-                    "R$ ${precoQtd.toString().replace(
+                    "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
                     )}${"0"}"
             }else{
                 viewholder.txtPrecoManager.text =
-                    "R$ ${precoQtd.toString().replace(
+                    "R$ ${servicos[position].preco.toString().replace(
                         ".",
                         ","
                     )}"
