@@ -14,6 +14,9 @@ class Constants {
         const val COMMENTS = "comments"
         const val NEW_VERSION = "new_version"
         const val VERSION_CODE = "version_code"
+        const val INICIO = "inicio"
+        const val FIM = "fim"
+        const val LISTA_DIAS = "dias"
     }
 
     object COLLECTIONS {

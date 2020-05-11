@@ -103,10 +103,7 @@ class SignInFirebaseAuth(private val context: Context) {
             ?.addOnCompleteListener {
                 when {
                     it.isSuccessful -> {
-                        //val random = Random().nextInt(4)
                         val intent = Intent(context, CreateProfileActivity::class.java)
-                        //intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
-                        //mAuth.currentUser!!.sendEmailVerification()
                         val user = User()
                         if (mAuth.currentUser?.displayName != null){
                             user.nome = mAuth.currentUser?.displayName
@@ -156,7 +153,7 @@ class SignInFirebaseAuth(private val context: Context) {
                         }
                 }
                 mProgressDialog.hide()
-                //mProgressDialog.dismiss()
+
             }
             }
     }

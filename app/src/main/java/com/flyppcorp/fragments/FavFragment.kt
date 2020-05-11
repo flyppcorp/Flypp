@@ -1,6 +1,7 @@
 package com.flyppcorp.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class FavFragment : Fragment() {
     private lateinit var uid: String
     private lateinit var mAdapter: FavoriteRecyclerView
     lateinit var contentServicos: ArrayList<Servicos>
+    //fim das declarações
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,7 @@ class FavFragment : Fragment() {
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         contentServicos = arrayListOf()
         mAdapter = FavoriteRecyclerView()
+        //fim do iniciar
 
         //configurações da recyclerview
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_fav, container, false)
@@ -44,6 +47,7 @@ class FavFragment : Fragment() {
             intent.putExtra(Constants.KEY.SERVICE_KEY, contentServicos[it])
             startActivity(intent)
         }
+        //fim das config
         return view
     }
 
@@ -52,6 +56,7 @@ class FavFragment : Fragment() {
 
         var contentUidList: ArrayList<String> = arrayListOf()
 
+        //iniciar a rv com todos os produtos que possuem o uid do usuario
         init {
             mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .whereEqualTo("favoritos.${uid}", true)
@@ -81,30 +86,47 @@ class FavFragment : Fragment() {
             return contentServicos.size
         }
 
+        //ação de click
         var onItemClick: ((Int) -> Unit)? = null
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            //ação de click
             holder.itemView.setOnClickListener {
                 onItemClick?.invoke(position)
             }
             val viewholder = (holder as CustomView).itemView
+
+            //nome do produto
             viewholder.txtNomeServicoList.text = contentServicos[position].nomeService
+            //foto do produto
             if (contentServicos[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
                 Picasso.get().load(contentServicos[position].urlService).resize(300,300).centerCrop().placeholder(R.drawable.photo_work).into(viewholder.imgServiceMainList)
             }
+            //fim nome do produto
+
+            //nome do estabelecimento
             viewholder.txtNomeUserList.text = contentServicos[position].nome
+            //foto do perfil do estabelecimento
             Picasso.get().load(contentServicos[position].urlProfile).resize(300,300).centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
+            //fim foto
+
+            //desc short
             viewholder.txtShortDescList.text = contentServicos[position].shortDesc
-            if (contentServicos[position].preparo != null) viewholder.txtPreparoList.text = " ${contentServicos[position].preparo}" else viewholder.txtPreparoList.text = " ?"
+            //tempo de entrega
+            if (contentServicos[position].tempoEntrega != null) viewholder.txtPreparoList.text = " ${contentServicos[position].tempoEntrega}" else viewholder.txtPreparoList.text = " ?"
+
+            //avaliação
             val avaliacao : Double = contentServicos[position].avaliacao.toDouble()/contentServicos[position].totalAvaliacao
             if (contentServicos[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicos[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            //fim avaliação
 
 
+            //preço
             if (contentServicos[position].preco.toString().substringAfter(".").length == 1){
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicos[position].preco.toString().replace(
@@ -118,9 +140,10 @@ class FavFragment : Fragment() {
                         ","
                     )}"
             }
+            //fim preco
 
 
-
+            //event favorite
             viewholder.btnFavoriteList.setOnClickListener {
                 eventFavorite(position)
             }
@@ -132,6 +155,7 @@ class FavFragment : Fragment() {
             }
 
         }
+        //fim do event
 
         //metodo que salva nos favoritos
         private fun eventFavorite(position: Int) {

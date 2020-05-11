@@ -37,11 +37,13 @@ class AddActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: User
     private lateinit var mCity: SharedFilter
+    //fim da inicialização
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
+        //iniciando objetos
         mFirestoreService = FirestoreService(this)
         mStorage = FirebaseStorage.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
@@ -49,18 +51,20 @@ class AddActivity : AppCompatActivity() {
         mServiceAtributes = Servicos()
         mUser = User()
         mCity = SharedFilter(this)
+        //fim
         supportActionBar?.title = "Adicionar serviço"
 
+        //ações de click
         btnSelectPhotoService.setOnClickListener { handleSelect() }
         btnSelectPhotoService2.setOnClickListener { handleSelect2() }
-        btnSaveService.setOnClickListener {
-            handleSaveService()
-        }
+        btnSaveService.setOnClickListener { handleSaveService() }
+        //fim
 
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
     }
 
+    //função que preenche os campos com informações do usuário
     private fun getInfo() {
         val uid = mAuth.currentUser?.uid
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -76,10 +80,9 @@ class AddActivity : AppCompatActivity() {
                         editRuaService.setText(mUser.rua)
                         EditBairroService.setText(mUser.bairro)
                         editEstadosAdd.setText(mUser.estado)
-                        if (mUser.nomeEmpresa != null){
+                        if (mUser.nomeEmpresa != null) {
                             editEmpresaAdd.setText(mUser.nomeEmpresa)
                         }
-
 
                     }
                 }
@@ -95,12 +98,14 @@ class AddActivity : AppCompatActivity() {
         startActivityForResult(intent, Constants.KEY.REQUEST_CODE)
 
     }
+
     private fun handleSelect2() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, Constants.KEY.REQUEST_CODE2)
 
     }
+    //fim
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -108,7 +113,7 @@ class AddActivity : AppCompatActivity() {
             mUri = data?.data
 
             if (mUri != null) {
-                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(imgService)
+                Picasso.get().load(mUri.toString()).resize(300, 300).centerCrop().into(imgService)
                 btnSelectPhotoService.alpha = 0f
             }
         }
@@ -116,7 +121,7 @@ class AddActivity : AppCompatActivity() {
             mUri2 = data?.data
 
             if (mUri2 != null) {
-                Picasso.get().load(mUri2.toString()).resize(300,300).centerCrop().into(imgService2)
+                Picasso.get().load(mUri2.toString()).resize(300, 300).centerCrop().into(imgService2)
                 btnSelectPhotoService2.alpha = 0f
             }
         }
@@ -129,34 +134,50 @@ class AddActivity : AppCompatActivity() {
                 mFirestoreService.mDialog.setCancelable(false)
                 mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
+
+                //pegando o nome do arquivo que vai ser salvo no firestorage
                 val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
                 val ref = mStorage.getReference("image/${filename}")
+                //fim
+                //nome empresa
                 mServiceAtributes.nome = editEmpresaAdd.text.toString()
+                //uid
                 mServiceAtributes.uid = mUser.uid
+                //uid profile para atualizações futuras
                 mServiceAtributes.uidProfile[mUser.uid.toString()] = true
 
+                //foto
                 mServiceAtributes.urlProfile = mUser.url
-                if (mCity.getFilter(Constants.KEY.CITY_NAME) != "") mServiceAtributes.cityName = mCity.getFilter(Constants.KEY.CITY_NAME)
-                else  mServiceAtributes.cityName = editCidadeService.text.toString()
+                //nome da cidade que é encarregada por mostrar para as pessoas (capturada do gps)
+                if (mCity.getFilter(Constants.KEY.CITY_NAME) != "") mServiceAtributes.cityName =
+                    mCity.getFilter(Constants.KEY.CITY_NAME)
+                else mServiceAtributes.cityName = editCidadeService.text.toString()
+                //fim
+                //telefone
                 mServiceAtributes.ddd = mUser.ddd
                 mServiceAtributes.telefone = mUser.telefone
+                //desc service
                 mServiceAtributes.nomeService = editService.text.toString()
                 mServiceAtributes.shortDesc = editDescCurta.text.toString()
                 mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                 mServiceAtributes.preco = editPreco.text.toString().toFloat()
                 mServiceAtributes.tempoResposta = spinnerResposta.selectedItem.toString()
-                mServiceAtributes.preparo = spinnerPreparo.selectedItem.toString()
-                mServiceAtributes.qualidadesDiferenciais =
-                    editQualidadesDiferenciais.text.toString()
+                mServiceAtributes.tempoEntrega = spinnerPreparo.selectedItem.toString()
+                mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
+
+                //endereço
                 mServiceAtributes.cep = editCep.text.toString()
                 mServiceAtributes.estado = editEstadosAdd.text.toString()
                 mServiceAtributes.cidade = editCidadeService.text.toString().trimEnd()
                 mServiceAtributes.bairro = EditBairroService.text.toString()
                 mServiceAtributes.rua = editRuaService.text.toString()
                 mServiceAtributes.numero = editNumService.text.toString()
+                //email
                 mServiceAtributes.email = mAuth.currentUser!!.email
+                //service id, ele tem o mesmo nome da referencia do documento e é usado para acessar produtos mais adiante
                 val serviceId = UUID.randomUUID().toString() + mUser.uid
                 mServiceAtributes.serviceId = serviceId
+                //tags para pesquisa
                 val tagInput = editTags.text.toString().toLowerCase()
                 mServiceAtributes.tagsStr = tagInput
                 val tagArray: Array<String> = tagInput.split(",").toTypedArray()
@@ -167,15 +188,7 @@ class AddActivity : AppCompatActivity() {
                 }
                 if (tags.isEmpty()) tags[""] = false
                 mServiceAtributes.tags = tags
-                /*if (radioGroup.checkedRadioButtonId != -1){
-                    if (local.isChecked){
-                        mServiceAtributes.nacional = false
-                    }else if (nacional.isChecked){
-                        mServiceAtributes.nacional = true
-                    }
-                }*/
-
-                //fim
+                //fim tags
 
                 //obtendo url da imagem no firestorage
                 mUri?.let {
@@ -217,9 +230,11 @@ class AddActivity : AppCompatActivity() {
 
     }
 
-    private fun dashBoard(){
-        val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
-            Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
+    private fun dashBoard() {
+        val tsDoc =
+            mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
+                Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT
+            )
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
             content!!.newServices = content.newServices + 1
@@ -227,14 +242,16 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateProfile (){
+    //função que atualiza nome da empresa no perfil, caso haja algum
+    private fun updateProfile() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mAuth.currentUser!!.uid)
+            .document(mAuth.currentUser?.uid.toString())
             .update("nomeEmpresa", editEmpresaAdd.text.toString())
 
     }
 
-    private fun secondPhoto( document: String, filename : String){
+    //função que envia uma segunda foto caso haja uma, ela é chamdada para atualizar e é enviada separadamente
+    private fun secondPhoto(document: String, filename: String) {
         val ref = mStorage.getReference("image/${filename}2")
         mUri2?.let {
             ref.putFile(it)

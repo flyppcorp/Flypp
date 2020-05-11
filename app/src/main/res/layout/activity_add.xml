@@ -412,7 +412,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Tempo de preparo:"
+                android:text="Entrega em até:"
                 app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
                 app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
                 app:layout_constraintTop_toBottomOf="@+id/spinnerResposta"

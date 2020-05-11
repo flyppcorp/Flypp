@@ -35,10 +35,10 @@
             android:layout_height="70dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/photo_work"
             app:civ_border_color="@color/colorPrimaryDark"
             app:civ_border_width="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2" />
 
@@ -103,14 +103,14 @@
             android:id="@+id/txtAvaliacaoList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:drawableLeft="@drawable/ic_star_black_small"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textColor="#FFE600"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPreparoList"
             app:layout_constraintStart_toStartOf="@+id/txtShortDescList"
-            app:layout_constraintTop_toBottomOf="@+id/txtShortDescList" />
+            app:layout_constraintTop_toTopOf="@+id/txtPreparoList" />
 
         <TextView
             android:id="@+id/txtPrecoList"
@@ -127,14 +127,15 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/view2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtShortDescList" />
+            app:layout_constraintTop_toBottomOf="@+id/imgServiceMainList" />
 
         <ImageView
             android:id="@+id/btnFavoriteList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPreparoList"
             app:layout_constraintEnd_toEndOf="@+id/txtShortDescList"
-            app:layout_constraintTop_toTopOf="@+id/txtPrecoList"
+            app:layout_constraintTop_toTopOf="@+id/txtPreparoList"
             app:srcCompat="@drawable/ic_favorite_border"
             tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
@@ -144,16 +145,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
             android:drawableLeft="@drawable/ic_clock"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnFavoriteList"
             app:layout_constraintStart_toEndOf="@+id/txtAvaliacaoList"
-            app:layout_constraintTop_toTopOf="@+id/txtPrecoList" />
+            app:layout_constraintTop_toBottomOf="@+id/txtShortDescList" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

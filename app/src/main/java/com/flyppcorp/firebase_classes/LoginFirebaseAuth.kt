@@ -43,17 +43,10 @@ class LoginFirebaseAuth(private val context: Context) {
             .addOnCompleteListener {
                 when {
                     it.isSuccessful -> {
-                        //if (mAuth.currentUser?.isEmailVerified == true){
-                            val intent = Intent(context, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(context, intent, null)
-                        /*}else {
-                            val random = Random().nextInt(4)
-                            val intent = Intent(context, ConfirmationActivity::class.java)
-                            intent.putExtra(Constants.KEY.RANDOM_KEY, random.toString())
-                            mAuth.currentUser?.sendEmailVerification()
-                            startActivity(context, intent, null)
-                        }*/
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(context, intent, null)
 
 
                     }
@@ -73,8 +66,6 @@ class LoginFirebaseAuth(private val context: Context) {
                 }
 
                 mProgressDialog.hide()
-                //mProgressDialog.dismiss()
-
 
 
             }

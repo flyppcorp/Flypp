@@ -58,12 +58,6 @@ class ContaFragment : Fragment() {
         view.rv_profile.layoutManager = LinearLayoutManager(activity)
         view.recyclerView.adapter = mAdapter
 
-        /*mAdapter.setOnItemClickListener { item, view ->
-            val intent = Intent(context, ProfileInformations::class.java)
-            //val userItem : UserItem = item as UserItem
-            //intent.putExtra(Constants.KEY.PROFILE_KEY, userItem.mUser)
-            startActivity(intent)
-        }*/
         adapter.onItemClick = {
             adapter.getItemId(it)
             when {
@@ -100,10 +94,13 @@ class ContaFragment : Fragment() {
         }
 
         override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+            //nome
             viewHolder.itemView.txtMyName.text = mUser.nome
+            //foto perfil
             Picasso.get().load(mUser.url).resize(300, 300).centerCrop()
                 .placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewHolder.itemView.photoPerfil)
+            //ação de click
             viewHolder.itemView.photoPerfil.setOnClickListener {
                 FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
                     .document(mAuth.currentUser?.uid.toString())

@@ -45,7 +45,7 @@ data class Servicos(
     var shortDesc: String? = null,
     var longDesc: String? = null,
     var tempoResposta : String? = null,
-    var preparo: String? = null,
+    var tempoEntrega: String? = null,
     var preco: Float? = null,
     var tipoCobranca: String? = "cada",
     var qualidadesDiferenciais: String? = null,
@@ -60,7 +60,6 @@ data class Servicos(
     var comments : Long = 0,
     var urlService2: String? = null,
     var nacional : Boolean = false
-
 ) : Endereco(), Parcelable
 
 @Parcelize

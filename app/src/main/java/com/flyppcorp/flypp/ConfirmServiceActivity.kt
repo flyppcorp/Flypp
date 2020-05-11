@@ -35,11 +35,14 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private lateinit var mMyservice: Myservice
     private var user: User? = null
     private var data: String? = null
-    private var horario : String? = null
+    private var horario: String? = null
     private var qtd by Delegates.notNull<Int>()
+
+    //fim
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_service)
+        //iniciação
         qtd = 1
         mServices = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
         mFirestore = FirebaseFirestore.getInstance()
@@ -49,15 +52,19 @@ class ConfirmServiceActivity : AppCompatActivity() {
         MobileAds.initialize(this)
         mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
         mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
-
-
         mMyservice = Myservice()
+        //fim
+
+        //função que captura os dados do servico para qtd
         getDataService()
+
+        //ações de click
         btnConfirmContract.setOnClickListener {
             if (validateConection()) {
                 getToSave()
             }
         }
+
         btn_tb_voltar.setOnClickListener {
             finish()
         }
@@ -65,9 +72,11 @@ class ConfirmServiceActivity : AppCompatActivity() {
         btnData.setOnClickListener {
             handleDate()
         }
+
         btnHorario.setOnClickListener {
             handleHorario()
         }
+
         mais.setOnClickListener {
             mMyservice.quantidate = mMyservice.quantidate + 1
             qtd = mMyservice.quantidate
@@ -75,51 +84,67 @@ class ConfirmServiceActivity : AppCompatActivity() {
             getDataService()
 
         }
+
         menos.setOnClickListener {
 
-            if (qtd!! > 1){
-               mMyservice.quantidate = mMyservice.quantidate - 1
-               qtd = mMyservice.quantidate
+            if (qtd > 1) {
+                mMyservice.quantidate = mMyservice.quantidate - 1
+                qtd = mMyservice.quantidate
                 txtQtd.text = qtd.toString()
                 getDataService()
             }
         }
 
+        //fim
 
+        //função que pega os dados do servico
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(mAuth.currentUser!!.uid)
+            .document(mAuth.currentUser?.uid.toString())
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
+                //função que usa os dados
                 getDataService()
 
             }
 
     }
 
+    //função que captura o horario
     private fun handleHorario(): String? {
         val calendar = Calendar.getInstance()
-        val timeSetListener = TimePickerDialog.OnTimeSetListener{ timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            calendar.set(Calendar.MINUTE, minute)
-            horario = SimpleDateFormat("HH:mm").format(calendar.time)
-            btnHorario.text = horario
+        val timeSetListener =
+            TimePickerDialog.OnTimeSetListener { timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+                horario = SimpleDateFormat("HH:mm").format(calendar.time)
+                btnHorario.text = horario
 
 
-        }
-        TimePickerDialog(this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            }
+        TimePickerDialog(
+            this,
+            timeSetListener,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
         return horario
     }
 
+    //função que captura os dados para salvar, há outra função dentro dela
     private fun getToSave() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser?.uid.toString())
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
+                //fun que realmente salva
                 handleConfirm()
             }
     }
+
+    //manipular datas
     private fun handleDate(): String? {
 
         val calendar = Calendar.getInstance()
@@ -161,43 +186,58 @@ class ConfirmServiceActivity : AppCompatActivity() {
         return data
     }
 
+    //função que aponta dados e salva
     private fun handleConfirm() {
         mUser?.let {
+            //uid
             mMyservice.idContratante = it.uid
-            mMyservice.idContratado = mServices!!.uid
+            //id contratado
+            mMyservice.idContratado = mServices?.uid.toString()
+            //id para consulta no manager
             mMyservice.id[it.uid.toString()] = true
-            mMyservice.id[mServices!!.uid.toString()] = true
+            mMyservice.id[mServices?.uid.toString()] = true
+            //hora da compra
             mMyservice.timestamp = System.currentTimeMillis()
+            //opcoes de data e hora para pedido
             mMyservice.dateService = data
             mMyservice.horario = horario
-            mMyservice.serviceId = mServices!!.serviceId
+            //service id
+            mMyservice.serviceId = mServices?.serviceId.toString()
+            //url
             mMyservice.urlService = mServices?.urlService
+            //nome service
             mMyservice.serviceNome = mServices?.nomeService
+            //url contratante
             mMyservice.urlContratante = it.url
             mMyservice.urlContratado = mServices?.urlProfile
+            //preco de acordo com a quantidade
             mMyservice.preco = mServices?.preco!! * qtd.toFloat()
             mMyservice.quantidate = qtd
-            // Quantidade
+            // fim Quantidade
 
-
-
-            //
+            //fim contratado e contratante
             mMyservice.nomeContratado = mServices?.nome
             mMyservice.nomeContratante = it.nome
+            //desc
             mMyservice.shortDesc = mServices?.shortDesc
+            //enderecos
             mMyservice.cep = it.cep
             mMyservice.estado = it.estado
             mMyservice.cidade = it.cidade
             mMyservice.bairro = it.bairro
             mMyservice.rua = it.rua
             mMyservice.numero = it.numero
+            //status
             mMyservice.pendente = true
             mMyservice.finalizado = false
             mMyservice.andamento = false
+            //obs
             mMyservice.observacao = editObservacao.text.toString()
+            //docID é o nome que o documento vai receber para ser manipulado posteriormente
             val documentId = UUID.randomUUID().toString() + it.uid
             mMyservice.documentId = documentId
 
+            //notificação
             mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                 .document(mMyservice.idContratado.toString())
                 .get()
@@ -219,26 +259,32 @@ class ConfirmServiceActivity : AppCompatActivity() {
         }
     }
 
+    //show data
     private fun getDataService() {
         mUser?.let {
+            //nome
             nomeContratante.text = it.nome
+            //nome produto
             txtServicoContratar.text = mServices?.nomeService
-            var precoQtd = mServices?.preco!! * qtd.toFloat()
-            //txtPrecoContratante.text = "R$ ${precoQtd.toString().replace(".",",")}"
+            //preco x quantidade
+            val precoQtd = mServices?.preco!! * qtd.toFloat()
+            //mascara de preco
             if (precoQtd.toString().substringAfter(".").length == 1) {
                 txtPrecoContratante.text =
                     "R$ ${precoQtd.toString().replace(
                         ".",
                         ","
                     )}${"0"}"
-            }else {
+            } else {
                 txtPrecoContratante.text =
                     "R$ ${precoQtd.toString().replace(
                         ".",
                         ","
                     )}"
             }
+            //fim
 
+            //endereco
             txtEnderecoContratante.text =
                 "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
 

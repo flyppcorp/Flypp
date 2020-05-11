@@ -18,18 +18,15 @@ import com.flyppcorp.atributesClass.Notification
 
 
 class FirestoreContract(var context: Context) {
+    //variaveis e objetos
     private val mFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    var mProgress: Boolean = true
     val progress = ProgressDialog(context)
     lateinit var mIntertial: InterstitialAd
 
     @SuppressLint("ResourceAsColor")
 
-    fun confirmServiceContract(
-        myservice: Myservice,
-        documentId: String,
-        token: String,
-        notification: Notification
+    //função que salva no banco de dados
+    fun confirmServiceContract(myservice: Myservice, documentId: String, token: String, notification: Notification
     ) {
         progress.setCancelable(false)
         progress.show()
@@ -57,6 +54,7 @@ class FirestoreContract(var context: Context) {
 
     }
 
+    //função que envia uma notificação para o contratado
     private fun sendNotification(token: String, notification: Notification) {
 
             mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -75,6 +73,7 @@ class FirestoreContract(var context: Context) {
         toast.show()
     }
 
+    //função que mostra um anuncio
     private fun moveAndShowAd() {
         if (mIntertial.isLoaded) {
             mIntertial.show()

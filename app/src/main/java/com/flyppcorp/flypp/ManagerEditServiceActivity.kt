@@ -105,6 +105,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 snapshot?.let {
                     for (doc in snapshot) {
                         val serviceItem = doc.toObject(Servicos::class.java)
+
                         txtQtdServicesView.text =
                             "${serviceItem.totalServicos} concluídos"
                         if (serviceItem.comments > 0) {

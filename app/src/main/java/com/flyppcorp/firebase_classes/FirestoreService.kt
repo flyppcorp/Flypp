@@ -22,7 +22,7 @@ class FirestoreService (private val context: Context) {
     private val mAlertDialog = AlertDialog.Builder(context)
     private val mAuth = FirebaseAuth.getInstance().currentUser!!.uid
 
-    //função que salva serviços
+    //função que salva produtos
     fun servicos(mService: Servicos, serviceId :String){
         //progress dialog exibido
         //mDialog.show()
@@ -48,6 +48,7 @@ class FirestoreService (private val context: Context) {
 
             }
     }
+
     private fun servicosAtivos(){
        val tsDoc = mServices.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mAuth)
         mServices.runTransaction {

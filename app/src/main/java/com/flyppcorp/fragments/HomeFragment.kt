@@ -1,6 +1,7 @@
 package com.flyppcorp.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
+import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment() {
 
@@ -37,7 +39,7 @@ class HomeFragment : Fragment() {
     private var mUser: User? = null
     private lateinit var mCity: SharedFilter
     private var cityOther: User? = null
-
+    //Fim da desclaração das variáveis
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +56,7 @@ class HomeFragment : Fragment() {
         mSharedFilter = SharedFilter(context!!)
         mCity = SharedFilter(context!!)
         view.recyclerview_main.adapter = mAdapter
-
+        //Fim da iniciação das variáveis
 
         //configurações e inicio da recyclerview, evento de clique
         view.recyclerview_main.layoutManager = LinearLayoutManager(activity)
@@ -63,18 +65,23 @@ class HomeFragment : Fragment() {
             intent.putExtra(Constants.KEY.SERVICE_KEY, servicos[it])
             startActivity(intent)
         }
+        //Fim do inicio e click da recyclerview
 
+        //call das funções
         fetchServices()
         locationOther()
-        //updateProfile()
+        //fim da call das funções
         return view
     }
 
 
     //funcao que obtem servicos com e sem filtro
     private fun fetchServices() {
+        //pegando o sharedPreference
         val filter = mSharedFilter.getFilter(Constants.KEY.FILTER_KEY)
+        //verificando se o filtro existe
         if (filter != "") {
+            //Filtrando por menor preco
             if (filter.equals(Constants.FILTERS_VALUES.MENOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.ASCENDING)
@@ -99,6 +106,9 @@ class HomeFragment : Fragment() {
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
+                //Fim das filtragens
+
+                //Inicio do Filtro de maior preço
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_PRECO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("preco", Query.Direction.DESCENDING)
@@ -123,6 +133,9 @@ class HomeFragment : Fragment() {
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
+                //fim do filtro de maior preco
+
+                //filtro menor relevancia
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.ASCENDING)
@@ -147,6 +160,9 @@ class HomeFragment : Fragment() {
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
+                //fim do filtro
+
+                //filtro maior relevancia
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIOR_RELEVANCIA)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("totalServicos", Query.Direction.DESCENDING)
@@ -171,6 +187,9 @@ class HomeFragment : Fragment() {
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
+                //fim do filtro maior relevancia
+
+                //filtro do menos avaliado
             } else if (filter.equals(Constants.FILTERS_VALUES.MENOS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.ASCENDING)
@@ -195,6 +214,9 @@ class HomeFragment : Fragment() {
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                         mAdapter.notifyDataSetChanged()
                     }
+                //fim do filtro menos avaliada
+
+                //filtro mais avaliado
             } else if (filter.equals(Constants.FILTERS_VALUES.MAIS_AVALIADO)) {
                 mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                     .orderBy("avaliacao", Query.Direction.DESCENDING)
@@ -220,7 +242,9 @@ class HomeFragment : Fragment() {
                         mAdapter.notifyDataSetChanged()
                     }
             }
+            //fim do filtro mais avaliado
 
+            // sem filtro escolhido mas pega por maior avaliação
         } else {
             mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .orderBy("avaliacao", Query.Direction.DESCENDING)
@@ -245,13 +269,16 @@ class HomeFragment : Fragment() {
                     if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
                     mAdapter.notifyDataSetChanged()
                 }
+            //fim do filtro
         }
 
 
+
     }
+    //fim da função
 
+    //Esta função verifica sem existe uma localização salva no dispositivo e se não existir verifica se há uma no banco de dados, caso tenha, salva no dispositivo
     private fun locationOther() {
-
         mFirestoreService.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -273,48 +300,13 @@ class HomeFragment : Fragment() {
             }
 
     }
-
-    /*private fun updateProfile() {
-        val user = FirebaseFirestore.getInstance()
-        user.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(uid)
-            .get()
-            .addOnSuccessListener { data ->
-                val mUsers = data.toObject(User::class.java)
-
-                user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                    .whereEqualTo("uidProfile.${uid}", true)
-                    .addSnapshotListener { snapshot, exception ->
-                        snapshot?.let {
-                            for (doc in snapshot) {
-                                val item = doc.toObject(Servicos::class.java)
-                                if (item.urlProfile != mUsers?.url) {
-                                    val tsDoc =
-                                        user.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                            .document(item.serviceId!!)
-                                    user.runTransaction {
-                                        val content =
-                                            it.get(tsDoc).toObject(Servicos::class.java)
-                                        content?.urlProfile = mUsers?.url
-
-                                        it.set(tsDoc, content!!)
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-
-            }
-    }*/
-
+    //fim das função de localização de correção
 
     //funcões de manipulaçao de toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.bg_filter, menu)
@@ -331,9 +323,9 @@ class HomeFragment : Fragment() {
     }
     //fim da manipulacao de toolbar
 
+
     //inicio das funcoes de recyclerview
     inner class DetailRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        // var servicos: ArrayList<Servicos> = arrayListOf()
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -341,6 +333,7 @@ class HomeFragment : Fragment() {
                 LayoutInflater.from(parent.context).inflate(R.layout.service_items, parent, false)
             return CustomViewHolder(view)
         }
+
 
         inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -350,16 +343,23 @@ class HomeFragment : Fragment() {
             return servicos.size
         }
 
+        //clique da celular de rv
         var onItemClicked: ((Int) -> Unit)? = null
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            //implementeção da interface de click
             holder.itemView.setOnClickListener {
                 onItemClicked?.invoke(position)
             }
+            //fim do click
+
+            //variavel que cuida das informações
             var viewholder = (holder as CustomViewHolder).itemView
 
-
+            //nome do produto
             viewholder.txtNomeServico.text = servicos[position].nomeService
+
+            //imagem do produto
             if (servicos[position].urlService == null) {
                 viewholder.imgServiceMain.setImageResource(R.drawable.ic_working)
             } else {
@@ -368,6 +368,9 @@ class HomeFragment : Fragment() {
                     .fit().centerCrop().into(viewholder.imgServiceMain)
 
             }
+            //fim
+
+            //imagem do perfil
             if (servicos[position].urlProfile != null) {
                 Picasso.get().load(servicos[position].urlProfile)
                     .resize(300, 300)
@@ -376,17 +379,25 @@ class HomeFragment : Fragment() {
             } else {
                 viewholder.imgProfileImgMain.setImageResource(R.drawable.btn_select_photo_profile)
             }
+            //fim
 
+            //nome estabelecimento
             viewholder.txtNomeUser.text = servicos[position].nome
+            //descrição curta
             viewholder.txtShortDesc.text = servicos[position].shortDesc
-            if (servicos[position].preparo != null) viewholder.txtPreparo.text = servicos[position].preparo else viewholder.txtPreparo.text = "?"
+            //tempo de preparo
+            if (servicos[position].tempoEntrega != null) viewholder.txtPreparo.text =
+                servicos[position].tempoEntrega else viewholder.txtPreparo.text = "?"
+            //avaliação
             val avaliacao: Double =
                 servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
             if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
                 "${servicos[position].avaliacao}/5"
             else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
+            //fim avaliação
 
 
+            //preço
             if (servicos[position].preco.toString().substringAfter(".").length == 1) {
                 viewholder.txtPrecoContratante.text =
                     "R$ ${servicos[position].preco.toString().replace(
@@ -400,8 +411,10 @@ class HomeFragment : Fragment() {
                         ","
                     )}"
             }
+            //fim preço
 
 
+            //ação para favoritar
             viewholder.btnFavorite.setOnClickListener {
                 eventFavorite(position)
 
@@ -413,74 +426,30 @@ class HomeFragment : Fragment() {
             } else {
                 viewholder.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
-
-            /*if ((servicos != null && servicos.size > 0) && (contentUidList != null && contentUidList.size > 0)  || (servicos != null && servicos.size > 1) && (contentUidList != null && contentUidList.size > 1) ){
-                if (servicos[position].uidProfile.containsKey(uid) ) {
-                    updateInfo(
-                        servicos[position].nome!!,
-                        servicos[position].urlProfile.toString(),
-                        position
-                    )
-                }
-            }*/
-
-
-            //updateLocation()
-
+            //fim ação
         }
 
-
-        /*private fun updateInfo(nome: String, url: String, position: Int) {
-
-            val user = FirebaseFirestore.getInstance()
-            user.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                .document(uid)
-                .get()
-                .addOnSuccessListener {
-                    mUser = it.toObject(User::class.java)
-                    if (contentUidList != null && contentUidList.size > 0) {
-                        val tsDoc =
-                            mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                .document(contentUidList[position])
-                        mFirestoreService.runTransaction {
-                            val userUp = it.get(tsDoc).toObject(Servicos::class.java)
-                            if (userUp!!.uidProfile.containsKey(uid)) {
-                                /*if (nome != mUser!!.nome) {
-                                    userUp.nome = mUser!!.nome
-                                }*/
-                                if (url != mUser?.url) {
-                                    userUp.urlProfile = mUser?.url
-                                }
-
-                            }
-
-                            it.set(tsDoc, userUp)
-                        }
-                    } else {
-                        return@addOnSuccessListener
-                    }
-
-                }
-
-
-        }*/
-
-
+        //função que salva o id do usuario no produto e favorita
         private fun eventFavorite(position: Int) {
 
+            //pega o nome do documento
             var tsDoc = mFirestoreService.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(contentUidList[position])
+            //inicio da firestore trtansaction
             mFirestoreService.runTransaction { transaction ->
 
-                var contentServico = transaction.get(tsDoc).toObject(Servicos::class.java)
+                //variavel que aponta para o documento no banco
+                val contentServico = transaction.get(tsDoc).toObject(Servicos::class.java)
 
+                //se ao clicar o id estiver no documento, então remove o id
                 if (contentServico!!.favoritos.containsKey(uid)) {
                     contentServico.favoritos.remove(uid)
-
+                //senão adiciona ao documento
                 } else {
                     contentServico.favoritos[uid] = true
 
                 }
+                //completa a transaction
                 transaction.set(tsDoc, contentServico)
 
             }

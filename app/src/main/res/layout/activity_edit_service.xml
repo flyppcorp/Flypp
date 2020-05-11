@@ -210,7 +210,7 @@
                 android:id="@+id/textInputLayout24"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Tempo de preparo"
+                android:hint="Entrega em até:"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout20"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout20"

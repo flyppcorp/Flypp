@@ -3,6 +3,7 @@ package com.flyppcorp.fragments
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -40,6 +41,7 @@ class SearchFragment : Fragment() {
     private lateinit var uid: String
     private lateinit var mConnection: Connection
     private lateinit var mCity: SharedFilter
+    //fim
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,10 +56,14 @@ class SearchFragment : Fragment() {
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         mConnection = Connection(context!!)
         mCity = SharedFilter(context!!)
+        //fim da iniciação
 
         //primeiras configurações e manipulações da recyclerview
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_search, container, false)
         view.recyclerSearch.adapter = mAdapter
+        view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
+
+        //clique nos botões para retornar a pesquisa
         view.btnSearch.setOnClickListener {
             if (!editSearch.text.toString().isEmpty()) {
                 if (mConnection.validateConection()) {
@@ -71,6 +77,7 @@ class SearchFragment : Fragment() {
             }
 
         }
+
         view.editSearch.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (!editSearch.text.toString().isEmpty()) {
@@ -85,13 +92,14 @@ class SearchFragment : Fragment() {
             }
             true
         }
-        view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
+
+        //acão de clique na recyclerView
         mAdapter.onItemClick = {
             val intent = Intent(context, ServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, contentServicesearch[it])
             startActivity(intent)
         }
-
+        //fim
         return view
     }
 
@@ -99,8 +107,8 @@ class SearchFragment : Fragment() {
     //função que busca os resultados no banco de dados
     fun get() {
 
+        //função que pesquisa no banco todos os produtos da cidade
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            //.whereEqualTo("tags.${search}", true)
             .whereEqualTo("cityName", mCity.getFilter(Constants.KEY.CITY_NAME))
             .whereEqualTo("visible", true)
             .addSnapshotListener { snapshot, exception ->
@@ -112,16 +120,16 @@ class SearchFragment : Fragment() {
                     val item = doc.toObject(Servicos::class.java)
                     val prefix = editSearch?.text.toString().toLowerCase()
 
-                        for (key in item!!.tags) {
-                            if (key.toString().contains(prefix)) {
-                                contentServicesearch.add(item)
-                                contentUidList.add(doc.id)
-                                break
-                            }
-
-
+                    //filtragem por nome digitado nos produtos disponiveis na cidade
+                    for (key in item!!.tags) {
+                        if (key.toString().contains(prefix)) {
+                            contentServicesearch.add(item)
+                            contentUidList.add(doc.id)
+                            break
+                        }
 
                     }
+                    //fim da busca
 
 
                 }
@@ -160,7 +168,9 @@ class SearchFragment : Fragment() {
                 onItemClick?.invoke(position)
             }
             val viewholder = (holder as CustomViewholder).itemView
+            //nome produto
             viewholder.txtNomeServicoList.text = contentServicesearch[position].nomeService
+            //imagem do produto
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
@@ -168,18 +178,32 @@ class SearchFragment : Fragment() {
                     .centerCrop().placeholder(R.drawable.photo_work)
                     .into(viewholder.imgServiceMainList)
             }
+            //fim
+
+            //nome do estabelecimento
             viewholder.txtNomeUserList.text = contentServicesearch[position].nome
+            //imagem do perfil
             Picasso.get().load(contentServicesearch[position].urlProfile).resize(300, 300)
                 .centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
-            if (contentServicesearch[position].preparo != null) viewholder.txtPreparoList.text = " ${contentServicesearch[position].preparo}" else viewholder.txtPreparoList.text = " ?"
+            //fim
+            //tempo de entrega
+            if (contentServicesearch[position].tempoEntrega != null) viewholder.txtPreparoList.text =
+                " ${contentServicesearch[position].tempoEntrega}" else viewholder.txtPreparoList.text =
+                " ?"
+            //fim entrega
+            //desc curta
             viewholder.txtShortDescList.text = contentServicesearch[position].shortDesc
+
+            //avaliação
             val avaliacao: Double =
                 contentServicesearch[position].avaliacao.toDouble() / contentServicesearch[position].totalAvaliacao
             if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
                 "${contentServicesearch[position].avaliacao}/5"
             else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            //fim avaliação
 
+            //preço
             if (contentServicesearch[position].preco.toString().substringAfter(".").length == 1) {
                 viewholder.txtPrecoList.text =
                     "R$ ${contentServicesearch[position].preco.toString().replace(
@@ -193,16 +217,21 @@ class SearchFragment : Fragment() {
                         ","
                     )}"
             }
+            //fim preço
 
+            //event favorite
             viewholder.btnFavoriteList.setOnClickListener {
                 favoriteEvent(position)
             }
+
             if (contentServicesearch[position].favoritos.containsKey(uid)) {
                 viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite)
             } else {
                 viewholder.btnFavoriteList.setImageResource(R.drawable.ic_favorite_border)
             }
+            //fim event
 
+            //ampliar foto do produto
             viewholder.imgServiceMainList.setOnClickListener {
                 val viewD = layoutInflater.inflate(R.layout.dialog_fr, null)
                 val alert = AlertDialog.Builder(context!!)
@@ -250,57 +279,7 @@ class SearchFragment : Fragment() {
                 //ad.window?.setLayout(100, 100)
                 ad.show()
             }
-
-            /*viewholder.imgProfileImgMainList.setOnClickListener {
-                val viewD = layoutInflater.inflate(R.layout.dialog_fr, null)
-                val alert = AlertDialog.Builder(context!!)
-                viewD.txtNomeExpand.text = contentServicesearch[position].nome
-                Picasso.get().load(contentServicesearch[position].urlProfile).fit()
-                    .centerCrop().placeholder(R.drawable.ic_working).into(viewD.imgExpand)
-
-
-                viewD.message.setOnClickListener {
-                    val mAuth = FirebaseAuth.getInstance()
-
-                    if (mAuth.currentUser?.isAnonymous == false && mAuth.currentUser?.uid != contentServicesearch[position].uid) {
-                        val mFirestore = FirebaseFirestore.getInstance()
-                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                            .document(contentServicesearch[position].uid.toString())
-                            .get()
-                            .addOnSuccessListener {
-                                val user = it.toObject(User::class.java)
-                                val intent = Intent(context, MessageActivity::class.java)
-                                intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
-                                startActivity(intent)
-                            }
-                    } else if (mAuth.currentUser?.isAnonymous == true) {
-                        val alert = AlertDialog.Builder(context!!)
-                        alert.setTitle("Ops!")
-                        alert.setMessage(
-                            "Para enviar mensagens você precisa fazer login ou criar uma conta." +
-                                    "\nDeseja fazer isso agora ?"
-                        )
-                        alert.setNegativeButton("Agora não", { dialog, which -> })
-                        alert.setPositiveButton("Sim", { dialog, which ->
-                            val intent = Intent(context!!, LoginActivity::class.java)
-                            startActivity(intent)
-                        })
-                        alert.show()
-                    } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {
-                        val mAlert = AlertDialog.Builder(context!!)
-                        mAlert.setMessage("Ops, nós sabemos que as vezes queremos falar com nós mesmos, mas desta vez não vai ser possível.")
-                        mAlert.setPositiveButton("Ok", { dialog, which -> })
-                        mAlert.show()
-                    }
-                }
-
-
-                alert.setView(viewD)
-                val ad = alert.create()
-                //ad.window?.setLayout(250, 310)
-                ad.show()
-            }*/
-
+            //fim da chamada
 
         }
 
