@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_profile_informations.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import java.util.*
+import kotlin.math.sign
 
 class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var header: View
@@ -68,12 +69,6 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             navigationView.setCheckedItem(R.id.perfil)
         }
 
-        mAuth.addAuthStateListener {
-            if (mAuth.currentUser == null){
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
-        }
-
         fetch()
 
 
@@ -99,8 +94,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             }
 
             R.id.sair -> {
-                signOut()
-
+               signOut()
             }
             //R.id.conta_bancaria -> Toast.makeText(this, "CONTA", Toast.LENGTH_SHORT).show()
         }
@@ -118,32 +112,17 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
     }
 
     private fun signOut() {
-        val correntUser = mAuth.currentUser
-        val UID = "UID"
-        val temporatyToken = UUID.randomUUID().toString()
-         val mSharedFilter = SharedFilter(this)
-        if (correntUser != null){
-            mSharedFilter.saveFilter(UID, correntUser.uid)
-        }
-        FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .document(correntUser!!.uid)
-            .update("online", false)
-        val alert = AlertDialog.Builder(this)
-        alert.setMessage("Você tem certeza que deseja sair?")
-        alert.setNegativeButton("Não", {dialog, which ->  })
-        alert.setPositiveButton("Sim", {dialog, which ->
-            if (correntUser != null) {
-                mAuth.signOut()
-                FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION).document(mSharedFilter.getFilter(UID))
-                    .update("token", "${temporatyToken}")
-                val intent: Intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+        mAuth.addAuthStateListener {
+            if (it.currentUser != null){
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setMessage("Você deseja mesmo sair?")
+                alertDialog.setPositiveButton("SIM", {dialog, which ->
+                    it.signOut()
+                })
+                alertDialog.setNegativeButton("NÃO", {dialog, which ->  })
+                alertDialog.show()
             }
-
-        })
-        alert.show()
-
-
+        }
     }
 
     private fun fetch() {
@@ -152,7 +131,7 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
-                profileName.text = mUser!!.nome
+                profileName.text = mUser?.nome
                 Picasso.get().load(mUser?.url).resize(200,200).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(imageProfile)
 
 

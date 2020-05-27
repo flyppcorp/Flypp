@@ -46,7 +46,7 @@ class AndamentoActivity : AppCompatActivity() {
             handleCancel()
         }
         btnFinalizarAndamento.setOnClickListener {
-            if (mConnection.validateConection()){
+            if (mConnection.validateConection()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
                 handleFinalizar()
@@ -63,6 +63,8 @@ class AndamentoActivity : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.title = "Em andamento"
         getEndereco()
         btnText()
@@ -74,9 +76,14 @@ class AndamentoActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
+
+            android.R.id.home -> {
+                finish()
+            }
+
             R.id.mensagem_my_service -> {
-                if (mAuth.currentUser?.uid == mMyservice?.idContratante ){
+                if (mAuth.currentUser?.uid == mMyservice?.idContratante) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                         .document(mMyservice?.idContratado.toString())
                         .get()
@@ -86,7 +93,7 @@ class AndamentoActivity : AppCompatActivity() {
                             intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                             startActivity(intent)
                         }
-                }else if (mAuth.currentUser?.uid == mMyservice?.idContratado){
+                } else if (mAuth.currentUser?.uid == mMyservice?.idContratado) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                         .document(mMyservice?.idContratante.toString())
                         .get()
@@ -149,6 +156,7 @@ class AndamentoActivity : AppCompatActivity() {
             dashBoard()
 
         }.addOnSuccessListener {
+            handleCocluiu(mMyservice?.idContratante)
             val tsServiceDoc = mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice?.serviceId.toString())
             mFirestore.runTransaction {
@@ -168,8 +176,20 @@ class AndamentoActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun handleCocluiu(idContratante: String?) {
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(idContratante.toString())
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            if (!content!!.primeiraCompraConcluida) {
+                content.primeiraCompraConcluida = true
+            }
 
 
+            it.set(tsDoc, content)
+        }
     }
 
     private fun servicosFinalizado(uid: String) {
@@ -223,16 +243,18 @@ class AndamentoActivity : AppCompatActivity() {
                     .document(user?.token.toString())
                     .set(notification).addOnSuccessListener {
 
-                        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(mMyservice?.documentId.toString())
+                        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                            .document(mMyservice?.documentId.toString())
                         mFirestore.runTransaction {
                             val content = it.get(tsDoc).toObject(Myservice::class.java)
-                            if (mMyservice?.caminho == false){
+                            if (mMyservice?.caminho == false) {
                                 content?.caminho = true
                             }
                             it.set(tsDoc, content!!)
                         }
 
-                        val colorFilter = PorterDuffColorFilter(Color.rgb(22,160,133), PorterDuff.Mode.MULTIPLY)
+                        val colorFilter =
+                            PorterDuffColorFilter(Color.rgb(22, 160, 133), PorterDuff.Mode.MULTIPLY)
                         floatingActionButton?.background?.colorFilter = colorFilter
                         Alerter.create(this)
                             .setTitle("Quase lá!")
@@ -291,8 +313,9 @@ class AndamentoActivity : AppCompatActivity() {
                 val user = it.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyservice?.serviceId
-                notification.text = "${mMyservice?.nomeContratado} cancelou o pedido (${mMyservice?.serviceNome})"
-                notification.title ="Nova atualização de pedido"
+                notification.text =
+                    "${mMyservice?.nomeContratado} cancelou o pedido (${mMyservice?.serviceNome})"
+                notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
                     .document(user?.token.toString())
@@ -305,15 +328,16 @@ class AndamentoActivity : AppCompatActivity() {
         if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             btnVoltarAndamento.text = "Cancelar"
             btnFinalizarAndamento.visibility = View.GONE
-        }else{
-            btnVoltarAndamento?.visibility= View.GONE
+        } else {
+            btnVoltarAndamento?.visibility = View.GONE
         }
 
-        if (mMyservice?.caminho == true){
-            val colorFilter = PorterDuffColorFilter(Color.rgb(22,160,133), PorterDuff.Mode.MULTIPLY)
+        if (mMyservice?.caminho == true) {
+            val colorFilter =
+                PorterDuffColorFilter(Color.rgb(22, 160, 133), PorterDuff.Mode.MULTIPLY)
             floatingActionButton?.background?.colorFilter = colorFilter
         }
-        if (mMyservice?.idContratante == mAuth.currentUser?.uid ){
+        if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
             floatingActionButton?.visibility = View.GONE
         }
     }
@@ -330,7 +354,8 @@ class AndamentoActivity : AppCompatActivity() {
 
     private fun fetchService() {
         mAdress?.let {
-            if (mMyservice?.urlService != null) Picasso.get().load(mMyservice?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(
+            if (mMyservice?.urlService != null) Picasso.get().load(mMyservice?.urlService)
+                .placeholder(R.drawable.ic_working).fit().centerCrop().into(
                 imgAndamentoAcct
             )
             else imgAndamentoAcct.setImageResource(R.drawable.ic_working)
@@ -339,24 +364,15 @@ class AndamentoActivity : AppCompatActivity() {
             txtServiceAndamentoAcct.text = mMyservice?.serviceNome
             txtObservacaoAndamento.text = mMyservice?.observacao
             txtObsProf.text = mMyservice?.observacaoProfissional
+            
+            val result = String.format("%.2f", mMyservice?.preco)
+            txtPrecoAndamentoAcct.text = "R$ ${result}"
 
-            if (mMyservice?.preco.toString().substringAfter(".").length == 1){
-                txtPrecoAndamentoAcct.text =
-                    "R$ ${mMyservice?.preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
-            }else{
-                txtPrecoAndamentoAcct.text =
-                    "R$ ${mMyservice?.preco.toString().replace(
-                        ".",
-                        ","
-                    )}"
-            }
+
 
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
                     "${it.cidade}, ${it.estado}, ${it.cep}"
-            if (it.dateService != null && it.horario != null){
+            if (it.dateService != null && it.horario != null) {
                 "${it.dateService} ás ${it.horario}"
             }
             txtQuantidade.text = it.quantidate.toString()
@@ -372,7 +388,8 @@ class AndamentoActivity : AppCompatActivity() {
             val content = it.get(tsDoc).toObject(DashBoard::class.java)
             content!!.finishService = content.finishService + 1
             content.totalGasto = content.totalGasto + mMyservice?.preco!!.toLong()
-            content.lucroLiquido = content.lucroLiquido + ((mMyservice!!.preco!!.toDouble() / 100) * 10)
+            content.lucroLiquido =
+                content.lucroLiquido + ((mMyservice!!.preco!!.toDouble() / 100) * 10)
             it.set(tsDoc, content)
         }
     }

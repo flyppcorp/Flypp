@@ -38,7 +38,7 @@ class ProfileActivity : AppCompatActivity() {
     private var totalAvaliacao : Int? = null
     private var mEmpresa : String? = null
     private lateinit var mConnect: Connection
-
+    private var mPrimeiraCompra: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +116,7 @@ class ProfileActivity : AppCompatActivity() {
                     avaliacao = userItem.avaliacao
                     totalAvaliacao = userItem.totalAvaliacao
                     mEmpresa = userItem.nomeEmpresa
+                    mPrimeiraCompra = userItem.primeiraCompra
 
 
                 }
@@ -149,6 +150,7 @@ class ProfileActivity : AppCompatActivity() {
                 mUserInfo.totalServicosFinalizados = servicosFinalizados!!
                 mUserInfo.totalAvaliacao = totalAvaliacao!!
                 mUserInfo.avaliacao = avaliacao!!
+                mUserInfo.primeiraCompra = mPrimeiraCompra!!
 
 
 

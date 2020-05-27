@@ -198,25 +198,22 @@ class SearchFragment : Fragment() {
             //avaliação
             val avaliacao: Double =
                 contentServicesearch[position].avaliacao.toDouble() / contentServicesearch[position].totalAvaliacao
-            if (contentServicesearch[position].avaliacao == 0) viewholder.txtAvaliacaoList.text =
-                "${contentServicesearch[position].avaliacao}/5"
-            else viewholder.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            val resultAvaliacao = String.format("%.1f", avaliacao)
+            if (contentServicesearch[position].avaliacao == 0){
+                viewholder.txtAvaliacaoList.text =
+                    "0/5"
+            }else{
+                viewholder.txtAvaliacaoList.text =
+                    "${resultAvaliacao}/5"
+            }
+
             //fim avaliação
 
             //preço
-            if (contentServicesearch[position].preco.toString().substringAfter(".").length == 1) {
-                viewholder.txtPrecoList.text =
-                    "R$ ${contentServicesearch[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
-            } else {
-                viewholder.txtPrecoList.text =
-                    "R$ ${contentServicesearch[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}"
-            }
+            val result = String.format("%.2f", contentServicesearch[position].preco)
+            viewholder.txtPrecoList.text =
+                "R$ ${result}"
+
             //fim preço
 
             //event favorite
@@ -263,7 +260,9 @@ class SearchFragment : Fragment() {
                         alert.setNegativeButton("Agora não", { dialog, which -> })
                         alert.setPositiveButton("Sim", { dialog, which ->
                             val intent = Intent(context!!, LoginActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
+
                         })
                         alert.show()
                     } else if (mAuth.currentUser?.uid == contentServicesearch[position].uid) {

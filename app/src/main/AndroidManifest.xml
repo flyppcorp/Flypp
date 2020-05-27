@@ -84,11 +84,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            tools:ignore="LockedOrientationActivity"/>
+
         <activity
             android:name="com.flyppcorp.managerServices.FilterActivity"
             android:screenOrientation="portrait"
@@ -111,30 +108,19 @@
             android:name="com.flyppcorp.managerServices.FinalizadoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ManagerServicesActivity" />
-        </activity>
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.flyppcorp.managerServices.AndamentoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ManagerServicesActivity" />
-        </activity>
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name="com.flyppcorp.managerServices.PendenteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ManagerServicesActivity" />
-        </activity>
+            tools:ignore="LockedOrientationActivity"/>
+
         <activity
             android:name=".ManagerServicesActivity"
             android:screenOrientation="portrait"
@@ -159,13 +145,8 @@
             android:name=".ServiceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            tools:ignore="LockedOrientationActivity"/>
 
-
-        </activity>
         <activity
             android:name=".CreateProfileActivity"
             android:screenOrientation="portrait"
@@ -208,7 +189,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification_logo" />
+            android:resource="@drawable/ic_notification_new_logo" />
     </application>
 
 </manifest>

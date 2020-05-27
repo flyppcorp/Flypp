@@ -120,26 +120,12 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                         } else {
                             val avaliacao: Double =
                                 serviceItem.avaliacao.toDouble() / serviceItem.totalAvaliacao
-                            txtAvaliacaoView.text = "${avaliacao.toString().substring(
-                                0,
-                                3
-                            )}/5 (${serviceItem.totalAvaliacao})"
+                            val resultAv = String.format("%.1f", avaliacao)
+                            txtAvaliacaoView.text = "${resultAv}/5 (${serviceItem?.totalAvaliacao})"
                         }
 
-
-                        if (serviceItem.preco.toString().substringAfter(".").length == 1) {
-                            txtPrecoView.text =
-                                "R$ ${serviceItem.preco.toString().replace(
-                                    ".",
-                                    ","
-                                )}${"0"}"
-                        } else {
-                            txtPrecoView.text =
-                                "R$ ${serviceItem.preco.toString().replace(
-                                    ".",
-                                    ","
-                                )}"
-                        }
+                        val result = String.format("%.2f", serviceItem.preco)
+                        txtPrecoView.text = "R$ ${result}"
 
                         txtDetailDescView.text = serviceItem.longDesc
                         txtQualityView.text = serviceItem.qualidadesDiferenciais

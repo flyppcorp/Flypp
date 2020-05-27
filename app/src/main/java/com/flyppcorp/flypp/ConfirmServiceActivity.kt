@@ -1,14 +1,20 @@
 package com.flyppcorp.flypp
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.net.ConnectivityManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.Servicos
@@ -21,8 +27,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_confirm_service.*
 import java.util.*
 import com.google.android.gms.ads.*
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_pendente.*
+import java.io.IOException
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class ConfirmServiceActivity : AppCompatActivity() {
@@ -37,6 +51,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var data: String? = null
     private var horario: String? = null
     private var qtd by Delegates.notNull<Int>()
+    private lateinit var mRemote: FirebaseRemoteConfig
+    private lateinit var client: FusedLocationProviderClient
 
     //fim
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +64,13 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirestoreContract = FirestoreContract(this)
-        mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
+        //mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
         MobileAds.initialize(this)
-        mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
-        mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
+        //mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
+        //mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
         mMyservice = Myservice()
+        mRemote = FirebaseRemoteConfig.getInstance()
+        client = LocationServices.getFusedLocationProviderClient(this)
         //fim
 
         //função que captura os dados do servico para qtd
@@ -211,8 +229,26 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.urlContratante = it.url
             mMyservice.urlContratado = mServices?.urlProfile
             //preco de acordo com a quantidade
-            mMyservice.preco = mServices?.preco!! * qtd.toFloat()
-            mMyservice.quantidate = qtd
+            var precoQuantidade = mServices?.preco!! * qtd.toFloat()
+            if (!it.primeiraCompra) {
+                val desconto: Double = precoQuantidade * (10 / 100.0)
+                mMyservice.preco = (precoQuantidade - desconto).toFloat()
+                mMyservice.quantidate = qtd
+            } else {
+                /*mMyservice.preco = precoQuantidade
+                mMyservice.quantidate = qtd*/
+                mRemote.fetch(0).addOnCompleteListener {task ->
+                    if (task.isSuccessful){
+                        mRemote.fetchAndActivate()
+                        val off = mRemote.getString("off")
+                        val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
+                        mMyservice.preco = (precoQuantidade - desconto).toFloat()
+                        mMyservice.quantidate = qtd
+                    }
+
+                }
+            }
+
             // fim Quantidade
 
             //fim contratado e contratante
@@ -221,12 +257,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //desc
             mMyservice.shortDesc = mServices?.shortDesc
             //enderecos
-            mMyservice.cep = it.cep
-            mMyservice.estado = it.estado
-            mMyservice.cidade = it.cidade
-            mMyservice.bairro = it.bairro
-            mMyservice.rua = it.rua
-            mMyservice.numero = it.numero
+            mMyservice.cep = edtCepConfirm.text.toString()
+            mMyservice.estado = edtEstadoConfirm.text.toString()
+            mMyservice.cidade = edtCidadeConfirm.text.toString()
+            mMyservice.bairro = edtBairroConfirm.text.toString()
+            mMyservice.rua = edtRuaConfirm.text.toString()
+            mMyservice.numero = edtNumConfirm.text.toString()
             //status
             mMyservice.pendente = true
             mMyservice.finalizado = false
@@ -247,13 +283,20 @@ class ConfirmServiceActivity : AppCompatActivity() {
                     val notification = Notification()
                     notification.serviceId = documentId
                     notification.text =
-                        "${mMyservice.nomeContratante} está solicitando um pedido (${mMyservice.serviceNome})"
+                        "${mMyservice.nomeContratante} está fazendo um pedido (${mMyservice.serviceNome})"
                     notification.title = "Novo pedido"
 
                     mFirestoreContract.confirmServiceContract(
-                        mMyservice, documentId, user?.token.toString(), notification
+                        mMyservice,
+                        documentId,
+                        user?.token.toString(),
+                        notification
                     )
                 }
+            //AQUI
+            if (!it.primeiraCompra) {
+                mFirestoreContract.tsFirstCompra(it.uid.toString())
+            }
 
 
         }
@@ -266,27 +309,46 @@ class ConfirmServiceActivity : AppCompatActivity() {
             nomeContratante.text = it.nome
             //nome produto
             txtServicoContratar.text = mServices?.nomeService
-            //preco x quantidade
-            val precoQtd = mServices?.preco!! * qtd.toFloat()
+            //preco x quantidade e desconto
             //mascara de preco
-            if (precoQtd.toString().substringAfter(".").length == 1) {
-                txtPrecoContratante.text =
-                    "R$ ${precoQtd.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
+            var precoQtd = mServices?.preco!! * qtd.toFloat()
+            if (!it.primeiraCompra) {
+
+                val desconto: Double = precoQtd * (10 / 100.0)
+                precoQtd = (precoQtd - desconto).toFloat()
+
+                val result = String.format("%.2f", precoQtd)
+                txtPrecoContratante.text = "R$ ${result}"
+
+
             } else {
-                txtPrecoContratante.text =
-                    "R$ ${precoQtd.toString().replace(
-                        ".",
-                        ","
-                    )}"
+                /*
+                val result = String.format("%.2f", precoQtd)
+                txtPrecoContratante.text = "R$ ${result}"*/
+                mRemote.fetch(0).addOnCompleteListener {task ->
+                    if (task.isSuccessful){
+                        mRemote.fetchAndActivate()
+                        val off = mRemote.getString("off")
+                        val desconto: Double = precoQtd * (off.toInt() / 100.0)
+                        precoQtd = (precoQtd - desconto).toFloat()
+
+                        val result = String.format("%.2f", precoQtd)
+                        txtPrecoContratante.text = "R$ ${result}"
+                    }
+
+                }
+
             }
             //fim
 
             //endereco
-            txtEnderecoContratante.text =
-                "${it.rua}, ${it.bairro}, ${it.numero} \n ${it.cidade}, ${it.estado}, ${it.cep}"
+            if (it.rua != null) edtRuaConfirm.setText(it.rua)
+            if (it.bairro != null) edtBairroConfirm.setText(it.bairro)
+            if (it.cidade != null) edtCidadeConfirm.setText(it.cidade)
+            if (it.estado != null) edtEstadoConfirm.setText(it.estado)
+            if (it.numero != null) edtNumConfirm.setText(it.numero)
+            if (it.cep != null) edtCepConfirm.setText(it.cep)
+
 
         }
     }

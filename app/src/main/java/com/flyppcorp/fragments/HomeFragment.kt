@@ -273,7 +273,6 @@ class HomeFragment : Fragment() {
         }
 
 
-
     }
     //fim da função
 
@@ -391,26 +390,23 @@ class HomeFragment : Fragment() {
             //avaliação
             val avaliacao: Double =
                 servicos[position].avaliacao.toDouble() / servicos[position].totalAvaliacao
-            if (servicos[position].avaliacao == 0) viewholder.txtAvaliacao.text =
-                "${servicos[position].avaliacao}/5"
-            else viewholder.txtAvaliacao.text = "${avaliacao.toString().substring(0, 3)}/5"
+            val resultAvaliacao = String.format("%.1f", avaliacao)
+            if (servicos[position].avaliacao == 0){
+                viewholder.txtAvaliacao.text =
+                    "0/5"
+            }else{
+                viewholder.txtAvaliacao.text =
+                    "${resultAvaliacao}/5"
+            }
+
             //fim avaliação
 
 
             //preço
-            if (servicos[position].preco.toString().substringAfter(".").length == 1) {
-                viewholder.txtPrecoContratante.text =
-                    "R$ ${servicos[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
-            } else {
-                viewholder.txtPrecoContratante.text =
-                    "R$ ${servicos[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}"
-            }
+
+            val result = String.format("%.2f", servicos[position].preco)
+            viewholder.txtPrecoContratante.text =
+                "R$ ${result}"
             //fim preço
 
 
@@ -444,7 +440,7 @@ class HomeFragment : Fragment() {
                 //se ao clicar o id estiver no documento, então remove o id
                 if (contentServico!!.favoritos.containsKey(uid)) {
                     contentServico.favoritos.remove(uid)
-                //senão adiciona ao documento
+                    //senão adiciona ao documento
                 } else {
                     contentServico.favoritos[uid] = true
 

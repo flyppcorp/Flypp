@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ServiceActivity">
 
-
     <Button
         android:id="@+id/btnContratar"
         android:layout_width="0dp"
@@ -64,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg"
+                    android:background="@drawable/button_bg_orange"
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
@@ -83,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg"
+                    android:background="@drawable/button_bg_orange"
                     android:drawableLeft="@drawable/ic_star_black_small"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
@@ -98,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg"
+                    android:background="@drawable/button_bg_orange"
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingLeft="5dp"

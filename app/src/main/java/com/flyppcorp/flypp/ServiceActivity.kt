@@ -5,11 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.Helper.PagerAdapterImage
 import com.flyppcorp.atributesClass.Servicos
@@ -20,6 +22,7 @@ import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_service.*
+import kotlinx.android.synthetic.main.activity_service.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -75,12 +78,14 @@ class ServiceActivity : AppCompatActivity() {
                 alert.setTitle("Ops!")
                 alert.setMessage(
                     "Para contratar um serviço você precisa fazer login ou criar uma conta." +
+                            "\nSe preferir salve o produto na sua lista de favoritos antes de sair para login." +
                             "\nDeseja fazer isso agora ?"
                 )
                 alert.setNegativeButton("Agora não", { dialog, which -> })
                 alert.setPositiveButton("Sim", { dialog, which ->
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
+                    finish()
                 })
                 alert.show()
             }
@@ -95,8 +100,8 @@ class ServiceActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.includeService)
-        //tb.title = ""
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.title = mService?.nomeService.toString()
         getIcon()
 
@@ -130,6 +135,10 @@ class ServiceActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            android.R.id.home -> {
+                finish()
+            }
             R.id.fav_action -> {
                 handleFavorite()
                 mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -162,6 +171,7 @@ class ServiceActivity : AppCompatActivity() {
                         alert.setPositiveButton("Sim", { dialog, which ->
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
+                            finish()
                         })
                         alert.show()
                     }
@@ -211,7 +221,8 @@ class ServiceActivity : AppCompatActivity() {
                         intent.setType("text/plain")
 
                         intent.putExtra(
-                            Intent.EXTRA_TEXT, "${mService?.nomeService} \n${mService?.shortDesc} \n"+ shortLink.toString()
+                            Intent.EXTRA_TEXT,
+                            "${mService?.nomeService} \n${mService?.shortDesc} \n" + shortLink.toString()
                         )
 
                         startActivity(intent)
@@ -267,15 +278,17 @@ class ServiceActivity : AppCompatActivity() {
             val mAlert = AlertDialog.Builder(this)
             mAlert.setMessage(
                 "Hey, nós sabemos o quão ótimo(a) você é," +
-                        " mas infelizmente você não pode se contratar"
+                        " mas infelizmente você não pode se contratar."
             )
             mAlert.setPositiveButton("OK", { dialogInterface: DialogInterface, i: Int -> })
             mAlert.show()
         } else {
+
             val intent = Intent(this, ConfirmServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, mService)
             intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
+
         }
     }
 
@@ -292,28 +305,20 @@ class ServiceActivity : AppCompatActivity() {
                         txtTituloServices.text = service.nomeService
                         txtDescShort.text = service.shortDesc
                         txtResponde.text = service.tempoResposta
+                        //avaliacao
                         val avaliacao: Double =
                             service.avaliacao.toDouble() / service.totalAvaliacao
-                        if (service.avaliacao == 0) txtAvaliacao.text =
-                            "Sem avaliações"
-                        else txtAvaliacao.text = "${avaliacao.toString().substring(
-                            0,
-                            3
-                        )}/5 (${service.totalAvaliacao})"
-
-                        if (service.preco.toString().substringAfter(".").length == 1) {
-                            txtPrecoContratante.text =
-                                "R$ ${service.preco.toString().replace(
-                                    ".",
-                                    ","
-                                )}${"0"}"
+                        val resultAvaliacao = String.format("%.1f", avaliacao)
+                        if (service.avaliacao == 0) {
+                            txtAvaliacao.text = "Sem avaliações"
                         } else {
-                            txtPrecoContratante.text =
-                                "R$ ${service.preco.toString().replace(
-                                    ".",
-                                    ","
-                                )}"
+                            txtAvaliacao.text = "${resultAvaliacao}/5"
                         }
+                        //preco
+                        val result = String.format("%.2f", mService?.preco)
+                        txtPrecoContratante.text =
+                            "R$ ${result}"
+
 
                         txtDetailDesc.text = service.longDesc
                         txtQuality.text = service.qualidadesDiferenciais

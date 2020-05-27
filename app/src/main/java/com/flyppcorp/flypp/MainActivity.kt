@@ -64,11 +64,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         //acao do bottomNav
 
-        mFirestoreContract = FirestoreContract(this)
+        /*mFirestoreContract = FirestoreContract(this)
         mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
         MobileAds.initialize(this)
         mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
-        mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
+        mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())*/
         client = LocationServices.getFusedLocationProviderClient(this)
 
         bottom_nav.setOnNavigationItemSelectedListener(this)
@@ -82,12 +82,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val application: LifeCyclerApplication = application as LifeCyclerApplication
         getApplication().registerActivityLifecycleCallbacks(application)
 
+        if (mAuth.currentUser == null){
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
 
 
         getToken()
         getPermissions()
         updateLocation()
-        goToLogin()
+        //goToLogin()
         messageLocation()
         remoteConfigFunc()
 
@@ -149,19 +155,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 .setProgressColorRes(R.color.textIcons)
                 .enableSwipeToDismiss()
                 .show()
-        }
-    }
-
-    private fun goToLogin() {
-        if (mAuth.currentUser?.isAnonymous == true) {
-            btnLogin?.visibility = View.VISIBLE
-            btnLogin?.alpha = 0.8f
-            btnLogin?.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
         }
     }
 
@@ -332,6 +325,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     alert.setPositiveButton("Sim", { dialog, which ->
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
+                        finish()
                     })
                     alert.show()
                 }

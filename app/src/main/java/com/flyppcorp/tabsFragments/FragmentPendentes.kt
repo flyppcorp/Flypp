@@ -92,20 +92,10 @@ class FragmentPendentes : Fragment() {
             viewholder.txtNomeContratante.text = servicos[position].nomeContratante
 
             //val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
+                val result = String.format("%.2f", servicos[position].preco)
+                viewholder.txtPrecoManager.text =
+                    "R$ ${result}"
 
-            if (servicos[position].preco.toString().substringAfter(".").length == 1){
-                viewholder.txtPrecoManager.text =
-                    "R$ ${servicos[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
-            }else{
-                viewholder.txtPrecoManager.text =
-                    "R$ ${servicos[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}"
-            }
 
             val sdfHora = SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(servicos[position].timestamp)
             viewholder.txtHora.text = sdfHora

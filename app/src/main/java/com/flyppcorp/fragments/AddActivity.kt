@@ -7,6 +7,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 
 import android.widget.Toast
 import com.flyppcorp.Helper.SharedFilter
@@ -52,7 +54,7 @@ class AddActivity : AppCompatActivity() {
         mUser = User()
         mCity = SharedFilter(this)
         //fim
-        supportActionBar?.title = "Adicionar serviço"
+        supportActionBar?.title = "Adicionar produto"
 
         //ações de click
         btnSelectPhotoService.setOnClickListener { handleSelect() }
@@ -63,6 +65,7 @@ class AddActivity : AppCompatActivity() {
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
     }
+
 
     //função que preenche os campos com informações do usuário
     private fun getInfo() {

@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             Handler().postDelayed({
                 when {
-                    mAuth.currentUser?.uid != null -> {
+                    mAuth.currentUser?.uid != null && mAuth.currentUser?.isAnonymous != true -> {
                         val intent = Intent(baseContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()

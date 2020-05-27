@@ -15,13 +15,14 @@ import com.google.android.gms.ads.*
 import androidx.appcompat.app.AppCompatActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Notification
+import com.flyppcorp.atributesClass.User
 
 
 class FirestoreContract(var context: Context) {
     //variaveis e objetos
     private val mFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val progress = ProgressDialog(context)
-    lateinit var mIntertial: InterstitialAd
+    //lateinit var mIntertial: InterstitialAd
 
     @SuppressLint("ResourceAsColor")
 
@@ -35,21 +36,17 @@ class FirestoreContract(var context: Context) {
             .set(myservice)
             .addOnSuccessListener {
 
+                dashBoard()
+                sendNotification(token, notification)
+                toast()
                 progress.dismiss()
                 moveAndShowAd()
-                dashBoard()
-
-                sendNotification(token, notification)
-
-
-
-
-                toast()
 
 
             }.addOnFailureListener {
                 Toast.makeText(context, "Algo saiu errado, tente outra vez.", Toast.LENGTH_SHORT)
                     .show()
+                progress.dismiss()
             }
 
     }
@@ -64,6 +61,17 @@ class FirestoreContract(var context: Context) {
 
     }
 
+    fun tsFirstCompra(uid: String){
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION).document(uid)
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            content?.primeiraCompra = true
+
+            it.set(tsDoc, content!!)
+        }
+    }
+
+
 
     private fun toast() {
         val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
@@ -75,7 +83,10 @@ class FirestoreContract(var context: Context) {
 
     //função que mostra um anuncio
     private fun moveAndShowAd() {
-        if (mIntertial.isLoaded) {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(context, intent, null)
+        /*if (mIntertial.isLoaded) {
             mIntertial.show()
             mIntertial.adListener = object : AdListener() {
                 override fun onAdClosed() {
@@ -89,7 +100,7 @@ class FirestoreContract(var context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(context, intent, null)
-        }
+        }*/
     }
 
     private fun dashBoard() {

@@ -67,7 +67,7 @@ class FCMServiceNotification : FirebaseMessagingService() {
         val alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         builder.setAutoCancel(true)
-            .setSmallIcon(R.drawable.ic_notification_logo)
+            .setSmallIcon(R.drawable.ic_notification_new_logo)
             .setStyle(NotificationCompat.BigTextStyle()
                 .setBigContentTitle(payload.get("titleKey"))
                 .bigText(payload.get("bodyKey")))
@@ -89,7 +89,7 @@ class FCMServiceNotification : FirebaseMessagingService() {
     }
 
     private fun serviceNotification(payload: MutableMap<String, String>) {
-        var intent: Intent = Intent(this, ManagerServicesActivity::class.java)
+        val intent = Intent(this, ManagerServicesActivity::class.java)
         val pItent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
 
         val notificationManager =
@@ -101,12 +101,13 @@ class FCMServiceNotification : FirebaseMessagingService() {
             val notificationChannel = NotificationChannel(
                 notificationChannelId,
                 "Flypp",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
 
             notificationChannel.description = "Você receberá notificações de Flypp "
             notificationChannel.lightColor = Color.WHITE
             notificationChannel.enableLights(true)
+            notificationChannel.enableVibration(true)
 
             notificationManager.createNotificationChannel(notificationChannel)
 
@@ -118,11 +119,12 @@ class FCMServiceNotification : FirebaseMessagingService() {
         val alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         builder.setAutoCancel(true)
-            .setSmallIcon(R.drawable.ic_notification_logo)
+            .setSmallIcon(R.drawable.ic_notification_new_logo)
             .setStyle(NotificationCompat.BigTextStyle()
                 .setBigContentTitle(payload.get("title"))
                 .bigText(payload.get("body")))
             .setSound(alarm)
+            .setPriority(2)
             .setContentTitle(payload.get("title"))
             .setContentText(payload.get("body"))
             .setContentIntent(pItent)

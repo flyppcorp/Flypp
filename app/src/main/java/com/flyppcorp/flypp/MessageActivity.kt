@@ -2,6 +2,8 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
@@ -44,10 +46,26 @@ class MessageActivity : AppCompatActivity() {
         mAdapter = GroupAdapter()
         mConnection = Connection(this)
         recyclerMessages.adapter = mAdapter
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.title = mUser?.nome
         setListeners()
         getUser()
         
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {

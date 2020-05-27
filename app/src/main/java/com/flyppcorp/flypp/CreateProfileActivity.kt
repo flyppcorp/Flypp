@@ -1,5 +1,6 @@
 package com.flyppcorp.flypp
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -63,7 +64,11 @@ class CreateProfileActivity : AppCompatActivity() {
 
     private fun setListener() {
         btnSalvarInfo.setOnClickListener {
+
+
             handleProfile()
+
+
         }
         selectPhoto.setOnClickListener {
             selectImg()
@@ -98,8 +103,9 @@ class CreateProfileActivity : AppCompatActivity() {
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
 
-            if(mUri != null){
-                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(photoSelected)
+            if (mUri != null) {
+                Picasso.get().load(mUri.toString()).resize(300, 300).centerCrop()
+                    .into(photoSelected)
                 selectPhoto.alpha = 0f
             }
 
@@ -107,8 +113,8 @@ class CreateProfileActivity : AppCompatActivity() {
     }
 
     private fun handleProfile() {
-        if (mConnect.validateConection()){
-            if (validate()){
+        if (mConnect.validateConection()) {
+            if (validate()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
                 val nome = editNomeUser.text.toString()

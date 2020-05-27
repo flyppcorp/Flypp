@@ -58,14 +58,6 @@ class LoginActivity : AppCompatActivity() {
                 if (it.isSuccessful){
                     val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
-                    val mFirestore = FirebaseFirestore.getInstance()
-                    val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)
-                    mFirestore.runTransaction {
-                        val content = it.get(tsDoc).toObject(DashBoard::class.java)
-                        content?.anonimo = content!!.anonimo + 1
-
-                        it.set(tsDoc, content)
-                    }
                     finish()
                 }else {
                     Toast.makeText(this, "Oops! Algo deu errado", Toast.LENGTH_SHORT).show()

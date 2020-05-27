@@ -103,12 +103,14 @@
             android:id="@+id/txtAvaliacaoList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_bg_orange"
             android:drawableLeft="@drawable/ic_star_black_small"
             android:ellipsize="marquee"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:singleLine="true"
             android:textColor="#FFE600"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/txtPreparoList"
             app:layout_constraintStart_toStartOf="@+id/txtShortDescList"
             app:layout_constraintTop_toTopOf="@+id/txtPreparoList" />
 

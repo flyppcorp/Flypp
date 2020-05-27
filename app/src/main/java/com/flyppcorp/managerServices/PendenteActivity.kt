@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pendente.*
+import kotlinx.android.synthetic.main.dialog_fr.view.*
+import kotlinx.android.synthetic.main.dialog_fr3.*
+import kotlinx.android.synthetic.main.dialog_fr3.view.*
 
 class PendenteActivity : AppCompatActivity() {
 
@@ -30,6 +33,7 @@ class PendenteActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private var mAdress: Myservice? = null
     private lateinit var mConnection: Connection
+
     //private var data: String? = null
     private lateinit var mProgress: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +58,8 @@ class PendenteActivity : AppCompatActivity() {
             handleDate()
         }*/
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.title = "Pendente "
         getEndereco()
         handleTextButton()
@@ -69,6 +75,11 @@ class PendenteActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            android.R.id.home -> {
+                finish()
+            }
+
             R.id.mensagem_my_service -> {
                 if (mAuth.currentUser?.uid == mMyService?.idContratante) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -132,47 +143,6 @@ class PendenteActivity : AppCompatActivity() {
     }
 
 
-    /*private fun handleDate(): String? {
-
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val dpd = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-
-                when {
-                    month <= 8 && dayOfMonth < 10 -> {
-                        data = "0$dayOfMonth / 0${month + 1} / $year"
-                        btnDate.text = "0$dayOfMonth / 0${month + 1}/ $year"
-
-                    }
-                    month >= 9 && dayOfMonth < 10 -> {
-                        data = "0$dayOfMonth / ${month + 1} / $year"
-                        btnDate.text = "0$dayOfMonth / ${month + 1}/ $year"
-                    }
-                    month <= 8 && dayOfMonth > 10 -> {
-                        data = "$dayOfMonth / 0${month + 1} / $year"
-                        btnDate.text = "$dayOfMonth / 0${month + 1}/ $year"
-                    }
-                    else -> {
-                        data = "$dayOfMonth / ${month + 1} / $year"
-                        btnDate.text = "$dayOfMonth / ${month + 1}/ $year"
-                    }
-                }
-
-
-            },
-            year,
-            month,
-            day
-        )
-        dpd.show()
-        return data
-    }*/
-
     private fun handleDateVisibility() {
         if (mAuth.currentUser?.uid == mMyService?.idContratante) {
             //btnDate?.visibility = View.GONE
@@ -230,8 +200,11 @@ class PendenteActivity : AppCompatActivity() {
 
 
     private fun handleDesistirRecusar() {
+        val vd = layoutInflater.inflate(R.layout.dialog_fr3, null)
         val mDialog = AlertDialog.Builder(this)
+            .setView(vd)
         mDialog.setTitle("Você tem certeza disso?")
+        mDialog.setMessage("Se quiser, pode dizer o motivo da sua desistência")
         mDialog.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
             mProgress.setCancelable(false)
             mProgress.show()
@@ -243,15 +216,16 @@ class PendenteActivity : AppCompatActivity() {
                         notificationDesistence(
                             mMyService?.idContratado.toString(),
                             "desistiu do pedido",
-                            mMyService?.nomeContratante.toString()
+                            mMyService?.nomeContratante.toString(), vd.edtMotivo.text.toString()
                         )
                     } else {
                         notificationDesistence(
                             mMyService?.idContratante.toString(),
                             "teve que recusar o seu pedido, não fique triste, temos vários outros estabelecimentos prontos para te receber",
-                            mMyService?.nomeContratado.toString()
+                            mMyService?.nomeContratado.toString(),vd.edtMotivo.text.toString()
                         )
                     }
+                    handleTs(mMyService?.idContratante)
                     mProgress.hide()
                     finish()
                 }.addOnFailureListener {
@@ -261,10 +235,25 @@ class PendenteActivity : AppCompatActivity() {
                 }
         }
         mDialog.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
-        mDialog.show()
+        val alert = mDialog.create()
+        alert.show()
     }
 
-    private fun notificationDesistence(uid: String, status: String, nome: String) {
+    private fun handleTs(idContratante: String?) {
+        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(idContratante.toString())
+        mFirestore.runTransaction {
+            val content = it.get(tsDoc).toObject(User::class.java)
+            if (content!!.primeiraCompra && !content.primeiraCompraConcluida) {
+                content.primeiraCompra = false
+            }
+
+
+            it.set(tsDoc, content)
+        }
+    }
+
+    private fun notificationDesistence(uid: String, status: String, nome: String, motivos: String?) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -273,8 +262,14 @@ class PendenteActivity : AppCompatActivity() {
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyService?.serviceId
-                notification.text =
-                    "$nome $status (${mMyService!!.serviceNome})"
+                if (motivos != ""){
+                    notification.text =
+                        "$nome $status (${mMyService!!.serviceNome})" +
+                                "\nMotivo: ${motivos}"
+                }else{
+                    notification.text =
+                        "$nome $status (${mMyService!!.serviceNome})"
+                }
                 notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -308,11 +303,12 @@ class PendenteActivity : AppCompatActivity() {
     private fun fetchPendente() {
         mAdress?.let {
             if (mMyService?.urlService == null) imgServiceAcct.setImageResource(R.drawable.ic_working)
-            else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit().centerCrop().into(
+            else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit()
+                .centerCrop().into(
                 imgServiceAcct
             )
             txtContratanteAcct.text = mMyService?.nomeContratante
-            if (mMyService?.dateService != null && mMyService?.horario != null){
+            if (mMyService?.dateService != null && mMyService?.horario != null) {
                 txtData.text = "${mMyService?.dateService} ás ${mMyService?.horario}"
             }
             txtQuantidade.text = mMyService?.quantidate.toString()
@@ -322,21 +318,8 @@ class PendenteActivity : AppCompatActivity() {
                     "${it.cidade}, ${it.estado}, ${it.cep}"
         }
 
-        
-
-        if (mMyService?.preco.toString().substringAfter(".").length == 1){
-            txtPrecoAcct.text =
-                "R$ ${mMyService?.preco.toString().replace(
-                    ".",
-                    ","
-                )}${"0"}"
-        }else{
-            txtPrecoAcct.text =
-                "R$ ${mMyService?.preco.toString().replace(
-                    ".",
-                    ","
-                )}"
-        }
+        val result = String.format("%.2f", mMyService?.preco)
+        txtPrecoAcct.text = "R$ ${result}"
 
 
     }

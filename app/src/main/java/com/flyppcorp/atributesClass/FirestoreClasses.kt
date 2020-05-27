@@ -27,7 +27,9 @@ data class User(
     var servicosAtivos: Int = 0,
     var totalServicosFinalizados: Int = 0,
     var avaliacao: Int = 0,
-    var totalAvaliacao: Int = 0
+    var totalAvaliacao: Int = 0,
+    var primeiraCompra : Boolean = false,
+    var primeiraCompraConcluida: Boolean = false
 ) : Endereco(), Parcelable
 
 @Parcelize

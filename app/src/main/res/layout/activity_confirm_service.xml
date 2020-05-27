@@ -21,9 +21,9 @@
             android:src="@drawable/ic_back"
             android:id="@+id/btn_tb_voltar"/>
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_logo_new"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_tb"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -85,6 +85,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Solicitado por: "
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
@@ -97,7 +98,8 @@
                 android:id="@+id/nomeContratante"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondaryText"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView6"
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -106,6 +108,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Nome do pedido:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
@@ -117,7 +120,8 @@
                 android:id="@+id/txtServicoContratar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondaryText"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView8"
                 app:layout_constraintStart_toStartOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -126,6 +130,7 @@
                 android:id="@+id/textView12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Endereço solicitado:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
@@ -133,14 +138,124 @@
                 app:layout_constraintStart_toStartOf="@+id/txtServicoContratar"
                 app:layout_constraintTop_toBottomOf="@+id/txtServicoContratar" />
 
-            <TextView
-                android:id="@+id/txtEnderecoContratante"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout21"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxWidth="200dp"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/textView12">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtRuaConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/rua"
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout23"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/textView12"
-                app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout21"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout21">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtBairroConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bairro"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout22"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout21"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout21"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout21">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtCidadeConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cidade"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout25"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout23"
+                app:layout_constraintStart_toEndOf="@+id/textInputLayout22"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout22">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEstadoConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Estado"
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edtInput25"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout22"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout22"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout22">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtNumConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/n_mero"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout25"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout25"
+                app:layout_constraintTop_toTopOf="@+id/edtInput25">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtCepConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/cep"
+                    android:inputType="number"
+                    android:maxLength="8"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView34"
@@ -148,7 +263,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Você tem alguma observação sobre este pedido?"
+                android:text="Você pode pedir para tirar algo do pedido, dizer seu apelido ou qualquer observação."
                 android:textColor="@color/alert_default_error_background"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
@@ -173,20 +288,6 @@
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="bottom|start"
-                android:text="Você pode ver o status dos seus pedido em: Conta > Meus pedidos"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/textView34"
-                app:layout_constraintTop_toBottomOf="@+id/txtEnderecoContratante" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"

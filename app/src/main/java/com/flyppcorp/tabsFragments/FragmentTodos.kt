@@ -94,7 +94,7 @@ class FragmentTodos : Fragment() {
             var vh = (holder as ViewholderCustom).itemView
             vh.txtNomeServicoList.text = contentService[position].nomeService
             vh.btnFavoriteList.visibility = View.GONE
-            vh.txtPreparoList?.visibility = View.GONE
+            vh.txtPreparoList.text = contentService[position].tempoEntrega
             if (contentService[position].urlService != null) Picasso.get()
                 .load(contentService[position].urlService).placeholder(R.drawable.photo_work)
                 .resize(100, 100).centerCrop().into(vh.imgServiceMainList)
@@ -107,22 +107,13 @@ class FragmentTodos : Fragment() {
             vh.txtShortDescList.text = contentService[position].shortDesc
             val avaliacao: Double =
                 contentService[position].avaliacao.toDouble() / contentService[position].totalAvaliacao
+            val resultAv = String.format("%.1f", avaliacao)
             if (contentService[position].avaliacao == 0) vh.txtAvaliacaoList.text = "0/5"
-            else vh.txtAvaliacaoList.text = "${avaliacao.toString().substring(0, 3)}/5"
+            else vh.txtAvaliacaoList.text = "${resultAv}/5"
 
-            if (contentService[position].preco.toString().substringAfter(".").length == 1) {
-                vh.txtPrecoList.text =
-                    "R$ ${contentService[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}${"0"}"
-            } else {
-                vh.txtPrecoList.text =
-                    "R$ ${contentService[position].preco.toString().replace(
-                        ".",
-                        ","
-                    )}"
-            }
+            val result = String.format("%.2f", contentService[position].preco)
+            vh.txtPrecoList.text =
+                "R$ ${result}"
 
 
         }

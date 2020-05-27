@@ -9,12 +9,12 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_logo_new"
+        android:src="@drawable/ic_tb"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -127,17 +127,17 @@
 
    </com.google.android.material.textfield.TextInputLayout>
 
-   <Button
-       android:id="@+id/btnCad"
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="16dp"
-       android:background="@drawable/button_bg"
-       android:text="@string/criar_conta"
-       android:textColor="@color/textIcons"
-       app:layout_constraintEnd_toEndOf="@+id/editSenhaConfirmCadLayout"
-       app:layout_constraintStart_toStartOf="@+id/editSenhaConfirmCadLayout"
-       app:layout_constraintTop_toBottomOf="@+id/editSenhaConfirmCadLayout" />
+            <Button
+                android:id="@+id/btnCad"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_bg"
+                android:text="@string/criar_conta"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="@+id/editSenhaConfirmCadLayout"
+                app:layout_constraintStart_toStartOf="@+id/editSenhaConfirmCadLayout"
+                app:layout_constraintTop_toBottomOf="@+id/editSenhaConfirmCadLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
