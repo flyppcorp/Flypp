@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Sua nota de 0 a 5"
+                android:text="Sua nota de 1 a 5"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="@+id/textView26"
                 app:layout_constraintStart_toStartOf="@+id/textView26"
@@ -139,7 +139,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center"
-                android:text="Se você quiser, pode edixar um elogio ou crítica e ajudar o profissional ter um bom feedback"
+                android:text="Se você quiser, pode deixar um elogio ou crítica anonimamente e ajudar o profissional ter um bom feedback"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editNotaLayout" />

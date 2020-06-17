@@ -25,7 +25,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.service_items.view.*
-import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class HomeFragment : Fragment() {
 
@@ -69,7 +71,7 @@ class HomeFragment : Fragment() {
 
         //call das funções
         fetchServices()
-        locationOther()
+        //locationOther()
         //fim da call das funções
         return view
     }
@@ -93,8 +95,14 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
+
                             }
 
 
@@ -120,8 +128,13 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
                             }
 
 
@@ -147,8 +160,13 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
                             }
 
 
@@ -174,8 +192,13 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
                             }
 
 
@@ -201,8 +224,13 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
                             }
 
 
@@ -228,8 +256,13 @@ class HomeFragment : Fragment() {
                         snapshot?.let {
                             for (doc in snapshot.documents) {
                                 val item = doc.toObject(Servicos::class.java)
-                                servicos.add(item!!)
-                                contentUidList.add(doc.id)
+                                if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == item?.categoria){
+                                    servicos.add(item)
+                                    contentUidList.add(doc.id)
+                                }else if (mSharedFilter.getFilter(Constants.FILTERS_VALUES.CATEGORIA) == ""){
+                                    servicos.add(item!!)
+                                    contentUidList.add(doc.id)
+                                }
                             }
 
 
@@ -354,6 +387,16 @@ class HomeFragment : Fragment() {
 
             //variavel que cuida das informações
             var viewholder = (holder as CustomViewHolder).itemView
+
+
+
+            val calendar = Calendar.getInstance()
+            if (servicos[position].dias.contains(calendar.get(Calendar.DAY_OF_WEEK).toString())){
+                viewholder.txtHorarioFunc.text = servicos[position].horario
+            }else {
+                viewholder.txtHorarioFunc.setTextColor(Color.RED)
+                viewholder.txtHorarioFunc.text = "Fechado"
+            }
 
             //nome do produto
             viewholder.txtNomeServico.text = servicos[position].nomeService

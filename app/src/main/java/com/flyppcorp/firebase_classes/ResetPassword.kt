@@ -3,9 +3,7 @@ package com.flyppcorp.firebase_classes
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import androidx.core.content.ContextCompat.startActivity
 

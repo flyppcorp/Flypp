@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.ManagerEditServiceActivity
-
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -94,13 +93,15 @@ class FragmentTodos : Fragment() {
             var vh = (holder as ViewholderCustom).itemView
             vh.txtNomeServicoList.text = contentService[position].nomeService
             vh.btnFavoriteList.visibility = View.GONE
-            vh.txtPreparoList.text = contentService[position].tempoEntrega
+            if (contentService[position].tempoEntrega != null) vh.txtPreparoList.text =
+                contentService[position].tempoEntrega
+            else vh.txtPreparoList.text = "?"
             if (contentService[position].urlService != null) Picasso.get()
                 .load(contentService[position].urlService).placeholder(R.drawable.photo_work)
-                .resize(100, 100).centerCrop().into(vh.imgServiceMainList)
+                .resize(200, 200).centerCrop().into(vh.imgServiceMainList)
             else vh.imgServiceMainList.setImageResource(R.drawable.photo_work)
             if (contentService[position].urlProfile != null) Picasso.get()
-                .load(contentService[position].urlProfile).resize(100, 100).centerCrop()
+                .load(contentService[position].urlProfile).resize(200, 200).centerCrop()
                 .placeholder(R.drawable.btn_select_photo_profile).into(vh.imgProfileImgMainList)
 
             vh.txtNomeUserList.text = contentService[position].nome

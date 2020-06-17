@@ -26,7 +26,7 @@
             android:layout_height="match_parent">
 
 
-            <androidx.viewpager.widget.ViewPager
+            <ImageView
                 android:id="@+id/imgServiceManagerView2"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
@@ -129,7 +129,7 @@
                 android:padding="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/redPrimary"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtTituloServicesView"
@@ -137,77 +137,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTituloServicesView" />
 
             <TextView
-                android:id="@+id/txtDescShortView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoView"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoView"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoView" />
-
-            <View
-                android:id="@+id/view5"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_gradient"
-                app:layout_constraintEnd_toEndOf="@+id/txtDescShortView"
-                app:layout_constraintStart_toStartOf="@+id/txtDescShortView"
-                app:layout_constraintTop_toBottomOf="@+id/txtDescShortView" />
-
-            <TextView
-                android:id="@+id/txtDetailDescviewView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:text="Descrição detalhada"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-            <TextView
                 android:id="@+id/txtDetailDescView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtDetailDescviewView"
-                app:layout_constraintStart_toStartOf="@+id/txtDetailDescviewView"
-                app:layout_constraintTop_toBottomOf="@+id/txtDetailDescviewView" />
-
-            <TextView
-                android:id="@+id/txtQualityViewView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/qualidades_diferenciais"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtDetailDescView"
-                app:layout_constraintStart_toStartOf="@+id/txtDetailDescView"
-                app:layout_constraintTop_toBottomOf="@+id/txtDetailDescView" />
-
-            <TextView
-                android:id="@+id/txtQualityView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtQualityViewView"
-                app:layout_constraintStart_toStartOf="@+id/txtQualityViewView"
-                app:layout_constraintTop_toBottomOf="@+id/txtQualityViewView" />
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoView"
+                app:layout_constraintStart_toStartOf="@+id/txtPrecoView"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoView" />
 
             <TextView
                 android:id="@+id/textView15View"
@@ -217,9 +153,9 @@
                 android:text="Endereço"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQualityView"
-                app:layout_constraintStart_toStartOf="@+id/txtQualityView"
-                app:layout_constraintTop_toBottomOf="@+id/txtQualityView" />
+                app:layout_constraintEnd_toEndOf="@+id/txtDetailDescView"
+                app:layout_constraintStart_toStartOf="@+id/txtDetailDescView"
+                app:layout_constraintTop_toBottomOf="@+id/txtDetailDescView" />
 
             <TextView
                 android:id="@+id/txtEnderecoView"
@@ -229,35 +165,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView15View"
                 app:layout_constraintTop_toBottomOf="@+id/textView15View" />
 
-            <TextView
-                android:id="@+id/textView17View"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Contatos"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtEnderecoView"
-                app:layout_constraintStart_toStartOf="@+id/txtEnderecoView"
-                app:layout_constraintTop_toBottomOf="@+id/txtEnderecoView" />
-
-            <TextView
-                android:id="@+id/txtTelefoneView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView17View"
-                app:layout_constraintStart_toStartOf="@+id/textView17View"
-                app:layout_constraintTop_toBottomOf="@+id/textView17View" />
-
-            <TextView
-                android:id="@+id/txtEmailView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/txtTelefoneView"
-                app:layout_constraintStart_toStartOf="@+id/txtTelefoneView"
-                app:layout_constraintTop_toBottomOf="@+id/txtTelefoneView" />
             <!--
 
 

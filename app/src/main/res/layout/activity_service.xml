@@ -6,6 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ServiceActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/textIcons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btnVoltarTbService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/txtTitleService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
     <Button
         android:id="@+id/btnContratar"
         android:layout_width="0dp"
@@ -24,14 +54,14 @@
         app:layout_constraintBottom_toTopOf="@+id/btnContratar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tb_service">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-            <androidx.viewpager.widget.ViewPager
+            <ImageView
                 android:id="@+id/imgServiceView"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
@@ -40,7 +70,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.viewpager.widget.ViewPager>
+            </ImageView>
 
             <LinearLayout
                 android:id="@+id/linearInfo"
@@ -51,11 +81,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgServiceView"
-                android:gravity="center">
+                app:layout_constraintTop_toBottomOf="@+id/imgServiceView">
 
                 <TextView
                     android:id="@+id/txtQtdServices"
@@ -64,17 +94,17 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
                     android:background="@drawable/button_bg_orange"
+                    android:ellipsize="marquee"
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/textIcons"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="348dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"/>
+                    tools:layout_editor_absoluteY="348dp" />
 
                 <TextView
                     android:id="@+id/txtAvaliacao"
@@ -98,16 +128,16 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginLeft="2dp"
                     android:background="@drawable/button_bg_orange"
+                    android:ellipsize="marquee"
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/textIcons"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:visibility="visible"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"/>
+                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -127,8 +157,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearInfo"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/linearInfo" />
 
             <TextView
                 android:id="@+id/txtPrecoContratante"
@@ -140,7 +169,7 @@
                 android:padding="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/redPrimary"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
@@ -148,64 +177,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTituloServices" />
 
             <TextView
-                android:id="@+id/txtDescShort"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="hjhhjfhsjkhfs"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
-
-            <View
-                android:id="@+id/view4"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_gradient"
-                app:layout_constraintEnd_toEndOf="@+id/txtDescShort"
-                app:layout_constraintStart_toStartOf="@+id/txtDescShort"
-                app:layout_constraintTop_toBottomOf="@+id/txtDescShort" />
-
-            <TextView
-                android:id="@+id/txtDetailDescview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:text="Descrição detalhada"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-            <TextView
                 android:id="@+id/txtDetailDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtDetailDescview"
-                app:layout_constraintStart_toStartOf="@+id/txtDetailDescview"
-                app:layout_constraintTop_toBottomOf="@+id/txtDetailDescview" />
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
+                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
 
             <TextView
-                android:id="@+id/txtQualityView"
+                android:id="@+id/textView50"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/qualidades_diferenciais"
+                android:text="Geralmente responde em:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
@@ -213,30 +198,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtDetailDesc" />
 
             <TextView
-                android:id="@+id/txtQuality"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtQualityView"
-                app:layout_constraintStart_toStartOf="@+id/txtQualityView"
-                app:layout_constraintTop_toBottomOf="@+id/txtQualityView" />
-
-            <TextView
-                android:id="@+id/textView50"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Geralmente responde em:"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQuality"
-                app:layout_constraintStart_toStartOf="@+id/txtQuality"
-                app:layout_constraintTop_toBottomOf="@+id/txtQuality" />
-
-            <TextView
                 android:id="@+id/txtResponde"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/txtQualityView"
+                app:layout_constraintEnd_toEndOf="@+id/textView50"
                 app:layout_constraintStart_toStartOf="@+id/textView50"
                 app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
@@ -248,9 +213,8 @@
                 android:text="Endereço"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtQuality"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtQuality"
+                app:layout_constraintEnd_toEndOf="@+id/txtResponde"
+                app:layout_constraintStart_toStartOf="@+id/txtResponde"
                 app:layout_constraintTop_toBottomOf="@+id/txtResponde" />
 
             <TextView
@@ -261,40 +225,195 @@
                 app:layout_constraintStart_toStartOf="@+id/textView15"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnContratar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="tb_service">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/imgServiceView"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:background="@drawable/ic_working"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <LinearLayout
+                android:id="@+id/linearInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgServiceView">
+
+                <TextView
+                    android:id="@+id/txtQtdServices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/button_bg_orange"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/textIcons"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="348dp" />
+
+                <TextView
+                    android:id="@+id/txtAvaliacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/button_bg_orange"
+                    android:drawableLeft="@drawable/ic_star_black_small"
+                    android:padding="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="#FDCF25"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/button_bg_orange"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/textIcons"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/txtTituloServices"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearInfo" />
+
+            <TextView
+                android:id="@+id/txtPrecoContratante"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Contatos"
+                android:background="@drawable/button_bg_stroke"
+                android:gravity="center"
+                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/redPrimary"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
+                app:layout_constraintStart_toStartOf="@+id/txtTituloServices"
+                app:layout_constraintTop_toBottomOf="@+id/txtTituloServices" />
+
+            <TextView
+                android:id="@+id/txtDetailDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
+                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Geralmente responde em:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtEndereco"
-                app:layout_constraintStart_toStartOf="@+id/txtEndereco"
-                app:layout_constraintTop_toBottomOf="@+id/txtEndereco" />
+                app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
+                app:layout_constraintStart_toStartOf="@+id/txtDetailDesc"
+                app:layout_constraintTop_toBottomOf="@+id/txtDetailDesc" />
 
             <TextView
-                android:id="@+id/txtTelefone"
+                android:id="@+id/txtResponde"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView17"
-                app:layout_constraintStart_toStartOf="@+id/textView17"
-                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                app:layout_constraintEnd_toEndOf="@+id/textView50"
+                app:layout_constraintStart_toStartOf="@+id/textView50"
+                app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
             <TextView
-                android:id="@+id/txtEmail"
+                android:id="@+id/textView15"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/txtTelefone"
-                app:layout_constraintStart_toStartOf="@+id/txtTelefone"
-                app:layout_constraintTop_toBottomOf="@+id/txtTelefone" />
+                android:layout_marginTop="8dp"
+                android:text="Endereço"
+                android:textColor="@color/primaryText"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtResponde"
+                app:layout_constraintStart_toStartOf="@+id/txtResponde"
+                app:layout_constraintTop_toBottomOf="@+id/txtResponde" />
+
+            <TextView
+                android:id="@+id/txtEndereco"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView15"
+                app:layout_constraintStart_toStartOf="@+id/textView15"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

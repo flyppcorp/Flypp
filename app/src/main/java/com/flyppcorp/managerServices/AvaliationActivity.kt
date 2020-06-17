@@ -46,8 +46,8 @@ class AvaliationActivity : AppCompatActivity() {
     private fun handleAvalatiation() {
         if (editNota.text.toString().isEmpty()) {
             editNotaLayout.error = "Este campo não pode ser vazio"
-        } else if (editNota.text.toString().toInt() > 5) {
-            editNotaLayout.error = "Sua nota não pode ser maior que 5"
+        } else if (editNota.text.toString().toInt() > 5 || editNota.text.toString().toInt() == 0 || editNota.text.toString().toInt() < 0) {
+            editNotaLayout.error = "Sua nota precisa ser entre 1 e 5"
         } else {
             avaliationUser()
             mProgress.setCancelable(false)

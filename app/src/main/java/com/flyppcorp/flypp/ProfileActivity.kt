@@ -2,12 +2,14 @@ package com.flyppcorp.flypp
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.widget.Toast
 import com.flyppcorp.Helper.Connection
+import com.flyppcorp.Helper.RedimensionImage
 import com.flyppcorp.atributesClass.Comentarios
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Servicos
@@ -19,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,11 +37,13 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mProgress: ProgressDialog
     private var servicosAtivos: Int? = null
     private var servicosFinalizados: Int? = null
-    private var avaliacao : Int? = null
-    private var totalAvaliacao : Int? = null
-    private var mEmpresa : String? = null
+    private var avaliacao: Int? = null
+    private var totalAvaliacao: Int? = null
+    private var mEmpresa: String? = null
     private lateinit var mConnect: Connection
     private var mPrimeiraCompra: Boolean? = null
+    var mDesconto: Int? = null
+    private lateinit var mSize: RedimensionImage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,7 @@ class ProfileActivity : AppCompatActivity() {
         mStorage = FirebaseStorage.getInstance()
         mProgress = ProgressDialog(this)
         mConnect = Connection(this)
+        mSize = RedimensionImage()
 
         selectPhotoProfile.setOnClickListener {
             handleSelectPhoto()
@@ -77,8 +83,9 @@ class ProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.KEY.REQUEST_CODE) {
             mUri = data?.data
-            if (mUri != null){
-                Picasso.get().load(mUri.toString()).resize(300,300).centerCrop().into(photoSelectedProfile)
+            if (mUri != null) {
+                Picasso.get().load(mUri.toString()).resize(300, 300).centerCrop()
+                    .into(photoSelectedProfile)
                 selectPhotoProfile.alpha = 0f
 
             }
@@ -94,12 +101,16 @@ class ProfileActivity : AppCompatActivity() {
                 for (doc in snapshot.documents) {
                     val userItem = doc.toObject(User::class.java)
                     if (userItem?.url != null && mUri == null) {
-                        Picasso.get().load(userItem.url).resize(200,200).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
+                        Picasso.get().load(userItem.url).resize(200, 200)
+                            .placeholder(R.drawable.btn_select_photo_profile).centerCrop()
+                            .into(photoSelectedProfile)
                         selectPhotoProfile.alpha = 0f
-                    } else if (mUser!!.url == null) {
+                    } else if (mUser?.url == null) {
                         photoSelectedProfile.setImageResource(R.drawable.btn_select_photo_profile)
                     } else if (mUri != null) {
-                        Picasso.get().load(mUri.toString()).resize(200, 200).placeholder(R.drawable.btn_select_photo_profile).centerCrop().into(photoSelectedProfile)
+                        Picasso.get().load(mUri.toString()).resize(200, 200)
+                            .placeholder(R.drawable.btn_select_photo_profile).centerCrop()
+                            .into(photoSelectedProfile)
                         selectPhotoProfile.alpha = 0f
                     }
                     editNomeUserProfile.setText(userItem!!.nome)
@@ -117,6 +128,7 @@ class ProfileActivity : AppCompatActivity() {
                     totalAvaliacao = userItem.totalAvaliacao
                     mEmpresa = userItem.nomeEmpresa
                     mPrimeiraCompra = userItem.primeiraCompra
+                    mDesconto = userItem.desconto
 
 
                 }
@@ -126,13 +138,13 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun handleUpdate() {
         if (mConnect.validateConection()) {
-            if (validate()){
+            if (validate()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
                 val nome = editNomeUserProfile.text.toString()
                 val ddd = editDDDProfile.text.toString()
                 val phoneNumber = editPhoneProfile.text.toString()
-                val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
+                val filename = mAuth.currentUser?.uid.toString()
                 val ref = mStorage.getReference("image/${filename}")
                 mUserInfo.nome = nome
                 mUserInfo.nomeEmpresa = mEmpresa
@@ -151,18 +163,32 @@ class ProfileActivity : AppCompatActivity() {
                 mUserInfo.totalAvaliacao = totalAvaliacao!!
                 mUserInfo.avaliacao = avaliacao!!
                 mUserInfo.primeiraCompra = mPrimeiraCompra!!
+                mUserInfo.desconto = mDesconto!!
+
 
 
 
                 mUri?.let {
-                    ref.putFile(it)
+                    var bitmap : Bitmap? = null
+                    try{
+                        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
+                    }catch (e: Exception){
+                        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    val bytes = ByteArrayOutputStream()
+                    bitmap?.compress(Bitmap.CompressFormat.JPEG, 25, bytes)
+                    val fileInBytes = bytes.toByteArray()
+                    ref.putBytes(fileInBytes)
                         .addOnSuccessListener {
                             ref.downloadUrl
                                 .addOnSuccessListener {
                                     mUserInfo.url = it.toString()
                                     mFirestoreUser.saveUser(mUserInfo)
                                     updateProfile()
-                                    updateProfileComments(it.toString(), editNomeUserProfile.text.toString())
+                                    updateProfileComments(
+                                        it.toString(),
+                                        editNomeUserProfile.text.toString()
+                                    )
 
                                 }
                         }
@@ -180,6 +206,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
     }
+
     private fun updateProfile() {
         val user = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -216,14 +243,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 
-    private fun updateProfileComments(url: String?, nome : String?){
+    private fun updateProfileComments(url: String?, nome: String?) {
         val mFirestoreUpdate = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         mFirestoreUpdate.collection(Constants.COLLECTIONS.MY_SERVICE)
-            .whereEqualTo("idContratante", uid )
+            .whereEqualTo("idContratante", uid)
             .addSnapshotListener { snapshot, exception ->
                 snapshot?.let {
-                    for(doc1 in snapshot){
+                    for (doc1 in snapshot) {
                         val itemMyService = doc1.toObject(Myservice::class.java)
 
                         mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
@@ -231,23 +258,24 @@ class ProfileActivity : AppCompatActivity() {
                             .collection(Constants.COLLECTIONS.COMMENTS)
                             .addSnapshotListener { snapshot, exception ->
                                 snapshot?.let {
-                                    for ( doc2 in snapshot){
+                                    for (doc2 in snapshot) {
                                         val itemServicos = doc2.toObject(Comentarios::class.java)
-                                        val tsDoc = mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                            .document(itemMyService.serviceId.toString())
-                                            .collection(Constants.COLLECTIONS.COMMENTS)
-                                            .document(itemServicos.commentId.toString())
+                                        val tsDoc =
+                                            mFirestoreUpdate.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
+                                                .document(itemMyService.serviceId.toString())
+                                                .collection(Constants.COLLECTIONS.COMMENTS)
+                                                .document(itemServicos.commentId.toString())
                                         mFirestoreUpdate.runTransaction { transaction ->
-                                            val content = transaction.get(tsDoc).toObject(Comentarios::class.java)
-                                            if (itemServicos.uid == uid){
-                                                if (content?.urlContratante != url){
+                                            val content = transaction.get(tsDoc)
+                                                .toObject(Comentarios::class.java)
+                                            if (itemServicos.uid == uid) {
+                                                if (content?.urlContratante != url) {
                                                     content?.urlContratante = url
-                                                }else if (content?.nomeContratante != nome){
+                                                } else if (content?.nomeContratante != nome) {
                                                     content?.nomeContratante = nome
                                                 }
                                                 transaction.set(tsDoc, content!!)
                                             }
-
 
 
                                         }

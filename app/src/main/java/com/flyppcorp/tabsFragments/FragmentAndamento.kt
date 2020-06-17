@@ -8,23 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.managerServices.AndamentoActivity
-
 import com.flyppcorp.flypp.R
-import com.flyppcorp.managerServices.PendenteActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_fragment_andamento.view.*
 import kotlinx.android.synthetic.main.manager_service_items.view.*
+import kotlinx.android.synthetic.main.manager_service_items.view.ic_saiuEntrega
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
@@ -98,6 +92,14 @@ class FragmentAndamento : Fragment() {
 
             val sdfHora = SimpleDateFormat("HH:mm dd/MM/yyyy").format(servicos[position].timestamp)
             viewholder.txtHora.text = sdfHora
+            val uid = mAuth.currentUser?.uid
+            if (servicos[position].idContratado == uid){
+                viewholder.ic_saiuEntrega?.visibility = View.VISIBLE
+                if (servicos[position].caminho){
+                    viewholder.ic_saiuEntrega?.setImageResource(R.drawable.ic_label_green)
+                }
+            }
+
         }
 
 

@@ -21,9 +21,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+
     <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/myTabTextApperearence</item>
     </style>
+
 
     <style name="myTabTextApperearence" parent="TextAppearance.AppCompat.Button">
         <item name="android:textSize">14sp</item>

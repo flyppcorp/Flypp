@@ -3,6 +3,7 @@ package com.flyppcorp.Helper
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import io.grpc.internal.SharedResourceHolder
 import io.opencensus.resource.Resource
 
@@ -33,6 +34,7 @@ class RedimensionImage {
         options.inSampleSize = calcularTamanho(options, larguraDesejada, alturaDesejada)
         options.inJustDecodeBounds = false
         return BitmapFactory.decodeResource(res, resId, options)
+
 
     }
 }

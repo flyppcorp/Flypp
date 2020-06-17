@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#cf000f"
+            android:background="@color/redPrimary"
             android:text="Cancelar"
             android:textColor="@color/textIcons" />
 
@@ -31,7 +31,6 @@
             android:background="@color/colorAccent"
             android:text="Salvar"
             android:textColor="@color/textIcons" />
-
 
 
     </LinearLayout>
@@ -109,7 +108,6 @@
                     android:id="@+id/editDDDProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:inputType="number"
                     android:maxLength="2" />
 
@@ -161,6 +159,8 @@
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="Endereço"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"

@@ -5,15 +5,11 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.util.Log
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.MainActivity
-import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -29,6 +25,7 @@ class FirestoreUser(private val context: Context) {
     fun saveUser(mFirestoreClasses: User) {
         val uid = mAuth.currentUser?.uid
 
+           //salva o user no firestore
             mDadosUser.collection(Constants.COLLECTIONS.USER_COLLECTION)
                 .document(uid.toString())
                 .set(mFirestoreClasses)
@@ -39,9 +36,9 @@ class FirestoreUser(private val context: Context) {
                     startActivity(context, intent, null)
 
                     mProgressDialog.hide()
-                    //mProgressDialog.dismiss()
 
                 }.addOnFailureListener {
+                    //se der errado avisa que aconteceu um erro
                    mAlertDialog.setMessage("Algo saiu errado." +
                            "\nTente novamente!")
                     mAlertDialog.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
@@ -54,6 +51,7 @@ class FirestoreUser(private val context: Context) {
 
     }
 
+    //dashboard
     private fun dashBoard(){
         val tsDoc = mDadosUser.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
             Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)

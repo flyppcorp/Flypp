@@ -23,14 +23,16 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Domingo" />
+            android:text="Domingo"
+            />
 
         <CheckBox
             android:id="@+id/checkBox2segunda"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Segunda" />
+            android:text="Segunda"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -46,14 +48,16 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Terça" />
+            android:text="Terça"
+            />
 
         <CheckBox
             android:id="@+id/checkBox4quarta"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Quarta" />
+            android:text="Quarta"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -70,14 +74,16 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Quinta" />
+            android:text="Quinta"
+            />
 
         <CheckBox
             android:id="@+id/checkBox6sexta"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sexta" />
+            android:text="Sexta"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sábado" />
+            android:text="Sábado"
+            />
     </LinearLayout>
 
     <TextView
@@ -123,11 +130,11 @@
         <Button
             android:id="@+id/btnInicio"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
-            android:text="Inicia"
-            android:textColor="@color/textIcons" />
+            android:background="@drawable/button_bg"
+            android:text="Começa"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/textView53"
@@ -142,10 +149,10 @@
         <Button
             android:id="@+id/btnFim"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/button_bg"
             android:text="Termina"
-            android:textColor="@color/textIcons" />
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

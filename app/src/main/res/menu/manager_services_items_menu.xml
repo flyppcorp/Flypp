@@ -9,8 +9,8 @@
 
     <item
         android:id="@+id/pausePlayServiceIc"
-        android:icon="@drawable/ic_pause"
-        android:title="Pausar"
+        android:icon="@drawable/ic_visible"
+        android:title="Visibilidade"
         app:showAsAction="always" />
 
     <item

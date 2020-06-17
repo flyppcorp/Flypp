@@ -3,13 +3,11 @@ package com.flyppcorp.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.LoginFirebaseAuth
@@ -18,20 +16,18 @@ import com.flyppcorp.profile.ProfileInformations
 import com.flyppcorp.profile_settings.ProfileAdapter
 import com.flyppcorp.profile_settings.menuOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_conta.*
 
 import kotlinx.android.synthetic.main.fragment_conta.view.*
-import kotlinx.android.synthetic.main.perfil_items.view.*
+import java.util.*
 
 class ContaFragment : Fragment() {
 
     //objetos com inicio tardio
-    private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
     private lateinit var mFB: LoginFirebaseAuth
     private lateinit var mFs: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
@@ -45,7 +41,6 @@ class ContaFragment : Fragment() {
     ): View? {
         //iniciando objetos
         mFB = LoginFirebaseAuth(context!!)
-        mAdapter = GroupAdapter()
         mFs = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         adapter = ProfileAdapter(menuOptions())
@@ -53,10 +48,7 @@ class ContaFragment : Fragment() {
         //configurações das duas recyclerview
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_conta, container, false)
 
-
-        view.rv_profile.adapter = adapter
-        view.rv_profile.layoutManager = LinearLayoutManager(activity)
-        view.recyclerView.adapter = mAdapter
+        view.recyclerView.adapter = adapter
 
         adapter.onItemClick = {
             adapter.getItemId(it)
@@ -68,72 +60,84 @@ class ContaFragment : Fragment() {
                     startActivity(intent)
                 }
                 it == 2 -> {
-                    val intent = Intent(Intent.ACTION_SEND)
-                    intent.setType("text/plain")
-                    intent.putExtra(
-                        Intent.EXTRA_TEXT,
-                        "Use o Flypp para contratar e oferecer serviços de forma rápida, fácil e grátis:  \nhttps://play.google.com/store/apps/details?id=com.flyppcorp.flypp"
-                    )
-                    startActivity(intent)
+                    val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLink(Uri.parse("https://play.google.com/store/apps/details?id=com.flyppcorp.flypp"))
+                        .setDomainUriPrefix("https://flyppbrasil.page.link")
+                        // Open links with this app on Android
+                        .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
+                        // Open links with com.example.ios on iOS
+                        .setIosParameters(
+                            DynamicLink.IosParameters.Builder("com.example.ios").build()
+                        )
+                        .buildDynamicLink()
+
+                    val dynamicLinkUri = dynamicLink.uri
+                    Log.i("LINK", dynamicLinkUri.toString())
+
+                    val rand = Random().nextInt(100) + 100
+                    val link = "https://flyppbrasil.page.link?" +
+                            "apn=com.flyppcorp.flypp" +
+                            "&ibi=com.example.ios" +
+                            "&link=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.flyppcorp.flypp" +
+                            "&uid=${mAuth.currentUser?.uid}" +
+                            "&utm_source=-"
+
+                    val shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLink(Uri.parse(link))
+                        .setDomainUriPrefix("https://flyppbrasil.page.link")
+                        .buildShortDynamicLink()
+                        .addOnSuccessListener { result ->
+                            // Short link created
+                            val shortLink = result.shortLink
+                            val flowchartLink = result.previewLink
+                            val intent = Intent(Intent.ACTION_SEND)
+
+                            intent.setType("text/plain")
+
+                            intent.putExtra(
+                                Intent.EXTRA_TEXT, "Ainda não usa o Flypp para pedir comida ?" +
+                                        "\nVenha logo aproveitar, peça rapidinho." +
+                                        "\n${shortLink.toString()}"
+                            )
+
+                            startActivity(intent)
+                        }.addOnFailureListener {
+
+                        }
                 }
             }
         }
 
 
         fetchUser()
-
         return view
     }
 
 
-    //recyclerview local
-    private inner class UserItem(val mUser: User) : Item<GroupieViewHolder>() {
-        private var mUserInfo: User? = null
-        override fun getLayout(): Int {
-            return R.layout.perfil_items
-        }
 
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            //nome
-            viewHolder.itemView.txtMyName.text = mUser.nome
-            //foto perfil
-            Picasso.get().load(mUser.url).resize(300, 300).centerCrop()
-                .placeholder(R.drawable.btn_select_photo_profile)
-                .into(viewHolder.itemView.photoPerfil)
-            //ação de click
-            viewHolder.itemView.photoPerfil.setOnClickListener {
-                FirebaseFirestore.getInstance().collection(Constants.COLLECTIONS.USER_COLLECTION)
-                    .document(mAuth.currentUser?.uid.toString())
-                    .get()
-                    .addOnSuccessListener {
-                        mUserInfo = it.toObject(User::class.java)
-                        val intent = Intent(context, ProfileInformations::class.java)
-                        intent.putExtra(Constants.KEY.PROFILE_KEY, mUser)
-                        startActivity(intent)
-                    }
-
-            }
-        }
-
-
-    }
 
     //metodo que recupera infirmações do user
     private fun fetchUser() {
-        mFs.collection(Constants.COLLECTIONS.USER_COLLECTION)
-            .whereEqualTo("uid", mAuth.currentUser?.uid.toString())
-            .addSnapshotListener { snapshot, exception ->
-                mAdapter.clear()
-                snapshot?.let {
-                    for (doc in snapshot) {
-                        val user = doc.toObject(User::class.java)
-                        mAdapter.add(UserItem(user))
+        if (mAuth.currentUser?.isAnonymous == false) {
+            mFs.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                .document(mAuth.currentUser?.uid.toString())
+                .get()
+                .addOnSuccessListener {
+                    val item = it.toObject(User::class.java)
+                    txtMyName.text = item?.nome
+                    Picasso.get().load(item?.url).resize(200, 200).centerCrop()
+                        .placeholder(R.drawable.btn_select_photo_profile).into(photoPerfil)
+                    photoPerfil.setOnClickListener {
+                        val intent = Intent(context, ProfileInformations::class.java)
+                        intent.putExtra(Constants.KEY.PROFILE_KEY, item)
+                        startActivity(intent)
                     }
+
+
                 }
 
-            }
-
+        }
     }
-
-
 }
+
+

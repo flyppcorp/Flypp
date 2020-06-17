@@ -26,7 +26,7 @@
     <string name="descri_o_curta">Descrição curta</string>
     <string name="descri_o_detalhada">Descrição detalhada</string>
     <string name="r">Preço</string>
-    <string name="qualidades_diferenciais">Qualidades diferenciais</string>
+    <string name="qualidades_diferenciais">Sabor ou Marca</string>
 
     <string-array name="estados">
         <item>Acre</item>
@@ -71,19 +71,34 @@
     </string-array>
 
     <string-array name="resposta">
-        <item>1 minuto</item>
-        <item>2 minutos</item>
-        <item>3 minutos</item>
-        <item>5 minutos</item>
-        <item>15 minutos</item>
-        <item>30 minutos</item>
-        <item>Alguns minutos</item>
-        <item>1 hora</item>
-        <item>2 horas</item>
-        <item>Algumas horas</item>
-        <item>1 dia</item>
-        <item>2 dias</item>
-        <item>Alguns dias</item>
+        <item>1–5 minutos</item>
+        <item>10–20 minutos</item>
+        <item>30–40 minutos</item>
+        <item>50–60 minutos</item>
+    </string-array>
+
+    <string-array name="categorias">
+        <item>Todos</item>
+        <item>Lanches</item>
+        <item>Pizza</item>
+        <item>Burguer</item>
+        <item>Carnes</item>
+        <item>Frangos e Aves</item>
+        <item>Peixes</item>
+        <item>Bolos</item>
+        <item>Porções</item>
+        <item>Marmitex</item>
+        <item>Massas</item>
+        <item>Salgados</item>
+        <item>Doces</item>
+        <item>Saudáveis</item>
+        <item>Veganos</item>
+        <item>Bebidas</item>
+        <item>Nordestina</item>
+        <item>Japonês</item>
+        <item>Churrasco</item>
+        <item>Outros</item>
+
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

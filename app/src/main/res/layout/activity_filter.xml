@@ -5,9 +5,124 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.flyppcorp.managerServices.FilterActivity"
-    android:background="@drawable/bg_gradient">
+    >
+
 
     <Button
+        android:id="@+id/btnFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Filtrar"
+        android:textColor="@color/textIcons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFilter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RadioGroup
+                android:id="@+id/radioGraoup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center">
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Menor Preço"
+                    android:id="@+id/menor_preco"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Maior Preço"
+                    android:id="@+id/maior_preco"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Menor Relevância"
+                    android:id="@+id/menor_relevancia"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Maior Relevância"
+                    android:id="@+id/maior_relevancia"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Menos Avaliado"
+                    android:id="@+id/menor_avaliado"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mais Avaliado"
+                    android:id="@+id/maior_avaliado"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Categoria"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/radioGraoup"
+                app:layout_constraintStart_toStartOf="@+id/radioGraoup"
+                app:layout_constraintTop_toBottomOf="@+id/radioGraoup" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoriaFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView32"
+                app:layout_constraintStart_toStartOf="@+id/textView32"
+                app:layout_constraintTop_toBottomOf="@+id/textView32"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/categorias"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <!--<Button
         android:id="@+id/btnMenorPreco"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -152,5 +267,5 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/btnMaisAvaliado"
         app:layout_constraintStart_toStartOf="@+id/btnMaisAvaliado"
-        app:layout_constraintTop_toBottomOf="@+id/btnMaisAvaliado" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMaisAvaliado" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

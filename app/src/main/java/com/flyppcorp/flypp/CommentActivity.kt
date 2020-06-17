@@ -7,12 +7,12 @@ import com.flyppcorp.atributesClass.Comentarios
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.comment_layout.view.*
+import kotlinx.android.synthetic.main.tb_arrow.*
 
 class CommentActivity : AppCompatActivity() {
 
@@ -32,6 +32,8 @@ class CommentActivity : AppCompatActivity() {
         btnVoltarTb.setOnClickListener {
             finish()
         }
+        txtTitle.text = "Comentários"
+
         fetchComments()
     }
 

@@ -9,15 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.LoginActivity
 import com.flyppcorp.flypp.ProfileActivity
 import com.flyppcorp.flypp.R
 import com.google.android.material.navigation.NavigationView
@@ -25,10 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile_informations.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.nav_header.view.*
-import java.util.*
-import kotlin.math.sign
+
 
 class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var header: View
@@ -81,6 +75,10 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_conteiner, profileFragment).commit()
                 return true
+            }
+            R.id.fale -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/5598985223703?text=Oi,%20Flypp"))
+                startActivity(intent)
             }
 
             R.id.termos_uso -> {

@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
@@ -22,9 +23,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_pendente.*
-import kotlinx.android.synthetic.main.dialog_fr.view.*
-import kotlinx.android.synthetic.main.dialog_fr3.*
 import kotlinx.android.synthetic.main.dialog_fr3.view.*
+
 
 class PendenteActivity : AppCompatActivity() {
 
@@ -50,17 +50,21 @@ class PendenteActivity : AppCompatActivity() {
             }
 
         }
+
         btnAceitarVoltarPendente.setOnClickListener {
             handleAceitarVoltar()
         }
-
+        val tb = findViewById<Toolbar>(R.id.tb_pendente)
+        tb.title = ""
+        btnVoltarTbPendente.setOnClickListener {
+            finish()
+        }
+        txtTitlePendente.text = "Pendente"
+        setSupportActionBar(tb)
         /*btnDate.setOnClickListener {
             handleDate()
         }*/
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Pendente "
         getEndereco()
         handleTextButton()
         handleDateVisibility()
@@ -75,10 +79,6 @@ class PendenteActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
-            android.R.id.home -> {
-                finish()
-            }
 
             R.id.mensagem_my_service -> {
                 if (mAuth.currentUser?.uid == mMyService?.idContratante) {
@@ -222,7 +222,7 @@ class PendenteActivity : AppCompatActivity() {
                         notificationDesistence(
                             mMyService?.idContratante.toString(),
                             "teve que recusar o seu pedido, não fique triste, temos vários outros estabelecimentos prontos para te receber",
-                            mMyService?.nomeContratado.toString(),vd.edtMotivo.text.toString()
+                            mMyService?.nomeContratado.toString(), vd.edtMotivo.text.toString()
                         )
                     }
                     handleTs(mMyService?.idContratante)
@@ -253,7 +253,12 @@ class PendenteActivity : AppCompatActivity() {
         }
     }
 
-    private fun notificationDesistence(uid: String, status: String, nome: String, motivos: String?) {
+    private fun notificationDesistence(
+        uid: String,
+        status: String,
+        nome: String,
+        motivos: String?
+    ) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -262,11 +267,11 @@ class PendenteActivity : AppCompatActivity() {
                 val user: User? = info.toObject(User::class.java)
                 val notification = Notification()
                 notification.serviceId = mMyService?.serviceId
-                if (motivos != ""){
+                if (motivos != "") {
                     notification.text =
                         "$nome $status (${mMyService!!.serviceNome})" +
                                 "\nMotivo: ${motivos}"
-                }else{
+                } else {
                     notification.text =
                         "$nome $status (${mMyService!!.serviceNome})"
                 }
@@ -305,17 +310,33 @@ class PendenteActivity : AppCompatActivity() {
             if (mMyService?.urlService == null) imgServiceAcct.setImageResource(R.drawable.ic_working)
             else Picasso.get().load(mMyService?.urlService).placeholder(R.drawable.ic_working).fit()
                 .centerCrop().into(
-                imgServiceAcct
-            )
+                    imgServiceAcct
+                )
             txtContratanteAcct.text = mMyService?.nomeContratante
-            if (mMyService?.dateService != null && mMyService?.horario != null) {
-                txtData.text = "${mMyService?.dateService} ás ${mMyService?.horario}"
+            if (mMyService?.dateService != null || mMyService?.horario != null) {
+                txtData?.text =
+                    "${mMyService?.dateService} ás ${mMyService?.horario}".replace("null", "-")
+            } else {
+                txtTittleData?.visibility = View.GONE
+                txtData?.visibility = View.GONE
             }
             txtQuantidade.text = mMyService?.quantidate.toString()
             txtServicoAcct.text = mMyService?.serviceNome
-            txtObservacao.text = mMyService?.observacao
+            if (mMyService?.observacao != null) {
+                txtObservacao?.text = mMyService?.observacao
+            } else {
+                titleObservacao?.visibility = View.GONE
+                txtObservacao?.visibility = View.GONE
+            }
+
+            if (mMyService?.sabor != null) {
+                txtSabor?.text = mMyService?.sabor
+            } else {
+                titleSabor?.visibility = View.GONE
+                txtSabor?.visibility = View.GONE
+            }
             txtEnderecoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
-                    "${it.cidade}, ${it.estado}, ${it.cep}"
+                    "${it.cidade}, ${it.estado}, ${it.cep}".replace("null", "-")
         }
 
         val result = String.format("%.2f", mMyService?.preco)

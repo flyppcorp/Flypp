@@ -6,6 +6,37 @@
     android:layout_height="match_parent"
     tools:context="com.flyppcorp.fragments.AddActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/textIcons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btnVoltarTbadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/txtTitleadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
     <LinearLayout
         android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
@@ -32,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_add"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +74,13 @@
                 android:id="@+id/btnSelectPhotoService"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/btn_select_photo_work"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/editEmpresaLayout"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,27 +94,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/btnSelectPhotoService"
                 app:layout_constraintStart_toStartOf="@+id/btnSelectPhotoService"
                 app:layout_constraintTop_toTopOf="@+id/btnSelectPhotoService" />
-
-            <Button
-                android:id="@+id/btnSelectPhotoService2"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/btn_select_photo_work"
-                app:layout_constraintEnd_toEndOf="@+id/editEmpresaLayout"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgService2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:civ_border_color="@color/colorPrimaryDark"
-                app:civ_border_width="3dp"
-                app:layout_constraintBottom_toBottomOf="@+id/btnSelectPhotoService2"
-                app:layout_constraintEnd_toEndOf="@+id/btnSelectPhotoService2"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/btnSelectPhotoService2"
-                app:layout_constraintTop_toTopOf="@+id/btnSelectPhotoService2" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -178,7 +193,7 @@
                 android:hint="@string/r"
                 app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerPreparo">
+                app:layout_constraintTop_toBottomOf="@+id/btnExpediente">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editPreco"
@@ -200,7 +215,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout13">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editQualidadesDiferenciais"
+                    android:id="@+id/editObservacao"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:inputType="textMultiLine|textCapSentences" />
@@ -258,7 +273,7 @@
                     android:id="@+id/editEstadosAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"/>
+                    android:inputType="textCapSentences" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -350,12 +365,12 @@
                 android:hint="@string/palavras_chave"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout18"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout14">
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTags"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="62dp"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -383,28 +398,29 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
 
             <Spinner
                 android:id="@+id/spinnerResposta"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
                 android:entries="@array/resposta"
                 app:layout_constraintEnd_toEndOf="@+id/textView46"
                 app:layout_constraintStart_toStartOf="@+id/textView46"
-                app:layout_constraintTop_toBottomOf="@+id/textView46"
-                 />
+                app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
             <Spinner
                 android:id="@+id/spinnerPreparo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/tempo_preparo"
                 app:layout_constraintEnd_toEndOf="@+id/textView51"
                 app:layout_constraintStart_toStartOf="@+id/textView51"
-                app:layout_constraintTop_toBottomOf="@+id/textView51"
-                android:entries="@array/tempo_preparo"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/textView51" />
 
             <TextView
                 android:id="@+id/textView51"
@@ -413,11 +429,57 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="Entrega em até:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
                 app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Caso seu produto tenha mais de um sabor ou marca, coloque aqui separando com vírgula. \nExemplo: Frango catupiry, calabresa. \nPara bebidas também: Coca-cola, Fanta."
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"/>
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout14"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout14" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Categoria"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoria"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView17"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/textView17"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/categorias"/>
+
+            <Button
+                android:id="@+id/btnExpediente"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg"
+                android:text="Adicionar expediente"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerPreparo"
+                app:layout_constraintStart_toStartOf="@+id/spinnerPreparo"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerPreparo" />
 
             <!--<TextView
                 android:id="@+id/textView51"

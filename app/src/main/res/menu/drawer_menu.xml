@@ -6,6 +6,10 @@
             android:title="Meu Perfil"
             android:icon="@drawable/ic_person_profile"/>
 
+        <item android:id="@+id/fale"
+            android:title="Fale conosco"
+            android:icon="@drawable/ic_message_fale"/>
+
         <item android:id="@+id/termos_uso"
             android:title="Termos de Uso"
             android:icon="@drawable/ic_politica"/>

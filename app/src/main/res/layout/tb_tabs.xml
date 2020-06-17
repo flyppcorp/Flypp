@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/textIcons"
+    android:background="@color/colorPrimary"
 
     >
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_tb"/>
+        android:src="@drawable/ic_tb_logo_white"/>
 
 </androidx.appcompat.widget.Toolbar>

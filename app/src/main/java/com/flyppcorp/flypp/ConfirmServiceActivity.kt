@@ -1,42 +1,28 @@
 package com.flyppcorp.flypp
 
-import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
 import android.net.ConnectivityManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.TimePicker
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreContract
-import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_confirm_service.*
 import java.util.*
 import com.google.android.gms.ads.*
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import kotlinx.android.synthetic.main.activity_pendente.*
-import java.io.IOException
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class ConfirmServiceActivity : AppCompatActivity() {
@@ -47,12 +33,11 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var mUser: User? = null
     private lateinit var mFirestoreContract: FirestoreContract
     private lateinit var mMyservice: Myservice
-    private var user: User? = null
     private var data: String? = null
     private var horario: String? = null
     private var qtd by Delegates.notNull<Int>()
     private lateinit var mRemote: FirebaseRemoteConfig
-    private lateinit var client: FusedLocationProviderClient
+    private var mCart: Servicos? = null
 
     //fim
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +46,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
         //iniciação
         qtd = 1
         mServices = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
+        mCart = intent.extras?.getParcelable(Constants.KEY.CART)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirestoreContract = FirestoreContract(this)
@@ -70,7 +56,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
         //mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
         mMyservice = Myservice()
         mRemote = FirebaseRemoteConfig.getInstance()
-        client = LocationServices.getFusedLocationProviderClient(this)
+
+
         //fim
 
         //função que captura os dados do servico para qtd
@@ -112,6 +99,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 getDataService()
             }
         }
+
 
         //fim
 
@@ -228,6 +216,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //url contratante
             mMyservice.urlContratante = it.url
             mMyservice.urlContratado = mServices?.urlProfile
+
+            mMyservice.observacao = editObservacao.text.toString()
             //preco de acordo com a quantidade
             var precoQuantidade = mServices?.preco!! * qtd.toFloat()
             if (!it.primeiraCompra) {
@@ -237,8 +227,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             } else {
                 /*mMyservice.preco = precoQuantidade
                 mMyservice.quantidate = qtd*/
-                mRemote.fetch(0).addOnCompleteListener {task ->
-                    if (task.isSuccessful){
+                mRemote.fetch(0).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         mRemote.fetchAndActivate()
                         val off = mRemote.getString("off")
                         val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
@@ -251,11 +241,20 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
             // fim Quantidade
 
+            //sabor
+            if (mServices?.sabor != null){
+                mMyservice.sabor = spinnerSabor?.selectedItem.toString()
+            }else {
+                mMyservice.sabor = null
+            }
+            //fim sabor
+
             //fim contratado e contratante
             mMyservice.nomeContratado = mServices?.nome
             mMyservice.nomeContratante = it.nome
             //desc
             mMyservice.shortDesc = mServices?.shortDesc
+            //obs
             //enderecos
             mMyservice.cep = edtCepConfirm.text.toString()
             mMyservice.estado = edtEstadoConfirm.text.toString()
@@ -309,6 +308,17 @@ class ConfirmServiceActivity : AppCompatActivity() {
             nomeContratante.text = it.nome
             //nome produto
             txtServicoContratar.text = mServices?.nomeService
+            //sabor
+            if (mServices?.sabor != null){
+                textView14?.visibility = View.VISIBLE
+                spinnerSabor?.visibility = View.VISIBLE
+                val sabores = mServices?.sabor!!.split(",")
+                spinnerSabor?.adapter = ArrayAdapter (this, android.R.layout.simple_list_item_1, sabores)
+
+
+            }
+
+            //fim sabor
             //preco x quantidade e desconto
             //mascara de preco
             var precoQtd = mServices?.preco!! * qtd.toFloat()
@@ -325,8 +335,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 /*
                 val result = String.format("%.2f", precoQtd)
                 txtPrecoContratante.text = "R$ ${result}"*/
-                mRemote.fetch(0).addOnCompleteListener {task ->
-                    if (task.isSuccessful){
+                mRemote.fetch(0).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         mRemote.fetchAndActivate()
                         val off = mRemote.getString("off")
                         val desconto: Double = precoQtd * (off.toInt() / 100.0)

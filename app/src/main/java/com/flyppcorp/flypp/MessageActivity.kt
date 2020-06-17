@@ -2,9 +2,6 @@ package com.flyppcorp.flypp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.atributesClass.*
 import com.flyppcorp.constants.Constants
@@ -15,7 +12,6 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-
 import kotlinx.android.synthetic.main.activity_message2.*
 import kotlinx.android.synthetic.main.from_id.view.*
 import kotlinx.android.synthetic.main.to_id.view.*
@@ -46,31 +42,23 @@ class MessageActivity : AppCompatActivity() {
         mAdapter = GroupAdapter()
         mConnection = Connection(this)
         recyclerMessages.adapter = mAdapter
+        val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_message)
+        tb.title = ""
+        setSupportActionBar(tb)
+        btnVoltarTbmessage.setOnClickListener {
+            finish()
+        }
+        txtTitlemessage.text = mUser?.nome
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = mUser?.nome
         setListeners()
         getUser()
         
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home -> {
-                finish()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onResume() {
         super.onResume()
-        val uid = mAuth.currentUser!!.uid
+        val uid = mAuth.currentUser?.uid.toString()
         val  tsDoc = mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE).document(uid).collection(Constants.COLLECTIONS.CONTACTS).document(mUser!!.uid!!)
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(LastMessage::class.java)

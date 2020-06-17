@@ -25,6 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_andamento.*
+import kotlinx.android.synthetic.main.activity_andamento.txtQuantidade
+import kotlinx.android.synthetic.main.activity_andamento.txtSabor
+
 
 class AndamentoActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
@@ -62,10 +65,16 @@ class AndamentoActivity : AppCompatActivity() {
             Toast.makeText(this, "Avisar que está a caminho", Toast.LENGTH_LONG).show()
             return@setOnLongClickListener true
         }
+        val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_andamento)
+        tb.title = ""
+        setSupportActionBar(tb)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Em andamento"
+        btnVoltarTbAndamento.setOnClickListener {
+            finish()
+        }
+        txtTitleAndamento.text = "Andamento"
+
+
         getEndereco()
         btnText()
     }
@@ -77,11 +86,6 @@ class AndamentoActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
-            android.R.id.home -> {
-                finish()
-            }
-
             R.id.mensagem_my_service -> {
                 if (mAuth.currentUser?.uid == mMyservice?.idContratante) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -356,24 +360,42 @@ class AndamentoActivity : AppCompatActivity() {
         mAdress?.let {
             if (mMyservice?.urlService != null) Picasso.get().load(mMyservice?.urlService)
                 .placeholder(R.drawable.ic_working).fit().centerCrop().into(
-                imgAndamentoAcct
-            )
+                    imgAndamentoAcct
+                )
             else imgAndamentoAcct.setImageResource(R.drawable.ic_working)
             txtContratadoAndamentoAcct.text = mMyservice?.nomeContratado
             txtContratanteAndamentoAcct.text = mMyservice?.nomeContratante
             txtServiceAndamentoAcct.text = mMyservice?.serviceNome
-            txtObservacaoAndamento.text = mMyservice?.observacao
-            txtObsProf.text = mMyservice?.observacaoProfissional
-            
+            if (mMyservice?.observacao != null) {
+                txtObservacaoAndamento?.text = mMyservice?.observacao
+            } else {
+                txtObservacaoAndamento?.visibility = View.GONE
+                titileobs?.visibility = View.GONE
+            }
+
+            if (mMyservice?.observacaoProfissional != null) {
+                txtObsProf?.text = mMyservice?.observacaoProfissional
+            } else {
+                txtObsProf?.visibility = View.GONE
+                titleobsEst?.visibility = View.GONE
+            }
             val result = String.format("%.2f", mMyservice?.preco)
             txtPrecoAndamentoAcct.text = "R$ ${result}"
 
-
+            if (mMyservice?.sabor != null) {
+                txtSabor?.text = mMyservice?.sabor
+            } else {
+                titileSabor?.visibility = View.GONE
+                txtSabor?.visibility = View.GONE
+            }
 
             txtEnderecoAndamentoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
-                    "${it.cidade}, ${it.estado}, ${it.cep}"
+                    "${it.cidade}, ${it.estado}, ${it.cep}".replace("null", "-")
             if (it.dateService != null && it.horario != null) {
-                "${it.dateService} ás ${it.horario}"
+                txtDate?.text = "${it.dateService} ás ${it.horario}"
+            } else {
+                txtDate?.visibility = View.GONE
+                dataText?.visibility = View.GONE
             }
             txtQuantidade.text = it.quantidate.toString()
 

@@ -7,24 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.ProfileActivity
-
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.manager_service_items.view.*
-import kotlinx.android.synthetic.main.service_items_all.view.*
-
 
 class ProfileFragment : Fragment() {
 
@@ -83,7 +73,7 @@ class ProfileFragment : Fragment() {
                         txtAvaliacaoProfile.text = mUser?.avaliacao.toString()
                     } else {
                         val media : Double = mUser?.avaliacao!!.toDouble() / mUser!!.totalAvaliacao
-                        txtAvaliacaoProfile.text = "${media.toString().substring(0,3)}"
+                        txtAvaliacaoProfile.text = String.format("%.1f", media)
 
                     }
                     profileGo()

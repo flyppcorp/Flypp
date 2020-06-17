@@ -19,39 +19,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity android:name="com.flyppcorp.Helper.LoadLink">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="flyppbrasil.page.link"
-                    android:scheme="https"
-                    />
-                <data android:host="flyppbrasil.page.link"
-                    android:scheme="http"/>
-
+                    android:scheme="https" />
+                <data
+                    android:host="flyppbrasil.page.link"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CommentActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.fragments.AddActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            tools:ignore="LockedOrientationActivity"/>
+
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -82,10 +75,8 @@
             android:name=".MessageActivity"
             android:label="User"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:ignore="LockedOrientationActivity"/>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.FilterActivity"
             android:screenOrientation="portrait"
@@ -107,20 +98,16 @@
         <activity
             android:name="com.flyppcorp.managerServices.FinalizadoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.AndamentoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.flyppcorp.managerServices.PendenteActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            tools:ignore="LockedOrientationActivity"/>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ManagerServicesActivity"
             android:screenOrientation="portrait"
@@ -144,9 +131,7 @@
         <activity
             android:name=".ServiceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeToolbar"
-            tools:ignore="LockedOrientationActivity"/>
-
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".CreateProfileActivity"
             android:screenOrientation="portrait"
@@ -184,6 +169,9 @@
         <service android:name="com.flyppcorp.FCM.FCMServiceNotification">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="LastMessages" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 

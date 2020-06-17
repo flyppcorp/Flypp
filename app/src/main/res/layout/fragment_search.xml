@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#eeeeee">
 
 
     <include android:id="@+id/tbSearch"
@@ -14,11 +15,12 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/textIcons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/tbSearch"
+        />
 
     <FrameLayout
         android:id="@+id/framesearch"
@@ -50,7 +52,7 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/input_search"
         android:ems="10"
-        android:hint="Faça sua pesquisa"
+        android:hint="Pesquise por comidas e bebidas"
         android:inputType="textUri"
         android:paddingLeft="10dp"
         android:textColor="@color/textIcons"

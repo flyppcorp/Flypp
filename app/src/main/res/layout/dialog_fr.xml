@@ -37,10 +37,11 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/button_bg"
         app:layout_constraintEnd_toEndOf="@+id/imgExpand"
         app:layout_constraintStart_toStartOf="@+id/imgExpand"
-        app:layout_constraintTop_toBottomOf="@+id/imgExpand">
+        app:layout_constraintTop_toBottomOf="@+id/imgExpand"
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:id="@+id/message"

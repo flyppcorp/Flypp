@@ -14,9 +14,11 @@ class Constants {
         const val COMMENTS = "comments"
         const val NEW_VERSION = "new_version"
         const val VERSION_CODE = "version_code"
-        const val INICIO = "inicio"
-        const val FIM = "fim"
-        const val LISTA_DIAS = "dias"
+        const val ID_DESCONTO = "id_desconto"
+        const val ACTIVATE_SHARE = "activate"
+        const val CART = "cart"
+        const val GOOGLE_LOGIN_CODE = 9001
+        const val EXPEDIENTE = "exp"
     }
 
     object COLLECTIONS {
@@ -29,6 +31,7 @@ class Constants {
         const val NOTIFICATION = "notifications"
         const val NOTIFICATION_SERVICE = "notificationsServices"
         const val COMMENTS = "comments"
+        const val NOTIFICATION_DESCONTO = "notificationsDesconto"
     }
 
     object FILTERS_VALUES {
@@ -38,6 +41,7 @@ class Constants {
         const val MAIOR_RELEVANCIA = "maior_relevancia"
         const val MENOS_AVALIADO = "menos_avaliado"
         const val MAIS_AVALIADO = "mais_avaliado"
+        const val CATEGORIA = "categoria"
     }
 
     object DASHBOARD_SERVICE {

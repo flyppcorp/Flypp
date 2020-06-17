@@ -6,31 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".CommentActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_comments"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
-            android:id="@+id/btnVoltarTb"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comentários"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/textIcons"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-    </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/toolbar_comment"
+        layout="@layout/tb_arrow" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comments"

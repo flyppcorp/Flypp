@@ -4,15 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.animation.DecelerateInterpolator
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.flyppcorp.Helper.RedimensionImage
-import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.*
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
@@ -27,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             Handler().postDelayed({
                 when {
-                    mAuth.currentUser?.uid != null && mAuth.currentUser?.isAnonymous != true -> {
+                    mAuth.currentUser?.uid != null -> {
                         val intent = Intent(baseContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -47,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun loadImage() {
        // Picasso.get().load(R.drawable.logo).resize(500,500).centerInside().into(imageView8)
-        imageView8.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.logo, 300, 130))
+        imageView8.setImageBitmap(mSize.redimensionarResource(resources,R.drawable.ic_logo_splash, 300, 130))
     }
 
 

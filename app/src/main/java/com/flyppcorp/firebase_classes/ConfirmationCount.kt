@@ -5,14 +5,11 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.CreateProfileActivity
-import com.flyppcorp.flypp.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ConfirmationCount(private val context: Context) {
@@ -58,6 +55,7 @@ class ConfirmationCount(private val context: Context) {
             }
 
     }
+    //Atualiza os dados da dashboard
     private fun dashBoard(){
         val tsDoc = mFirestore.collection(Constants.DASHBOARD_SERVICE.DASHBOARD_COLLECTION).document(
             Constants.DASHBOARD_SERVICE.DASHBOARD_DOCUMENT)

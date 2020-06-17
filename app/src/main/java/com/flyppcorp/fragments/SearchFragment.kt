@@ -9,7 +9,6 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,16 +19,17 @@ import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.dialog_fr.*
 import kotlinx.android.synthetic.main.dialog_fr.view.*
 import kotlinx.android.synthetic.main.dialog_fr.view.imgExpand
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import kotlinx.android.synthetic.main.service_items.view.*
 import kotlinx.android.synthetic.main.service_items_all.view.*
+import kotlinx.android.synthetic.main.service_items_all.view.txtHorarioFunc
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment() {
 
@@ -62,6 +62,7 @@ class SearchFragment : Fragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_search, container, false)
         view.recyclerSearch.adapter = mAdapter
         view.recyclerSearch.layoutManager = LinearLayoutManager(activity)
+        //view.editSearch.hint = "Pesquise"
 
         //clique nos botões para retornar a pesquisa
         view.btnSearch.setOnClickListener {
@@ -208,6 +209,16 @@ class SearchFragment : Fragment() {
             }
 
             //fim avaliação
+
+            //expediente
+            val calendar = Calendar.getInstance()
+            if (contentServicesearch[position].dias.contains(calendar.get(Calendar.DAY_OF_WEEK).toString())){
+                viewholder.txtHorarioFunc.text = contentServicesearch[position].horario
+            }else {
+                viewholder.txtHorarioFunc.setTextColor(Color.RED)
+                viewholder.txtHorarioFunc.text = "Fechado"
+            }
+            //fim expediente
 
             //preço
             val result = String.format("%.2f", contentServicesearch[position].preco)

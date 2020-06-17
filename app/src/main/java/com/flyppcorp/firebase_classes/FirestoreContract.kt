@@ -11,8 +11,6 @@ import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.MainActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.gms.ads.*
-import androidx.appcompat.app.AppCompatActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.User
@@ -76,7 +74,7 @@ class FirestoreContract(var context: Context) {
     private fun toast() {
         val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
         var view = toast.view
-        view.setBackgroundColor(Color.rgb(103, 58, 183))
+        view.setBackgroundColor(Color.rgb(242, 120, 75))
         view.setPadding(20, 20, 20, 20)
         toast.show()
     }

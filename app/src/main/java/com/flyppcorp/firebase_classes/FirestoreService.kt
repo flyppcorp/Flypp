@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -16,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class FirestoreService (private val context: Context) {
 
-    //declaração e inicialização de objeetos
+    //declaração e inicialização de objetos
     private val mServices: FirebaseFirestore = FirebaseFirestore.getInstance()
     val mDialog =  ProgressDialog(context)
     private val mAlertDialog = AlertDialog.Builder(context)
@@ -36,9 +35,9 @@ class FirestoreService (private val context: Context) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(context, intent, null)
-                //mDialog.dismiss()
 
 
+                //saida pra falha
             }.addOnFailureListener {
                 mAlertDialog.setMessage("Algo deu errado, tente novamente")
                 mAlertDialog.setPositiveButton("Ok", { dialogInterface: DialogInterface, i: Int -> })
@@ -49,6 +48,7 @@ class FirestoreService (private val context: Context) {
             }
     }
 
+    //altera a contagem de produtos que o restaurante tem
     private fun servicosAtivos(){
        val tsDoc = mServices.collection(Constants.COLLECTIONS.USER_COLLECTION).document(mAuth)
         mServices.runTransaction {

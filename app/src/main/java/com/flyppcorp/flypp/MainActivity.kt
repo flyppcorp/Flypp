@@ -7,24 +7,22 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.flyppcorp.Helper.Connection
 import com.flyppcorp.Helper.LifeCyclerApplication
 import com.flyppcorp.Helper.SharedFilter
-import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreContract
 import com.flyppcorp.fragments.*
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -36,8 +34,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog.view.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import java.io.IOException
 import java.util.*
 
@@ -82,7 +78,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val application: LifeCyclerApplication = application as LifeCyclerApplication
         getApplication().registerActivityLifecycleCallbacks(application)
 
-        if (mAuth.currentUser == null){
+        if (mAuth.currentUser == null) {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -92,10 +88,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         getToken()
         getPermissions()
-        updateLocation()
+        //updateLocation()
         //goToLogin()
         messageLocation()
         remoteConfigFunc()
+        handleAnonimo()
 
 
         //getLocation()
@@ -103,11 +100,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        mSharedFilter.saveFilter(Constants.FILTERS_VALUES.CATEGORIA, "")
+    }
+
+    private fun handleAnonimo() {
+        val currentUser = mAuth.currentUser?.isAnonymous
+        if (currentUser == true) {
+            btnAnonimo?.visibility = View.VISIBLE
+            btnAnonimo?.setOnClickListener {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
 
     private fun remoteConfigFunc() {
         mFirebaseRemoteConfig.fetch(0)
             .addOnCompleteListener {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     mFirebaseRemoteConfig.fetchAndActivate()
                     handleRemote(mFirebaseRemoteConfig)
                 }
@@ -122,18 +135,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val versionNumber = pInfo.versionCode
         val dialogView = layoutInflater.inflate(R.layout.dialog, null)
 
-        if (showDialog){
-            if ( versionNumber < version.toInt() ){
+        if (showDialog) {
+            if (versionNumber < version.toInt()) {
                 AlertDialog.Builder(this)
                     .setView(dialogView)
-                    .setPositiveButton("Atualizar", {dialog, which ->
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.flyppcorp.flypp"))
+                    .setPositiveButton("Atualizar", { dialog, which ->
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.flyppcorp.flypp")
+                        )
                         startActivity(intent)
                     })
-                    .setNegativeButton("Depois", {dialog, which ->  })
+                    .setNegativeButton("Depois", { dialog, which -> })
                     .show()
-
-
 
 
             }
@@ -166,7 +180,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
-    private fun updateLocation() {
+    /*private fun updateLocation() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val mFirestoreService = FirebaseFirestore.getInstance()
@@ -194,11 +208,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     }
                 }
             }
-    }
+    }*/
 
     private fun getLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-            && ContextCompat.checkSelfPermission(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
@@ -212,11 +225,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                 }
             }
-
             client.lastLocation.addOnSuccessListener {
                 try {
                     if (it == null) {
-                        return@addOnSuccessListener
+                        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+                            .document(mAuth.currentUser?.uid.toString())
+                            .get()
+                            .addOnSuccessListener {
+                                val item = it.toObject(User::class.java)
+                                mSharedFilter.saveFilter(
+                                    Constants.KEY.CITY_NAME,
+                                    item?.cidade.toString()
+                                )
+                            }
                     } else {
                         val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
                         val adress: List<Address>? =
@@ -229,6 +250,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                                             Constants.KEY.CITY_NAME,
                                             adresses.subAdminArea
                                         )
+
+
                                     }
 
 
@@ -313,6 +336,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
                     toolbarMain?.visibility = View.VISIBLE
+                    if (bottom_nav.selectedItemId == R.id.searchFrag){
+                        toolbarMain?.visibility = View.GONE
+                    }
 
                 } else {
                     val alert = AlertDialog.Builder(this)

@@ -3,12 +3,8 @@ package com.flyppcorp.managerServices
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import com.flyppcorp.atributesClass.Myservice
-import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -34,26 +30,13 @@ class FinalizadoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Finalizado"
+        btnVoltarTbfinalizado.setOnClickListener {
+            finish()
+        }
+        txtTitlefinalizado.text = "Finalizado"
         getadress()
         getAvaliationStatus()
 
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home -> {
-                finish()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun getAvaliationStatus() {
@@ -90,13 +73,20 @@ class FinalizadoActivity : AppCompatActivity() {
             txtContratanteFinalizadoAcct.text = mMyservice?.nomeContratado
             txtServicoFinalizadoAcct.text = mMyservice?.serviceNome
             txtObservacaoFinalizado.text = mMyservice?.observacao
+            if (mMyservice?.sabor != null){
+                txtSabor?.text = mMyservice?.sabor
+
+            }else{
+                txtSabor?.visibility = View.GONE
+                titleSaborFinish?.visibility = View.GONE
+            }
 
             val result = String.format("%.2f", mMyservice?.preco)
             txtPrecoFinalizadoAcct.text = "R$ ${result}"
 
 
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +
-                    "${it.cidade}, ${it.estado}, ${it.cep}"
+                    "${it.cidade}, ${it.estado}, ${it.cep}".replace("null", "-")
 
 
         }

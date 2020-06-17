@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context="com.flyppcorp.managerServices.AndamentoActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_andamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/textIcons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btnVoltarTbAndamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/txtTitleAndamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="marquee"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -19,6 +47,7 @@
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -47,6 +76,7 @@
             android:text="Finalizar"
             android:textColor="@color/textIcons" />
 
+
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -55,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tb_andamento">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -104,6 +134,7 @@
                 android:id="@+id/txtContratanteAndamentoAcct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView16"
                 app:layout_constraintStart_toStartOf="@+id/textView16"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -124,6 +155,7 @@
                 android:id="@+id/txtContratadoAndamentoAcct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView21"
                 app:layout_constraintStart_toStartOf="@+id/textView21"
                 app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -132,13 +164,16 @@
                 android:id="@+id/textView25"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Preço:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtContratadoAndamentoAcct"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtContratadoAndamentoAcct"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtQuantidade" />
 
             <TextView
@@ -147,21 +182,26 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@+id/textView25"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
-                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                app:layout_constraintTop_toBottomOf="@+id/textView25"
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/textView27"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Endereço:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoAndamentoAcct"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoAndamentoAcct"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtObsProf"
-                tools:layout_editor_absoluteY="651dp" />
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/txtEnderecoAndamentoAcct"
@@ -171,7 +211,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView27"
                 app:layout_constraintStart_toStartOf="@+id/textView27"
-                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                app:layout_constraintTop_toBottomOf="@+id/textView27"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textView29"
@@ -189,95 +230,145 @@
                 android:id="@+id/txtServiceAndamentoAcct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView29"
                 app:layout_constraintStart_toStartOf="@+id/textView29"
                 app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
             <TextView
-                android:id="@+id/textView40"
+                android:id="@+id/titileobs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="@string/observa_o"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoAndamentoAcct"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAndamentoAcct" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAndamentoAcct"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/txtObservacaoAndamento"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView40"
-                app:layout_constraintStart_toStartOf="@+id/textView40"
-                app:layout_constraintTop_toBottomOf="@+id/textView40" />
+                app:layout_constraintEnd_toEndOf="@+id/titileobs"
+                app:layout_constraintStart_toStartOf="@+id/titileobs"
+                app:layout_constraintTop_toBottomOf="@+id/titileobs"
+                android:visibility="visible"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/dataText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Data e horário do pedido: "
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/txtServiceAndamentoAcct"
-                app:layout_constraintStart_toStartOf="@+id/txtServiceAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtSabor"
+                />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/dataText"
                 app:layout_constraintStart_toStartOf="@+id/dataText"
                 app:layout_constraintTop_toBottomOf="@+id/dataText" />
 
             <TextView
-                android:id="@+id/textView45"
+                android:id="@+id/titleobsEst"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Observação do estabelecimento:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtObservacaoAndamento"
-                app:layout_constraintStart_toStartOf="@+id/txtObservacaoAndamento"
-                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/txtObsProf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView45"
-                app:layout_constraintStart_toStartOf="@+id/textView40"
-                app:layout_constraintTop_toBottomOf="@+id/textView45" />
+                app:layout_constraintEnd_toEndOf="@+id/titleobsEst"
+                app:layout_constraintStart_toStartOf="@+id/titileobs"
+                app:layout_constraintTop_toBottomOf="@+id/titleobsEst"
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/txtQtdidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Quantidade:"
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/txtDate"
-                app:layout_constraintStart_toStartOf="@+id/txtDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
             <TextView
                 android:id="@+id/txtQuantidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/textView13"
-                app:layout_constraintStart_toStartOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintEnd_toEndOf="@+id/txtQtdidade"
+                app:layout_constraintStart_toStartOf="@+id/txtQtdidade"
+                app:layout_constraintTop_toBottomOf="@+id/txtQtdidade" />
+
+            <TextView
+                android:id="@+id/titileSabor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Sabor:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtServiceAndamentoAcct"
+                app:layout_constraintStart_toStartOf="@+id/txtServiceAndamentoAcct"
+                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/txtSabor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/titileSabor"
+                app:layout_constraintStart_toStartOf="@+id/titileSabor"
+                app:layout_constraintTop_toBottomOf="@+id/titileSabor" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

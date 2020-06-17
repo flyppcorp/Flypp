@@ -5,15 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.flyppcorp.Helper.PagerAdapterImage
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
@@ -21,9 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_service.*
-import kotlinx.android.synthetic.main.activity_service.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ServiceActivity : AppCompatActivity() {
@@ -45,28 +41,7 @@ class ServiceActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mUser = User()
         mService = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
-        if (mService?.urlService != null && mService?.urlService2 != null) {
-            mUrl = arrayListOf(
-                mService?.urlService.toString(),
-                mService?.urlService2.toString()
-            )
-        } else if (mService?.urlService != null && mService?.urlService2 == null) {
-            mUrl = arrayListOf(
-                mService?.urlService.toString()
 
-            )
-        } else if (mService?.urlService == null && mService?.urlService2 != null) {
-            mUrl = arrayListOf(
-                mService?.urlService2.toString()
-            )
-        } else if (mService?.urlService == null && mService?.urlService2 == null) {
-            mUrl = arrayListOf(
-
-            )
-        }
-
-        val adapter = PagerAdapterImage(this, mUrl)
-        imgServiceView.adapter = adapter
 
         getService()
 
@@ -100,9 +75,13 @@ class ServiceActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = mService?.nomeService.toString()
+        btnVoltarTbService.setOnClickListener {
+            finish()
+        }
+        txtTitleService.text = mService?.nomeService
+        tb_service.title = ""
+        setSupportActionBar(tb_service)
+
         getIcon()
 
     }
@@ -150,7 +129,7 @@ class ServiceActivity : AppCompatActivity() {
                             if (!it.favoritos.containsKey(mAuth.currentUser?.uid)) menuFAv?.setIcon(
                                 R.drawable.ic_favorite_white
                             )
-                            else menuFAv?.setIcon(R.drawable.ic_favorite_border_white)
+                            else menuFAv?.setIcon(R.drawable.ic_favorite_border)
                         }
                     }
             }
@@ -206,7 +185,9 @@ class ServiceActivity : AppCompatActivity() {
                         "&link=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.flyppcorp.flypp" +
                         "&st=${mService?.nomeService}" +
                         "&sd=${mService?.shortDesc}" +
+                        "&uid=-" +
                         "&utm_source=${mService?.serviceId}"
+
 
                 val shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
                     .setLink(Uri.parse(link))
@@ -301,9 +282,11 @@ class ServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val service = doc.toObject(Servicos::class.java)
 
+                        if (service.urlService != null){
+                            Picasso.get().load(service.urlService).centerCrop().fit().placeholder(R.drawable.ic_working).into(imgServiceView)
+                        }
                         txtQtdServices.text = "${service.totalServicos} concluídos"
                         txtTituloServices.text = service.nomeService
-                        txtDescShort.text = service.shortDesc
                         txtResponde.text = service.tempoResposta
                         //avaliacao
                         val avaliacao: Double =
@@ -321,17 +304,10 @@ class ServiceActivity : AppCompatActivity() {
 
 
                         txtDetailDesc.text = service.longDesc
-                        txtQuality.text = service.qualidadesDiferenciais
+
                         txtEndereco.text =
                             "${service.rua},  ${service.bairro}, ${service.numero} \n" +
                                     "CEP:${service.cep}, ${service.cidade}, ${service.estado}"
-                        if (service.ddd == null && service.telefone == null) {
-                            txtTelefone.text = "Sem telefone"
-                        } else {
-                            txtTelefone.text = "(${service.ddd}) ${service.telefone}"
-                        }
-
-                        txtEmail.text = service.email
                         if (service.comments > 0) {
                             btnComments.text = "${mService?.comments} comentários"
                             btnComments?.visibility = View.VISIBLE

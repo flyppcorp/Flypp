@@ -9,7 +9,7 @@
     <include
         android:id="@+id/toolbarMain"
         layout="@layout/toolbar"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/main_view"
@@ -34,8 +34,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/botton_navigation_items"
-        />
+        app:menu="@menu/botton_navigation_items" />
+
+    <Button
+        android:id="@+id/btnAnonimo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/textIcons"
+        android:text="Faça Login para explorar mais"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/main_view"
+        app:layout_constraintEnd_toEndOf="@+id/main_view"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

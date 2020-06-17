@@ -1,16 +1,17 @@
 package com.flyppcorp.fragments
 
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
-import android.view.Menu
-import android.view.MenuItem
-
+import android.provider.MediaStore
+import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Servicos
@@ -24,8 +25,15 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.activity_add.editCep
+import kotlinx.android.synthetic.main.activity_add.editObservacao
+import kotlinx.android.synthetic.main.activity_confirm_service.*
+import kotlinx.android.synthetic.main.dialog_fr2.*
+import kotlinx.android.synthetic.main.dialog_fr2.view.*
+import kotlinx.android.synthetic.main.dialog_fr2.view.checkBox1domingo
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class AddActivity : AppCompatActivity() {
@@ -39,6 +47,10 @@ class AddActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: User
     private lateinit var mCity: SharedFilter
+    private lateinit var mExp : SharedFilter
+    private var horario1: String? = null
+    private var horario2: String? = null
+    private lateinit var mDiasExpediente : ArrayList<String>
     //fim da inicialização
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,17 +65,147 @@ class AddActivity : AppCompatActivity() {
         mServiceAtributes = Servicos()
         mUser = User()
         mCity = SharedFilter(this)
+        mDiasExpediente = arrayListOf()
+        mExp = SharedFilter(this)
         //fim
-        supportActionBar?.title = "Adicionar produto"
+        val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_add)
+        tb?.title = ""
+        setSupportActionBar(tb)
+        btnVoltarTbadd.setOnClickListener {
+            finish()
+        }
+        txtTitleadd.text = "Adicionar produto"
 
         //ações de click
         btnSelectPhotoService.setOnClickListener { handleSelect() }
-        btnSelectPhotoService2.setOnClickListener { handleSelect2() }
         btnSaveService.setOnClickListener { handleSaveService() }
+        btnExpediente.setOnClickListener {
+            handleDialog()
+        }
         //fim
 
         //chamando funcao que preenche dadas existentes da colecao user na service
         getInfo()
+    }
+
+    private fun handleDialog() {
+        val vd = layoutInflater.inflate(R.layout.dialog_fr2, null)
+        val alert = AlertDialog.Builder(this)
+        alert.setView(vd)
+            vd.btnInicio.setOnClickListener {
+
+                val calendar = Calendar.getInstance()
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        calendar.set(Calendar.MINUTE, minute)
+                        horario1 = SimpleDateFormat("HH:mm").format(calendar.time)
+                        vd.btnInicio.text = horario1
+
+
+                    }
+                TimePickerDialog(
+                    this,
+                    timeSetListener,
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    true
+                ).show()
+            }
+        vd.btnFim.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+            val timeSetListener =
+                TimePickerDialog.OnTimeSetListener { timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    calendar.set(Calendar.MINUTE, minute)
+                    horario2 = SimpleDateFormat("HH:mm").format(calendar.time)
+                    vd.btnFim.text = horario2
+
+
+                }
+            TimePickerDialog(
+                this,
+                timeSetListener,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            ).show()
+        }
+        val keyExp = mExp.getFilter(Constants.KEY.EXPEDIENTE)
+        if (keyExp.contains("1")){
+            vd.checkBox1domingo.isChecked = true
+        }
+        if (keyExp.contains("2")){
+            vd.checkBox2segunda.isChecked = true
+        }
+        if (keyExp.contains("3")){
+            vd.checkBox3terca.isChecked = true
+        }
+        if (keyExp.contains("4")){
+            vd.checkBox4quarta.isChecked = true
+        }
+        if (keyExp.contains("5")){
+            vd.checkBox5quinta.isChecked = true
+        }
+        if (keyExp.contains("6")){
+            vd.checkBox6sexta.isChecked = true
+        }
+        if (keyExp.contains("7")){
+            vd.checkBox7sabado.isChecked = true
+        }
+
+        if (horario1 != null){
+            vd.btnInicio.text = horario1
+        }
+        if (horario2 != null){
+            vd.btnFim.text = horario2
+        }
+
+
+        alert.setPositiveButton("Salvar", {dialog, which ->
+            if (vd.checkBox1domingo.isChecked){
+                mDiasExpediente.add("1")
+            }else{
+                mDiasExpediente.remove("1")
+            }
+            if (vd.checkBox2segunda.isChecked){
+                mDiasExpediente.add("2")
+            }else{
+                mDiasExpediente.remove("2")
+            }
+            if (vd.checkBox3terca.isChecked){
+                mDiasExpediente.add("3")
+            }else{
+                mDiasExpediente.remove("3")
+            }
+            if (vd.checkBox4quarta.isChecked){
+                mDiasExpediente.add("4")
+            }else{
+                mDiasExpediente.remove("4")
+            }
+            if (vd.checkBox5quinta.isChecked){
+                mDiasExpediente.add("5")
+            }else{
+                mDiasExpediente.remove("5")
+            }
+            if (vd.checkBox6sexta.isChecked){
+                mDiasExpediente.add("6")
+            }else{
+                mDiasExpediente.remove("6")
+            }
+            if (vd.checkBox7sabado.isChecked){
+                mDiasExpediente.add("7")
+            }else{
+                mDiasExpediente.remove("7")
+            }
+            mExp.saveFilter(Constants.KEY.EXPEDIENTE, mDiasExpediente.toString())
+            mDiasExpediente.clear()
+            btnExpediente.text = "Alterar Expediente"
+
+        })
+        val ad = alert.create()
+        ad.show()
     }
 
 
@@ -120,14 +262,7 @@ class AddActivity : AppCompatActivity() {
                 btnSelectPhotoService.alpha = 0f
             }
         }
-        if (requestCode == 2) {
-            mUri2 = data?.data
 
-            if (mUri2 != null) {
-                Picasso.get().load(mUri2.toString()).resize(300, 300).centerCrop().into(imgService2)
-                btnSelectPhotoService2.alpha = 0f
-            }
-        }
     }
 
     //funcao que salva no db firestore
@@ -137,9 +272,9 @@ class AddActivity : AppCompatActivity() {
                 mFirestoreService.mDialog.setCancelable(false)
                 mFirestoreService.mDialog.show()
                 //definindo valores para a classe servico
-
+                val serviceId = UUID.randomUUID().toString() + mUser.uid
                 //pegando o nome do arquivo que vai ser salvo no firestorage
-                val filename = SimpleDateFormat("yMdMs", Locale.getDefault()).format(Date())
+                val filename = serviceId
                 val ref = mStorage.getReference("image/${filename}")
                 //fim
                 //nome empresa
@@ -156,9 +291,7 @@ class AddActivity : AppCompatActivity() {
                     mCity.getFilter(Constants.KEY.CITY_NAME)
                 else mServiceAtributes.cityName = editCidadeService.text.toString()
                 //fim
-                //telefone
-                mServiceAtributes.ddd = mUser.ddd
-                mServiceAtributes.telefone = mUser.telefone
+
                 //desc service
                 mServiceAtributes.nomeService = editService.text.toString()
                 mServiceAtributes.shortDesc = editDescCurta.text.toString()
@@ -166,8 +299,20 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.preco = editPreco.text.toString().toFloat()
                 mServiceAtributes.tempoResposta = spinnerResposta.selectedItem.toString()
                 mServiceAtributes.tempoEntrega = spinnerPreparo.selectedItem.toString()
-                mServiceAtributes.qualidadesDiferenciais = editQualidadesDiferenciais.text.toString()
-
+                mServiceAtributes.categoria = spinnerCategoria.selectedItem.toString()
+                if (editObservacao.text.toString() != ""){
+                    mServiceAtributes.sabor = editObservacao.text.toString()
+                }
+                //expediente
+                mServiceAtributes.dias = mExp.getFilter(Constants.KEY.EXPEDIENTE)
+                if (horario1 == null){
+                    horario1 = "06:00"
+                }
+                if (horario2 == null){
+                    horario2 = "00:00"
+                }
+                mServiceAtributes.horario = "${horario1} - ${horario2}"
+                //expediente
                 //endereço
                 mServiceAtributes.cep = editCep.text.toString()
                 mServiceAtributes.estado = editEstadosAdd.text.toString()
@@ -175,10 +320,9 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.bairro = EditBairroService.text.toString()
                 mServiceAtributes.rua = editRuaService.text.toString()
                 mServiceAtributes.numero = editNumService.text.toString()
-                //email
-                mServiceAtributes.email = mAuth.currentUser!!.email
+
                 //service id, ele tem o mesmo nome da referencia do documento e é usado para acessar produtos mais adiante
-                val serviceId = UUID.randomUUID().toString() + mUser.uid
+
                 mServiceAtributes.serviceId = serviceId
                 //tags para pesquisa
                 val tagInput = editTags.text.toString().toLowerCase()
@@ -195,7 +339,16 @@ class AddActivity : AppCompatActivity() {
 
                 //obtendo url da imagem no firestorage
                 mUri?.let {
-                    ref.putFile(it)
+                    var bitmap : Bitmap? = null
+                    try{
+                        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
+                    }catch (e: Exception){
+                        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    val bytes = ByteArrayOutputStream()
+                    bitmap?.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+                    val fileInBytes = bytes.toByteArray()
+                    ref.putBytes(fileInBytes)
                         .addOnSuccessListener {
                             ref.downloadUrl
                                 .addOnSuccessListener {
@@ -205,9 +358,6 @@ class AddActivity : AppCompatActivity() {
                                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                                     updateProfile()
                                     dashBoard()
-                                    secondPhoto(serviceId, filename)
-
-
                                 }
                         }
 
@@ -217,7 +367,7 @@ class AddActivity : AppCompatActivity() {
                     mFirestoreService.servicos(mServiceAtributes, serviceId)
                     updateProfile()
                     dashBoard()
-                    secondPhoto(serviceId, filename)
+
                 }
 
             } else {
@@ -250,23 +400,6 @@ class AddActivity : AppCompatActivity() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mAuth.currentUser?.uid.toString())
             .update("nomeEmpresa", editEmpresaAdd.text.toString())
-
-    }
-
-    //função que envia uma segunda foto caso haja uma, ela é chamdada para atualizar e é enviada separadamente
-    private fun secondPhoto(document: String, filename: String) {
-        val ref = mStorage.getReference("image/${filename}2")
-        mUri2?.let {
-            ref.putFile(it)
-                .addOnSuccessListener {
-                    ref.downloadUrl
-                        .addOnSuccessListener {
-                            mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-                                .document(document)
-                                .update("urlService2", it.toString())
-                        }
-                }
-        }
 
     }
 

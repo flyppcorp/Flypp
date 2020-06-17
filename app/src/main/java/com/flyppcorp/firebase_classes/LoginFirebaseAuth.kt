@@ -5,20 +5,9 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
-import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.ConfirmationActivity
-import com.flyppcorp.flypp.LoginActivity
 import com.flyppcorp.flypp.MainActivity
-import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.view.*
-import java.util.*
-import kotlin.properties.Delegates
 
 class LoginFirebaseAuth(private val context: Context) {
 
@@ -42,6 +31,7 @@ class LoginFirebaseAuth(private val context: Context) {
         mAuth.signInWithEmailAndPassword(email, senha)
             .addOnCompleteListener {
                 when {
+                    //se tudo der certo entra
                     it.isSuccessful -> {
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags =
@@ -50,6 +40,7 @@ class LoginFirebaseAuth(private val context: Context) {
 
 
                     }
+                    //se der errado mostra uma mensagem
                     !it.isSuccessful -> {
                         mAlertDialog.setMessage(
                             "Parece que seu e-mail e/ou senha estão incorretos.\n" +

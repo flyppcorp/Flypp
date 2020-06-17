@@ -1,20 +1,16 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.LastMessage
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -50,12 +46,62 @@ class LastMessages : AppCompatActivity() {
                 }
 
         }
+        mAdapter.setOnItemLongClickListener { item, view ->
+            val item : LastMessageItem = item as LastMessageItem
+            //Toast.makeText(this, item.mLast.toId, Toast.LENGTH_LONG).show()
+            val fromId = mAuth.currentUser?.uid.toString()
+            val toId = item.mLast.toId
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Apagar conversa")
+            alertDialog.setMessage("Você tem certeza que deseja apagar esta convers ? ")
+            alertDialog.setNegativeButton("Não", {dialog, which ->  })
+            alertDialog.setPositiveButton("Sim", {dialog, which ->
+                handleDelete(fromId, toId)
+            })
+            alertDialog.show()
+            return@setOnItemLongClickListener true
+        }
 
         btn_voltar_lm.setOnClickListener {
             finish()
         }
 
         fetchLastMessage()
+    }
+
+    private fun handleDelete(fromId: String, toId: String?) {
+        val progressBar = ProgressDialog(this)
+        progressBar.setCancelable(false)
+        progressBar.setMessage("Apagando conversas")
+        progressBar.show()
+        mfirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
+            .document(fromId)
+            .collection(toId.toString())
+            .get()
+            .addOnSuccessListener {
+                val batch : WriteBatch = FirebaseFirestore.getInstance().batch()
+                val snapshotList: List<DocumentSnapshot> = it.documents
+                for (snapshot in snapshotList){
+                    batch.delete(snapshot.reference)
+                }
+                batch.commit()
+                    .addOnSuccessListener {
+                       mfirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE)
+                           .document(fromId)
+                           .collection(Constants.COLLECTIONS.CONTACTS)
+                           .document(toId.toString())
+                           .delete()
+                           .addOnSuccessListener {
+                               progressBar.hide()
+                           }.addOnFailureListener {
+                               progressBar.hide()
+                           }
+                    }.addOnFailureListener {
+                        progressBar.hide()
+                    }
+            }
+
+
     }
 
     private inner class LastMessageItem(val mLast: LastMessage) : Item<GroupieViewHolder>(){
