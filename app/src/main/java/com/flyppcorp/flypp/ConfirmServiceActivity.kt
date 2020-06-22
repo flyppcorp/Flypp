@@ -234,6 +234,10 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
                         mMyservice.preco = (precoQuantidade - desconto).toFloat()
                         mMyservice.quantidate = qtd
+                    }else if (!task.isSuccessful){
+                        val desconto: Double = 0.0
+                        mMyservice.preco = (precoQuantidade - desconto).toFloat()
+                        mMyservice.quantidate = qtd
                     }
 
                 }
@@ -340,6 +344,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         mRemote.fetchAndActivate()
                         val off = mRemote.getString("off")
                         val desconto: Double = precoQtd * (off.toInt() / 100.0)
+                        precoQtd = (precoQtd - desconto).toFloat()
+
+                        val result = String.format("%.2f", precoQtd)
+                        txtPrecoContratante.text = "R$ ${result}"
+                    }else if(!task.isSuccessful){
+                        val desconto: Double = 0.0
                         precoQtd = (precoQtd - desconto).toFloat()
 
                         val result = String.format("%.2f", precoQtd)

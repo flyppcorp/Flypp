@@ -29,10 +29,10 @@ class CommentActivity : AppCompatActivity() {
         mAdapter = GroupAdapter()
         rv_comments.adapter = mAdapter
         rv_comments.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        btnVoltarTb.setOnClickListener {
+        btnVoltarTbComment.setOnClickListener {
             finish()
         }
-        txtTitle.text = "Comentários"
+        txtTitleComment.text = "Comentários"
 
         fetchComments()
     }

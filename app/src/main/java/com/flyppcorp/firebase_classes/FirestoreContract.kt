@@ -74,8 +74,8 @@ class FirestoreContract(var context: Context) {
     private fun toast() {
         val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
         var view = toast.view
-        view.setBackgroundColor(Color.rgb(242, 120, 75))
-        view.setPadding(20, 20, 20, 20)
+        view?.setBackgroundColor(Color.rgb(242, 120, 75))
+        view?.setPadding(20, 20, 20, 20)
         toast.show()
     }
 
