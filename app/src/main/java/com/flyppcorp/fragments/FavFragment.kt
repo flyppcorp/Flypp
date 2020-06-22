@@ -126,7 +126,7 @@ class FavFragment : Fragment() {
                     "0/5"
             }else{
                 viewholder.txtAvaliacaoList.text =
-                    "${resultAvaliacao}/5"
+                    "${resultAvaliacao}/5".replace(".", ",")
             }
             //fim avaliação
 
@@ -134,7 +134,7 @@ class FavFragment : Fragment() {
             //preço
                 val result = String.format("%.2f", contentServicos[position].preco)
                 viewholder.txtPrecoList.text =
-                    "R$ ${result}"
+                    "R$ ${result}".replace(".", ",")
 
             //fim preco
 

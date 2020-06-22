@@ -295,12 +295,12 @@ class ServiceActivity : AppCompatActivity() {
                         if (service.avaliacao == 0) {
                             txtAvaliacao.text = "Sem avaliações"
                         } else {
-                            txtAvaliacao.text = "${resultAvaliacao}/5"
+                            txtAvaliacao.text = "${resultAvaliacao}/5".replace(".", ",")
                         }
                         //preco
                         val result = String.format("%.2f", mService?.preco)
                         txtPrecoContratante.text =
-                            "R$ ${result}"
+                            "R$ ${result}".replace(".", ",")
 
 
                         txtDetailDesc.text = service.longDesc

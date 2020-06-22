@@ -380,7 +380,7 @@ class AndamentoActivity : AppCompatActivity() {
                 titleobsEst?.visibility = View.GONE
             }
             val result = String.format("%.2f", mMyservice?.preco)
-            txtPrecoAndamentoAcct.text = "R$ ${result}"
+            txtPrecoAndamentoAcct.text = "R$ ${result}".replace(".",",")
 
             if (mMyservice?.sabor != null) {
                 txtSabor?.text = mMyservice?.sabor

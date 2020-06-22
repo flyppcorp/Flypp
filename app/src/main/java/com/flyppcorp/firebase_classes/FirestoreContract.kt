@@ -1,6 +1,7 @@
 package com.flyppcorp.firebase_classes
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.User
+import com.flyppcorp.flypp.CartActivity
 
 
 class FirestoreContract(var context: Context) {
@@ -38,7 +40,7 @@ class FirestoreContract(var context: Context) {
                 sendNotification(token, notification)
                 toast()
                 progress.dismiss()
-                moveAndShowAd()
+                moveAndShowAd(myservice)
 
 
             }.addOnFailureListener {
@@ -72,7 +74,7 @@ class FirestoreContract(var context: Context) {
 
 
     private fun toast() {
-        val toast = Toast.makeText(context, "Serviço solicitado com sucesso", Toast.LENGTH_LONG)
+        val toast = Toast.makeText(context, "Pedido solicitado com sucesso", Toast.LENGTH_LONG)
         var view = toast.view
         view?.setBackgroundColor(Color.rgb(242, 120, 75))
         view?.setPadding(20, 20, 20, 20)
@@ -80,25 +82,26 @@ class FirestoreContract(var context: Context) {
     }
 
     //função que mostra um anuncio
-    private fun moveAndShowAd() {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(context, intent, null)
-        /*if (mIntertial.isLoaded) {
-            mIntertial.show()
-            mIntertial.adListener = object : AdListener() {
-                override fun onAdClosed() {
-                    mIntertial.loadAd(AdRequest.Builder().build())
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(context, intent, null)
-                }
-            }
-        } else {
+    private fun moveAndShowAd(myservice: Myservice) {
+        val alert = AlertDialog.Builder(context)
+        alert.setCancelable(false)
+        alert.setTitle("Seu pedido foi feito com sucesso :)")
+        alert.setMessage("Você deseja comprar mais produtos deste vendedor?")
+        alert.setNegativeButton("Não", {dialogInterface, i ->
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(context, intent, null)
-        }*/
+        })
+        alert.setPositiveButton("Sim", {dialogInterface, i ->
+            val intent = Intent(context, CartActivity::class.java)
+            intent.putExtra(Constants.KEY.CART, myservice)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(context, intent, null)
+        })
+        alert.show()
+
+
+
     }
 
     private fun dashBoard() {

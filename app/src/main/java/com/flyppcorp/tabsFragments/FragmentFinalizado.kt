@@ -93,7 +93,7 @@ class FragmentFinalizado : Fragment() {
             //val precoQtd = servicos[position].preco!! * servicos[position].quantidate.toFloat()
                 val result = String.format("%.2f", servicos[position].preco)
                 viewholder.txtPrecoManager.text =
-                    "R$ ${result}"
+                    "R$ ${result}".replace(".",",")
 
 
             val horaService = SimpleDateFormat("dd/MM/yyyy").format(servicos[position].timestamp)

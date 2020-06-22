@@ -98,11 +98,11 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                             val avaliacao: Double =
                                 serviceItem.avaliacao.toDouble() / serviceItem.totalAvaliacao
                             val resultAv = String.format("%.1f", avaliacao)
-                            txtAvaliacaoView.text = "${resultAv}/5 (${serviceItem?.totalAvaliacao})"
+                            txtAvaliacaoView.text = "${resultAv}/5 (${serviceItem?.totalAvaliacao})".replace(".", ",")
                         }
 
                         val result = String.format("%.2f", serviceItem.preco)
-                        txtPrecoView.text = "R$ ${result}"
+                        txtPrecoView.text = "R$ ${result}".replace(".", ",")
 
                         txtDetailDescView.text = serviceItem.longDesc
                         txtEnderecoView.text =

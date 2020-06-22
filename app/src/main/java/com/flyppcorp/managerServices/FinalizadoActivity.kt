@@ -82,7 +82,7 @@ class FinalizadoActivity : AppCompatActivity() {
             }
 
             val result = String.format("%.2f", mMyservice?.preco)
-            txtPrecoFinalizadoAcct.text = "R$ ${result}"
+            txtPrecoFinalizadoAcct.text = "R$ ${result}".replace(".",",")
 
 
             txtEnderecoFinalizadoAcct.text = "${it.rua}, ${it.bairro}, ${it.numero} \n" +

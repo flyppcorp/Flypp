@@ -110,11 +110,11 @@ class FragmentTodos : Fragment() {
                 contentService[position].avaliacao.toDouble() / contentService[position].totalAvaliacao
             val resultAv = String.format("%.1f", avaliacao)
             if (contentService[position].avaliacao == 0) vh.txtAvaliacaoList.text = "0/5"
-            else vh.txtAvaliacaoList.text = "${resultAv}/5"
+            else vh.txtAvaliacaoList.text = "${resultAv}/5".replace(".",",")
 
             val result = String.format("%.2f", contentService[position].preco)
             vh.txtPrecoList.text =
-                "R$ ${result}"
+                "R$ ${result}".replace(".",",")
 
 
         }

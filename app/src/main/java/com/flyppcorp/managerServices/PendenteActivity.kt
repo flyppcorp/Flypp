@@ -340,7 +340,7 @@ class PendenteActivity : AppCompatActivity() {
         }
 
         val result = String.format("%.2f", mMyService?.preco)
-        txtPrecoAcct.text = "R$ ${result}"
+        txtPrecoAcct.text = "R$ ${result}".replace(".",",")
 
 
     }

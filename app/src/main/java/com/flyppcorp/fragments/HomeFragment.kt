@@ -439,7 +439,7 @@ class HomeFragment : Fragment() {
                     "0/5"
             }else{
                 viewholder.txtAvaliacao.text =
-                    "${resultAvaliacao}/5"
+                    "${resultAvaliacao}/5".replace(".", ",")
             }
 
             //fim avaliação
@@ -449,7 +449,7 @@ class HomeFragment : Fragment() {
 
             val result = String.format("%.2f", servicos[position].preco)
             viewholder.txtPrecoContratante.text =
-                "R$ ${result}"
+                "R$ ${result}".replace(".", ",")
             //fim preço
 
 

@@ -73,7 +73,8 @@ class ProfileFragment : Fragment() {
                         txtAvaliacaoProfile.text = mUser?.avaliacao.toString()
                     } else {
                         val media : Double = mUser?.avaliacao!!.toDouble() / mUser!!.totalAvaliacao
-                        txtAvaliacaoProfile.text = String.format("%.1f", media)
+                        val result = String.format("%.1f", media)
+                        txtAvaliacaoProfile.text = result.replace(".", ",")
 
                     }
                     profileGo()

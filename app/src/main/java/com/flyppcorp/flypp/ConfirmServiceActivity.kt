@@ -1,11 +1,13 @@
 package com.flyppcorp.flypp
 
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TimePicker
@@ -38,6 +40,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var qtd by Delegates.notNull<Int>()
     private lateinit var mRemote: FirebaseRemoteConfig
     private var mCart: Servicos? = null
+    lateinit var alert: ProgressDialog
 
     //fim
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +49,6 @@ class ConfirmServiceActivity : AppCompatActivity() {
         //iniciação
         qtd = 1
         mServices = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
-        mCart = intent.extras?.getParcelable(Constants.KEY.CART)
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirestoreContract = FirestoreContract(this)
@@ -57,8 +59,9 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mMyservice = Myservice()
         mRemote = FirebaseRemoteConfig.getInstance()
 
-
-        //fim
+        alert = ProgressDialog(this)
+        alert.setCancelable(false)
+        alert.show()
 
         //função que captura os dados do servico para qtd
         getDataService()
@@ -115,6 +118,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             }
 
     }
+
+
 
     //função que captura o horario
     private fun handleHorario(): String? {
@@ -225,8 +230,6 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 mMyservice.preco = (precoQuantidade - desconto).toFloat()
                 mMyservice.quantidate = qtd
             } else {
-                /*mMyservice.preco = precoQuantidade
-                mMyservice.quantidate = qtd*/
                 mRemote.fetch(0).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         mRemote.fetchAndActivate()
@@ -234,7 +237,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
                         mMyservice.preco = (precoQuantidade - desconto).toFloat()
                         mMyservice.quantidate = qtd
-                    }else if (!task.isSuccessful){
+                    } else if (!task.isSuccessful) {
                         val desconto: Double = 0.0
                         mMyservice.preco = (precoQuantidade - desconto).toFloat()
                         mMyservice.quantidate = qtd
@@ -242,13 +245,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
                 }
             }
-
             // fim Quantidade
 
             //sabor
-            if (mServices?.sabor != null){
+            if (mServices?.sabor != null) {
                 mMyservice.sabor = spinnerSabor?.selectedItem.toString()
-            }else {
+            } else {
                 mMyservice.sabor = null
             }
             //fim sabor
@@ -313,11 +315,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //nome produto
             txtServicoContratar.text = mServices?.nomeService
             //sabor
-            if (mServices?.sabor != null){
+            if (mServices?.sabor != null) {
                 textView14?.visibility = View.VISIBLE
                 spinnerSabor?.visibility = View.VISIBLE
                 val sabores = mServices?.sabor!!.split(",")
-                spinnerSabor?.adapter = ArrayAdapter (this, android.R.layout.simple_list_item_1, sabores)
+                spinnerSabor?.adapter =
+                    ArrayAdapter(this, android.R.layout.simple_list_item_1, sabores)
 
 
             }
@@ -327,18 +330,16 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //mascara de preco
             var precoQtd = mServices?.preco!! * qtd.toFloat()
             if (!it.primeiraCompra) {
+                alert.hide()
 
                 val desconto: Double = precoQtd * (10 / 100.0)
                 precoQtd = (precoQtd - desconto).toFloat()
 
                 val result = String.format("%.2f", precoQtd)
-                txtPrecoContratante.text = "R$ ${result}"
+                txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
 
 
             } else {
-                /*
-                val result = String.format("%.2f", precoQtd)
-                txtPrecoContratante.text = "R$ ${result}"*/
                 mRemote.fetch(0).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         mRemote.fetchAndActivate()
@@ -347,14 +348,15 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         precoQtd = (precoQtd - desconto).toFloat()
 
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}"
-                    }else if(!task.isSuccessful){
+                        txtPrecoContratante.text = "R$ ${result}".replace(".",",")
+                    } else if (!task.isSuccessful) {
                         val desconto: Double = 0.0
                         precoQtd = (precoQtd - desconto).toFloat()
 
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}"
+                        txtPrecoContratante.text = "R$ ${result}".replace(".",",")
                     }
+                    alert.hide()
 
                 }
 

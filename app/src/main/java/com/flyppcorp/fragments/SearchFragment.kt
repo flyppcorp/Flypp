@@ -205,7 +205,7 @@ class SearchFragment : Fragment() {
                     "0/5"
             }else{
                 viewholder.txtAvaliacaoList.text =
-                    "${resultAvaliacao}/5"
+                    "${resultAvaliacao}/5".replace(".", ",")
             }
 
             //fim avaliação
@@ -223,7 +223,7 @@ class SearchFragment : Fragment() {
             //preço
             val result = String.format("%.2f", contentServicesearch[position].preco)
             viewholder.txtPrecoList.text =
-                "R$ ${result}"
+                "R$ ${result}".replace(".", ",")
 
             //fim preço
 
