@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TimePicker
 import android.widget.Toast
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Myservice
 import com.flyppcorp.atributesClass.Notification
 import com.flyppcorp.atributesClass.Servicos
@@ -40,7 +41,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
     private var qtd by Delegates.notNull<Int>()
     private lateinit var mRemote: FirebaseRemoteConfig
     private var mCart: Servicos? = null
-    lateinit var alert: ProgressDialog
+    private lateinit var alert: ProgressDialog
 
     //fim
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +53,6 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirestoreContract = FirestoreContract(this)
-        //mFirestoreContract.mIntertial = InterstitialAd(applicationContext)
-        MobileAds.initialize(this)
-        //mFirestoreContract.mIntertial.adUnitId = getString(R.string.ads_intertitial_id)
-        //mFirestoreContract.mIntertial.loadAd(AdRequest.Builder().build())
         mMyservice = Myservice()
         mRemote = FirebaseRemoteConfig.getInstance()
 
@@ -104,6 +101,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
         }
 
 
+
         //fim
 
         //função que pega os dados do servico
@@ -113,12 +111,32 @@ class ConfirmServiceActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
                 //função que usa os dados
+                if (mUser?.primeiraCompra == true){
+                    handlePreco()
+                }
                 getDataService()
 
             }
 
     }
 
+    private fun handlePreco() {
+        var precoQuantidade = mServices?.preco!! * qtd.toFloat()
+        mRemote.fetch(0).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                mRemote.fetchAndActivate()
+                val off = mRemote.getString("off")
+                val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
+                mMyservice.preco = (precoQuantidade - desconto).toFloat()
+                mMyservice.quantidate = qtd
+            } else if (!task.isSuccessful) {
+                val desconto: Double = 0.0
+                mMyservice.preco = (precoQuantidade - desconto).toFloat()
+                mMyservice.quantidate = qtd
+            }
+
+        }
+    }
 
 
     //função que captura o horario
@@ -229,22 +247,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 val desconto: Double = precoQuantidade * (10 / 100.0)
                 mMyservice.preco = (precoQuantidade - desconto).toFloat()
                 mMyservice.quantidate = qtd
-            } else {
-                mRemote.fetch(0).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        mRemote.fetchAndActivate()
-                        val off = mRemote.getString("off")
-                        val desconto: Double = precoQuantidade * (off.toInt() / 100.0)
-                        mMyservice.preco = (precoQuantidade - desconto).toFloat()
-                        mMyservice.quantidate = qtd
-                    } else if (!task.isSuccessful) {
-                        val desconto: Double = 0.0
-                        mMyservice.preco = (precoQuantidade - desconto).toFloat()
-                        mMyservice.quantidate = qtd
-                    }
-
-                }
             }
+
             // fim Quantidade
 
             //sabor
@@ -346,15 +350,15 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         val off = mRemote.getString("off")
                         val desconto: Double = precoQtd * (off.toInt() / 100.0)
                         precoQtd = (precoQtd - desconto).toFloat()
-
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}".replace(".",",")
+                        txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+
                     } else if (!task.isSuccessful) {
                         val desconto: Double = 0.0
                         precoQtd = (precoQtd - desconto).toFloat()
 
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}".replace(".",",")
+                        txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
                     }
                     alert.hide()
 
