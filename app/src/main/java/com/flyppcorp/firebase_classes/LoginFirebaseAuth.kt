@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.flypp.MainActivity
+import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFirebaseAuth(private val context: Context) {
@@ -21,8 +22,11 @@ class LoginFirebaseAuth(private val context: Context) {
     fun loginEmailSenha(email: String, senha: String) {
 
         //chamada da progress enquanto processa a função
+
         mProgressDialog.setCancelable(false)
         mProgressDialog.show()
+        mProgressDialog.setContentView(R.layout.progress)
+        mProgressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         // fim da chamada
 

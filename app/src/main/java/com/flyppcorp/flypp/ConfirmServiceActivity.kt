@@ -55,10 +55,15 @@ class ConfirmServiceActivity : AppCompatActivity() {
         mFirestoreContract = FirestoreContract(this)
         mMyservice = Myservice()
         mRemote = FirebaseRemoteConfig.getInstance()
+        //fim das instancias das classes
 
+        //alert dialog para que abre ao iniciar
         alert = ProgressDialog(this)
         alert.setCancelable(false)
         alert.show()
+        alert.setContentView(R.layout.progress)
+        alert.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        //alert é mostrado
 
         //função que captura os dados do servico para qtd
         getDataService()
@@ -66,6 +71,11 @@ class ConfirmServiceActivity : AppCompatActivity() {
         //ações de click
         btnConfirmContract.setOnClickListener {
             if (validateConection()) {
+                mFirestoreContract.progress.setCancelable(false)
+                mFirestoreContract.progress.show()
+                mFirestoreContract.progress.setContentView(R.layout.progress)
+                mFirestoreContract.progress.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                //o getTosave é carregado
                 getToSave()
             }
         }
@@ -74,6 +84,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             finish()
         }
 
+        //Botões de fata data e horario
         btnData.setOnClickListener {
             handleDate()
         }
@@ -81,12 +92,15 @@ class ConfirmServiceActivity : AppCompatActivity() {
         btnHorario.setOnClickListener {
             handleHorario()
         }
+        //fim dos botões
 
+        //botões de mais e menos, lembrando que a função de recuperar dados é chamada nele a cada alteração
         mais.setOnClickListener {
             mMyservice.quantidate = mMyservice.quantidate + 1
             qtd = mMyservice.quantidate
             txtQtd.text = qtd.toString()
             getDataService()
+            //handlePreco()
 
         }
 
@@ -99,10 +113,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
                 getDataService()
             }
         }
-
-
-
-        //fim
+        //fim dos btns de quantidade
 
         //função que pega os dados do servico
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -110,17 +121,14 @@ class ConfirmServiceActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 mUser = it.toObject(User::class.java)
-                //função que usa os dados
-                if (mUser?.primeiraCompra == true){
-                    handlePreco()
-                }
+                //a função abaixo permite a recuperação dos dados na função
                 getDataService()
 
             }
 
     }
 
-    private fun handlePreco() {
+    /*private fun handlePreco() {
         var precoQuantidade = mServices?.preco!! * qtd.toFloat()
         mRemote.fetch(0).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -136,7 +144,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             }
 
         }
-    }
+    }*/
 
 
     //função que captura o horario
@@ -241,14 +249,8 @@ class ConfirmServiceActivity : AppCompatActivity() {
             mMyservice.urlContratado = mServices?.urlProfile
 
             mMyservice.observacao = editObservacao.text.toString()
-            //preco de acordo com a quantidade
-            var precoQuantidade = mServices?.preco!! * qtd.toFloat()
-            if (!it.primeiraCompra) {
-                val desconto: Double = precoQuantidade * (10 / 100.0)
-                mMyservice.preco = (precoQuantidade - desconto).toFloat()
-                mMyservice.quantidate = qtd
-            }
-
+            //salva a quantidade
+            mMyservice.quantidate = qtd
             // fim Quantidade
 
             //sabor
@@ -302,7 +304,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         notification
                     )
                 }
-            //AQUI
+            //se for a primeira compra ele faz um transaction e altera a variável
             if (!it.primeiraCompra) {
                 mFirestoreContract.tsFirstCompra(it.uid.toString())
             }
@@ -322,7 +324,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             if (mServices?.sabor != null) {
                 textView14?.visibility = View.VISIBLE
                 spinnerSabor?.visibility = View.VISIBLE
-                val sabores = mServices?.sabor!!.split(",")
+                val sabores = mServices?.sabor.toString().split(",")
                 spinnerSabor?.adapter =
                     ArrayAdapter(this, android.R.layout.simple_list_item_1, sabores)
 
@@ -335,12 +337,13 @@ class ConfirmServiceActivity : AppCompatActivity() {
             var precoQtd = mServices?.preco!! * qtd.toFloat()
             if (!it.primeiraCompra) {
                 alert.hide()
-
                 val desconto: Double = precoQtd * (10 / 100.0)
                 precoQtd = (precoQtd - desconto).toFloat()
-
                 val result = String.format("%.2f", precoQtd)
                 txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
+                //que ocorre na abertura da activity
+                mMyservice.preco = precoQtd
 
 
             } else {
@@ -352,6 +355,9 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         precoQtd = (precoQtd - desconto).toFloat()
                         val result = String.format("%.2f", precoQtd)
                         txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                        //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
+                        //que ocorre na abertura da activity
+                        mMyservice.preco = precoQtd
 
                     } else if (!task.isSuccessful) {
                         val desconto: Double = 0.0
@@ -359,7 +365,11 @@ class ConfirmServiceActivity : AppCompatActivity() {
 
                         val result = String.format("%.2f", precoQtd)
                         txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                        //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
+                        //que ocorre na abertura da activity
+                        mMyservice.preco = precoQtd
                     }
+                    //o alert do onCreate, só fecha depois que o Remote Config carrega
                     alert.hide()
 
                 }

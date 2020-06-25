@@ -1,5 +1,6 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
@@ -33,6 +35,7 @@ class ServiceActivity : AppCompatActivity() {
     private lateinit var mUser: User
     private lateinit var mAuth: FirebaseAuth
     var menuFAv: MenuItem? = null
+    private lateinit var mProgress: ProgressDialog
     private lateinit var mUrl: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +44,18 @@ class ServiceActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mUser = User()
         mService = intent.extras?.getParcelable(Constants.KEY.SERVICE_KEY)
+        mProgress = ProgressDialog(this)
+
 
 
         getService()
 
         btnContratar.setOnClickListener {
             if (mAuth.currentUser?.isAnonymous == false) {
+                mProgress.setCancelable(false)
+                mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 handleContract()
             } else {
                 val alert = AlertDialog.Builder(this)
@@ -138,6 +147,10 @@ class ServiceActivity : AppCompatActivity() {
                 val uid = mAuth.currentUser?.uid
                 if (uid != mService?.uid) {
                     if (mAuth.currentUser?.isAnonymous == false) {
+                        mProgress.setCancelable(false)
+                        mProgress.show()
+                        mProgress.setContentView(R.layout.progress)
+                        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                         handleMessage()
                     } else {
                         val alert = AlertDialog.Builder(this)
@@ -219,21 +232,20 @@ class ServiceActivity : AppCompatActivity() {
     }
 
     private fun handleMessage() {
-        mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
-            .document(mService?.serviceId.toString())
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mService?.uid.toString())
             .get()
             .addOnSuccessListener {
-                getMessageAtributes = it.toObject(Servicos::class.java)
-                mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
-                    .document(getMessageAtributes?.uid.toString())
-                    .get()
-                    .addOnSuccessListener {
-                        mUser = it.toObject(User::class.java)!!
-                        val intent = Intent(this, MessageActivity::class.java)
-                        intent.putExtra(Constants.KEY.MESSAGE_KEY, mUser)
-                        startActivity(intent)
-                    }
+                mUser = it.toObject(User::class.java)!!
+                val intent = Intent(this, MessageActivity::class.java)
+                intent.putExtra(Constants.KEY.MESSAGE_KEY, mUser)
+                startActivity(intent)
+                mProgress.hide()
+
+            }.addOnFailureListener {
+                mProgress.hide()
             }
+
     }
 
     private fun handleFavorite() {
@@ -256,6 +268,7 @@ class ServiceActivity : AppCompatActivity() {
 
     private fun handleContract() {
         if (mService?.uid == mAuth.currentUser?.uid) {
+            mProgress.hide()
             val mAlert = AlertDialog.Builder(this)
             mAlert.setMessage(
                 "Hey, nós sabemos o quão ótimo(a) você é," +
@@ -264,7 +277,7 @@ class ServiceActivity : AppCompatActivity() {
             mAlert.setPositiveButton("OK", { dialogInterface: DialogInterface, i: Int -> })
             mAlert.show()
         } else {
-
+            mProgress.hide()
             val intent = Intent(this, ConfirmServiceActivity::class.java)
             intent.putExtra(Constants.KEY.SERVICE_KEY, mService)
             intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -274,7 +287,7 @@ class ServiceActivity : AppCompatActivity() {
     }
 
 
-    fun getService() {
+    private fun getService() {
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .whereEqualTo("serviceId", mService?.serviceId)
             .addSnapshotListener { snapshot, exception ->
@@ -282,8 +295,9 @@ class ServiceActivity : AppCompatActivity() {
                     for (doc in snapshot) {
                         val service = doc.toObject(Servicos::class.java)
 
-                        if (service.urlService != null){
-                            Picasso.get().load(service.urlService).centerCrop().fit().placeholder(R.drawable.ic_working).into(imgServiceView)
+                        if (service.urlService != null) {
+                            Picasso.get().load(service.urlService).centerCrop().fit()
+                                .placeholder(R.drawable.ic_working).into(imgServiceView)
                         }
                         txtQtdServices.text = "${service.totalServicos} concluídos"
                         txtTituloServices.text = service.nomeService

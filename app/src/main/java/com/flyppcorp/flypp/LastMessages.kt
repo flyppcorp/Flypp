@@ -34,6 +34,12 @@ class LastMessages : AppCompatActivity() {
         rv_last_messages.adapter = mAdapter
 
         mAdapter.setOnItemClickListener { item, view ->
+            val progressBar = ProgressDialog(this)
+            progressBar.setCancelable(false)
+            progressBar.setMessage("Apagando conversas")
+            progressBar.show()
+            progressBar.setContentView(R.layout.progress)
+            progressBar.window?.setBackgroundDrawableResource(android.R.color.transparent)
             val item : LastMessageItem = item as LastMessageItem
             mfirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                 .document(item.mLast.toId.toString())
@@ -43,6 +49,7 @@ class LastMessages : AppCompatActivity() {
                     val intent = Intent(this, MessageActivity::class.java)
                     intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                     startActivity(intent)
+                    progressBar.hide()
                 }
 
         }
@@ -74,6 +81,8 @@ class LastMessages : AppCompatActivity() {
         progressBar.setCancelable(false)
         progressBar.setMessage("Apagando conversas")
         progressBar.show()
+        progressBar.setContentView(R.layout.progress)
+        progressBar.window?.setBackgroundDrawableResource(android.R.color.transparent)
         mfirestore.collection(Constants.COLLECTIONS.CONVERSATION_COLLETION)
             .document(fromId)
             .collection(toId.toString())

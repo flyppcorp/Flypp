@@ -52,6 +52,8 @@ class AvaliationActivity : AppCompatActivity() {
             avaliationUser()
             mProgress.setCancelable(false)
             mProgress.show()
+            mProgress.setContentView(R.layout.progress)
+            mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
             val tsDoc = mfirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                 .document(mMyservice?.serviceId.toString())
             mfirestore.runTransaction {

@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.Helper.SharedFilter
@@ -23,15 +24,11 @@ class FirestoreContract(var context: Context) {
     //variaveis e objetos
     private val mFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val progress = ProgressDialog(context)
-    //lateinit var mIntertial: InterstitialAd
-
     @SuppressLint("ResourceAsColor")
 
     //função que salva no banco de dados
     fun confirmServiceContract(myservice: Myservice, documentId: String, token: String, notification: Notification
     ) {
-        progress.setCancelable(false)
-        progress.show()
         mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
             .document(documentId)
             .set(myservice)

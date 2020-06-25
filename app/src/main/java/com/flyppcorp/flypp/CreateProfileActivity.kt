@@ -183,6 +183,8 @@ class CreateProfileActivity : AppCompatActivity() {
             if (validate()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val nome = editNomeUser.text.toString()
                 val email = mAuth.currentUser?.email
                 val ddd = editDDD.text.toString()

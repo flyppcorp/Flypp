@@ -10,6 +10,7 @@ import com.flyppcorp.atributesClass.NotificationMessage
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.CreateProfileActivity
+import com.flyppcorp.flypp.R
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -27,6 +28,8 @@ class SignInFirebaseAuth(private val context: Context) {
     fun signInFirebaseAuth(email: String, senha: String, uid: String?) {
         mProgressDialog.setCancelable(false)
         mProgressDialog.show()
+        mProgressDialog.setContentView(R.layout.progress)
+        mProgressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         //se o usuario for nulo, ou seja, não estiver logado ou não for um user anonimo
         if (mAuth.currentUser?.uid == null){

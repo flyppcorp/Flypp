@@ -52,6 +52,8 @@ class AndamentoActivity : AppCompatActivity() {
             if (mConnection.validateConection()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 handleFinalizar()
             }
 
@@ -63,6 +65,14 @@ class AndamentoActivity : AppCompatActivity() {
 
         floatingActionButton?.setOnLongClickListener {
             Toast.makeText(this, "Avisar que está a caminho", Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener true
+        }
+
+        floatingActionButtonFinish?.setOnClickListener {
+            notificationFinish()
+        }
+        floatingActionButtonFinish.setOnLongClickListener {
+            Toast.makeText(this, "Pedir para cliente finalizar", Toast.LENGTH_LONG).show()
             return@setOnLongClickListener true
         }
         val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_andamento)
@@ -87,6 +97,10 @@ class AndamentoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.mensagem_my_service -> {
+                mProgress.setCancelable(false)
+                mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 if (mAuth.currentUser?.uid == mMyservice?.idContratante) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                         .document(mMyservice?.idContratado.toString())
@@ -96,6 +110,7 @@ class AndamentoActivity : AppCompatActivity() {
                             val intent = Intent(this, MessageActivity::class.java)
                             intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                             startActivity(intent)
+                            mProgress.hide()
                         }
                 } else if (mAuth.currentUser?.uid == mMyservice?.idContratado) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -106,6 +121,7 @@ class AndamentoActivity : AppCompatActivity() {
                             val intent = Intent(this, MessageActivity::class.java)
                             intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                             startActivity(intent)
+                            mProgress.hide()
                         }
                 }
             }
@@ -231,6 +247,7 @@ class AndamentoActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("RestrictedApi")
     private fun notificationRun() {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(mMyservice?.idContratante.toString())
@@ -270,6 +287,43 @@ class AndamentoActivity : AppCompatActivity() {
                             .setProgressColorRes(R.color.textIcons)
                             .enableSwipeToDismiss()
                             .show()
+                        if (mMyservice?.idContratado == mAuth.currentUser?.uid){
+                            floatingActionButtonFinish?.visibility = View.VISIBLE
+                        }
+                    }
+            }
+
+    }
+
+
+    private fun notificationFinish() {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyservice?.idContratante.toString())
+            .get()
+            .addOnSuccessListener {
+                val user: User? = it.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyservice!!.documentId
+                notification.text =
+                    "Aí sim, ${mMyservice!!.nomeContratado} entregou seu pedido, por favor o finalize rapidinho." +
+                            "\nBasta clicar no ícone de Sacola > Andamento > Selecionar o pedido e finalizar :)"
+
+                notification.title = "Uhul"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user?.token.toString())
+                    .set(notification).addOnSuccessListener {
+
+                        Alerter.create(this)
+                            .setTitle("Pronto!")
+                            .setText("${mMyservice?.nomeContratante} já foi avisado que precisa finalizar o pedido")
+                            .setIcon(R.drawable.ic_verified)
+                            .setBackgroundColorRes(R.color.colorPrimaryDark)
+                            .setDuration(5000)
+                            .enableProgress(true)
+                            .setProgressColorRes(R.color.textIcons)
+                            .enableSwipeToDismiss()
+                            .show()
                     }
             }
 
@@ -283,6 +337,8 @@ class AndamentoActivity : AppCompatActivity() {
                 mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
                     mProgress.setCancelable(false)
                     mProgress.show()
+                    mProgress.setContentView(R.layout.progress)
+                    mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                     mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                         .document(mMyservice?.documentId.toString())
                         .delete()
@@ -343,6 +399,9 @@ class AndamentoActivity : AppCompatActivity() {
         }
         if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
             floatingActionButton?.visibility = View.GONE
+        }
+        if (mMyservice?.idContratado == mAuth.currentUser?.uid && mMyservice?.caminho == true){
+            floatingActionButtonFinish?.visibility = View.VISIBLE
         }
     }
 

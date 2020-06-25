@@ -59,7 +59,7 @@ class MessageActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val uid = mAuth.currentUser?.uid.toString()
-        val  tsDoc = mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE).document(uid).collection(Constants.COLLECTIONS.CONTACTS).document(mUser!!.uid!!)
+        val  tsDoc = mFirestore.collection(Constants.COLLECTIONS.LAST_MESSAGE).document(uid).collection(Constants.COLLECTIONS.CONTACTS).document(mUser?.uid.toString())
         mFirestore.runTransaction {
             val content = it.get(tsDoc).toObject(LastMessage::class.java)
 
@@ -73,7 +73,7 @@ class MessageActivity : AppCompatActivity() {
 
     private inner class MessageItem(val message: Message) : Item<GroupieViewHolder>() {
         override fun getLayout(): Int {
-            return if (message.fromId == mAuth.currentUser!!.uid)
+            return if (message.fromId == mAuth.currentUser?.uid)
                 R.layout.from_id
             else
                 R.layout.to_id
@@ -232,12 +232,12 @@ class MessageActivity : AppCompatActivity() {
                 val itemUser = it.toObject(User::class.java)
                 val mNotification = NotificationMessage()
                 mNotification.title = "Nova mensagem de $nome"
-                mNotification.token = itemUser!!.token
+                mNotification.token = itemUser?.token
                 mNotification.text = text
 
                 val mFireNotification = FirebaseFirestore.getInstance()
                 mFireNotification.collection(Constants.COLLECTIONS.NOTIFICATION)
-                    .document(itemUser.token!!)
+                    .document(itemUser?.token.toString())
                     .set(mNotification)
             }
 

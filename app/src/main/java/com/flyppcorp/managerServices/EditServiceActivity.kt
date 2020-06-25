@@ -369,6 +369,8 @@ class EditServiceActivity : AppCompatActivity() {
             if (validate()) {
                 mFirestoreService.mDialog.setCancelable(false)
                 mFirestoreService.mDialog.show()
+                mFirestoreService.mDialog.setContentView(R.layout.progress)
+                mFirestoreService.mDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 //definindo valores para a classe servico
                 mGetService?.let {
 
@@ -453,7 +455,10 @@ class EditServiceActivity : AppCompatActivity() {
 
                                         //salvando no db caso haja uma url
 
+                                        mProgress.setCancelable(false)
                                         mProgress.show()
+                                        mProgress.setContentView(R.layout.progress)
+                                        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                                         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
                                             .document(mService?.serviceId.toString())
                                             .set(mServiceAtributes)
@@ -467,7 +472,10 @@ class EditServiceActivity : AppCompatActivity() {
                     }
                     //savando no db caso não haja uma url
                     if (mUri == null) {
+                        mProgress.setCancelable(false)
                         mProgress.show()
+                        mProgress.setContentView(R.layout.progress)
+                        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                         if (mGetService?.urlService != null) mServiceAtributes.urlService =
                             mGetService?.urlService
 

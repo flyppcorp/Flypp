@@ -48,6 +48,18 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_verified"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout3"

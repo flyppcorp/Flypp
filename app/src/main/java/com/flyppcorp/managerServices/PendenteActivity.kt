@@ -81,6 +81,10 @@ class PendenteActivity : AppCompatActivity() {
         when (item.itemId) {
 
             R.id.mensagem_my_service -> {
+                mProgress.setCancelable(false)
+                mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 if (mAuth.currentUser?.uid == mMyService?.idContratante) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
                         .document(mMyService?.idContratado.toString())
@@ -90,6 +94,7 @@ class PendenteActivity : AppCompatActivity() {
                             val intent = Intent(this, MessageActivity::class.java)
                             intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                             startActivity(intent)
+                            mProgress.hide()
                         }
                 } else if (mAuth.currentUser?.uid == mMyService?.idContratado) {
                     mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
@@ -100,6 +105,7 @@ class PendenteActivity : AppCompatActivity() {
                             val intent = Intent(this, MessageActivity::class.java)
                             intent.putExtra(Constants.KEY.MESSAGE_KEY, user)
                             startActivity(intent)
+                            mProgress.hide()
                         }
                 }
             }
@@ -159,6 +165,8 @@ class PendenteActivity : AppCompatActivity() {
             if (mConnection.validateConection()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                     .document(mMyService?.documentId.toString())
                 mFirestore.runTransaction {
@@ -208,6 +216,8 @@ class PendenteActivity : AppCompatActivity() {
         mDialog.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int ->
             mProgress.setCancelable(false)
             mProgress.show()
+            mProgress.setContentView(R.layout.progress)
+            mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
             mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
                 .document(mMyService?.documentId.toString())
                 .delete()

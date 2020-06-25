@@ -141,6 +141,8 @@ class ProfileActivity : AppCompatActivity() {
             if (validate()) {
                 mProgress.setCancelable(false)
                 mProgress.show()
+                mProgress.setContentView(R.layout.progress)
+                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val nome = editNomeUserProfile.text.toString()
                 val ddd = editDDDProfile.text.toString()
                 val phoneNumber = editPhoneProfile.text.toString()

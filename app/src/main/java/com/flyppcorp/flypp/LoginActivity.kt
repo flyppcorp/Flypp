@@ -117,6 +117,8 @@ class LoginActivity : AppCompatActivity() {
         val mProgress = ProgressDialog(this)
         mProgress.setCancelable(false)
         mProgress.show()
+        mProgress.setContentView(R.layout.progress)
+        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
         mAuth.signInAnonymously()
             .addOnCompleteListener {
 

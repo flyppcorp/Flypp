@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
 import androidx.core.content.ContextCompat.startActivity
+import com.flyppcorp.flypp.R
 
 class ResetPassword (private val context:Context) {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -15,6 +16,8 @@ class ResetPassword (private val context:Context) {
     fun resetPassword(email: String){
         mProgressDialog.setCancelable(false)
         mProgressDialog.show()
+        mProgressDialog.setContentView(R.layout.progress)
+        mProgressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener {
                     when {

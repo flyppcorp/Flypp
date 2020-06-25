@@ -271,6 +271,8 @@ class AddActivity : AppCompatActivity() {
             if (validate()) {
                 mFirestoreService.mDialog.setCancelable(false)
                 mFirestoreService.mDialog.show()
+                mFirestoreService.mDialog.setContentView(R.layout.progress)
+                mFirestoreService.mDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 //definindo valores para a classe servico
                 val serviceId = UUID.randomUUID().toString() + mUser.uid
                 //pegando o nome do arquivo que vai ser salvo no firestorage

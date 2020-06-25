@@ -1,5 +1,6 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -128,6 +129,7 @@ class ManagerEditServiceActivity : AppCompatActivity() {
                 mAlert.setPositiveButton("Sim") { dialog: DialogInterface?, which: Int -> deleteService() }
                 mAlert.setNegativeButton("Não") { dialog: DialogInterface?, which: Int -> }
                 mAlert.show()
+
             }
             R.id.editServiceIc -> {
                 val intent = Intent(this, EditServiceActivity::class.java)
@@ -215,6 +217,11 @@ class ManagerEditServiceActivity : AppCompatActivity() {
     }
 
     private fun deleteService() {
+        val mProgress = ProgressDialog(this)
+        mProgress.setCancelable(false)
+        mProgress.show()
+        mProgress.setContentView(R.layout.progress)
+        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
         mFirestore.collection(Constants.COLLECTIONS.SERVICE_COLLECTION)
             .document(mServicos!!.serviceId!!)
             .delete()

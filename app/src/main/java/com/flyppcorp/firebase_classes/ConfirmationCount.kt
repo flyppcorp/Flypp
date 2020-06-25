@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.CreateProfileActivity
+import com.flyppcorp.flypp.R
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ConfirmationCount(private val context: Context) {
@@ -24,6 +25,8 @@ class ConfirmationCount(private val context: Context) {
         //mostra uma progressDialog enquanto carrega
         mProgressDialog.setCancelable(false)
         mProgressDialog.show()
+        mProgressDialog.setContentView(R.layout.progress)
+        mProgressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         //Obtem o usuario atual e verifica a autenticação
         val user = mAuth.currentUser!!
         user.reload()

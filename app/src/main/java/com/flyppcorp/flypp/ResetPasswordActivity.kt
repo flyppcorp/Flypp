@@ -34,6 +34,8 @@ class ResetPasswordActivity : AppCompatActivity() {
             if (validate()) {
                 progressDialog.setCancelable(false)
                 progressDialog.show()
+                progressDialog.setContentView(R.layout.progress)
+                progressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 mAuth.sendPasswordResetEmail(email)
                     .addOnCompleteListener {
 
