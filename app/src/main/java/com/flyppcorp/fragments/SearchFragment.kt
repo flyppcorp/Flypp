@@ -202,10 +202,10 @@ class SearchFragment : Fragment() {
             val resultAvaliacao = String.format("%.1f", avaliacao)
             if (contentServicesearch[position].avaliacao == 0){
                 viewholder.txtAvaliacaoList.text =
-                    "0/5"
+                    "-"
             }else{
                 viewholder.txtAvaliacaoList.text =
-                    "${resultAvaliacao}/5".replace(".", ",")
+                    "${resultAvaliacao}".replace(".", ",")
             }
 
             //fim avaliação

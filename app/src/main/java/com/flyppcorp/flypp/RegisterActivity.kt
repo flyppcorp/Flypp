@@ -1,5 +1,6 @@
 package com.flyppcorp.flypp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -85,6 +86,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun loginGoogle(account: GoogleSignInAccount?) {
+        val mProgress = ProgressDialog(this)
+        mProgress.setCancelable(false)
+        mProgress.show()
+        mProgress.setContentView(R.layout.progress)
+        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {
@@ -124,6 +130,7 @@ class RegisterActivity : AppCompatActivity() {
                 }else {
                     Toast.makeText(this, "Ops! Algo deu errado", Toast.LENGTH_SHORT).show()
                 }
+                mProgress.hide()
             }
     }
 

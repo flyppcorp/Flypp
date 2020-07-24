@@ -9,10 +9,8 @@ import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.flyppcorp.flypp.LastMessages
-import com.flyppcorp.flypp.MainActivity
-import com.flyppcorp.flypp.ManagerServicesActivity
-import com.flyppcorp.flypp.R
+import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -34,9 +32,8 @@ class FCMServiceNotification : FirebaseMessagingService() {
     }
 
     private fun messageNotification(payload: MutableMap<String, String>) {
-        var intent: Intent = Intent(this, LastMessages::class.java)
-        val pItent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
-
+        var intent: Intent = Intent(this, MessageActivity::class.java)
+        val pItent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationManager1 =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationChannelId1 = "Flypp"

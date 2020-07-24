@@ -104,10 +104,10 @@ class CartActivity : AppCompatActivity() {
             val resultAvaliacao = String.format("%.1f", avaliacao)
             if (cart.avaliacao == 0){
                 vh.txtAvaliacaoList.text =
-                    "0/5"
+                    "-"
             }else{
                 vh.txtAvaliacaoList.text =
-                    "${resultAvaliacao}/5".replace(".", ",")
+                    "${resultAvaliacao}".replace(".", ",")
             }
 
             //preço

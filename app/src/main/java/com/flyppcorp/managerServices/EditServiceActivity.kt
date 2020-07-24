@@ -404,7 +404,7 @@ class EditServiceActivity : AppCompatActivity() {
                         horario2 = mService?.horario?.substringAfter("-")
                     }
 
-                    mServiceAtributes.horario = "${horario1} - ${horario2}"
+                    mServiceAtributes.horario = "${horario1}-${horario2}"
 
                     //expediente
 

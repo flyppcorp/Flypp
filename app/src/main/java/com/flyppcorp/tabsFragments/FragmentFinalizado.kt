@@ -1,6 +1,7 @@
 package com.flyppcorp.tabsFragments
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.flyppcorp.atributesClass.Myservice
@@ -33,12 +35,14 @@ class FragmentFinalizado : Fragment() {
     private lateinit var mAdapter: FinalizadoRecyclerView
     private lateinit var mAuth: FirebaseAuth
     private lateinit var servicos: ArrayList<Myservice>
+    private lateinit var contentUidList: ArrayList<String>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mFirestore = FirebaseFirestore.getInstance()
         servicos = arrayListOf()
+        contentUidList = arrayListOf()
         mAdapter = FinalizadoRecyclerView()
         mAuth = FirebaseAuth.getInstance()
         // Inflate the layout for this fragment
@@ -98,7 +102,42 @@ class FragmentFinalizado : Fragment() {
 
             val horaService = SimpleDateFormat("dd/MM/yyyy").format(servicos[position].timestamp)
             viewholder.txtHora.text = horaService
+
+            viewholder.btn_delete.visibility = View.VISIBLE
+            viewholder.btn_delete.setOnClickListener {
+
+                if (servicos[position].id.size == 1 ){
+                    val mAlert = AlertDialog.Builder(context)
+                    mAlert.setMessage("Você tem certeza que deseja remover este pedido do histórico?")
+                    mAlert.setPositiveButton("Sim", {dialogInterface, i ->
+                        mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(servicos[position].documentId.toString())
+                            .delete()
+                    })
+                    mAlert.setNegativeButton("Não", {dialogInterface, i ->  })
+                    mAlert.show()
+
+                }else {
+                    val mAlert = AlertDialog.Builder(context)
+                    mAlert.setMessage("Você tem certeza que deseja remover este pedido do histórico?")
+                    mAlert.setPositiveButton("Sim", {dialogInterface, i ->
+                        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE).document(servicos[position].documentId.toString())
+                        mFirestore.runTransaction {
+                            val content = it.get(tsDoc).toObject(Myservice::class.java)
+                            content!!.id.remove(mAuth.currentUser?.uid.toString())
+
+                            it.set(tsDoc, content)
+                        }
+                    })
+
+                    mAlert.setNegativeButton("Não", {dialogInterface, i ->  })
+                    mAlert.show()
+
+                }
+            }
+
         }
+
+
 
 
     }
@@ -109,6 +148,7 @@ class FragmentFinalizado : Fragment() {
             .whereEqualTo("id.${mAuth.currentUser?.uid}", true)
             .addSnapshotListener { snapshot, exception ->
                 servicos.clear()
+                contentUidList.clear()
                 exception?.let {
                     Log.i("EXCEPTION", it.toString())
                 }
@@ -117,6 +157,7 @@ class FragmentFinalizado : Fragment() {
                         val item = doc.toObject(Myservice::class.java)
                         if (item.finalizado){
                             servicos.add(item)
+                            contentUidList.add(doc.id)
                         }
 
                     }

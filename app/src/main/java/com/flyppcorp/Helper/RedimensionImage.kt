@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import io.grpc.internal.SharedResourceHolder
-import io.opencensus.resource.Resource
+
 
 class RedimensionImage {
 

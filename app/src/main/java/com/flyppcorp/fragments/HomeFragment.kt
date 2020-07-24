@@ -3,9 +3,9 @@ package com.flyppcorp.fragments
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.flyppcorp.flypp.R
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +14,7 @@ import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
-import com.flyppcorp.flypp.LastMessages
-import com.flyppcorp.flypp.ManagerServicesActivity
-import com.flyppcorp.flypp.ServiceActivity
+import com.flyppcorp.flypp.*
 import com.flyppcorp.managerServices.FilterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -71,9 +69,21 @@ class HomeFragment : Fragment() {
 
         //call das funções
         fetchServices()
+        fetchAfterLocation()
         //locationOther()
         //fim da call das funções
         return view
+    }
+
+    private fun fetchAfterLocation() {
+        if (mSharedFilter.getFilter(Constants.KEY.CITY_NAME) == "") {
+            Handler().postDelayed({
+                Handler().postDelayed({
+                    fetchServices()
+                }, 1500)
+            }, 2500)
+        }
+
     }
 
 
@@ -436,10 +446,10 @@ class HomeFragment : Fragment() {
             val resultAvaliacao = String.format("%.1f", avaliacao)
             if (servicos[position].avaliacao == 0){
                 viewholder.txtAvaliacao.text =
-                    "0/5"
+                    "-"
             }else{
                 viewholder.txtAvaliacao.text =
-                    "${resultAvaliacao}/5".replace(".", ",")
+                    "${resultAvaliacao}".replace(".", ",")
             }
 
             //fim avaliação

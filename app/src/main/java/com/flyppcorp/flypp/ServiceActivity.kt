@@ -309,7 +309,7 @@ class ServiceActivity : AppCompatActivity() {
                         if (service.avaliacao == 0) {
                             txtAvaliacao.text = "Sem avaliações"
                         } else {
-                            txtAvaliacao.text = "${resultAvaliacao}/5".replace(".", ",")
+                            txtAvaliacao.text = "${resultAvaliacao}".replace(".", ",")
                         }
                         //preco
                         val result = String.format("%.2f", mService?.preco)

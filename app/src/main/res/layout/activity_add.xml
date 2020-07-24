@@ -217,7 +217,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editObservacao"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine|textCapSentences" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -370,8 +370,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTags"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

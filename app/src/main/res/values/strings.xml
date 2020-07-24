@@ -113,7 +113,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/região ainda não possua profissionais.Você pode adicionar um serviço e ser o primeiro (Clique no botão Home para atualizar).</string>
+    <string name="ops_ocorreu_um_erro_pode_ser_que_sua_cidade_ainda_n_o_possua_profissionais">Ops! Pode ser que sua cidade/região ainda não possua estabelecimentos. Ou ainda pode estar sendo atualizado.</string>
     <string name="observa_o_do_profissional">Observação do estabelecimento</string>
     <string name="geralmente_responde_em">Geralmente responde em :</string>
     <string name="palavras_chave">Palavras-chave</string>

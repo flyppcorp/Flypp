@@ -281,7 +281,7 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //obs
             mMyservice.observacao = editObservacao.text.toString()
             //docID é o nome que o documento vai receber para ser manipulado posteriormente
-            val documentId = UUID.randomUUID().toString() + it.uid
+            val documentId = it.uid + UUID.randomUUID().toString()
             mMyservice.documentId = documentId
 
             //notificação

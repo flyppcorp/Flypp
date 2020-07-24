@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.*
@@ -58,24 +59,42 @@ class LoadLink : AppCompatActivity() {
                             .substringAfter("&utm_source=") == "-"
                     ) {
 
-                       val deepL = deepLink.toString().substringAfter("&uid=").substringBefore("&utm_source")
+                        val deepL = deepLink.toString().substringAfter("&uid=")
+                            .substringBefore("&utm_source")
                         handleNewUser(deepL)
 
                     }
 
+                } else {
+                    val alert = AlertDialog.Builder(this)
+                        .setTitle("Ops!")
+                        .setMessage("Por favor, abra novamente o link, você não vai deixar essa chance passar né ?")
+                        .setPositiveButton("Ok", { dialogInterface, i ->
+                            finish()
+                        })
+                    alert.show()
                 }
 
             }
-            .addOnFailureListener(this) { e -> Log.w("TAG", "getDynamicLink:onFailure", e) }
+            .addOnFailureListener(this) { e ->
+                Log.w("TAG", "getDynamicLink:onFailure", e)
+                val alert = AlertDialog.Builder(this)
+                    .setTitle("Ops!")
+                    .setMessage("Por favor, abra novamente o link, você não vai deixar essa chance passar né ?")
+                    .setPositiveButton("Ok", { dialogInterface, i ->
+                        finish()
+                    })
+                alert.show()
+            }
     }
 
     private fun handleNewUser(deepL: String) {
-        if (mAuth.currentUser?.uid != null){
+        if (mAuth.currentUser?.uid != null) {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(Constants.KEY.ID_DESCONTO, deepL)
             startActivity(intent)
             finish()
-        }else {
+        } else {
             val intent = Intent(this, RegisterActivity::class.java)
             intent.putExtra(Constants.KEY.ID_DESCONTO, deepL)
             startActivity(intent)

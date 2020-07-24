@@ -47,10 +47,10 @@ class AddActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUser: User
     private lateinit var mCity: SharedFilter
-    private lateinit var mExp : SharedFilter
+    private lateinit var mExp: SharedFilter
     private var horario1: String? = null
     private var horario2: String? = null
-    private lateinit var mDiasExpediente : ArrayList<String>
+    private lateinit var mDiasExpediente: ArrayList<String>
     //fim da inicialização
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,26 +92,26 @@ class AddActivity : AppCompatActivity() {
         val vd = layoutInflater.inflate(R.layout.dialog_fr2, null)
         val alert = AlertDialog.Builder(this)
         alert.setView(vd)
-            vd.btnInicio.setOnClickListener {
+        vd.btnInicio.setOnClickListener {
 
-                val calendar = Calendar.getInstance()
-                val timeSetListener =
-                    TimePickerDialog.OnTimeSetListener { timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        calendar.set(Calendar.MINUTE, minute)
-                        horario1 = SimpleDateFormat("HH:mm").format(calendar.time)
-                        vd.btnInicio.text = horario1
+            val calendar = Calendar.getInstance()
+            val timeSetListener =
+                TimePickerDialog.OnTimeSetListener { timepicker: TimePicker?, hourOfDay: Int, minute: Int ->
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    calendar.set(Calendar.MINUTE, minute)
+                    horario1 = SimpleDateFormat("HH:mm").format(calendar.time)
+                    vd.btnInicio.text = horario1
 
 
-                    }
-                TimePickerDialog(
-                    this,
-                    timeSetListener,
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    true
-                ).show()
-            }
+                }
+            TimePickerDialog(
+                this,
+                timeSetListener,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            ).show()
+        }
         vd.btnFim.setOnClickListener {
 
             val calendar = Calendar.getInstance()
@@ -133,70 +133,70 @@ class AddActivity : AppCompatActivity() {
             ).show()
         }
         val keyExp = mExp.getFilter(Constants.KEY.EXPEDIENTE)
-        if (keyExp.contains("1")){
+        if (keyExp.contains("1")) {
             vd.checkBox1domingo.isChecked = true
         }
-        if (keyExp.contains("2")){
+        if (keyExp.contains("2")) {
             vd.checkBox2segunda.isChecked = true
         }
-        if (keyExp.contains("3")){
+        if (keyExp.contains("3")) {
             vd.checkBox3terca.isChecked = true
         }
-        if (keyExp.contains("4")){
+        if (keyExp.contains("4")) {
             vd.checkBox4quarta.isChecked = true
         }
-        if (keyExp.contains("5")){
+        if (keyExp.contains("5")) {
             vd.checkBox5quinta.isChecked = true
         }
-        if (keyExp.contains("6")){
+        if (keyExp.contains("6")) {
             vd.checkBox6sexta.isChecked = true
         }
-        if (keyExp.contains("7")){
+        if (keyExp.contains("7")) {
             vd.checkBox7sabado.isChecked = true
         }
 
-        if (horario1 != null){
+        if (horario1 != null) {
             vd.btnInicio.text = horario1
         }
-        if (horario2 != null){
+        if (horario2 != null) {
             vd.btnFim.text = horario2
         }
 
 
-        alert.setPositiveButton("Salvar", {dialog, which ->
-            if (vd.checkBox1domingo.isChecked){
+        alert.setPositiveButton("Salvar", { dialog, which ->
+            if (vd.checkBox1domingo.isChecked) {
                 mDiasExpediente.add("1")
-            }else{
+            } else {
                 mDiasExpediente.remove("1")
             }
-            if (vd.checkBox2segunda.isChecked){
+            if (vd.checkBox2segunda.isChecked) {
                 mDiasExpediente.add("2")
-            }else{
+            } else {
                 mDiasExpediente.remove("2")
             }
-            if (vd.checkBox3terca.isChecked){
+            if (vd.checkBox3terca.isChecked) {
                 mDiasExpediente.add("3")
-            }else{
+            } else {
                 mDiasExpediente.remove("3")
             }
-            if (vd.checkBox4quarta.isChecked){
+            if (vd.checkBox4quarta.isChecked) {
                 mDiasExpediente.add("4")
-            }else{
+            } else {
                 mDiasExpediente.remove("4")
             }
-            if (vd.checkBox5quinta.isChecked){
+            if (vd.checkBox5quinta.isChecked) {
                 mDiasExpediente.add("5")
-            }else{
+            } else {
                 mDiasExpediente.remove("5")
             }
-            if (vd.checkBox6sexta.isChecked){
+            if (vd.checkBox6sexta.isChecked) {
                 mDiasExpediente.add("6")
-            }else{
+            } else {
                 mDiasExpediente.remove("6")
             }
-            if (vd.checkBox7sabado.isChecked){
+            if (vd.checkBox7sabado.isChecked) {
                 mDiasExpediente.add("7")
-            }else{
+            } else {
                 mDiasExpediente.remove("7")
             }
             mExp.saveFilter(Constants.KEY.EXPEDIENTE, mDiasExpediente.toString())
@@ -274,7 +274,7 @@ class AddActivity : AppCompatActivity() {
                 mFirestoreService.mDialog.setContentView(R.layout.progress)
                 mFirestoreService.mDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 //definindo valores para a classe servico
-                val serviceId = UUID.randomUUID().toString() + mUser.uid
+                val serviceId = mUser.uid + UUID.randomUUID().toString()
                 //pegando o nome do arquivo que vai ser salvo no firestorage
                 val filename = serviceId
                 val ref = mStorage.getReference("image/${filename}")
@@ -302,18 +302,18 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.tempoResposta = spinnerResposta.selectedItem.toString()
                 mServiceAtributes.tempoEntrega = spinnerPreparo.selectedItem.toString()
                 mServiceAtributes.categoria = spinnerCategoria.selectedItem.toString()
-                if (editObservacao.text.toString() != ""){
+                if (editObservacao.text.toString() != "") {
                     mServiceAtributes.sabor = editObservacao.text.toString()
                 }
                 //expediente
                 mServiceAtributes.dias = mExp.getFilter(Constants.KEY.EXPEDIENTE)
-                if (horario1 == null){
+                if (horario1 == null) {
                     horario1 = "06:00"
                 }
-                if (horario2 == null){
+                if (horario2 == null) {
                     horario2 = "00:00"
                 }
-                mServiceAtributes.horario = "${horario1} - ${horario2}"
+                mServiceAtributes.horario = "${horario1}-${horario2}"
                 //expediente
                 //endereço
                 mServiceAtributes.cep = editCep.text.toString()
@@ -341,10 +341,10 @@ class AddActivity : AppCompatActivity() {
 
                 //obtendo url da imagem no firestorage
                 mUri?.let {
-                    var bitmap : Bitmap? = null
-                    try{
+                    var bitmap: Bitmap? = null
+                    try {
                         bitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
-                    }catch (e: Exception){
+                    } catch (e: Exception) {
                         Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
                     }
                     val bytes = ByteArrayOutputStream()

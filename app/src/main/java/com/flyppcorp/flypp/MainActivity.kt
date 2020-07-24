@@ -100,6 +100,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getLocation()
+    }
+
     override fun onStop() {
         super.onStop()
         mSharedFilter.saveFilter(Constants.FILTERS_VALUES.CATEGORIA, "")
@@ -160,7 +165,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             Alerter.create(this)
                 .setTitle("Estamos atualizando sua localização.")
                 .setText(
-                    "Para atualizar os profissionais da sua cidade, basta clicar no botão Home. :)"
+                    "Para atualizar os estabelecimentos da sua cidade, basta clicar no botão Home. :)"
                 )
                 .setIcon(R.drawable.ic_location)
                 .setBackgroundColorRes(R.color.colorPrimaryDark)
@@ -172,13 +177,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        getLocation()
-
-
-    }
 
     /*private fun updateLocation() {
 
@@ -336,7 +334,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
                     toolbarMain?.visibility = View.VISIBLE
-                    if (bottom_nav.selectedItemId == R.id.searchFrag){
+                    if (bottom_nav.selectedItemId == R.id.searchFrag) {
                         toolbarMain?.visibility = View.GONE
                     }
 

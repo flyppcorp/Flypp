@@ -2,14 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-   android:background="@color/cardview_light_background"
-    android:elevation="4dp"
-    android:paddingBottom="8dp"
-    android:layout_marginRight="16dp"
     android:layout_marginLeft="16dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/cardview_light_background"
+    android:elevation="4dp"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/photo_work"
+            android:src="@drawable/photo_work"
             app:civ_border_color="@color/colorPrimaryDark"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,11 +117,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:gravity="end"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/txtNomeServiceManager"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintStart_toStartOf="@+id/txtNomeServiceManager"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,10 +144,19 @@
             android:id="@+id/ic_saiuEntrega"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/txtNomeContratante"
-            app:layout_constraintTop_toTopOf="@+id/textView13"
             android:src="@drawable/ic_label"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/txtNomeContratante"
+            app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+        <ImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/txtNomeServiceManager"
+            app:layout_constraintTop_toTopOf="@+id/txtHora" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
