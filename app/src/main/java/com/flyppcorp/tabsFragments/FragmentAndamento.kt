@@ -95,8 +95,14 @@ class FragmentAndamento : Fragment() {
             val uid = mAuth.currentUser?.uid
             if (servicos[position].idContratado == uid){
                 viewholder.ic_saiuEntrega?.visibility = View.VISIBLE
-                if (servicos[position].caminho){
+                if (servicos[position].caminho && !servicos[position].pronto){
                     viewholder.ic_saiuEntrega?.setImageResource(R.drawable.ic_label_green)
+                }else if (servicos[position].pronto && !servicos[position].caminho){
+                    viewholder.ic_saiuEntrega?.setImageResource(R.drawable.ic_label_retirada)
+                }else if (servicos[position].caminho && servicos[position].pronto){
+                    viewholder.ic_saiuEntrega?.setImageResource(R.drawable.ic_label_green)
+                }else if (!servicos[position].pronto && !servicos[position].caminho){
+                    viewholder.ic_saiuEntrega?.setImageResource(R.drawable.ic_label)
                 }
             }
 

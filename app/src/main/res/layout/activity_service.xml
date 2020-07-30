@@ -195,7 +195,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
                 app:layout_constraintStart_toStartOf="@+id/txtDetailDesc"
-                app:layout_constraintTop_toBottomOf="@+id/txtDetailDesc" />
+                app:layout_constraintTop_toBottomOf="@+id/txtDelivery" />
 
             <TextView
                 android:id="@+id/txtResponde"
@@ -224,6 +224,26 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView15"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Faz Delivery?"
+                android:textColor="@color/primaryText"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
+                app:layout_constraintStart_toStartOf="@+id/txtDetailDesc"
+                app:layout_constraintTop_toBottomOf="@+id/txtDetailDesc" />
+
+            <TextView
+                android:id="@+id/txtDelivery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textView55"
+                app:layout_constraintStart_toStartOf="@+id/textView55"
+                app:layout_constraintTop_toBottomOf="@+id/textView55" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

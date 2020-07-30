@@ -261,6 +261,13 @@ class ConfirmServiceActivity : AppCompatActivity() {
             }
             //fim sabor
 
+            //entrega
+            if (delivery.isChecked){
+                mMyservice.delivery = true
+            }else if (retirada.isChecked){
+                mMyservice.delivery = false
+            }
+
             //fim contratado e contratante
             mMyservice.nomeContratado = mServices?.nome
             mMyservice.nomeContratante = it.nome
@@ -332,6 +339,12 @@ class ConfirmServiceActivity : AppCompatActivity() {
             }
 
             //fim sabor
+
+            //entrega
+            if (mServices?.delivery == false){
+                delivery.isEnabled = false
+                retirada.isChecked = true
+            }
             //preco x quantidade e desconto
             //mascara de preco
             var precoQtd = mServices?.preco!! * qtd.toFloat()

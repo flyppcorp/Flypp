@@ -24,9 +24,23 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_add.EditBairroService
+import kotlinx.android.synthetic.main.activity_add.btnSelectPhotoService
 import kotlinx.android.synthetic.main.activity_add.editCep
+import kotlinx.android.synthetic.main.activity_add.editCidadeService
+import kotlinx.android.synthetic.main.activity_add.editDescCurta
+import kotlinx.android.synthetic.main.activity_add.editDescDetalhada
+import kotlinx.android.synthetic.main.activity_add.editNumService
 import kotlinx.android.synthetic.main.activity_add.editObservacao
+import kotlinx.android.synthetic.main.activity_add.editPreco
+import kotlinx.android.synthetic.main.activity_add.editRuaService
+import kotlinx.android.synthetic.main.activity_add.editService
+import kotlinx.android.synthetic.main.activity_add.editTags
+import kotlinx.android.synthetic.main.activity_add.imgService
+import kotlinx.android.synthetic.main.activity_add.spinnerPreparo
+import kotlinx.android.synthetic.main.activity_add.spinnerResposta
 import kotlinx.android.synthetic.main.activity_confirm_service.*
+import kotlinx.android.synthetic.main.activity_edit_service.*
 import kotlinx.android.synthetic.main.dialog_fr2.*
 import kotlinx.android.synthetic.main.dialog_fr2.view.*
 import kotlinx.android.synthetic.main.dialog_fr2.view.checkBox1domingo
@@ -299,6 +313,13 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.shortDesc = editDescCurta.text.toString()
                 mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                 mServiceAtributes.preco = editPreco.text.toString().toFloat()
+
+                if (simDelivery.isChecked) {
+                    mServiceAtributes.delivery = true
+                } else if (NaoDelivery.isChecked) {
+                    mServiceAtributes.delivery = false
+                }
+
                 mServiceAtributes.tempoResposta = spinnerResposta.selectedItem.toString()
                 mServiceAtributes.tempoEntrega = spinnerPreparo.selectedItem.toString()
                 mServiceAtributes.categoria = spinnerCategoria.selectedItem.toString()

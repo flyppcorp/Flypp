@@ -63,8 +63,8 @@ class EditServiceActivity : AppCompatActivity() {
     private lateinit var mProgress: ProgressDialog
     private var horario1: String? = null
     private var horario2: String? = null
-    private lateinit var mExp : SharedFilter
-    private lateinit var mDiasExpediente : ArrayList<String>
+    private lateinit var mExp: SharedFilter
+    private lateinit var mDiasExpediente: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_service)
@@ -99,14 +99,14 @@ class EditServiceActivity : AppCompatActivity() {
             val vd = layoutInflater.inflate(R.layout.dialog_fr2, null)
             val alert = AlertDialog.Builder(this)
             alert.setView(vd)
-            if (horario1 != null){
+            if (horario1 != null) {
                 vd.btnInicio.text = horario1
-            }else {
+            } else {
                 vd.btnInicio.text = mService?.horario?.substringBefore("-")
             }
-            if (horario2 != null){
+            if (horario2 != null) {
                 vd.btnFim.text = horario2
-            }else{
+            } else {
                 vd.btnFim.text = mService?.horario?.substringAfter("-")
             }
             vd.btnInicio.setOnClickListener {
@@ -150,25 +150,25 @@ class EditServiceActivity : AppCompatActivity() {
                 ).show()
             }
             val keyExp = mService?.dias.toString()
-            if (keyExp.contains("1")){
+            if (keyExp.contains("1")) {
                 vd.checkBox1domingo.isChecked = true
             }
-            if (keyExp.contains("2")){
+            if (keyExp.contains("2")) {
                 vd.checkBox2segunda.isChecked = true
             }
-            if (keyExp.contains("3")){
+            if (keyExp.contains("3")) {
                 vd.checkBox3terca.isChecked = true
             }
-            if (keyExp.contains("4")){
+            if (keyExp.contains("4")) {
                 vd.checkBox4quarta.isChecked = true
             }
-            if (keyExp.contains("5")){
+            if (keyExp.contains("5")) {
                 vd.checkBox5quinta.isChecked = true
             }
-            if (keyExp.contains("6")){
+            if (keyExp.contains("6")) {
                 vd.checkBox6sexta.isChecked = true
             }
-            if (keyExp.contains("7")){
+            if (keyExp.contains("7")) {
                 vd.checkBox7sabado.isChecked = true
             }
 
@@ -181,40 +181,40 @@ class EditServiceActivity : AppCompatActivity() {
             }*/
 
 
-            alert.setPositiveButton("Salvar", {dialog, which ->
-                if (vd.checkBox1domingo.isChecked){
+            alert.setPositiveButton("Salvar", { dialog, which ->
+                if (vd.checkBox1domingo.isChecked) {
                     mDiasExpediente.add("1")
-                }else{
+                } else {
                     mDiasExpediente.remove("1")
                 }
-                if (vd.checkBox2segunda.isChecked){
+                if (vd.checkBox2segunda.isChecked) {
                     mDiasExpediente.add("2")
-                }else{
+                } else {
                     mDiasExpediente.remove("2")
                 }
-                if (vd.checkBox3terca.isChecked){
+                if (vd.checkBox3terca.isChecked) {
                     mDiasExpediente.add("3")
-                }else{
+                } else {
                     mDiasExpediente.remove("3")
                 }
-                if (vd.checkBox4quarta.isChecked){
+                if (vd.checkBox4quarta.isChecked) {
                     mDiasExpediente.add("4")
-                }else{
+                } else {
                     mDiasExpediente.remove("4")
                 }
-                if (vd.checkBox5quinta.isChecked){
+                if (vd.checkBox5quinta.isChecked) {
                     mDiasExpediente.add("5")
-                }else{
+                } else {
                     mDiasExpediente.remove("5")
                 }
-                if (vd.checkBox6sexta.isChecked){
+                if (vd.checkBox6sexta.isChecked) {
                     mDiasExpediente.add("6")
-                }else{
+                } else {
                     mDiasExpediente.remove("6")
                 }
-                if (vd.checkBox7sabado.isChecked){
+                if (vd.checkBox7sabado.isChecked) {
                     mDiasExpediente.add("7")
-                }else{
+                } else {
                     mDiasExpediente.remove("7")
                 }
                 mExp.saveFilter(Constants.KEY.EXPEDIENTE, mDiasExpediente.toString())
@@ -334,6 +334,11 @@ class EditServiceActivity : AppCompatActivity() {
                         if (serviceItem.nome != null) {
                             editEmpresaUpdate.setText(serviceItem.nome)
                         }
+                        if (serviceItem.delivery) {
+                            simDeliveryEdit.isChecked = true
+                        } else {
+                            naoDeliveryEdit.isChecked = true
+                        }
                         editService.setText(serviceItem.nomeService)
                         editDescCurta.setText(serviceItem.shortDesc)
                         editDescDetalhada.setText(serviceItem.longDesc)
@@ -364,7 +369,7 @@ class EditServiceActivity : AppCompatActivity() {
 
     //------------------------------------------------------------------------------------------------------------------------
     private fun handleSaveService() {
-
+        Toast.makeText(this, "Salvando atualizações", Toast.LENGTH_SHORT).show()
         if (validateConection()) {
             if (validate()) {
                 mFirestoreService.mDialog.setCancelable(false)
@@ -397,10 +402,10 @@ class EditServiceActivity : AppCompatActivity() {
 
                     //expediente
                     mServiceAtributes.dias = mExp.getFilter(Constants.KEY.EXPEDIENTE)
-                    if (horario1 == null){
+                    if (horario1 == null) {
                         horario1 = mService?.horario?.substringBefore("-")
                     }
-                    if (horario2 == null){
+                    if (horario2 == null) {
                         horario2 = mService?.horario?.substringAfter("-")
                     }
 
@@ -415,6 +420,13 @@ class EditServiceActivity : AppCompatActivity() {
                     if (editObservacao.text.toString() != "") {
                         mServiceAtributes.sabor = editObservacao.text.toString()
                     }
+
+                    if (simDeliveryEdit.isChecked) {
+                        mServiceAtributes.delivery = true
+                    } else if (naoDeliveryEdit.isChecked) {
+                        mServiceAtributes.delivery = false
+                    }
+
                     mServiceAtributes.categoria = spinnerCategoriaEdit.selectedItem.toString()
 
                     mServiceAtributes.tempoResposta = spinnerResposta?.selectedItem.toString()
@@ -438,10 +450,10 @@ class EditServiceActivity : AppCompatActivity() {
 
                     //obtendo url da imagem no firestorage
                     mUri?.let {
-                        var bitmap : Bitmap? = null
-                        try{
+                        var bitmap: Bitmap? = null
+                        try {
                             bitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
-                        }catch (e: Exception){
+                        } catch (e: Exception) {
                             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
                         }
                         val bytes = ByteArrayOutputStream()

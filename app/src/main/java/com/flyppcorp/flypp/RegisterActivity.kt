@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,9 +27,10 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mSignInFirebaseAuth: SignInFirebaseAuth
     private lateinit var mAuth: FirebaseAuth
     var extras: Bundle? = null
-    var dataGet : String? = null
-    private var googleSignInClient : GoogleSignInClient? = null
+    var dataGet: String? = null
+    private var googleSignInClient: GoogleSignInClient? = null
     private lateinit var mRemote: FirebaseRemoteConfig
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +38,9 @@ class RegisterActivity : AppCompatActivity() {
         mSignInFirebaseAuth = SignInFirebaseAuth(this)
         mAuth = FirebaseAuth.getInstance()
         mRemote = FirebaseRemoteConfig.getInstance()
+
         extras = intent?.extras
-        if (extras != null){
+        if (extras != null) {
             dataGet = extras?.getString(Constants.KEY.ID_DESCONTO)
         }
 
@@ -76,40 +79,38 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.KEY.GOOGLE_LOGIN_CODE){
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result!!.isSuccess){
-                val account = result.signInAccount
-                loginGoogle(account)
+        if (requestCode == Constants.KEY.GOOGLE_LOGIN_CODE) {
+            val result = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = result.getResult(ApiException::class.java)
+                loginGoogle(account.idToken)
+            } catch (e: ApiException) {
+                e.printStackTrace()
             }
         }
     }
 
-    private fun loginGoogle(account: GoogleSignInAccount?) {
-        val mProgress = ProgressDialog(this)
-        mProgress.setCancelable(false)
-        mProgress.show()
-        mProgress.setContentView(R.layout.progress)
-        mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+    private fun loginGoogle(account: String?) {
+        val credential = GoogleAuthProvider.getCredential(account, null)
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener {
-                if (it.isSuccessful){
-                    if (it.result?.additionalUserInfo!!.isNewUser){
+                if (it.isSuccessful) {
+                    val metadata = mAuth.currentUser?.metadata
+                    if (metadata?.getCreationTimestamp() == metadata?.getLastSignInTimestamp()) {
                         val intent = Intent(this, CreateProfileActivity::class.java)
                         val user = User()
-                        if (mAuth.currentUser?.displayName != null){
+                        if (mAuth.currentUser?.displayName != null) {
                             user.nome = mAuth.currentUser?.displayName
-                        }else {
+                        } else {
                             user.nome = "User"
                         }
 
                         mRemote.fetch(0).addOnCompleteListener {
-                            if (it.isSuccessful){
+                            if (it.isSuccessful) {
                                 mRemote.fetchAndActivate()
                                 val ativo = mRemote.getBoolean(Constants.KEY.ACTIVATE_SHARE)
-                                if (dataGet != null && ativo){
-                                   mSignInFirebaseAuth.handleOFF(dataGet)
+                                if (dataGet != null && ativo) {
+                                    mSignInFirebaseAuth.handleOFF(dataGet)
                                 }
                             }
                         }
@@ -121,16 +122,17 @@ class RegisterActivity : AppCompatActivity() {
                             .document(mAuth.currentUser?.uid.toString())
                             .set(user)
                         startActivity(intent)
-                    }else {
+                    } else {
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         ContextCompat.startActivity(this, intent, null)
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "Ops! Algo deu errado", Toast.LENGTH_SHORT).show()
                 }
-                mProgress.hide()
+
+
             }
     }
 

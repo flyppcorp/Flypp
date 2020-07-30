@@ -75,6 +75,14 @@ class AndamentoActivity : AppCompatActivity() {
             Toast.makeText(this, "Pedir para cliente finalizar", Toast.LENGTH_LONG).show()
             return@setOnLongClickListener true
         }
+
+        floatingActionButtonRetirada.setOnLongClickListener {
+            Toast.makeText(this, "Pedir para cliente retirar pedido no balcão", Toast.LENGTH_LONG).show()
+            return@setOnLongClickListener true
+        }
+        floatingActionButtonRetirada.setOnClickListener {
+            notificationRetirada()
+        }
         val tb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_andamento)
         tb.title = ""
         setSupportActionBar(tb)
@@ -88,6 +96,8 @@ class AndamentoActivity : AppCompatActivity() {
         getEndereco()
         btnText()
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.message_my_service, menu)
@@ -294,6 +304,53 @@ class AndamentoActivity : AppCompatActivity() {
             }
 
     }
+    @SuppressLint("RestrictedApi")
+    private fun notificationRetirada() {
+        mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
+            .document(mMyservice?.idContratante.toString())
+            .get()
+            .addOnSuccessListener {
+                val user: User? = it.toObject(User::class.java)
+                val notification = Notification()
+                notification.serviceId = mMyservice!!.documentId
+                notification.text =
+                    "Opa, ${mMyservice!!.serviceNome} está Pronto e a sua espera, você já pode vim buscar"
+                notification.title = "Boas notícias"
+
+                mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
+                    .document(user?.token.toString())
+                    .set(notification).addOnSuccessListener {
+
+                        val tsDoc = mFirestore.collection(Constants.COLLECTIONS.MY_SERVICE)
+                            .document(mMyservice?.documentId.toString())
+                        mFirestore.runTransaction {
+                            val content = it.get(tsDoc).toObject(Myservice::class.java)
+                            if (mMyservice?.pronto == false) {
+                                content?.pronto = true
+                            }
+                            it.set(tsDoc, content!!)
+                        }
+
+                        val colorFilter =
+                            PorterDuffColorFilter(Color.rgb(37, 116, 169), PorterDuff.Mode.MULTIPLY)
+                        floatingActionButtonRetirada?.background?.colorFilter = colorFilter
+                        Alerter.create(this)
+                            .setTitle("Quase lá!")
+                            .setText("${mMyservice?.nomeContratante} já foi avisado para vim retirar o pedido")
+                            .setIcon(R.drawable.ic_retirada)
+                            .setBackgroundColorRes(R.color.colorPrimaryDark)
+                            .setDuration(5000)
+                            .enableProgress(true)
+                            .setProgressColorRes(R.color.textIcons)
+                            .enableSwipeToDismiss()
+                            .show()
+                        if (mMyservice?.idContratado == mAuth.currentUser?.uid){
+                            floatingActionButtonFinish?.visibility = View.VISIBLE
+                        }
+                    }
+            }
+
+    }
 
 
     private fun notificationFinish() {
@@ -397,8 +454,15 @@ class AndamentoActivity : AppCompatActivity() {
                 PorterDuffColorFilter(Color.rgb(22, 160, 133), PorterDuff.Mode.MULTIPLY)
             floatingActionButton?.background?.colorFilter = colorFilter
         }
+
+        if (mMyservice?.pronto == true){
+            val colorFilter =
+                PorterDuffColorFilter(Color.rgb(37, 116, 169), PorterDuff.Mode.MULTIPLY)
+            floatingActionButtonRetirada?.background?.colorFilter = colorFilter
+        }
         if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
             floatingActionButton?.visibility = View.GONE
+            floatingActionButtonRetirada.visibility = View.GONE
         }
         if (mMyservice?.idContratado == mAuth.currentUser?.uid && mMyservice?.caminho == true){
             floatingActionButtonFinish?.visibility = View.VISIBLE

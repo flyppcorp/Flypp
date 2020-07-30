@@ -117,6 +117,7 @@
                 android:text="Entrar com Google"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/btnLogin"
                 app:layout_constraintStart_toStartOf="@+id/btnLogin"
                 app:layout_constraintTop_toBottomOf="@+id/btnLogin" />

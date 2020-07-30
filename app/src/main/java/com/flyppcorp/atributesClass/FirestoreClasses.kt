@@ -59,7 +59,8 @@ data class Servicos(
     var sabor : String? = null,
     var categoria : String = "Todos",
     var dias: String = "1,2,3,4,5,6,7",
-    var horario: String = "06:00 - 00:00"
+    var horario: String = "06:00 - 00:00",
+    var delivery: Boolean = true
 ) : Endereco(), Parcelable
 
 @Parcelize
@@ -123,7 +124,9 @@ data class Myservice(
     var dateService: String? = null,
     var horario: String? = null,
     var caminho: Boolean = false,
-    var sabor : String? = null
+    var pronto: Boolean = false,
+    var sabor : String? = null,
+    var delivery: Boolean = true
 
 ) : Endereco(), Parcelable
 

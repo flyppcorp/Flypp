@@ -302,6 +302,11 @@ class ServiceActivity : AppCompatActivity() {
                         txtQtdServices.text = "${service.totalServicos} concluídos"
                         txtTituloServices.text = service.nomeService
                         txtResponde.text = service.tempoResposta
+                        if (service.delivery){
+                            txtDelivery.text = "Sim"
+                        }else {
+                            txtDelivery.text = "Não"
+                        }
                         //avaliacao
                         val avaliacao: Double =
                             service.avaliacao.toDouble() / service.totalAvaliacao
@@ -317,11 +322,12 @@ class ServiceActivity : AppCompatActivity() {
                             "R$ ${result}".replace(".", ",")
 
 
+
                         txtDetailDesc.text = service.longDesc
 
                         txtEndereco.text =
                             "${service.rua},  ${service.bairro}, ${service.numero} \n" +
-                                    "CEP:${service.cep}, ${service.cidade}, ${service.estado}"
+                                    "CEP:${service.cep}, ${service.cidade}, ${service.estado}".replace("null", "-")
                         if (service.comments > 0) {
                             btnComments.text = "${mService?.comments} comentários"
                             btnComments?.visibility = View.VISIBLE

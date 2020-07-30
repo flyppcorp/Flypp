@@ -330,6 +330,7 @@ class PendenteActivity : AppCompatActivity() {
                 txtTittleData?.visibility = View.GONE
                 txtData?.visibility = View.GONE
             }
+
             txtQuantidade.text = mMyService?.quantidate.toString()
             txtServicoAcct.text = mMyService?.serviceNome
             if (mMyService?.observacao != null) {
