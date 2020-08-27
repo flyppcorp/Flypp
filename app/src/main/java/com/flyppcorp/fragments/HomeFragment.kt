@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.MenuItem
@@ -118,7 +119,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -150,7 +151,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -182,7 +183,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -214,7 +215,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -246,7 +247,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -278,7 +279,7 @@ class HomeFragment : Fragment() {
 
                         }
                         exception?.let {
-                            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                            Log.i("EXCEPTION", "ERRO")
                         }
                         if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                         if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -306,7 +307,7 @@ class HomeFragment : Fragment() {
 
                     }
                     exception?.let {
-                        Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                        Log.i("EXCEPTION", "ERRO")
                     }
                     if (servicos.size == 0) framelayoutEmpty?.visibility = View.VISIBLE
                     if (servicos.size > 0) framelayoutEmpty?.visibility = View.GONE
@@ -402,6 +403,7 @@ class HomeFragment : Fragment() {
 
             val calendar = Calendar.getInstance()
             if (servicos[position].dias.contains(calendar.get(Calendar.DAY_OF_WEEK).toString())){
+                viewholder.txtHorarioFunc.setTextColor(Color.rgb(30, 130, 76))
                 viewholder.txtHorarioFunc.text = servicos[position].horario
             }else {
                 viewholder.txtHorarioFunc.setTextColor(Color.RED)

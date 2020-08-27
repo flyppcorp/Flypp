@@ -175,7 +175,7 @@ class SearchFragment : Fragment() {
             if (contentServicesearch[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicesearch[position].urlService).resize(300, 300)
+                Picasso.get().load(contentServicesearch[position].urlService).resize(200, 200)
                     .centerCrop().placeholder(R.drawable.photo_work)
                     .into(viewholder.imgServiceMainList)
             }
@@ -184,7 +184,7 @@ class SearchFragment : Fragment() {
             //nome do estabelecimento
             viewholder.txtNomeUserList.text = contentServicesearch[position].nome
             //imagem do perfil
-            Picasso.get().load(contentServicesearch[position].urlProfile).resize(300, 300)
+            Picasso.get().load(contentServicesearch[position].urlProfile).resize(200, 200)
                 .centerCrop().placeholder(R.drawable.btn_select_photo_profile)
                 .into(viewholder.imgProfileImgMainList)
             //fim
@@ -213,6 +213,7 @@ class SearchFragment : Fragment() {
             //expediente
             val calendar = Calendar.getInstance()
             if (contentServicesearch[position].dias.contains(calendar.get(Calendar.DAY_OF_WEEK).toString())){
+                viewholder.txtHorarioFunc.setTextColor(Color.rgb(30, 130, 76))
                 viewholder.txtHorarioFunc.text = contentServicesearch[position].horario
             }else {
                 viewholder.txtHorarioFunc.setTextColor(Color.RED)

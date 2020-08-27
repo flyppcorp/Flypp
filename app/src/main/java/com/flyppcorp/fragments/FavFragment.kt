@@ -102,7 +102,7 @@ class FavFragment : Fragment() {
             if (contentServicos[position].urlService == null) {
                 viewholder.imgServiceMainList.setImageResource(R.drawable.photo_work)
             } else {
-                Picasso.get().load(contentServicos[position].urlService).resize(300,300).centerCrop().placeholder(R.drawable.photo_work).into(viewholder.imgServiceMainList)
+                Picasso.get().load(contentServicos[position].urlService).resize(200,200).centerCrop().placeholder(R.drawable.photo_work).into(viewholder.imgServiceMainList)
             }
             //fim nome do produto
 

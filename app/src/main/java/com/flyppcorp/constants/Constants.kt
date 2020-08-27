@@ -19,6 +19,8 @@ class Constants {
         const val CART = "cart"
         const val GOOGLE_LOGIN_CODE = 9001
         const val EXPEDIENTE = "exp"
+        const val INICIO = "inicio"
+        const val FIM = "fim"
 
     }
 

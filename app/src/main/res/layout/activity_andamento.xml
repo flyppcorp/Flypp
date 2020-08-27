@@ -108,8 +108,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_andamento">
+        app:layout_constraintTop_toBottomOf="@+id/tb_andamento"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -204,11 +206,10 @@
                 android:id="@+id/txtPrecoAndamentoAcct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView25"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
-                app:layout_constraintTop_toBottomOf="@+id/textView25"
-                android:textStyle="bold"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
             <TextView
                 android:id="@+id/textView27"
@@ -222,21 +223,21 @@
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtObsProf"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@id/txtObsProf" />
 
             <TextView
                 android:id="@+id/txtEnderecoAndamentoAcct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView27"
                 app:layout_constraintStart_toStartOf="@+id/textView27"
-                app:layout_constraintTop_toBottomOf="@+id/textView27"
-                android:textStyle="bold"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
             <TextView
                 android:id="@+id/textView29"
@@ -271,20 +272,20 @@
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAndamentoAcct"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtPrecoAndamentoAcct" />
 
             <TextView
                 android:id="@+id/txtObservacaoAndamento"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/titileobs"
                 app:layout_constraintStart_toStartOf="@+id/titileobs"
-                app:layout_constraintTop_toBottomOf="@+id/titileobs"
-                android:visibility="visible"
-                android:textStyle="bold"/>
+                app:layout_constraintTop_toBottomOf="@+id/titileobs" />
 
             <TextView
                 android:id="@+id/dataText"
@@ -302,8 +303,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSabor"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/txtTipoEntregaAndamento" />
 
             <TextView
                 android:id="@+id/txtDate"
@@ -327,19 +327,19 @@
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtObservacaoAndamento" />
 
             <TextView
                 android:id="@+id/txtObsProf"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/titleobsEst"
                 app:layout_constraintStart_toStartOf="@+id/titileobs"
-                app:layout_constraintTop_toBottomOf="@+id/titleobsEst"
-                android:textStyle="bold"/>
+                app:layout_constraintTop_toBottomOf="@+id/titleobsEst" />
 
             <TextView
                 android:id="@+id/txtQtdidade"
@@ -376,10 +376,10 @@
                 android:textColor="@color/primaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/txtServiceAndamentoAcct"
                 app:layout_constraintStart_toStartOf="@+id/txtServiceAndamentoAcct"
-                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct"
-                android:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/txtServiceAndamentoAcct" />
 
             <TextView
                 android:id="@+id/txtSabor"
@@ -390,6 +390,31 @@
                 app:layout_constraintEnd_toEndOf="@+id/titileSabor"
                 app:layout_constraintStart_toStartOf="@+id/titileSabor"
                 app:layout_constraintTop_toBottomOf="@+id/titileSabor" />
+
+            <TextView
+                android:id="@+id/textView57"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="Tipo de Entrega:"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtSabor" />
+
+            <TextView
+                android:id="@+id/txtTipoEntregaAndamento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView57"
+                app:layout_constraintStart_toStartOf="@+id/textView57"
+                app:layout_constraintTop_toBottomOf="@+id/textView57" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

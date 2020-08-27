@@ -50,11 +50,17 @@ class AndamentoActivity : AppCompatActivity() {
         }
         btnFinalizarAndamento.setOnClickListener {
             if (mConnection.validateConection()) {
-                mProgress.setCancelable(false)
-                mProgress.show()
-                mProgress.setContentView(R.layout.progress)
-                mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                handleFinalizar()
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setMessage("Você tem certeza que deseja finalizar este pedido?")
+                alertDialog.setNegativeButton("Não", {dialogInterface, i ->  })
+                alertDialog.setPositiveButton("Sim", {dialogInterface, i ->
+                    mProgress.setCancelable(false)
+                    mProgress.show()
+                    mProgress.setContentView(R.layout.progress)
+                    mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    handleFinalizar()
+                })
+
             }
 
         }
@@ -200,6 +206,8 @@ class AndamentoActivity : AppCompatActivity() {
                     intent.putExtra(Constants.KEY.SERVICE_STATUS, mMyservice)
                     startActivity(intent)
                     finish()
+                }else {
+                    finish()
                 }
                 finish()
             }
@@ -228,16 +236,22 @@ class AndamentoActivity : AppCompatActivity() {
             val content = it.get(tsDoc).toObject(User::class.java)
             content!!.totalServicosFinalizados = content.totalServicosFinalizados + 1
             if (mMyservice?.idContratante == mAuth.currentUser?.uid) {
-                notification(mMyservice?.idContratado.toString())
+                //alterei aqui
+                notification(mMyservice?.idContratado.toString(), mMyservice?.nomeContratante.toString(), "Concluiu um pedido")
+
             } else {
-                notification(mMyservice?.idContratante.toString())
+                //alterei aqui
+
+                notification(mMyservice?.idContratante.toString(), mMyservice?.nomeContratado.toString(), "Concluiu o pedido. (${mMyservice?.serviceNome}) " +
+                        "\nVocê pode deixar sua avaliação indo ao seu histórico de compras em:" +
+                        "\nGerenciador de pedidos > Finalizado > Seu pedido.")
             }
             it.set(tsDoc, content)
 
         }
     }
 
-    private fun notification(uid: String) {
+    private fun notification(uid: String, nome: String, text: String) {
         mFirestore.collection(Constants.COLLECTIONS.USER_COLLECTION)
             .document(uid)
             .get()
@@ -246,7 +260,8 @@ class AndamentoActivity : AppCompatActivity() {
                 val notification = Notification()
                 notification.serviceId = mMyservice?.documentId
                 notification.text =
-                    "${mMyservice?.nomeContratante} concluiu um pedido (${mMyservice?.serviceNome})"
+                    //alterei aqui
+                    "${nome} ${text}"
                 notification.title = "Nova atualização de pedido"
 
                 mFirestore.collection(Constants.COLLECTIONS.NOTIFICATION_SERVICE)
@@ -444,7 +459,8 @@ class AndamentoActivity : AppCompatActivity() {
     private fun btnText() {
         if (mMyservice?.idContratado == mAuth.currentUser?.uid) {
             btnVoltarAndamento.text = "Cancelar"
-            btnFinalizarAndamento.visibility = View.GONE
+            //Primeira mexida foi aqui
+            //btnFinalizarAndamento.visibility = View.GONE
         } else {
             btnVoltarAndamento?.visibility = View.GONE
         }
@@ -464,7 +480,8 @@ class AndamentoActivity : AppCompatActivity() {
             floatingActionButton?.visibility = View.GONE
             floatingActionButtonRetirada.visibility = View.GONE
         }
-        if (mMyservice?.idContratado == mAuth.currentUser?.uid && mMyservice?.caminho == true){
+        if (mMyservice?.idContratado == mAuth.currentUser?.uid && mMyservice?.caminho == true ||
+            mMyservice?.idContratado == mAuth.currentUser?.uid && mMyservice?.pronto == true){
             floatingActionButtonFinish?.visibility = View.VISIBLE
         }
     }
@@ -504,6 +521,12 @@ class AndamentoActivity : AppCompatActivity() {
             }
             val result = String.format("%.2f", mMyservice?.preco)
             txtPrecoAndamentoAcct.text = "R$ ${result}".replace(".",",")
+
+            if (mMyservice?.delivery == true){
+                txtTipoEntregaAndamento.text = "Delivery"
+            }else {
+                txtTipoEntregaAndamento.text = "Retirada no estabelecimento"
+            }
 
             if (mMyservice?.sabor != null) {
                 txtSabor?.text = mMyservice?.sabor

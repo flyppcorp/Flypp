@@ -124,8 +124,8 @@ class ContaFragment : Fragment() {
                 .get()
                 .addOnSuccessListener {
                     val item = it.toObject(User::class.java)
-                    txtMyName.text = item?.nome
-                    Picasso.get().load(item?.url).resize(200, 200).centerCrop()
+                    txtMyName.text = item?.nome.toString()
+                    Picasso.get().load(item?.url).resize(180, 180).centerCrop()
                         .placeholder(R.drawable.btn_select_photo_profile).into(photoPerfil)
                     photoPerfil.setOnClickListener {
                         val intent = Intent(context, ProfileInformations::class.java)

@@ -77,10 +77,10 @@ class FragmentPendentes : Fragment() {
             var viewholder = (holder as CustomViewHolderPendente).itemView
 
             viewholder.txtNomeServiceManager.text = servicos[position].serviceNome
-            if (servicos[position].urlService != null) Picasso.get().load(servicos[position].urlService).resize(200, 200).centerCrop().placeholder(R.drawable.photo_work).into(
+            if (servicos[position].urlService != null) Picasso.get().load(servicos[position].urlService).resize(180, 180).centerCrop().placeholder(R.drawable.photo_work).into(
                 viewholder.imgServiceManager
             )
-            if (servicos[position].urlContratado != null) Picasso.get().load(servicos[position].urlContratado).resize(200,200).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
+            if (servicos[position].urlContratado != null) Picasso.get().load(servicos[position].urlContratado).resize(180,180).centerCrop().placeholder(R.drawable.btn_select_photo_profile).into(
                 viewholder.imgProfileImgManager
             )
             viewholder.txtNomeContratado.text = servicos[position].nomeContratado

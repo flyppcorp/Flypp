@@ -339,6 +339,11 @@ class PendenteActivity : AppCompatActivity() {
                 titleObservacao?.visibility = View.GONE
                 txtObservacao?.visibility = View.GONE
             }
+            if (mMyService?.delivery == true){
+                txtTipoEntrega.text = "Delivery"
+            }else {
+                txtTipoEntrega.text = "Retirada no estabelecimento"
+            }
 
             if (mMyService?.sabor != null) {
                 txtSabor?.text = mMyService?.sabor

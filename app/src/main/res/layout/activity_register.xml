@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toStartOf="@+id/editEmailCadLayout"
                 app:layout_constraintTop_toBottomOf="@+id/editEmailCadLayout"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/textIcons">
+                app:passwordToggleTint="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editSenhaCad"
@@ -106,7 +106,7 @@
                 app:layout_constraintStart_toStartOf="@+id/editSenhaCadLayout"
                 app:layout_constraintTop_toBottomOf="@+id/editSenhaCadLayout"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/textIcons">
+                app:passwordToggleTint="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editSenhaConfirmCad"

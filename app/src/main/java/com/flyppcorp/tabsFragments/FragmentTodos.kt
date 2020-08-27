@@ -1,14 +1,20 @@
 package com.flyppcorp.tabsFragments
 
 
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TimePicker
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.flyppcorp.Helper.Connection
+import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.Servicos
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.flypp.ManagerEditServiceActivity
@@ -16,8 +22,13 @@ import com.flyppcorp.flypp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.dialog_fr2.view.*
+import kotlinx.android.synthetic.main.fragment_fragment_todos.*
 import kotlinx.android.synthetic.main.fragment_fragment_todos.view.*
 import kotlinx.android.synthetic.main.service_items_all.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -29,7 +40,14 @@ class FragmentTodos : Fragment() {
     private lateinit var mFirestore: FirebaseFirestore
     private var uid: String? = null
     lateinit var contentService: ArrayList<Servicos>
+    lateinit var contentId: ArrayList<String>
     private lateinit var mAdapter: ItemTodos
+    private lateinit var mDiasExpediente: ArrayList<String>
+    private lateinit var mExp: SharedFilter
+    private var horario1: String? = null
+    private var horario2: String? = null
+    private lateinit var mInicioFim: SharedFilter
+    private lateinit var mConnect: Connection
 
     private lateinit var expedilist: ArrayList<String>
     override fun onCreateView(
@@ -39,7 +57,13 @@ class FragmentTodos : Fragment() {
         mFirestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         contentService = arrayListOf()
+        contentId = arrayListOf()
         mAdapter = ItemTodos()
+        mDiasExpediente = arrayListOf()
+        mExp = SharedFilter(context!!)
+        mInicioFim = SharedFilter(context!!)
+        mConnect = Connection(context!!)
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_fragment_todos, container, false)
         view.rv_todos.adapter = mAdapter
@@ -52,6 +76,8 @@ class FragmentTodos : Fragment() {
 
         return view
     }
+
+
 
     inner class ItemTodos : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -98,10 +124,10 @@ class FragmentTodos : Fragment() {
             else vh.txtPreparoList.text = "?"
             if (contentService[position].urlService != null) Picasso.get()
                 .load(contentService[position].urlService).placeholder(R.drawable.photo_work)
-                .resize(200, 200).centerCrop().into(vh.imgServiceMainList)
+                .resize(150, 150).centerCrop().into(vh.imgServiceMainList)
             else vh.imgServiceMainList.setImageResource(R.drawable.photo_work)
             if (contentService[position].urlProfile != null) Picasso.get()
-                .load(contentService[position].urlProfile).resize(200, 200).centerCrop()
+                .load(contentService[position].urlProfile).resize(150, 150).centerCrop()
                 .placeholder(R.drawable.btn_select_photo_profile).into(vh.imgProfileImgMainList)
 
             vh.txtNomeUserList.text = contentService[position].nome
@@ -110,11 +136,11 @@ class FragmentTodos : Fragment() {
                 contentService[position].avaliacao.toDouble() / contentService[position].totalAvaliacao
             val resultAv = String.format("%.1f", avaliacao)
             if (contentService[position].avaliacao == 0) vh.txtAvaliacaoList.text = "0/5"
-            else vh.txtAvaliacaoList.text = "${resultAv}/5".replace(".",",")
+            else vh.txtAvaliacaoList.text = "${resultAv}/5".replace(".", ",")
 
             val result = String.format("%.2f", contentService[position].preco)
             vh.txtPrecoList.text =
-                "R$ ${result}".replace(".",",")
+                "R$ ${result}".replace(".", ",")
 
 
         }

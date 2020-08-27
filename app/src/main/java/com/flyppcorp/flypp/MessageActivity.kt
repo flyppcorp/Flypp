@@ -175,13 +175,13 @@ class MessageActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
                                     val uid = mAuth.currentUser?.uid
                                     if (uid == fromId){
-                                        notificationMessage(mMeUser!!.nome!!, text, toId.toString())
+                                        notificationMessage(mMeUser?.nome.toString(), text, toId.toString())
                                     }else{
-                                        notificationMessage(mMeUser!!.nome!!, text, fromId.toString())
+                                        notificationMessage(mMeUser?.nome.toString(), text, fromId.toString())
                                     }
 
                                     val lastMessages = LastMessage()
-                                    lastMessages.name = mUser!!.nome
+                                    lastMessages.name = mUser?.nome
                                     lastMessages.toId = toId
                                     lastMessages.url = mUser?.url
                                     lastMessages.timestamp = timestamp.toLong()
