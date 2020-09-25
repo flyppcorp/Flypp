@@ -60,6 +60,7 @@ class AndamentoActivity : AppCompatActivity() {
                     mProgress.window?.setBackgroundDrawableResource(android.R.color.transparent)
                     handleFinalizar()
                 })
+                alertDialog.show()
 
             }
 
@@ -461,8 +462,10 @@ class AndamentoActivity : AppCompatActivity() {
             btnVoltarAndamento.text = "Cancelar"
             //Primeira mexida foi aqui
             //btnFinalizarAndamento.visibility = View.GONE
+            textView11.text = "Este pedido está em andamento e aguardando ser entregue e finalizado"
         } else {
             btnVoltarAndamento?.visibility = View.GONE
+            textView11.text = "Este pedido está em andamento, finalize somente após receber"
         }
 
         if (mMyservice?.caminho == true) {

@@ -30,7 +30,8 @@ data class User(
     var totalAvaliacao: Int = 0,
     var primeiraCompra : Boolean = false,
     var primeiraCompraConcluida: Boolean = false,
-    var desconto : Int = 0
+    var desconto : Int = 0,
+    var autorized : Boolean = false
 ) : Endereco(), Parcelable
 
 @Parcelize

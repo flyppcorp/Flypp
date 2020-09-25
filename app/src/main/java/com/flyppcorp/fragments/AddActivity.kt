@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.flyppcorp.Helper.Contact
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Servicos
@@ -241,6 +242,24 @@ class AddActivity : AppCompatActivity() {
                         editEstadosAdd.setText(mUser.estado)
                         if (mUser.nomeEmpresa != null) {
                             editEmpresaAdd.setText(mUser.nomeEmpresa)
+                        }
+                        if (!mUser.autorized){
+                            val alertDialog = AlertDialog.Builder(this)
+                                .setCancelable(false)
+                                .setTitle("Você precisa de autorização para adicionar seus produtos")
+                                .setMessage("Entre em contato conosco para começar fazer parte da família Flypp." +
+                                        "\nBasta clicar no botão abaixo")
+                                .setNegativeButton("Depois", {dialogInterface, i ->
+                                    finish()
+                                })
+                                .setPositiveButton("Quero fazer parte", {dialogInterface, i ->
+                                     val intent = Intent(this, Contact::class.java)
+                                    startActivity(intent)
+                                    finish()
+
+                                })
+                                .show()
+
                         }
 
                     }

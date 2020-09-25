@@ -43,6 +43,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var mConnect: Connection
     private var mPrimeiraCompra: Boolean? = null
     private var mPrimeiraCompraConcluida: Boolean? = null
+    private var mAutorized : Boolean? = null
     var mDesconto: Int? = null
     private lateinit var mSize: RedimensionImage
 
@@ -131,6 +132,7 @@ class ProfileActivity : AppCompatActivity() {
                     mPrimeiraCompra = userItem.primeiraCompra
                     mDesconto = userItem.desconto
                     mPrimeiraCompraConcluida = userItem.primeiraCompraConcluida
+                    mAutorized = userItem.autorized
 
 
                 }
@@ -169,6 +171,7 @@ class ProfileActivity : AppCompatActivity() {
                 mUserInfo.primeiraCompra = mPrimeiraCompra!!
                 mUserInfo.desconto = mDesconto!!
                 mUserInfo.primeiraCompraConcluida = mPrimeiraCompraConcluida!!
+                mUserInfo.autorized = mAutorized!!
 
 
 

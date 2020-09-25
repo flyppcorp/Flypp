@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -100,6 +101,7 @@ class FCMServiceNotification : FirebaseMessagingService() {
             notificationChannel1.description = "Você receberá notificações de Flypp "
             notificationChannel1.lightColor = Color.WHITE
             notificationChannel1.enableLights(true)
+
 
             notificationManager1.createNotificationChannel(notificationChannel1)
 
