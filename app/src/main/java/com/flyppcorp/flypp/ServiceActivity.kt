@@ -307,6 +307,13 @@ class ServiceActivity : AppCompatActivity() {
                         }else {
                             txtDelivery.text = "Não"
                         }
+
+                        if (service.taxaEntrega == 0.0 || service.taxaEntrega <= 0.0){
+                            txtTaxaEntrega.text = "Entrega grátis"
+                        }else if (service.taxaEntrega > 0.0){
+                            val resultTaxa = String.format("%.2f", mService?.taxaEntrega)
+                            txtTaxaEntrega.text =  "R$ ${resultTaxa}".replace(".", ",")
+                        }
                         //avaliacao
                         val avaliacao: Double =
                             service.avaliacao.toDouble() / service.totalAvaliacao

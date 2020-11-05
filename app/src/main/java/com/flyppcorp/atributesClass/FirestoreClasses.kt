@@ -31,7 +31,7 @@ data class User(
     var primeiraCompra : Boolean = false,
     var primeiraCompraConcluida: Boolean = false,
     var desconto : Int = 0,
-    var autorized : Boolean = false
+    var autorized : Boolean = true
 ) : Endereco(), Parcelable
 
 @Parcelize
@@ -48,6 +48,7 @@ data class Servicos(
     var tempoResposta : String? = "1-5 min",
     var tempoEntrega: String? = "?",
     var preco: Float? = null,
+    var taxaEntrega: Double = 0.0,
     var avaliacao: Int = 0,
     var totalAvaliacao: Int = 0,
     var totalServicos: Int = 0,

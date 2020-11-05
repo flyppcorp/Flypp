@@ -332,6 +332,7 @@ class AddActivity : AppCompatActivity() {
                 mServiceAtributes.shortDesc = editDescCurta.text.toString()
                 mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                 mServiceAtributes.preco = editPreco.text.toString().toFloat()
+                mServiceAtributes.taxaEntrega = editTaxaAdd.text.toString().toDouble()
 
                 if (simDelivery.isChecked) {
                     mServiceAtributes.delivery = true

@@ -343,6 +343,7 @@ class EditServiceActivity : AppCompatActivity() {
                         editDescCurta.setText(serviceItem.shortDesc)
                         editDescDetalhada.setText(serviceItem.longDesc)
                         editPreco.setText(serviceItem.preco.toString().replace(".", ","))
+                        editTaxa.setText(serviceItem.taxaEntrega.toString().replace(".", ","))
                         editCep.setText(serviceItem.cep)
                         editEstadoEdit.setText(serviceItem.estado)
                         editCidadeService.setText(serviceItem.cidade)
@@ -353,6 +354,8 @@ class EditServiceActivity : AppCompatActivity() {
                         if (serviceItem.sabor != null) {
                             editObservacao.setText(serviceItem.sabor)
                         }
+
+
 
                         /*if(serviceItem.nacional){
                             nacionalEdit.isChecked = true
@@ -417,6 +420,7 @@ class EditServiceActivity : AppCompatActivity() {
                     mServiceAtributes.shortDesc = editDescCurta.text.toString()
                     mServiceAtributes.longDesc = editDescDetalhada.text.toString()
                     mServiceAtributes.preco = editPreco.text.toString().replace(",", ".").toFloat()
+                    mServiceAtributes.taxaEntrega = editTaxa.text.toString().replace(",", ".").toDouble()
                     if (editObservacao.text.toString() != "") {
                         mServiceAtributes.sabor = editObservacao.text.toString()
                     }

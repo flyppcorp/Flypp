@@ -9,12 +9,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
+import com.flyppcorp.flypp.LoginActivity
 import com.flyppcorp.flypp.ProfileActivity
 import com.flyppcorp.flypp.R
 import com.google.android.material.navigation.NavigationView
@@ -110,17 +112,22 @@ class ProfileInformations : AppCompatActivity(), NavigationView.OnNavigationItem
     }
 
     private fun signOut() {
-        mAuth.addAuthStateListener {
-            if (it.currentUser != null){
+
+            if (mAuth.currentUser != null){
                 val alertDialog = AlertDialog.Builder(this)
                 alertDialog.setMessage("Você deseja mesmo sair?")
                 alertDialog.setPositiveButton("SIM", {dialog, which ->
-                    it.signOut()
+                    mAuth.signOut().run {
+                        val intent = Intent(applicationContext, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+
                 })
                 alertDialog.setNegativeButton("NÃO", {dialog, which ->  })
                 alertDialog.show()
             }
-        }
+
     }
 
     private fun fetch() {

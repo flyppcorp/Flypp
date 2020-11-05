@@ -8,6 +8,7 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -28,6 +29,12 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
@@ -47,6 +54,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirebaseRemoteConfig: FirebaseRemoteConfig
+    private lateinit var mAppUpdateManager: AppUpdateManager
+    private val UPDATE_REQUEST_CODE = 123
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +68,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mFirestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        mAppUpdateManager = AppUpdateManagerFactory.create(this)
         //acao do bottomNav
 
         /*mFirestoreContract = FirestoreContract(this)
@@ -85,6 +96,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             finish()
         }
 
+        mAppUpdateManager.registerListener {
+            if(it.installStatus() == InstallStatus.DOWNLOADED){
+                showUpdateDownloadedSnackbar()
+            }
+        }
+
+        mAppUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)){
+                mAppUpdateManager.startUpdateFlowForResult(it, AppUpdateType.FLEXIBLE, this, UPDATE_REQUEST_CODE)
+                }
+        }.addOnFailureListener {
+            Log.e("FlexibleUpdateActivity", "Failed to check for update: $it")
+        }
+
 
         getToken()
         getPermissions()
@@ -103,11 +129,22 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onResume() {
         super.onResume()
         getLocation()
+        mAppUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                showUpdateDownloadedSnackbar()
+            }
+        }
     }
 
     override fun onStop() {
         super.onStop()
         mSharedFilter.saveFilter(Constants.FILTERS_VALUES.CATEGORIA, "")
+    }
+
+    private fun showUpdateDownloadedSnackbar() {
+        Snackbar.make(viewMain, "Atualização baixada", Snackbar.LENGTH_INDEFINITE)
+            .setAction("Instalar") { mAppUpdateManager.completeUpdate() }
+            .show()
     }
 
     private fun handleAnonimo() {

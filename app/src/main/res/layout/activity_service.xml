@@ -186,46 +186,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
 
             <TextView
-                android:id="@+id/textView50"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Geralmente responde em:"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
-                app:layout_constraintStart_toStartOf="@+id/txtDetailDesc"
-                app:layout_constraintTop_toBottomOf="@+id/txtDelivery" />
-
-            <TextView
-                android:id="@+id/txtResponde"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView50"
-                app:layout_constraintStart_toStartOf="@+id/textView50"
-                app:layout_constraintTop_toBottomOf="@+id/textView50" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Endereço"
-                android:textColor="@color/primaryText"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtResponde"
-                app:layout_constraintStart_toStartOf="@+id/txtResponde"
-                app:layout_constraintTop_toBottomOf="@+id/txtResponde" />
-
-            <TextView
-                android:id="@+id/txtEndereco"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/textView15"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-            <TextView
                 android:id="@+id/textView55"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -244,151 +204,26 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView55"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.core.widget.NestedScrollView>
-
-    <!--
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnContratar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="tb_service">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/imgServiceView"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                android:background="@drawable/ic_working"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </ImageView>
-
-            <LinearLayout
-                android:id="@+id/linearInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgServiceView">
-
-                <TextView
-                    android:id="@+id/txtQtdServices"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg_orange"
-                    android:ellipsize="marquee"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/textIcons"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="348dp" />
-
-                <TextView
-                    android:id="@+id/txtAvaliacao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg_orange"
-                    android:drawableLeft="@drawable/ic_star_black_small"
-                    android:padding="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:textColor="#FDCF25"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/btnComments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:background="@drawable/button_bg_orange"
-                    android:ellipsize="marquee"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/textIcons"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-
-
-            </LinearLayout>
-
             <TextView
-                android:id="@+id/txtTituloServices"
+                android:id="@+id/txtTaxaTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
+                android:text="Taxa de entrega:"
+                android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearInfo" />
+                app:layout_constraintEnd_toEndOf="@+id/txtDelivery"
+                app:layout_constraintStart_toStartOf="@+id/txtDelivery"
+                app:layout_constraintTop_toBottomOf="@+id/txtDelivery" />
 
             <TextView
-                android:id="@+id/txtPrecoContratante"
+                android:id="@+id/txtTaxaEntrega"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/button_bg_stroke"
-                android:gravity="center"
-                android:padding="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:textColor="@color/redPrimary"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtTituloServices"
-                app:layout_constraintStart_toStartOf="@+id/txtTituloServices"
-                app:layout_constraintTop_toBottomOf="@+id/txtTituloServices" />
+                app:layout_constraintEnd_toEndOf="@+id/txtTaxaTitle"
+                app:layout_constraintStart_toStartOf="@+id/txtTaxaTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtTaxaTitle" />
 
-            <TextView
-                android:id="@+id/txtDetailDesc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtPrecoContratante"
-                app:layout_constraintStart_toStartOf="@+id/txtPrecoContratante"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrecoContratante" />
 
             <TextView
                 android:id="@+id/textView50"
@@ -398,9 +233,9 @@
                 android:text="Geralmente responde em:"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/txtDetailDesc"
-                app:layout_constraintStart_toStartOf="@+id/txtDetailDesc"
-                app:layout_constraintTop_toBottomOf="@+id/txtDetailDesc" />
+                app:layout_constraintEnd_toEndOf="@+id/txtTaxaEntrega"
+                app:layout_constraintStart_toStartOf="@+id/txtTaxaEntrega"
+                app:layout_constraintTop_toBottomOf="@+id/txtTaxaEntrega" />
 
             <TextView
                 android:id="@+id/txtResponde"
@@ -431,9 +266,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>-->
+
+    </androidx.core.widget.NestedScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

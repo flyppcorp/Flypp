@@ -262,9 +262,9 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //fim sabor
 
             //entrega
-            if (delivery.isChecked){
+            if (delivery.isChecked) {
                 mMyservice.delivery = true
-            }else if (retirada.isChecked){
+            } else if (retirada.isChecked) {
                 mMyservice.delivery = false
             }
 
@@ -341,19 +341,26 @@ class ConfirmServiceActivity : AppCompatActivity() {
             //fim sabor
 
             //entrega
-            if (mServices?.delivery == false){
+            if (mServices?.delivery == false) {
                 delivery.isEnabled = false
                 retirada.isChecked = true
             }
             //preco x quantidade e desconto
             //mascara de preco
+            if (mServices!!.taxaEntrega > 0.0) {
+                val result = String.format("%.2f", mServices!!.taxaEntrega)
+                txtTaxa.text = "Taxa de entrega: ${result}"
+            } else {
+                txtTaxa.text = "Taxa de entrega: Grátis"
+            }
             var precoQtd = mServices?.preco!! * qtd.toFloat()
             if (!it.primeiraCompra) {
                 alert.hide()
                 val desconto: Double = precoQtd * (10 / 100.0)
-                precoQtd = (precoQtd - desconto).toFloat()
+                precoQtd = ((precoQtd - desconto).toFloat()) + mServices!!.taxaEntrega.toFloat()
+
                 val result = String.format("%.2f", precoQtd)
-                txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                txtPrecoContratante.text = "Total : R$ ${result}".replace(".", ",")
                 //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
                 //que ocorre na abertura da activity
                 mMyservice.preco = precoQtd
@@ -365,19 +372,21 @@ class ConfirmServiceActivity : AppCompatActivity() {
                         mRemote.fetchAndActivate()
                         val off = mRemote.getString("off")
                         val desconto: Double = precoQtd * (off.toInt() / 100.0)
-                        precoQtd = (precoQtd - desconto).toFloat()
+                        precoQtd =
+                            ((precoQtd - desconto).toFloat()) + mServices!!.taxaEntrega.toFloat()
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                        txtPrecoContratante.text = "Total : R$ ${result}".replace(".", ",")
                         //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
                         //que ocorre na abertura da activity
                         mMyservice.preco = precoQtd
 
                     } else if (!task.isSuccessful) {
                         val desconto: Double = 0.0
-                        precoQtd = (precoQtd - desconto).toFloat()
+                        precoQtd =
+                            ((precoQtd - desconto).toFloat()) + mServices!!.taxaEntrega.toFloat()
 
                         val result = String.format("%.2f", precoQtd)
-                        txtPrecoContratante.text = "R$ ${result}".replace(".", ",")
+                        txtPrecoContratante.text = "Total : R$ ${result}".replace(".", ",")
                         //detalhe importante, o preco é a unica variavel da classe que não salva no botão salvar e sim no load desta função
                         //que ocorre na abertura da activity
                         mMyservice.preco = precoQtd

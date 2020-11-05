@@ -183,6 +183,145 @@
                     android:inputType="textMultiLine|textCapSentences" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Entrega Delivery?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/textView40">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/simDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Sim" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/NaoDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Não" />
+
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtTaxaLayoutAdd"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Taxa de Entrega"
+                app:layout_constraintEnd_toEndOf="@+id/editServiceLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/editServiceLayout"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTaxaAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Categoria"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/txtTaxaLayoutAdd" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoria"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/categorias"
+                app:layout_constraintEnd_toEndOf="@+id/textView17"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/geralmente_responde_em"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
+
+            <Spinner
+                android:id="@+id/spinnerResposta"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/resposta"
+                app:layout_constraintEnd_toEndOf="@+id/textView46"
+                app:layout_constraintStart_toStartOf="@+id/textView46"
+                app:layout_constraintTop_toBottomOf="@+id/textView46" />
+
+            <Spinner
+                android:id="@+id/spinnerPreparo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
+                android:entries="@array/tempo_preparo"
+                app:layout_constraintEnd_toEndOf="@+id/textView51"
+                app:layout_constraintStart_toStartOf="@+id/textView51"
+                app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Entrega em até:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
+                app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta" />
+
+            <Button
+                android:id="@+id/btnExpediente"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg"
+                android:text="Adicionar expediente"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="@+id/spinnerPreparo"
+                app:layout_constraintStart_toStartOf="@+id/spinnerPreparo"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerPreparo" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout13"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -387,52 +526,7 @@
                 app:layout_constraintStart_toStartOf="@+id/lay22"
                 app:layout_constraintTop_toBottomOf="@+id/lay22" />
 
-            <TextView
-                android:id="@+id/textView46"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="@string/geralmente_responde_em"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoria" />
 
-            <Spinner
-                android:id="@+id/spinnerResposta"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinner_style"
-                android:entries="@array/resposta"
-                app:layout_constraintEnd_toEndOf="@+id/textView46"
-                app:layout_constraintStart_toStartOf="@+id/textView46"
-                app:layout_constraintTop_toBottomOf="@+id/textView46" />
-
-            <Spinner
-                android:id="@+id/spinnerPreparo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinner_style"
-                android:entries="@array/tempo_preparo"
-                app:layout_constraintEnd_toEndOf="@+id/textView51"
-                app:layout_constraintStart_toStartOf="@+id/textView51"
-                app:layout_constraintTop_toBottomOf="@+id/textView51" />
-
-            <TextView
-                android:id="@+id/textView51"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Entrega em até:"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/spinnerResposta"
-                app:layout_constraintStart_toStartOf="@+id/spinnerResposta"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerResposta" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -446,78 +540,13 @@
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout14"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout14" />
 
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Categoria"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-            <Spinner
-                android:id="@+id/spinnerCategoria"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinner_style"
-                android:entries="@array/categorias"
-                app:layout_constraintEnd_toEndOf="@+id/textView17"
-                app:layout_constraintStart_toStartOf="@+id/textView17"
-                app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-            <Button
-                android:id="@+id/btnExpediente"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/button_bg"
-                android:text="Adicionar expediente"
-                android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintEnd_toEndOf="@+id/spinnerPreparo"
-                app:layout_constraintStart_toStartOf="@+id/spinnerPreparo"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerPreparo" />
-
-            <TextView
-                android:id="@+id/textView40"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Entrega Delivery?"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout11"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout11"
-                app:layout_constraintTop_toBottomOf="@+id/textView40">
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/simDelivery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Sim" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/NaoDelivery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Não" />
 
 
-            </RadioGroup>
+
+
+
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
