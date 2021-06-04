@@ -16,6 +16,7 @@ import com.flyppcorp.Helper.Contact
 import com.flyppcorp.Helper.SharedFilter
 import com.flyppcorp.atributesClass.DashBoard
 import com.flyppcorp.atributesClass.Servicos
+import com.flyppcorp.atributesClass.Teste
 import com.flyppcorp.atributesClass.User
 import com.flyppcorp.constants.Constants
 import com.flyppcorp.firebase_classes.FirestoreService
@@ -297,6 +298,16 @@ class AddActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun addTeste(){
+        var t = Servicos()
+        t.nome = editService.text.toString()
+        mFirestore.collection("teste").document().set(t)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     //funcao que salva no db firestore
     private fun handleSaveService() {

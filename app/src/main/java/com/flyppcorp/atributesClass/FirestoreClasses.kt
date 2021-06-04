@@ -12,6 +12,10 @@ abstract class Endereco(
     var numero: String? = "-"
 )
 
+data class  Teste(
+    var nome: String? = null
+)
+
 @Parcelize
 data class User(
     var nome: String? = null,
@@ -36,6 +40,37 @@ data class User(
 
 @Parcelize
 data class Servicos(
+    var nome: String? = null,
+    var uid: String? = null,
+    var uidProfile: MutableMap<String, Boolean> = HashMap(),
+    var urlProfile: String? = null,
+    var urlService: String? = null,
+    var serviceId: String? = null,
+    var nomeService: String? = null,
+    var shortDesc: String? = null,
+    var longDesc: String? = null,
+    var tempoResposta : String? = "1-5 min",
+    var tempoEntrega: String? = "?",
+    var preco: Float? = null,
+    var taxaEntrega: Double = 0.0,
+    var avaliacao: Int = 0,
+    var totalAvaliacao: Int = 0,
+    var totalServicos: Int = 0,
+    var favoritos: MutableMap<String, Boolean> = HashMap(),
+    var tags: MutableMap<String, Boolean> = HashMap(),
+    var tagsStr: String? = null,
+    var cityName: String? = null,
+    var visible: Boolean = true,
+    var comments : Long = 0,
+    var sabor : String? = null,
+    var categoria : String = "Todos",
+    var dias: String = "1,2,3,4,5,6,7",
+    var horario: String = "06:00 - 00:00",
+    var delivery: Boolean = true
+) : Endereco(), Parcelable
+
+@Parcelize
+data class Produtos(
     var nome: String? = null,
     var uid: String? = null,
     var uidProfile: MutableMap<String, Boolean> = HashMap(),

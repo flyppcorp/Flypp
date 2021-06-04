@@ -201,7 +201,7 @@ class CreateProfileActivity : AppCompatActivity() {
                 mUser.numero = editNumero.text.toString()
                 mUser.servicosAtivos = 0
                 mUser.totalServicosFinalizados = 0
-                mUser.autorized = false
+                mUser.autorized = true
 
 
                 mUser.uid = mAuth.currentUser!!.uid

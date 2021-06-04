@@ -59,10 +59,11 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/txtManagerNome"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtManagerNome"
-                app:layout_constraintTop_toBottomOf="@+id/btnEditProfileGo" />
+                app:layout_constraintTop_toBottomOf="@+id/btnLink" />
 
             <TextView
                 android:id="@+id/txtMAnagerEnderecoProfile"
@@ -200,6 +201,20 @@
                 app:layout_constraintEnd_toEndOf="@+id/txtManagerNome"
                 app:layout_constraintStart_toStartOf="@+id/txtManagerNome"
                 app:layout_constraintTop_toBottomOf="@+id/txtManagerNome" />
+
+            <Button
+                android:id="@+id/btnLink"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg"
+                android:drawableEnd="@drawable/ic_share"
+                android:paddingRight="10px"
+                android:text="Compartilhar meu Negócio"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/btnEditProfileGo"
+                app:layout_constraintStart_toStartOf="@+id/btnEditProfileGo"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditProfileGo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

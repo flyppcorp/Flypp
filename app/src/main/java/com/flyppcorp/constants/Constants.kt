@@ -17,6 +17,7 @@ class Constants {
         const val ID_DESCONTO = "id_desconto"
         const val ACTIVATE_SHARE = "activate"
         const val CART = "cart"
+        const val ALL_PRODS = "all_prods"
         const val GOOGLE_LOGIN_CODE = 9001
         const val EXPEDIENTE = "exp"
         const val INICIO = "inicio"

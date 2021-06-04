@@ -79,7 +79,7 @@ class ContaFragment : Fragment() {
                             "apn=com.flyppcorp.flypp" +
                             "&ibi=com.example.ios" +
                             "&link=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.flyppcorp.flypp" +
-                            "&uid=${mAuth.currentUser?.uid}" +
+                            "&uid=--" +
                             "&utm_source=-"
 
                     val shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
